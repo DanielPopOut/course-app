@@ -1,28 +1,56 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './basics.css';
+
+import NavBar from './components/navbarComponent/NavBar';
+import Redirect from 'react-router/es/Redirect';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            menuOpen: false,
+        };
+    }
+
+    openMenu() {
+        this.setState({menuOpen: true});
+    }
+
+    closeMenu() {
+        this.setState({menuOpen: false});
+    }
+
+
+    render() {
+        return (
+            <div className="App" onClick={() => this.closeMenu()}>
+                <nav>
+                    <span className='sm-only'
+                          onClick={e => {
+                              this.setState({menuOpen: !this.state.menuOpen});
+                              e.stopPropagation();
+                          }}>
+                        {/*<FontAwesomeIcon icon='list' style={{margin: '0 30px'}}/>*/}
+                    </span>
+
+                    <NavBar className='lg-only'/>
+                </nav>
+                <Redirect to='/home'/>
+                <aside className={this.state.menuOpen ? 'menu-open' : 'menu-closed'}>
+
+                </aside>
+                <main className={'flex-container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
+                    {/*<MainComponentManager></MainComponentManager>*/}
+                    {/*<SocialNetworksDiv></SocialNetworksDiv>*/}
+                </main>
+                <footer>
+                    <div style={{color: 'var(--main-color)'}}>Rainbow Travel Agency &copy; 2018</div>
+                </footer>
+
+            </div>
+        );
+    }
 }
 
 export default App;

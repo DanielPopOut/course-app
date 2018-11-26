@@ -1,0 +1,19 @@
+.navbar-component {
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar-component > div {
+    border-bottom: 15px;
+    /*border-right: solid var(--secondary-color) 1px ;*/
+    flex: 1;
+}
+
+.navbar-component > div:last-child {
+    border-bottom: 15px;
+    border-right: none ;
+}
+
+.navbar-component > div.selected {
+    color : var(--secondary-color)
+}
