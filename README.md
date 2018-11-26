@@ -1,3 +1,4 @@
 # course-app
 Cyrille
-No Daniel
+Daniel Amigo
+
