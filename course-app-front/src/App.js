@@ -4,6 +4,7 @@ import './basics.css';
 
 import NavBar from './components/navbarComponent/NavBar';
 import Redirect from 'react-router/es/Redirect';
+import Welcome from './components/welcomeComponent/Welcome';
 
 class App extends Component {
     constructor(props) {
@@ -41,7 +42,7 @@ class App extends Component {
 
                 </aside>
                 <main className={'flex-container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
-                    {/*<MainComponentManager></MainComponentManager>*/}
+                    <Welcome />
                     {/*<SocialNetworksDiv></SocialNetworksDiv>*/}
                 </main>
                 <footer>
