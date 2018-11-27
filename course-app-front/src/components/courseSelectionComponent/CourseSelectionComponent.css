@@ -1,0 +1,48 @@
+.inline-selection-container {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1000px;
+    padding: 5px;
+    align-self: center;
+    margin: auto;
+    background-color: var(--grey-line-color);
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.choices-div > span {
+    margin: 5px;
+    font-size: 16px;
+    flex: 1;
+}
+
+.choices-div > span.selected {
+    color: var(--main-color);
+    border-bottom: 1px solid var(--main-color);
+}
+
+.choices-div {
+    flex: 9;
+    display: flex;
+}
+
+.actions-div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.course-layout > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.course-layout {
+    padding: 10px;
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--fifth-color);
+    border-radius: 3px;
+}

@@ -4,6 +4,7 @@ import './basics.css';
 
 import NavBar from './components/navbarComponent/NavBar';
 import Redirect from 'react-router/es/Redirect';
+import CourseSelectionComponent from './components/courseSelectionComponent/CourseSelectionComponent';
 
 class App extends Component {
     constructor(props) {
@@ -36,11 +37,11 @@ class App extends Component {
 
                     <NavBar className='lg-only'/>
                 </nav>
-                <Redirect to='/home'/>
                 <aside className={this.state.menuOpen ? 'menu-open' : 'menu-closed'}>
 
                 </aside>
                 <main className={'flex-container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
+                    <CourseSelectionComponent/>
                     {/*<MainComponentManager></MainComponentManager>*/}
                     {/*<SocialNetworksDiv></SocialNetworksDiv>*/}
                 </main>
