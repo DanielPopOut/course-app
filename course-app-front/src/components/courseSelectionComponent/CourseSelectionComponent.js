@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './CourseSelectionComponent.css';
+import { ServerService } from '../../server/ServerService';
 
 let fakeCourseList = [
     {
@@ -37,12 +38,23 @@ export default class CourseSelectionComponent extends Component {
             redirectionAddress: '',
             gradesToShow: grades,
             areasToShow: areas,
+            banan: areas,
         };
+    }
+
+
+    executeRequete() {
+        ServerService.getFromServer("test").then(response => {
+            console.log(response.data, this.state.areasToShow);
+            this.setState({banan: response.data})
+        })
     }
 
     render() {
         return <div>
-            <LineSelector selectionPossibilities={areas} value='areas'
+            <button onClick={()=> this.executeRequete()}>Faire requete</button>
+
+            <LineSelector selectionPossibilities={this.state.banan} value='areas'
                           onChange={(newAreasToShow) => this.setState({areasToShow: newAreasToShow})}/>
             <LineSelector selectionPossibilities={grades} value='grades'
                           onChange={(newGradesToShow) => this.setState({gradesToShow: newGradesToShow})}/>
@@ -94,7 +106,7 @@ class LineSelector extends Component {
                 </span>
             </div>
             <div className='choices-div'>{
-                this.state.selectionPossibilities.map(
+                this.props.selectionPossibilities.map(
                     elementClicked => <span className={this.isValueToShowSelected(elementClicked) ? 'selected' : ''}
                                             onClick={() => this.setSelected(elementClicked)}>{elementClicked}</span>)
             }</div>
