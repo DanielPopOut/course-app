@@ -3,6 +3,7 @@ import Redirect from 'react-router/es/Redirect';
 import './NavBar.css';
 
 
+
 export default class NavBar extends Component {
     tableauNavbar = [
         {title: 'AlphaM', redirectionAddress: '/welcome'},

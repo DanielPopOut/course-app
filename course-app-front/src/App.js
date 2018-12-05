@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import './basics.css';
+import NavBar from './components/NavbarComponent/NavBar';
+import {Route} from 'react-router-dom';
+import Welcome from './components/WelcomeComponent/Welcome';
+import Courses from './components/CoursesComponent/Courses';
 
-import NavBar from './components/navbarComponent/NavBar';
-import Redirect from 'react-router/es/Redirect';
-import Welcome from './components/welcomeComponent/Welcome';
-import CourseSelectionComponent from './components/courseSelectionComponent/CourseSelectionComponent';
 
 class App extends Component {
     constructor(props) {
@@ -23,7 +23,6 @@ class App extends Component {
         this.setState({menuOpen: false});
     }
 
-
     render() {
         return (
             <div className="App" onClick={() => this.closeMenu()}>
@@ -35,15 +34,19 @@ class App extends Component {
                           }}>
                         {/*<FontAwesomeIcon icon='list' style={{margin: '0 30px'}}/>*/}
                     </span>
-
                     <NavBar className='lg-only'/>
                 </nav>
                 <aside className={this.state.menuOpen ? 'menu-open' : 'menu-closed'}>
 
                 </aside>
                 <main className={'flex-container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
-                    <Welcome />
-                    <CourseSelectionComponent/>
+
+                    <Route exact path='/' component = {Welcome}/>
+                    <Route path='/welcome' component = {Welcome}/>
+                    <Route path='/courses' component = {Courses}/>
+
+                    {/*<CourseSelectionComponent/>*/}
+
                     {/*<MainComponentManager></MainComponentManager>*/}
                     {/*<SocialNetworksDiv></SocialNetworksDiv>*/}
                 </main>
