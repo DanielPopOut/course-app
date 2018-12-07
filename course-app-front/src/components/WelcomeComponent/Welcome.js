@@ -7,14 +7,14 @@ import { ServerService } from '../../server/ServerService';
 
 class Welctext extends Component {
     render() {
-        return ( <div class='welc_text'>{this.props.text}</div>);
+        return ( <div className='welc_text'>{this.props.text}</div>);
     }
 }
 
 class Welcimage extends Component {
     render() {
         return (
-            <div class='w_image'>
+            <div className='w_image'>
                 <img src={require('./img/images_022.jpg')} alt="learn Easily"/>
             </div>
         );
@@ -24,7 +24,7 @@ class Welcimage extends Component {
 class Welcslogan extends Component {
     render() {
         return (
-            <div class='welc_slogan'>
+            <div className='welc_slogan'>
                 {this.props.text}
             </div>
         );
@@ -34,7 +34,7 @@ class Welcslogan extends Component {
 class Welcome extends Component {
     render() {
         return (
-            <div class='welcome'>
+            <div className='welcome'>
                 <button onClick={()=> this.executeRequete()}>Faire requete</button>
                 <Welctext text='Welcome to AlphaM'/>
                 <Welcimage src='./img/images_022.jpg'/>

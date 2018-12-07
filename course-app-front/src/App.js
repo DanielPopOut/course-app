@@ -5,6 +5,7 @@ import NavBar from './components/NavbarComponent/NavBar';
 import {Route} from 'react-router-dom';
 import Welcome from './components/WelcomeComponent/Welcome';
 import Courses from './components/CoursesComponent/Courses';
+import ConnexionComponent from './components/ConnexionComponent/ConnexionComponent';
 
 
 class App extends Component {
@@ -44,6 +45,7 @@ class App extends Component {
                     <Route exact path='/' component = {Welcome}/>
                     <Route path='/welcome' component = {Welcome}/>
                     <Route path='/courses' component = {Courses}/>
+                    <Route path='/connexion' component = {ConnexionComponent}/>
 
                     {/*<CourseSelectionComponent/>*/}
 

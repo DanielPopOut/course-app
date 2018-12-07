@@ -59,7 +59,7 @@ main {
     width: 100%;
     transition: .5s cubic-bezier(.4,0,.2,1);
     transition-property: padding;
-    background-color: var(--secondary-color);
+    /*background-color: var(--secondary-color);*/
 
 }
 

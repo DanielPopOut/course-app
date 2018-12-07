@@ -9,31 +9,31 @@ import AddAdminCourse from "../AddAdminCourseComponent/AddAdminCourse";
 
 
 function Courses(props) {
-    let baseURL = '/courses/'
+    let baseURL = '/courses/';
     return (
         <div>
             <h2> Courses Options </h2>
             <div className='coursemenu'>
                 <ul>
                     <li>
-                        <Link to={`newcourse`}> New Course</Link>
+                        <Link to={'newcourse'}> New Course</Link>
                     </li>
                     <li>
-                        <Link to={`section`}> Section</Link>
+                        <Link to={'section'}> Section</Link>
                     </li>
                     <li>
-                        <Link to={`selection`}> Selection</Link>
+                        <Link to={'selection'}> Selection</Link>
                     </li>
                     <li>
-                        <Link to={`admin`}> Admin</Link>
+                        <Link to={'admin'}> Admin</Link>
                     </li>
                 </ul>
             </div>
             <div>
-                <Route path={baseURL + `newcourse`} component={NewCourse}/>
-                <Route path={baseURL + `section`} component={CourseSection}/>
-                <Route path={baseURL + `selection`} component={CourseSelection}/>
-                <Route path={baseURL + `admin`} component={AddAdminCourse}/>
+                <Route path={baseURL + 'newcourse'} component={NewCourse}/>
+                <Route path={baseURL + 'section'} component={CourseSection}/>
+                <Route path={baseURL + 'selection'} component={CourseSelection}/>
+                <Route path={baseURL + 'admin'} component={AddAdminCourse}/>
             </div>
         </div>
     );
