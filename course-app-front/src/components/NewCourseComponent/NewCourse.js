@@ -1,68 +1,74 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './newcourse.css';
 
-const subjects=[
+const subjects = [
     {
-        title:"Mathematics",
-        description:" A simple description ",
-        subsubject:[
-            {title:"Algebre",description:" A simple description "},
-            {title:"Analyse",description:" A simple description "},
-            {title:"Geometrie",description:" A simple description "},
+        title: "Mathematics",
+        description: " A simple description ",
+        subsubject: [
+            {title: "Algebre", description: " A simple description "},
+            {title: "Analyse", description: " A simple description "},
+            {title: "Geometrie", description: " A simple description "},
         ]
     },
     {
-        title:"Physics",
-        description:" A simple description ",
-        subsubject:[
-            {title:"Les Lois de Newton",description:" A simple description "},
-            {title:"Physique quantique",description:" A simple description "},
+        title: "Physics",
+        description: " A simple description ",
+        subsubject: [
+            {title: "Les Lois de Newton", description: " A simple description "},
+            {title: "Physique quantique", description: " A simple description "},
         ]
     },
 
 ];
 
-
-class Title extends Component{
-    render(){
-        return(
-            <div className="newcourse-input-title">
-                <label> Title</label>
-                <input type="text" name="title"/>
-            </div>
-        );
-    }
-}
-
-class Subject extends Component{
-    constructor(props){
+class Subject extends Component {
+    constructor(props) {
         super(props);
-        this.state={
-            subjectsList: subjects.map(function(sub){return sub.title}),
-            subSubjectList:[]
+        this.state = {
+            subjectsList: subjects.map(function (sub) {
+                return sub.title
+            }),
+            subSubjectList: [],
+            subjectSelected: '',
+            subSubjectSelected: '',
         };
-        this.handleChange=this.handleChange.bind(this);
     }
 
-    handleChange(e){
-        console.log(subjects.find(subject=>subject.title===e.target.value).subsubject);
-        this.setState({subSubjectList: subjects.find(subject=>subject.title===e.target.value).subsubject });
+    handleSubjectChange(e) {
+        console.log(subjects.find(subject => subject.title === e.target.value).subsubject);
+        this.setState({
+            subjectSelected: e.target.value,
+            subSubjectList: subjects.find(subject => subject.title === e.target.value).subsubject
+        });
+        this.props.onChange('module', e.target.value)
+
     }
-    render(){
-        return(
+
+    handleSubSubjectChange(e) {
+        this.setState({
+            subSubjectSelected: e.target.value,
+        });
+        this.props.onChange('submodule', e.target.value)
+    }
+
+    render() {
+        return (
             <div>
                 <label> Module</label>
-                <select name="subjectselection" onChange={e =>this.handleChange(e)}>
+                <select name="subjectselection" onChange={e => this.handleSubjectChange(e)}>
                     {this.state.subjectsList.map(function (sub) {
-                        return (<option value={sub} > {sub} </option>);}
-                        )
+                            return (<option value={sub}> {sub} </option>);
+                        }
+                    )
                     }
                 </select>
 
                 <label> Sub Module</label>
-                <select name="subsubjectselection">
+                <select name="subsubjectselection" onChange={e => this.handleSubSubjectChange(e)}>
                     {this.state.subSubjectList.map(function (sub) {
-                        return (<option value={sub.title} > {sub.title} </option>);}
+                            return (<option value={sub.title}> {sub.title} </option>);
+                        }
                     )
                     }
 
@@ -73,35 +79,35 @@ class Subject extends Component{
 }
 
 
+class NewCourse extends Component {
 
-class NewCourseFormButtons extends Component{
-    render(){
-        return(
-            <div>
-                <input type="submit" value="Valider"/>
-                <input type="reset" value="Annuler"/>
-            </div>
-        );
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: 'wwmigo',
+            module: '',
+            submodule: '',
+        };
     }
-}
-class NewCourseForm extends Component{
-    render(){
-        return(
+
+    render() {
+        return (
             <form name="newcourseform">
-                <Title/>
-                <Subject/>
-                <NewCourseFormButtons/>
+                <div className="newcourse-input-title">
+                    <label> Title</label>
+                    <input type="text" name="title"
+                           value={this.state.title}
+                           onChange={(e) => this.setState({title: e.target.value})}/>
+                </div>
+                <Subject onChange={(keyToModify, value)=>{this.setState({[keyToModify]: value})}}/>
+                <div>
+                    <button type="submit" value="Valider" onClick={()=> alert(JSON.stringify(this.state))}> Valider </button>
+                    <input type="reset" value="Annuler"/>
+                </div>
+                <div>{this.state.module + this.state.submodule + this.state.title}</div>
             </form>
         )
     }
 }
-class NewCourse extends Component{
-    render(){
-        return(
-            <div>
-                <NewCourseForm/>
-            </div>
-        );
-    }
-}
+
 export default NewCourse;
