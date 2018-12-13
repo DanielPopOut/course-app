@@ -61,9 +61,46 @@ app.post('/course', (req, res) => {
         const collection = db.collection('courses');
         // Insert some documents
         insertOneDocument(collection, req.body);
-        client.close();
+        // client.close();
     });
     res.json(areaToShow2);
+});
+
+let MODULE_URL = '/module';
+let MODULE_COLLECTION = 'module';
+app.post('/module', (req, res) => {
+    console.log(req.body);
+    // let result = '';
+    client.connect(function(err) {
+        assert.equal(null, err);
+        console.log("Connected successfully to server");
+
+        const db = client.db(dbName);
+
+        const collection = db.collection('module');
+        // Insert some documents
+        insertOneDocument(collection, req.body, (ans)=>res.json(ans));
+        // client.close();
+    });
+    // res.json(result);
+});
+app.get('/module', (req, res) => {
+    console.log(req.body);
+    // let result = '';
+    client.connect(function(err) {
+        assert.equal(null, err);
+        console.log("Connected successfully to server");
+
+        const db = client.db(dbName);
+
+        const collection = db.collection('module');
+
+        collection.find({}).toArray((err,result) => {
+            console.log('cours',result);
+            res.json(result)
+        });
+        // client.close();
+    });
 });
 
 
@@ -78,10 +115,10 @@ app.get('/course', (req, res) => {
         const collection = db.collection('courses');
         // Insert some documents
         collection.find({}).toArray((err,result) => {
-            console.log(result);
+            console.log('cours',result);
             res.json(result)
         });
-        client.close();
+        // client.close();
     });
 });
 

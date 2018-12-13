@@ -1,0 +1,14 @@
+.coursemenu{
+
+}
+.coursemenu>ul{
+
+}
+.coursemenu>ul>li{
+    display: inline-block;
+    background-color: antiquewhite;
+    color: black;
+    border: solid thin antiquewhite;
+    min-width: 40px;
+    margin: 4px;
+}
