@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import './ShowDataComponent.css';
 
+
 class ShowDataComponent extends Component {
     //Prend un objet dataModel qui représente le formulaire à créer
     // [{name: 'module', type: 'text', placeholder:'matière', label: 'Matière'}, {} ...]
     // Si pas de label ca utilise le name
+
+
+
     constructor(props) {
         super(props);
         this.state = {
