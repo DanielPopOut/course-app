@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import './coursesection.css';
 
-
 const aSection ={
     title:"New CourseSection Course",
     type:{value:"new section Type"},
     content:"" +
     "new section content; new section content; " +
     "new section content; new section content;" +
-    " new section content; new section content;" +
-    " new section content;"
+    "new section content; new section content;" +
+    "new section content;"
 }
 
 class SectionContent extends Component{

@@ -47,10 +47,7 @@ class App extends Component {
                     <Route path='/courses' component = {Courses}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
 
-                    {/*<CourseSelectionComponent/>*/}
 
-                    {/*<MainComponentManager></MainComponentManager>*/}
-                    {/*<SocialNetworksDiv></SocialNetworksDiv>*/}
                 </main>
                 <footer>
                     <div style={{color: 'var(--main-color)'}}>Rainbow Travel Agency &copy; 2018</div>

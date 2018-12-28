@@ -35,16 +35,11 @@ class Welcome extends Component {
     render() {
         return (
             <div className='welcome'>
-                <button onClick={()=> this.executeRequete()}>Faire requete</button>
                 <Welctext text='Welcome to AlphaM'/>
                 <Welcimage src='./img/images_022.jpg'/>
                 <Welcslogan text='Aprennez en Toute Simplicite !!'/>
             </div>
         );
-    }
-
-    executeRequete() {
-        ServerService.getFromServer("test").then(response => console.log(response, response.data))
     }
 }
 

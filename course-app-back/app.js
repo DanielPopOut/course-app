@@ -10,7 +10,6 @@ const DB_URL = 'mongodb://localhost:27017/';
 const dbName = 'courseAppDB';
 const assert = require('assert');
 
-
 const client = new MongoClient(DB_URL);
 
 
@@ -32,9 +31,6 @@ app.use(function (req, res, next) {
 let areaToShow2 = ['maths', 'physics', 'chemistry', 'banana', 'bandito'];
 
 app.get('/', (req, res) => res.send('Hello World!'));
-app.get('/baoebga', (req, res) => res.send('Hello World! /baoebga'));
-app.get('/testundefined', (req, res) => res.json('Voici un test mon ami ! '));
-app.post('/testundefined', (req, res) => res.json(areaToShow2));
 
 const insertOneDocument = function(collection, documentToInsert, callback= x=> console.log(x)) {
 
@@ -48,7 +44,52 @@ const insertOneDocument = function(collection, documentToInsert, callback= x=> c
         callback(result);
     });
 }
+const insertManyDocuments = function(collection,dataToSave,callback) {
+    client.connect(function(err) { //server connection
+        assert.equal(null, err);
+        console.log("connected successfully to server");
+        db = client.db(dbName);
+        db.collection(collection)
+            .insertOne(dataToSave,
+                function (err,result)
+                {
+                    assert.equal(err, null);
+                    callback(result);
+                });
+    });
+}
+const getDocuments = function(collection,options={}, callback) {
+    client.connect(function(err) { //server connection
+        assert.equal(null, err);
+        console.log("connected successfully to server");
+        db=client.db(dbName);
+        db.collection(collection).find( options.queries || {}, options.fields||{}).toArray((err,docs)=>{
+            callback(err,docs);
+        });
+    });
+}
 
+
+app.get('/listElements/:collection',function (req, res) {
+
+    getDocuments(req.params.collection,{},(err,docs)=>{
+        assert(true,err);
+        console.log("list of documents");
+        console.log(docs);
+        res.send(docs);
+    });
+});
+
+app.post('/saveElements/:collection',function (req, res) {
+
+});
+
+app.post('insertElements/:collection',(req,res)=>{
+    insertDocuments(req.params.collection,req.body,function (result) {
+        console.log("here the result"+result.status);
+    });
+    res.send("process ended ");
+});
 
 app.post('/course', (req, res) => {
     console.log(req.body);
@@ -66,17 +107,13 @@ app.post('/course', (req, res) => {
     res.json(areaToShow2);
 });
 
-let MODULE_URL = '/module';
-let MODULE_COLLECTION = 'module';
 app.post('/module', (req, res) => {
     console.log(req.body);
     // let result = '';
     client.connect(function(err) {
         assert.equal(null, err);
         console.log("Connected successfully to server");
-
         const db = client.db(dbName);
-
         const collection = db.collection('module');
         // Insert some documents
         insertOneDocument(collection, req.body, (ans)=>res.json(ans));
@@ -104,12 +141,10 @@ app.get('/module', (req, res) => {
 });
 
 
-
 app.get('/course', (req, res) => {
     client.connect(function(err) {
         assert.equal(null, err);
         console.log("Connected successfully to server");
-
         const db = client.db(dbName);
 
         const collection = db.collection('courses');

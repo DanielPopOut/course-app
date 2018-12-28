@@ -11,13 +11,8 @@
     flex: 1;
 }
 
-
 .label-input-div > input, .label-input-div > textarea, .label-input-div > select  {
     flex: 2;
-}
-
-.container {
-    max-width: 1000px;
 }
 
 .flex {
