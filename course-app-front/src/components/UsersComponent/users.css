@@ -1,0 +1,12 @@
+.users-interface-block{
+    width:100%;
+    height: 100%;
+    display: flex;
+    background-color: antiquewhite;
+}
+.users-interface-form-block{
+    flex: 1;
+}
+.users-interface-list-block{
+    flex: 1;
+}

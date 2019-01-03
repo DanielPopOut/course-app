@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-image: url("/images/girlf_learning_with_computer.jpeg");
+  background-image: var(--home-background-image);
 }
 
 

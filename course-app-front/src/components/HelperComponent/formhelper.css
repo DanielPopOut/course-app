@@ -1,0 +1,59 @@
+*:focus{
+    box-shadow: #069b0b 1px 2px 4px ;
+}
+.form{
+
+}
+.form-max-width{
+    width: 100%;
+}
+.form-half-width{
+    width: 50%;
+}
+input{
+    width: 100%;
+    border: solid 1px burlywood;
+    background-color: white;
+    color: black;
+    padding: 2px;
+    margin: 3px;
+}
+.input-text{
+
+}
+.textarea{
+
+}
+
+select{
+
+}
+select>option{
+
+}
+button{
+    margin: 2px;
+    padding: 2px;
+    display: inline-block;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.primary{
+    background-color: whitesmoke;
+    color: black;
+}
+.danger{
+    background-color: firebrick;
+    color: white;
+}
+.succes{
+    background-color: #069b0b;
+    color: white;
+}
+.warning{
+    background-color: darkkhaki;
+    color: black;
+
+}

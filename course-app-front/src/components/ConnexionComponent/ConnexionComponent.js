@@ -6,7 +6,7 @@ function ConnexionComponent(props) {
     let baseURL = '/courses/';
     return (
         <div>
-            Composant de connexion
+
         </div>
     );
 }

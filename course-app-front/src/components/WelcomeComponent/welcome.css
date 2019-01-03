@@ -21,4 +21,16 @@
 
 .welcome{
     margin-top: 20px;
+    background-image: url("img/photobg.png");
+    height: 75%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+.welcome-gallery-block{
+    display: flex;
+    width: 100%;
 }

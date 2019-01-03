@@ -7,9 +7,8 @@ const mongo = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
 
 const DB_URL = 'mongodb://localhost:27017/';
-const dbName = 'courseAppDB';
+const dbName = 'alpham';//'courseAppDB';
 const assert = require('assert');
-
 const client = new MongoClient(DB_URL);
 
 
@@ -28,7 +27,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-let areaToShow2 = ['maths', 'physics', 'chemistry', 'banana', 'bandito'];
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
@@ -75,12 +73,11 @@ app.get('/listElements/:collection',function (req, res) {
     getDocuments(req.params.collection,{},(err,docs)=>{
         assert(true,err);
         console.log("list of documents");
-        console.log(docs);
         res.send(docs);
     });
 });
 
-app.post('/saveElements/:collection',function (req, res) {
+app.post('/insertDocument/:collection',function (req, res) {
 
 });
 

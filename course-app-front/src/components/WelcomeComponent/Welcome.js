@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import './welcome.css';
-import { ServerService } from '../../server/ServerService';
+
 
 class Welctext extends Component {
     render() {
@@ -11,15 +11,20 @@ class Welctext extends Component {
     }
 }
 
-class Welcimage extends Component {
-    render() {
-        return (
-            <div className='w_image'>
-                <img src={require('./img/images_022.jpg')} alt="learn Easily"/>
+class WelcomeGallery extends Component{
+    render(){
+        return(
+            <div className={'welcome-gallery-block'}>
+                {this.props.list.map((x)=>{
+
+                })}
+
             </div>
-        );
+        )
     }
 }
+
+
 
 class Welcslogan extends Component {
     render() {
@@ -36,8 +41,11 @@ class Welcome extends Component {
         return (
             <div className='welcome'>
                 <Welctext text='Welcome to AlphaM'/>
-                <Welcimage src='./img/images_022.jpg'/>
+
                 <Welcslogan text='Aprennez en Toute Simplicite !!'/>
+                <div>
+
+                </div>
             </div>
         );
     }

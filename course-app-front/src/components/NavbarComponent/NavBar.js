@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import Redirect from 'react-router/es/Redirect';
 import './NavBar.css';
 
-
-
 export default class NavBar extends Component {
     tableauNavbar = [
         {title: 'AlphaM', redirectionAddress: '/welcome'},
         {title: 'Cours', redirectionAddress: '/courses'},
         {title: 'Contacts', redirectionAddress: '/contacts'},
+        {title: 'Users', redirectionAddress: '/users'},
+
         {title: 'Connexion', redirectionAddress: '/connexion'},
     ];
 

@@ -14,7 +14,6 @@ class FormCreatorComponent extends Component {
         };
     }
 
-
     modifyData(e) {
         let dataToSendCopy = Object.assign({}, this.state.dataToSend, {[e.target.name]: e.target.value});
         this.setState({dataToSend: dataToSendCopy});

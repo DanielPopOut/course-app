@@ -7,7 +7,7 @@
     --white-background-color: #e7e7e7;
     --grey-line-color: #e7e7e7;
     --text-color: #000000;
-    --home-background-image: url(/images/girlf_learning_with_computer.jpeg);
+
 }
 
 html, body, #root, .App {
@@ -28,7 +28,7 @@ html, body, #root, .App {
 
 aside {
     height: 100%;
-    margin-top: 64px;
+    margin-top: 45px;
     max-height: calc(100% - 96px);
     transform: translateX(0px);
     width: 300px;
@@ -46,10 +46,13 @@ nav {
     z-index: 3;
     position: fixed;
     width: 100%;
-    height: 50px;
-    background-color: var(--main-color);
+    height: 40px;
+    /*background-color: var(--main-color);*/
+    background-color: #413f44e0;
     display: flex;
     align-items: center;
+    color: white;
+    font-weight: normal;
 }
 .nav-brand{
 
@@ -57,7 +60,7 @@ nav {
 main {
     color: var(--text-color);
     height: 100%;
-    padding: 64px 0px 32px 300px;
+    padding: 45px 0px 32px 300px;
     position: relative;
     box-sizing: border-box;
     width: 100%;
@@ -83,7 +86,7 @@ aside.menu-closed {
 }
 
 main.menu-closed {
-    padding: 64px 0px 32px 0px;
+    padding: 45px 0px 32px 0px;
 }
 
 section {

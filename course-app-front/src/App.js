@@ -6,7 +6,8 @@ import {Route} from 'react-router-dom';
 import Welcome from './components/WelcomeComponent/Welcome';
 import Courses from './components/CoursesComponent/Courses';
 import ConnexionComponent from './components/ConnexionComponent/ConnexionComponent';
-
+import ContactsComponent from './components/ContactsComponent/ContactsComponent';
+import Users from './components/UsersComponent/Users';
 
 class App extends Component {
     constructor(props) {
@@ -45,14 +46,13 @@ class App extends Component {
                     <Route exact path='/' component = {Welcome}/>
                     <Route path='/welcome' component = {Welcome}/>
                     <Route path='/courses' component = {Courses}/>
+                    <Route path='/users' component = {Users}/>
+                    <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
-
-
                 </main>
                 <footer>
                     <div style={{color: 'var(--main-color)'}}>Rainbow Travel Agency &copy; 2018</div>
                 </footer>
-
             </div>
         );
     }

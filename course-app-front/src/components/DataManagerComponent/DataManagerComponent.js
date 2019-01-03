@@ -7,8 +7,6 @@ class ShowDataComponent extends Component {
     // [{name: 'module', type: 'text', placeholder:'matière', label: 'Matière'}, {} ...]
     // Si pas de label ca utilise le name
 
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -76,4 +74,3 @@ class ShowDataComponent extends Component {
 }
 
 export default ShowDataComponent;
-;
