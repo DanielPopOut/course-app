@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import './ShowDataComponent.css';
+import './DataManagerComponent.css';
+import ShowDataComponent from '../ShowDataComponent/ShowDataComponent';
+import FormCreatorComponent from '../FormCreatorComponent/FormCreatorComponent';
+import { ServerService } from '../../server/ServerService';
+import { MODULE_URL } from '../../server/SERVER_CONST';
 
-
-class ShowDataComponent extends Component {
-    //Prend un objet dataModel qui représente le formulaire à créer
-    // [{name: 'module', type: 'text', placeholder:'matière', label: 'Matière'}, {} ...]
-    // Si pas de label ca utilise le name
-
+class DataManagerComponent extends Component {
+    //Pros ==> dataModel, title
     constructor(props) {
         super(props);
         this.state = {
+            url: 'NIOA',
+            modalVisibility: false,
             dataToShow: [{
                 '_id': '5c0aa65c45b3aa560addf31f',
                 'title': 'wwmigo',
@@ -36,41 +38,53 @@ class ShowDataComponent extends Component {
         };
     }
 
-    getAllFields(arrayObject) {
-        let allKeysInOneObject = arrayObject.reduce((total, cur) => {
-            for (let key of Object.keys(cur)) {
-                total[key] = '';
+    retrieveDataAtURL() {
+        ServerService.getFromServer(MODULE_URL).then(response => {
+            console.log(response.data, response);
+            if (!response.data) {
+                return
             }
-            ;
-            return total;
-        }, {});
-        return Object.keys(allKeysInOneObject);
-    }
-
-    onElementClick(element) {
-        console.log(element);
-    }
-
-    createShowDataTable() {
-        let allFields = this.getAllFields(this.state.dataToShow);
-        let tableToShow = this.state.dataToShow.map(dataModelElement => {
-            return <tr key={dataModelElement._id} className='' onClick={()=>this.onElementClick(dataModelElement)}>
-                {allFields.map((field, step) => <td key={step} className='flex-1'>{dataModelElement[field]}</td>)}
-            </tr>;
+            this.setState({dataToShow:response.data})
         });
-
-        tableToShow.unshift(<tr className=''>
-            {allFields.map(field => <td className='flex-1' key={field}>{field}</td>)}
-        </tr>);
-        return <table className='margin-30px overflow-x'><tbody>{tableToShow}</tbody></table>;
     }
+
+    openModalToAddNewData() {
+
+    }
+
+
 
     render() {
         return <div>
             <h2>{this.props.title}</h2>
-            {this.createShowDataTable()}
+
+
+
+            <Modal visible={this.state.modalVisibility} closeModal={()=>this.setState({modalVisibility: false})}>
+                <FormCreatorComponent title='Créer nouvelle matière' dataModel={[
+                    {name: 'module', type: 'text', placeholder: 'matière', label: 'Matière'},
+                ]}/>
+                <button onClick={()=> this.openModalToAddNewData()}>Ajouter </button>
+                <button onClick={()=> this.retrieveDataAtURL()}>Recupere donnees</button>
+                <ShowDataComponent dataToShow={this.state.dataToShow}/>
+            </Modal>
+            <button onClick={()=>this.setState({modalVisibility: true})}>Afficher Modal</button>
+            <div className='margin-30px'>Eoho</div>
         </div>;
     }
 }
 
-export default ShowDataComponent;
+
+class Modal extends Component {
+    render() {
+            return <div className={'modal ' + (this.props.visible ?  '' : 'display-none')} onClick={()=>this.props.closeModal()}>
+            <div className='modal-box' onClick={e=>e.stopPropagation()}>
+                {this.props.children}
+            </div>
+
+
+        </div>
+    }
+}
+
+export default DataManagerComponent;

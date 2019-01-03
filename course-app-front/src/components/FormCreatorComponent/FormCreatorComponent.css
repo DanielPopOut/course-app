@@ -1,14 +1,15 @@
-.coursemenu{
 
+.label-input-div {
+    display: flex;
 }
-.coursemenu>ul{
 
+.label-input-div > label {
+    flex: 1;
 }
-.coursemenu>ul>li{
-    display: inline-block;
-    background-color: antiquewhite;
-    color: black;
-    border: solid thin antiquewhite;
-    min-width: 40px;
-    margin: 4px;
+
+
+.label-input-div > input, .label-input-div > textarea, .label-input-div > select  {
+    flex: 2;
 }
+
+
