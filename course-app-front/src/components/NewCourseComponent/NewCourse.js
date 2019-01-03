@@ -74,12 +74,12 @@ class Subject extends Component {
                 <div className='label-input-div'>
                     <label> Sub Module</label>
                     <select name="subsubjectselection" onChange={e => this.handleSubSubjectChange(e)}>
-                        {this.state.subSubjectList.map(function (sub) {
+                        {
+                            this.state.subSubjectList.map(function (sub) {
                                 return (<option value={sub.title}> {sub.title} </option>);
                             },
                         )
                         }
-
                     </select>
                 </div>
             </div>
