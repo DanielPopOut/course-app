@@ -1,15 +1,25 @@
-
-.label-input-div {
+.modal  {
+    position: fixed;
+    top:0;
+    bottom:0;
+    left: 0;
+    right:0;
     display: flex;
-}
-
-.label-input-div > label {
-    flex: 1;
-}
-
-
-.label-input-div > input, .label-input-div > textarea, .label-input-div > select  {
-    flex: 2;
+    justify-content: center;
+    align-items: center;
+    z-index:10;
+    background-color: rgba(0, 0, 0, 0.18);
 }
 
 
+.modal-box {
+    min-width: 300px;
+    min-height: 300px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.display-none {
+    display: none;
+}

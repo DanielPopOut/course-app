@@ -28,7 +28,7 @@ class App extends Component {
         return (
             <div className="App" onClick={() => this.closeMenu()}>
                 <nav>
-                    <span className='sm-only'
+                    <span className='sm-only  '
                           onClick={e => {
                               this.setState({menuOpen: !this.state.menuOpen});
                               e.stopPropagation();
@@ -40,7 +40,7 @@ class App extends Component {
                 <aside className={this.state.menuOpen ? 'menu-open' : 'menu-closed'}>
 
                 </aside>
-                <main className={'flex-container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
+                <main className={' container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
 
                     <Route exact path='/' component = {Welcome}/>
                     <Route path='/welcome' component = {Welcome}/>

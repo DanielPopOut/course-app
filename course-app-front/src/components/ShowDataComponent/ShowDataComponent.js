@@ -1,60 +1,55 @@
 import React, { Component } from 'react';
-import './FormCreatorComponent.css'
+import './ShowDataComponent.css';
 
-class FormCreatorComponent extends Component {
+class ShowDataComponent extends Component {
     //Prend un objet dataModel qui représente le formulaire à créer
     // [{name: 'module', type: 'text', placeholder:'matière', label: 'Matière'}, {} ...]
     // Si pas de label ca utilise le name
     constructor(props) {
         super(props);
-        let dataToSendModel = props.dataModel.reduce((total,cur)=>{total[cur.name]=''; return total}, {})
         this.state = {
-            dataToSend: Object.assign({},dataToSendModel),
-            dataToSendModel: dataToSendModel
+            dataToShow: props.dataToShow,
         };
     }
 
-
-    modifyData(e) {
-        let dataToSendCopy = Object.assign({}, this.state.dataToSend, {[e.target.name]: e.target.value});
-        this.setState({dataToSend: dataToSendCopy});
-        console.log(dataToSendCopy);
+    getAllFields(arrayObject) {
+        let allKeysInOneObject = arrayObject.reduce((total, cur) => {
+            for (let key of Object.keys(cur)) {
+                total[key] = '';
+            }
+            ;
+            return total;
+        }, {});
+        return Object.keys(allKeysInOneObject);
     }
 
-    createForm() {
-        return this.props.dataModel.map(dataModelElement => {
-            return <div className='label-input-div'>
-                <label>{dataModelElement.label || dataModelElement.name}</label>
-                <input type={dataModelElement.type}
-                       name={dataModelElement.name}
-                       placeholder={dataModelElement.placeholder}
-                       value={this.state.dataToSend[dataModelElement.name] || ''}
-                       onChange={e => this.modifyData(e)}/>
-            </div>;
+    onElementClick(element) {
+        console.log(element);
+    }
+
+    createShowDataTable() {
+        let allFields = this.getAllFields(this.props.dataToShow);
+        let tableToShow = this.props.dataToShow.map(dataModelElement => {
+            return <tr key={dataModelElement._id} className='' onClick={() => this.onElementClick(dataModelElement)}>
+                {allFields.map((field, step) => <td key={step} className='flex-1'>{dataModelElement[field]}</td>)}
+            </tr>;
         });
-    }
 
-    onValidate() {
-        this.props.onValidate ? this.props.onValidate(this.state.dataToSend) : alert(JSON.stringify(this.state.dataToSend));
-    }
-
-    onReset() {
-        this.setState({dataToSend: Object.assign({},this.state.dataToSendModel)});
-        console.log(this.state.dataToSend);
+        tableToShow.unshift(<tr className=''>
+            {allFields.map(field => <td className='flex-1' key={field}>{field}</td>)}
+        </tr>);
+        return <table className='margin-30px overflow-x'>
+            <tbody>{tableToShow}</tbody>
+        </table>;
     }
 
     render() {
-        console.log(this.state.dataToSendModel);
         return <div>
             <h2>{this.props.title}</h2>
-            {this.createForm()}
-            <div className='margin-30px'>
-                <button onClick={() => this.onValidate()}> Validate</button>
-                <button onClick={() => this.onReset()}> Reset</button>
-            </div>
+            {this.createShowDataTable()}
         </div>;
     }
 }
 
-export default FormCreatorComponent;
+export default ShowDataComponent;
 ;

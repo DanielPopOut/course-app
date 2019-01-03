@@ -179,3 +179,35 @@ section {
     align-items: center;
 
 }
+
+.container {
+    max-width: 70%;
+    margin: auto;
+}
+
+.margin-30px {
+    margin: 30px;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-1 {
+    flex:1;
+}
+
+.border-all, .border-all * {
+}
+
+.overflow-x {
+    overflow-x: scroll;
+}
+
+tr,tr td {
+    border: 1px solid black;
+}
+
+table {
+    ;
+}
