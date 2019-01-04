@@ -10,35 +10,13 @@
 export const UsersModel={
     dataModel:"users",
     fields:[
-        {
-            type: "text",
-            params: { name:"name",type:'text',placeholder:'Nom',label:'Name'}
-        },
-        {
-            type: "text",
-            params: { name:"surname",type:'text',placeholder:'Prenom',label:'SurName'}
-        },
-        {
-            type: "text",
-            params: { name:"address",type:'text',placeholder:'Adresse',label:'Adresse'}
-        },
-        {
-            type: "text",
-            params:{ name:"contacts",type:'text',placeholder:'Tel1/Tel2 ',label:'Telephone'}
-        },
-        {
-            type: "email",
-            params:{ name:"email",type:'email',placeholder:'Email',label:'Email'}
-        },
-        {
-            type: "text",
-            params:{ name:"pdseudo",type:'text',placeholder:'Nom d\'Utilisateur',label:'Pseudo'}
-        } ,
-        {
-            type: "password",
-            params:{ name:"password",type:'password',placeholder:'Mot de Passe',label:'Mot de Passe'}
-        }
-
+        {name: "name", type: 'text', placeholder: 'Nom', label: 'Name'},
+        {name: "surname", type: 'text', placeholder: 'Prenom', label: 'SurName'},
+        {name: "address", type: 'text', placeholder: 'Adresse', label: 'Adresse'},
+        {name: "contacts", type: 'text', placeholder: 'Tel1/Tel2 ', label: 'Telephone'},
+        {name: "email", type: 'email', placeholder: 'Email', label: 'Email'},
+        {name: "pseudo", type: 'text', placeholder: 'Nom d\'Utilisateur', label: 'Pseudo'},
+        {name: "password", type: 'password', placeholder: 'Mot de Passe', label: 'Mot de Passe'}
     ]
 };
 

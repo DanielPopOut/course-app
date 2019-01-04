@@ -1,89 +1,83 @@
 import React, {Component} from 'react';
 import './formhelper.css';
+import { REGISTRATIONS_PATH } from '../../server/SERVER_CONST';
+import { ServerService } from '../../server/ServerService';
 
-let data={
-    generalOptions:{},
+
+let data = {
+    generalOptions: {className:"text-centered"},
     elements: [
-        {
-            type:'text',
-            params:{name:"the_name",value:"",placeholder:"",event:''}
-            },
-        {
-            type:'button',
-            params:{name:"the_name",value:"",placeholder:"",event:''}
-            },
-        {
-            type:'select',
-            params:{name:"the_name",value:"",placeholder:"",event:'',data:[]}
-            },
-        {
-            type:'checkbox',
-            params:{name:"the_name",value:"",placeholder:"",event:'',data:[]}
-            },
-        {
-            type:'textarea',
-            params:{name:"the_name",value:"",placeholder:"",event:''}
-            },
-        {
-            type:'list',
-            params:{name:"the_name",value:"",placeholder:"",event:'',data:[]}
-        }
-    ],
+        {type: 'text', name: "the_name", value: "", placeholder: "", event: ''},
+        {type: 'button', name: "the_name", value: "", placeholder: "", event: ''},
+        {type: 'select', name: "the_name", value: "", placeholder: "", event: '', data: []},
+        {type: 'checkbox', name: "the_name", value: "", placeholder: "", event: '', data: []},
+        {type: 'textarea', name: "the_name", value: "", placeholder: "", event: ''},
+        {type: 'list', name: "the_name", value: "", placeholder: "", event: '', data: []}
+    ]
 };
 
 
-function LabelHelper (props){
-    if (props.label){
-        return(<label> {props.label} </label>);
+function LabelHelper(props) {
+    if (props.label) {
+        return (<label> {props.label} </label>);
     }
-    return(<span/>);
+    return (<span/>);
 }
 
 
-export class CheckBoxHelper extends Component{
-    render(){
-        return("");
+export class CheckBoxHelper extends Component {
+    render() {
+        return ("");
     }
 }
 
-export class TextareaHelper extends Component{
-    constructor(props){
+export class TextareaHelper extends Component {
+    constructor(props) {
         super(props);
-        this.state={
-            dataToSend:{
-
-            }
+        this.state = {
+            dataToSend: {}
         }
     }
-    render(){
-        return(
+
+    render() {
+        return (
             <div className={'div-input'}>
 
                 <label label={this.state.params.label}/>
-                <InputTextHelper />
+                <InputTextHelper/>
             </div>
         );
     }
 }
 
-export class InputTextHelper extends Component{
-    render(){
-        return(
+export class InputTextHelper extends Component {
+    render() {
+        return (
             <div className={'div-input'}>
-                <LabelHelper label={this.state.params.label}/>
-                <input type={"text"} name={this.state.params.name} value={ this.state.params.value} />
+                <LabelHelper label={this.props.params.label}/>
+                <input type={"text"} name={this.props.params.name} onChange={this.props.onChange} value={this.props.params.value}/>
+            </div>
+        );
+    }
+}
+export class InputPasswordHelper extends Component {
+    render() {
+        return (
+            <div className={'div-input'}>
+                <LabelHelper label={this.props.params.label}/>
+                <input type={"password"} name={this.props.params.name} onChange={this.props.onChange} value={this.props.params.value}/>
             </div>
         );
     }
 }
 
-export class SelectHelper extends Component{
-    render(){
-        return(
+export class SelectHelper extends Component {
+    render() {
+        return (
             <div>
                 <select name={this.props.params.name}>
-                    {this.params.options.map(function(elt){
-                       return(<option value={elt.avalue}> {elt.ashownvalue}  </option>) ;
+                    {this.params.options.map(function (key,elt) {
+                        return (<option value={elt.avalue}> {elt.ashownvalue}  </option>);
                     })}
                 </select>
             </div>
@@ -91,27 +85,81 @@ export class SelectHelper extends Component{
     }
 }
 
-export class ButtonHelper extends Component{
-    render(){
-        return("");
+export class ButtonHelper extends Component {
+    render() {
+        return (
+            <button
+                type={this.props.params.type}
+                className={this.props.params.className}
+                onClick={this.props.params.onClick}
+            >
+                {this.props.params.value}
+            </button>
+        );
     }
 }
 
-export class FormHelper extends Component{
-    render(){
-        return(
+export class FormHelper extends Component {
+    constructor(props)
+    {
+        super(props);
+        this.state={
+            collectionName:this.props.data.dataModel,
+            dataToSend:{}
+        };
+    }
+    handleChange(e){
+        let newdata=Object.assign({},this.state.dataToSend,{[e.target.name]: e.target.value});
+        this.setState({dataToSend:newdata});
+        console.log(this.state.dataToSend);
+    }
+    handleClick(e){
+        let registration_path = REGISTRATIONS_PATH+this.state.collectionName;
+        console.log(registration_path);
+        ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
+            console.log(response.data);
+        });
+    }
+    render() {
+        let onChangeCallBack=(e)=>{this.handleChange(e)};
+        let onClickCallBack=(e)=>{this.handleClick(e)};
+        return (
             <div>
-                {this.props.data.elements.map(function (elt) {
-                    switch (elt.type){
-                        case 'text': {return(<InputTextHelper params={elt.params}/>); } break;
-                        case 'button':{ return(<ButtonHelper params={elt.params}/>)} break;
-                        case 'select':{ return(<SelectHelper params={elt.params}/>) } break;
-                        case 'textarea':{ return(<TextareaHelper params={elt.params}/>) } break;
+            <form>
+                {this.props.data.fields.map(function (elt, key) {
+                    switch (elt.type) {
+                        case 'text': {
+                            return (<InputTextHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                        }
+                            break;
+                        case 'password': {
+                            return (
+                                <InputPasswordHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                        }
+                            break;
+                        case 'button': {
+                            return (<ButtonHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                        }
+                            break;
+                        case 'select': {
+                            return (<SelectHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                        }
+                            break;
+                        case 'textarea': {
+                            return (<TextareaHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                        }
+                            break;
                     }
                 })}
+                <div className={'hr-button-block'}>
+                    <ButtonHelper params = {{type: 'reset', className:'danger', value:'Reset'}}/>
+                    <ButtonHelper params = {{type: 'button',className:'success', value:'Valider', onClick:onClickCallBack}}/>
+                </div>
+            </form>
             </div>
         );
     }
 }
+
 //export class TextareaHelper;
 export default FormHelper;

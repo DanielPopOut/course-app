@@ -5,11 +5,7 @@ import FormHelper from '../HelperComponent/FormHelper';
 
 class UsersCreationForm extends Component{
     render(){
-        let data={
-          options:{},
-          elements: UsersModel.fields
-        };
-        return(<FormHelper data={data}/>);
+        return(<FormHelper data={UsersModel}/>);
     }
 }
 
@@ -18,7 +14,8 @@ export default class Users extends Component{
         return(
             <div className={"users-interface-block"}>
                 <div className={'users-interface-form-block'}>
-                    Here my Form
+                    <div> Here my Form </div>
+                    <UsersCreationForm/>
                 </div>
                 <div className={"users-interface-list-block"}>
                     here my list

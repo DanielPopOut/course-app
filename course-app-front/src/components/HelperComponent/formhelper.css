@@ -40,6 +40,11 @@ button{
     justify-content: center;
 }
 
+.hr-button-block{
+    display: flex;
+    align-content: space-around;
+    justify-content: space-around;
+}
 .primary{
     background-color: whitesmoke;
     color: black;
@@ -48,7 +53,7 @@ button{
     background-color: firebrick;
     color: white;
 }
-.succes{
+.success{
     background-color: #069b0b;
     color: white;
 }
@@ -56,4 +61,8 @@ button{
     background-color: darkkhaki;
     color: black;
 
+}
+
+.text-centered{
+    text-align: center;
 }

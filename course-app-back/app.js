@@ -27,20 +27,21 @@ app.use(function (req, res, next) {
     next();
 });
 
-
 app.get('/', (req, res) => res.send('Hello World!'));
 
-const insertOneDocument = function(collection, documentToInsert, callback= x=> console.log(x)) {
-
+const insertOneDocument = function(collection, documentToInsert, callback) {
     // Insert some documents
-    collection.insertOne(documentToInsert, function(err, result) {
-        // assert.equal(err, null)
-        // assert.equal(3, result.result.n);
-        // assert.equal(3, result.ops.length);
-        // console.log("Inserted 3 documents into the collection");
-        console.log(result);
-        callback(result);
+    client.connect(function (err) { //server connection
+        assert.equal(null, err);
+        console.log("connected successfully to server");
+        db = client.db(dbName);
+        db.collection(collection)
+            .insertOne(documentToInsert, function (err, result) {
+                assert.equal(err, null);
+                callback(result);
+            });
     });
+
 }
 const insertManyDocuments = function(collection,dataToSave,callback) {
     client.connect(function(err) { //server connection
@@ -48,7 +49,7 @@ const insertManyDocuments = function(collection,dataToSave,callback) {
         console.log("connected successfully to server");
         db = client.db(dbName);
         db.collection(collection)
-            .insertOne(dataToSave,
+            .insertMany(dataToSave,
                 function (err,result)
                 {
                     assert.equal(err, null);
@@ -78,15 +79,12 @@ app.get('/listElements/:collection',function (req, res) {
 });
 
 app.post('/insertDocument/:collection',function (req, res) {
-
-});
-
-app.post('insertElements/:collection',(req,res)=>{
-    insertDocuments(req.params.collection,req.body,function (result) {
-        console.log("here the result"+result.status);
+    insertOneDocument(req.params.collection,req.body,function (result) {
+        console.log("here the result"+JSON.stringify(result.status));
+        res.send(JSON.stringify({process:"process ended ",data:result}));
     });
-    res.send("process ended ");
 });
+
 
 app.post('/course', (req, res) => {
     console.log(req.body);
