@@ -206,11 +206,3 @@ section {
 .overflow-x {
     overflow-x: scroll;
 }
-
-tr,tr td {
-    border: 1px solid black;
-}
-
-table {
-    ;
-}
