@@ -10,7 +10,7 @@ let data = {
         {type: 'text', name: "the_name", value: "", placeholder: "", event: ''},
         {type: 'button', name: "the_name", value: "", placeholder: "", event: ''},
         {type: 'select', name: "the_name", value: "", placeholder: "", event: '', data: []},
-        {type: 'checkbox', name: "the_name", value: "", placeholder: "", event: '', data: []},
+        {type: 'checkbox', name: "the_name", value: "", placeholder: "", event: '', options: []},
         {type: 'textarea', name: "the_name", value: "", placeholder: "", event: ''},
         {type: 'list', name: "the_name", value: "", placeholder: "", event: '', data: []}
     ]
@@ -32,19 +32,18 @@ export class CheckBoxHelper extends Component {
 }
 
 export class TextareaHelper extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            dataToSend: {}
-        }
-    }
 
     render() {
         return (
             <div className={'div-input'}>
+                <LabelHelper label={this.props.params.label}/>
+                <textarea
+                    name={this.props.params.name}
+                    onChange={this.props.onChange}
+                >
 
-                <label label={this.state.params.label}/>
-                <InputTextHelper/>
+
+                </textarea>
             </div>
         );
     }
@@ -99,6 +98,51 @@ export class ButtonHelper extends Component {
     }
 }
 
+export class ListFromModelHelper extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            dataToSend:{
+                target:{
+                    name:this.props.params.name,
+                    value:[]
+                }
+            }
+        }
+    }
+    handleChange(e){
+        //let valuesTab= this.state.dataToSend.target.value;
+        // e.target.checked
+        this.props.onChange(this.state.dataToSend);
+    }
+    componentDidMount(){
+        console.log(this.props.params);
+        console.log("list from "+this.props.params.targetedModel.dataModel + " Mounted");
+        this.props.onChange(this.state.dataToSend);
+    }
+
+    render() {
+        let listofelements=[];
+        return (
+            <div className={"list-from-model-container"}>
+                {listofelements.map((elt,key)=>{
+                    return(
+                        <div className={"list-from-model-checkbox-container"}>
+                            <input type={'checkbox'}
+                                   name={elt.name}
+                                   value={elt._id}
+                                   onChange={(e) => this.handleChange(e)}
+                            />
+                            <div> {JSON.stringify(elt)} </div>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }
+}
+
+
 export class FormHelper extends Component {
     constructor(props)
     {
@@ -143,6 +187,9 @@ export class FormHelper extends Component {
                             break;
                         case 'select': {
                             return (<SelectHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                        }
+                        case 'listfrommodel': {
+                            return (<ListFromModelHelper key={key} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'textarea': {

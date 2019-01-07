@@ -1,5 +1,6 @@
 *:focus{
     box-shadow: #069b0b 1px 2px 4px ;
+    font-family: Calibri;
 }
 .form{
 
@@ -21,8 +22,9 @@ input{
 .input-text{
 
 }
-.textarea{
-
+textarea{
+    width: 100%;
+    min-height: 150px;
 }
 
 select{
@@ -65,4 +67,12 @@ button{
 
 .text-centered{
     text-align: center;
+}
+
+
+.list-from-model-container{
+
+}
+.list-from-model-checkbox-container{
+
 }
