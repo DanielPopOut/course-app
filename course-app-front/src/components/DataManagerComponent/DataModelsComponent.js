@@ -88,3 +88,5 @@ export const coursesModel={
         { name:"sections_id",type:'text',placeholder:'Sections',label:'Sections'},
     ]
 };
+
+

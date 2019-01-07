@@ -5,6 +5,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongo = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
+const endpoints = require('./endpoints');
+
 
 const DB_URL = 'mongodb://localhost:27017/';
 const dbName = 'alpham';//'courseAppDB';
@@ -26,6 +28,8 @@ app.use(function (req, res, next) {
     console.info(`${req.method} ${req.originalUrl}`);
     next();
 });
+
+app.use('/api', endpoints);
 
 app.get('/', (req, res) => res.send('Hello World!'));
 

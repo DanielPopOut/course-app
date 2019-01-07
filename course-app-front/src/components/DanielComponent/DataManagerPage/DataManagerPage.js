@@ -80,7 +80,7 @@ class DataManagerPage extends Component {
     }
 
     render() {
-        return <div>
+        return <div style={{padding: '80px', marginBottom: '100px'}}>
             <div className='flex-container flex-center'>
                 <span style={{fontSize: '30px', fontWeight: '800'}}>{this.state.dataModel.title} </span>
                 <button
@@ -101,6 +101,8 @@ class DataManagerPage extends Component {
                 updateElement={elementToUpdate => this.updateElement(elementToUpdate)}
                 deleteElement={elementToUpdate => this.deleteElement(elementToUpdate)}
             />
+
+            <button onClick={()=>ServerService.postToServer('/api', {collection: 'user', action: 'insert', data: {lion: 'jaune'}, banana: 'banana'})}>Test Post api</button>
         </div>;
     }
 }
