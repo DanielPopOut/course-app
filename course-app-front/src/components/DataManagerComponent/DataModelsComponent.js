@@ -28,15 +28,22 @@ export const functionnalitiesModel={
         { name:"path",type:'text',placeholder:'Path',label:'Path'},
     ]
 };
-
-export const accountTypesModel={
-    dataModel:"accountTypes",
+export const syllabusesModel={
+    dataModel:"syllabuses",
     fields:[
-        { name:"label",type:'text',placeholder:'Label',label:'Label'},
-        { name:"level",type:'number',placeholder:'Level',label:'Level'},
-        { name:"authorizations",type:'text',placeholder:'Authorizations(list of functionnalities)',label:'Authorisations'},
+        { name:"label",type:'text',placeholder:'Matiere',label:'matiere'},
+        { name:"description",type:'textarea',placeholder:'Description',label:'Description'},
     ]
 };
+
+export const departmentsModel={
+    dataModel:"departments",
+    fields:[
+        { name:"label",type:'text',placeholder:'Appelation',label:'Appelation'},
+        { name:"description",type:'textarea',placeholder:'Description',label:'Description'},
+        { name:"syllabuses",type:'listfrommodel',label:'Syllabuses',targetedModel: syllabusesModel},
+    ]
+}
 
 export const levelsModel={
     dataModel:"levels",
@@ -45,14 +52,20 @@ export const levelsModel={
         { name:"code",type:'number',placeholder:'Code',label:'Code'},
     ]
 };
-export const modulesModel={
-    dataModel:"modules",
+
+
+export const coursesModel={
+    dataModel:"courses",
     fields:[
-        { name:"label",type:'text',placeholder:'Matiere',label:'matiere'},
-        { name:"description",type:'textarea',placeholder:'Description',label:'Description'},
+        { name:"title",type:'text',placeholder:'Titre du Cours',label:'Titre'},
+        { name:"description",type:'text',placeholder:'Description du cours',label:'Description'},
+        { name:"levels_id",type:'text',placeholder:'Niveaux',label:'Niveaux'},
+        { name:"modules_id",type:'text',placeholder:'Modules',label:'Modules'},
+        { name:"submodules_id",type:'text',placeholder:'Sous Modules',label:'Sous Modules'},
+        { name:"sections_id",type:'text',placeholder:'Sections',label:'Sections'},
     ]
 };
-export const submodulesModel={
+export const chaptersModel={
     dataModel:"submodules",
     fields:[
         { name:"label",type:'text',placeholder:'Sous Matiere',label:'Sous-matiere'},
@@ -77,8 +90,8 @@ export const subsectionsModel={
         { name:"sections_id",type:'text',placeholder:'Sections',label:'Sections'},
     ]
 };
-export const coursesModel={
-    dataModel:"courses",
+export const contactsModel={
+    dataModel:"contacts",
     fields:[
         { name:"title",type:'text',placeholder:'Titre du Cours',label:'Titre'},
         { name:"description",type:'text',placeholder:'Description du cours',label:'Description'},
