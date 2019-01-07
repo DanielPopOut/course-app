@@ -8,6 +8,7 @@ import Courses from './components/CoursesComponent/Courses';
 import ConnexionComponent from './components/ConnexionComponent/ConnexionComponent';
 import ContactsComponent from './components/ContactsComponent/ContactsComponent';
 import Users from './components/UsersComponent/Users';
+import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
 
 class App extends Component {
     constructor(props) {
@@ -49,6 +50,7 @@ class App extends Component {
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
+                    <Route path='/daniel' component = {DataManagerPage}/>
                 </main>
                 <footer>
                     <div style={{color: 'var(--main-color)'}}>Rainbow Travel Agency &copy; 2018</div>

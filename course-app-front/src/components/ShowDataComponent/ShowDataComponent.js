@@ -17,7 +17,6 @@ class ShowDataComponent extends Component {
             for (let key of Object.keys(cur)) {
                 total[key] = '';
             }
-            ;
             return total;
         }, {});
         return Object.keys(allKeysInOneObject);
@@ -38,7 +37,7 @@ class ShowDataComponent extends Component {
         tableToShow.unshift(<tr className=''>
             {allFields.map(field => <td className='flex-1' key={field}>{field}</td>)}
         </tr>);
-        return <table className='margin-30px overflow-x'>
+        return <table className='margin-30px overflow-x' style={{borderCollapse: 'collapse'}}>
             <tbody>{tableToShow}</tbody>
         </table>;
     }
@@ -52,4 +51,3 @@ class ShowDataComponent extends Component {
 }
 
 export default ShowDataComponent;
-;

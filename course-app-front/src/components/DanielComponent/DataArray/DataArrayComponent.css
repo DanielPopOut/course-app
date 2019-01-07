@@ -1,0 +1,57 @@
+
+.data-array-table tr td:first-child, .data-array-table tr td:nth-child(2) {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5em;
+    left: 0;
+    top: auto;
+    border-top-width: 1px;
+    /*only relevant for first row*/
+    letter-spacing: normal;
+    border:none !important;
+    background-color: unset;
+}
+
+.data-array-table tr td:nth-child(2) {
+    left: 5em;
+}
+
+.data-array-table tr td:first-child :before {
+    content: 'Row ';
+}
+
+.long {
+    letter-spacing: 1em;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-right: 1px solid grey;
+}
+
+.data-array-table td, .data-array-table th {
+    margin: 0;
+    border: 1px solid grey !important;
+    white-space: nowrap;
+    /*border-top-width: 0px;*/
+    height: 40px;
+}
+
+.div-table-container {
+    overflow-x: scroll;
+    margin-left: 10em;
+    overflow-y: visible;
+    padding: 0;
+}
+.data-array-table thead td {
+    background-color: #DDEFEF;
+    border: none;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+    white-space: nowrap;
+}

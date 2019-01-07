@@ -9,6 +9,7 @@
 
 export const UsersModel={
     dataModel:"users",
+    title: 'users',
     fields:[
         {name: "name", type: 'text', placeholder: 'Nom', label: 'Name'},
         {name: "surname", type: 'text', placeholder: 'Prenom', label: 'SurName'},

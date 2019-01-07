@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
-import './FormCreatorComponent.css'
+import './BasicFormCreatorComponent.css'
 
-class FormCreatorComponent extends Component {
+class BasicFormCreatorComponent extends Component {
     //Prend un objet dataModel qui représente le formulaire à créer
     // [{name: 'module', type: 'text', placeholder:'matière', label: 'Matière'}, {} ...]
     // Si pas de label ca utilise le name
+    // data --> objet existant et dataModel --> model pour créer
     constructor(props) {
         super(props);
-        let dataToSendModel = props.dataModel.reduce((total,cur)=>{total[cur.name]=''; return total}, {})
+        let dataToSendModel = props.dataModel.reduce((total,cur)=>{total[cur.name]=''; return total}, {});
         this.state = {
-            dataToSend: Object.assign({},dataToSendModel),
-            dataToSendModel: dataToSendModel
+            // dataToSend: props.data ? Object.assign({},props.data) : Object.assign({},dataToSendModel),
+            dataToSend: props.data ? Object.assign({},props.data) : Object.assign({},dataToSendModel),
+            dataToSendModel: dataToSendModel,
         };
+    }
+
+    onEnterClick(event) {
+        if (event.key === 'Enter') {
+            this.onValidate()
+        }
     }
 
 
@@ -23,7 +31,7 @@ class FormCreatorComponent extends Component {
 
     createForm() {
         return this.props.dataModel.map(dataModelElement => {
-            return <div className='label-input-div'>
+            return <div className='label-input-div' key={dataModelElement.name}>
                 <label>{dataModelElement.label || dataModelElement.name}</label>
                 <input type={dataModelElement.type}
                        name={dataModelElement.name}
@@ -44,15 +52,17 @@ class FormCreatorComponent extends Component {
     }
 
     render() {
-        return <div>
+        // console.log('data to send', this.state.dataToSend)
+        return <div onKeyPress={(event) => this.onEnterClick(event)}>
             <h2>{this.props.title}</h2>
             {this.createForm()}
-            <div className='margin-30px'>
+            <div className='margin-30px flex-container'>
                 <button onClick={() => this.onValidate()}> Validate</button>
-                <button onClick={() => this.onReset()}> Reset</button>
+                {/*<button onClick={() => this.onReset()}> Reset</button>*/}
+                {this.props.children}
             </div>
         </div>;
     }
 }
 
-export default FormCreatorComponent;
+export default BasicFormCreatorComponent;
