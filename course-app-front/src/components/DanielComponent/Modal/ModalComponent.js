@@ -7,8 +7,6 @@ class ModalComponent extends Component {
             <div className='modal-box' onClick={e=>e.stopPropagation()}>
                 {this.props.children}
             </div>
-
-
         </div>
     }
 }

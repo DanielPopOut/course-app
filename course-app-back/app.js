@@ -69,11 +69,10 @@ const getDocuments = function(collection,options={}, callback) {
 }
 
 
-app.get('/listElements/:collection',function (req, res) {
-
-    getDocuments(req.params.collection,{},(err,docs)=>{
+app.get('/getDocuments/:collection/:options',function (req, res) {
+    getDocuments(req.params.collection,req.params.options,(err,docs)=>{
         assert(true,err);
-        console.log("list of documents");
+        console.log("list of documents returned");
         res.send(docs);
     });
 });

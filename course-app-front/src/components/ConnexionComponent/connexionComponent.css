@@ -1,14 +1,61 @@
-.coursemenu{
+
+.form-connexion-block{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+.form-connexion{
+    min-width: 350px;
+    height: 380px;
+    border: solid 2px lightgrey;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
 
 }
-.coursemenu>ul{
-
+.login-button-validate{
+    width: 100%;
+    color: white;
+    background-color: green;
+    border: solid thin aliceblue;
+    padding: 5px;
+    margin: 2px 2px 14px;
 }
-.coursemenu>ul>li{
+.form-connexion-header,.form-connexion-content,.form-connexion-footer{
+    width: 100%;
+}
+.form-connexion-header{
+    flex: 1;
+}
+.form-connexion-header > div{
     display: inline-block;
-    background-color: antiquewhite;
-    color: black;
-    border: solid thin antiquewhite;
-    min-width: 40px;
-    margin: 4px;
+}
+.login-image{
+    height: 87px;
+    border-radius: 40px;
+}
+.form-connexion-content{
+    flex: 5;
+    padding: 4px;
+}
+.form-connexion-content>div{
+    margin: 10px;
+}
+.form-connexion-content>div>label{
+    display: block;
+    width: 100%;
+}
+.form-connexion-content>div>input{
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 6px;
+
+}
+.form-connexion-footer{
+
+    flex: 2;
 }

@@ -5,7 +5,7 @@ class BasicFormCreatorComponent extends Component {
     //Prend un objet dataModel qui représente le formulaire à créer
     // [{name: 'module', type: 'text', placeholder:'matière', label: 'Matière'}, {} ...]
     // Si pas de label ca utilise le name
-    // data --> objet existant et dataModel --> model pour créer
+    // data --> objet existant et dataModel --> model pocdur créer
     constructor(props) {
         super(props);
         let dataToSendModel = props.dataModel.reduce((total,cur)=>{total[cur.name]=''; return total}, {});

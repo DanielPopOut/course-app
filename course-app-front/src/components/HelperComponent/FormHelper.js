@@ -41,8 +41,6 @@ export class TextareaHelper extends Component {
                     name={this.props.params.name}
                     onChange={this.props.onChange}
                 >
-
-
                 </textarea>
             </div>
         );
@@ -54,7 +52,11 @@ export class InputTextHelper extends Component {
         return (
             <div className={'div-input'}>
                 <LabelHelper label={this.props.params.label}/>
-                <input type={"text"} name={this.props.params.name} onChange={this.props.onChange} value={this.props.params.value}/>
+                <input type={"text"} name={this.props.params.name}
+                       onChange={this.props.onChange}
+                       value={this.props.params.value}
+                       placeholder={this.props.params.placeholder || this.props.params.name}
+                />
             </div>
         );
     }
@@ -64,7 +66,11 @@ export class InputPasswordHelper extends Component {
         return (
             <div className={'div-input'}>
                 <LabelHelper label={this.props.params.label}/>
-                <input type={"password"} name={this.props.params.name} onChange={this.props.onChange} value={this.props.params.value}/>
+                <input type={"password"} name={this.props.params.name}
+                       onChange={this.props.onChange}
+                       value={this.props.params.value}
+                       placeholder={this.props.params.placeholder || this.props.params.name}
+                />
             </div>
         );
     }
@@ -167,18 +173,20 @@ export class FormHelper extends Component {
     render() {
         let onChangeCallBack=(e)=>{this.handleChange(e)};
         let onClickCallBack=(e)=>{this.handleClick(e)};
+        let generalOptions = this.props.data.generalOptions;
         return (
             <div>
             <form>
+                <section className={"form-title"}> user registration form</section>
                 {this.props.data.fields.map(function (elt, key) {
                     switch (elt.type) {
                         case 'text': {
-                            return (<InputTextHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<InputTextHelper key={key} generalOptions={generalOptions} params={elt}  onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'password': {
                             return (
-                                <InputPasswordHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                                <InputPasswordHelper key={key}  params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'button': {
@@ -199,8 +207,8 @@ export class FormHelper extends Component {
                     }
                 })}
                 <div className={'hr-button-block'}>
-                    <ButtonHelper params = {{type: 'reset', className:'danger', value:'Reset'}}/>
-                    <ButtonHelper params = {{type: 'button',className:'success', value:'Valider', onClick:onClickCallBack}}/>
+                    <ButtonHelper params = {{type: 'reset', className:' form-helper-button danger', value:'Reset'}}/>
+                    <ButtonHelper params = {{type: 'button',className:'form-helper-button success', value:'Valider', onClick: onClickCallBack}}/>
                 </div>
             </form>
             </div>
