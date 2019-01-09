@@ -19,7 +19,7 @@ let data = {
 
 function LabelHelper(props) {
     if (props.label) {
-        return (<label> {props.label} </label>);
+        return (<label className={"form-helper-label"}> {props.label} </label>);
     }
     return (<span/>);
 }
@@ -35,9 +35,10 @@ export class TextareaHelper extends Component {
 
     render() {
         return (
-            <div className={'div-input'}>
+            <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
                 <textarea
+                    className={"form-helper-textarea"}
                     name={this.props.params.name}
                     onChange={this.props.onChange}
                 >
@@ -50,9 +51,10 @@ export class TextareaHelper extends Component {
 export class InputTextHelper extends Component {
     render() {
         return (
-            <div className={'div-input'}>
+            <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
-                <input type={"text"} name={this.props.params.name}
+                <input type={"text"} className={"form-helper-input"}
+                       name={this.props.params.name}
                        onChange={this.props.onChange}
                        value={this.props.params.value}
                        placeholder={this.props.params.placeholder || this.props.params.name}
@@ -64,9 +66,11 @@ export class InputTextHelper extends Component {
 export class InputPasswordHelper extends Component {
     render() {
         return (
-            <div className={'div-input'}>
+            <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
-                <input type={"password"} name={this.props.params.name}
+                <input type={"password"}
+                       className={"form-helper-input"}
+                       name={this.props.params.name}
                        onChange={this.props.onChange}
                        value={this.props.params.value}
                        placeholder={this.props.params.placeholder || this.props.params.name}
