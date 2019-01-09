@@ -64,6 +64,22 @@ export class InputTextHelper extends Component {
         );
     }
 }
+export class InputEmailHelper extends Component {
+    render() {
+        return (
+            <div className={'form-helper-div-input'}>
+                <LabelHelper label={this.props.params.label}/>
+                <input type={"email"}
+                       className={"form-helper-input"}
+                       name={this.props.params.name}
+                       onChange={this.props.onChange}
+                       value={this.props.params.value}
+                       placeholder={this.props.params.placeholder || this.props.params.name}
+                />
+            </div>
+        );
+    }
+}
 export class InputPasswordHelper extends Component {
     render() {
         return (
@@ -173,7 +189,7 @@ export class FormHelper extends Component {
         console.log(registration_path);
         ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
             console.log(response.data);
-            if (response.data.ok) {
+            if (response.data.data.ok) {
                 alert("Enregistrement Effectué");
             } else{
                 alert("Enregistrement non Effectué");
@@ -192,6 +208,10 @@ export class FormHelper extends Component {
                     switch (elt.type) {
                         case 'text': {
                             return (<InputTextHelper key={key} generalOptions={generalOptions} params={elt}  onChange={onChangeCallBack} />);
+                        }
+                            break;
+                        case 'email': {
+                            return (<InputEmailHelper key={key} params={elt}  onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'password': {

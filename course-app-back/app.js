@@ -11,6 +11,8 @@ const dbName = 'alpham';//'courseAppDB';
 const assert = require('assert');
 const client = new MongoClient(DB_URL);
 
+var nodemailer = require('nodemailer');
+
 
 app.use(cors());
 // parse application/x-www-form-urlencoded
@@ -28,6 +30,33 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => res.send('Hello World!'));
+
+const sendEmail=function (receiver,subject,content) {
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'cyrillemarvelmedia@gmail.com',
+            pass: 'Cyrille@1891'
+        }
+    });
+
+    var mailOptions = {
+        from: 'cyrillemarvelmedia@gmail.com',
+        to: receiver,
+        subject: subject,
+        text: content
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+
+}
 
 const insertOneDocument = function(collection, documentToInsert, callback) {
     // Insert some documents
@@ -68,7 +97,6 @@ const getDocuments = function(collection,options={}, callback) {
     });
 }
 
-
 app.get('/getDocuments/:collection/:options',function (req, res) {
     getDocuments(req.params.collection,req.params.options,(err,docs)=>{
         assert(true,err);
@@ -79,11 +107,18 @@ app.get('/getDocuments/:collection/:options',function (req, res) {
 
 app.post('/insertDocument/:collection',function (req, res) {
     insertOneDocument(req.params.collection,req.body,function (result) {
-        console.log("here the result"+JSON.stringify(result.status));
+        console.log("here the result"+JSON.stringify(result));
+        let status = JSON.stringify(result);
+
+        if(status==='{"n":1,"ok":1}'){
+            console.log(status);
+            let subjet=" Account Creation Confirmation ";
+            let content = "we are happy to confirm your Account creation";
+            sendEmail(req.body.email,subjet,content);
+        }
         res.send(JSON.stringify({process:"process ended ",data:result}));
     });
 });
-
 
 app.post('/course', (req, res) => {
     console.log(req.body);

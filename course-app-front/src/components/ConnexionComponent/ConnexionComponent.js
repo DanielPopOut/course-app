@@ -53,6 +53,7 @@ class ConnexionComponent extends Component{
                             <label> Mot de Passe </label>
                             <input type={"password"} name={"password"} placeholder={"Mot de Passe"}/>
                         </div>
+
                         <div>
                             <div> <button type={"button"} className={"login-button-validate"}> Se Connecter </button></div>
                         </div>
