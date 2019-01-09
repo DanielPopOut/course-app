@@ -2,36 +2,49 @@ import React, { Component } from 'react';
 import './connexionComponent.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import {UsersCreationForm} from "../UsersComponent/Users";
+import  PasswordRecovery  from './PasswordRecovery';
 
 
 class ConnexionComponent extends Component{
     constructor(props){
         super(props);
         this.state={
-            modalVisibility:false,
+            newAccountModalVisibility:false,
+            newPasswordModalVisibility:false,
         }
     }
     newAccount(){
-        this.setState({modalVisibility :true});
+        this.setState({newAccountModalVisibility :true});
     }
+    newPassword(){
+        this.setState({newPasswordModalVisibility :true});
+    }
+
     handleClose(){
-        this.setState({modalVisibility :false});
+        this.setState({
+            newAccountModalVisibility :false,
+            newPasswordModalVisibility :false
+        });
     }
 
     render(){
         return (
             <div className={"form-connexion-block"}>
                 <ModalComponent
-                    visible={this.state.modalVisibility}
+                    visible={this.state.newAccountModalVisibility}
                     onClose={()=>this.handleClose()}
                     children={<UsersCreationForm/>}
+                />
+                <ModalComponent
+                    visible={this.state.newPasswordModalVisibility}
+                    onClose={()=>this.handleClose()}
+                    children={<PasswordRecovery/>}
                 />
                 <form className={'form-connexion'}>
                     <div className={"form-connexion-header"}>
                         <div>Connexion </div>
                     </div>
                     <div className={"form-connexion-content"}>
-
                         <div>
                             <label> Pseudo </label>
                             <input type={"text"} name={"pseudo"} placeholder={"Pseudo"}/>
@@ -42,10 +55,12 @@ class ConnexionComponent extends Component{
                         </div>
                         <div>
                             <div> <button type={"button"} className={"login-button-validate"}> Se Connecter </button></div>
-                            <div> <button type={"button"} onClick={()=>this.newAccount()}> Creer Un Compte </button></div>
                         </div>
                     </div>
-                    <div className={"form-connexion-footer"}></div>
+                    <div className={"form-connexion-footer"}>
+                        <div> <button type={"button"} onClick={()=>this.newAccount()}> Creer Un Compte </button></div>
+                        <div className={"password-forgotten-div"} onClick={()=>this.newPassword()}> Mot de passe Oublié ?</div>
+                    </div>
                 </form>
 
             </div>

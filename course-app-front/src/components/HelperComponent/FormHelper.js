@@ -53,7 +53,8 @@ export class InputTextHelper extends Component {
         return (
             <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
-                <input type={"text"} className={"form-helper-input"}
+                <input type={"text"}
+                       className={"form-helper-input"}
                        name={this.props.params.name}
                        onChange={this.props.onChange}
                        value={this.props.params.value}
@@ -102,7 +103,7 @@ export class ButtonHelper extends Component {
                 className={this.props.params.className}
                 onClick={this.props.params.onClick}
             >
-                {this.props.params.value}
+                {this.props.params.value || this.props.params.name }
             </button>
         );
     }
@@ -172,6 +173,11 @@ export class FormHelper extends Component {
         console.log(registration_path);
         ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
             console.log(response.data);
+            if (response.data.ok) {
+                alert("Enregistrement Effectué");
+            } else{
+                alert("Enregistrement non Effectué");
+            }
         });
     }
     render() {

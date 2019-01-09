@@ -1,0 +1,21 @@
+.flash-box{
+    width: 100%;
+    padding: 2px;
+    text-align: center;
+}
+.flash-message{
+    font-size: 18px;
+}
+.success{
+    background-color: lightgreen;
+    color: darkblue;
+}
+.error{
+    background-color: lightcoral;
+    color: darkblue;
+
+}
+.warning{
+    background-color: burlywood;
+    color: darkblue;
+}
