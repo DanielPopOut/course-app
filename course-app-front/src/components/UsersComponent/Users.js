@@ -5,7 +5,7 @@ import FormHelper from '../HelperComponent/FormHelper';
 import {ServerService} from "../../server/ServerService";
 import {LISTS_PATH} from "../../server/SERVER_CONST";
 
-class UsersCreationForm extends Component{
+export class UsersCreationForm extends Component{
 
     render(){
         let options={

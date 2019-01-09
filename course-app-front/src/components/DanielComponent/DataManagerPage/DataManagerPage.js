@@ -90,8 +90,10 @@ class DataManagerPage extends Component {
             {/*{this.createForm()}*/}
             <ModalComponent visible={this.state.modalVisibility}
                             onClose={() => this.setState({modalVisibility: false})}>
-                <BasicFormCreatorComponent dataModel={this.state.dataToSendModel}
-                                           onValidate={element => this.addElement(element)}/>
+                <BasicFormCreatorComponent
+                    dataModel={this.state.dataToSendModel}
+                    onValidate={element => this.addElement(element)}
+                />
             </ModalComponent>
             <DataArrayComponent
                 title='Data test'
