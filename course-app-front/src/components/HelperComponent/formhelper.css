@@ -45,8 +45,7 @@
 }
 form-helper-button{
     margin: 2px;
-    padding: 2px;
-    display: inline-block;
+    padding: 4px 8px;
     display: flex;
     align-content: center;
     justify-content: center;
@@ -66,19 +65,17 @@ form-helper-button{
     color: white;
 }
 .success{
-    background-color: #069b0b;
-    color: white;
+    background-color: #3b7b0a;
+    color: #d2d2de;
 }
 .warning{
     background-color: darkkhaki;
     color: black;
-
 }
 
 .text-centered{
     text-align: center;
 }
-
 
 .list-from-model-container{
 

@@ -53,13 +53,12 @@ class ConnexionComponent extends Component{
                             <label> Mot de Passe </label>
                             <input type={"password"} name={"password"} placeholder={"Mot de Passe"}/>
                         </div>
-
                         <div>
                             <div> <button type={"button"} className={"login-button-validate"}> Se Connecter </button></div>
                         </div>
                     </div>
                     <div className={"form-connexion-footer"}>
-                        <div> <button type={"button"} onClick={()=>this.newAccount()}> Creer Un Compte </button></div>
+                        <div> <button type={"button"} className={"new-account-button"} onClick={()=>this.newAccount()}> Creer Un Compte </button></div>
                         <div className={"password-forgotten-div"} onClick={()=>this.newPassword()}> Mot de passe Oublié ?</div>
                     </div>
                 </form>

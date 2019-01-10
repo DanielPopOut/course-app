@@ -38,6 +38,7 @@ export class TextareaHelper extends Component {
             <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
                 <textarea
+                    required={'required'}
                     className={"form-helper-textarea"}
                     name={this.props.params.name}
                     onChange={this.props.onChange}
@@ -54,6 +55,7 @@ export class InputTextHelper extends Component {
             <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
                 <input type={"text"}
+                       required={'required'}
                        className={"form-helper-input"}
                        name={this.props.params.name}
                        onChange={this.props.onChange}
@@ -70,6 +72,7 @@ export class InputEmailHelper extends Component {
             <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
                 <input type={"email"}
+                       required={'required'}
                        className={"form-helper-input"}
                        name={this.props.params.name}
                        onChange={this.props.onChange}
@@ -86,6 +89,7 @@ export class InputPasswordHelper extends Component {
             <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
                 <input type={"password"}
+                       required={'required'}
                        className={"form-helper-input"}
                        name={this.props.params.name}
                        onChange={this.props.onChange}
@@ -117,13 +121,14 @@ export class ButtonHelper extends Component {
             <button
                 type={this.props.params.type}
                 className={this.props.params.className}
-                onClick={this.props.params.onClick}
+                onClick={this.props.onClick}
             >
                 {this.props.params.value || this.props.params.name }
             </button>
         );
     }
 }
+
 
 export class ListFromModelHelper extends Component {
     constructor(props){
@@ -238,7 +243,7 @@ export class FormHelper extends Component {
                 })}
                 <div className={'hr-button-block'}>
                     <ButtonHelper params = {{type: 'reset', className:' form-helper-button danger', value:'Reset'}}/>
-                    <ButtonHelper params = {{type: 'button',className:'form-helper-button success', value:'Valider', onClick: onClickCallBack}}/>
+                    <ButtonHelper params = {{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>
                 </div>
             </form>
             </div>

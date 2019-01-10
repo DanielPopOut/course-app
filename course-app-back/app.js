@@ -55,7 +55,6 @@ const sendEmail=function (receiver,subject,content) {
             console.log('Email sent: ' + info.response);
         }
     });
-
 }
 
 const insertOneDocument = function(collection, documentToInsert, callback) {
@@ -150,17 +149,15 @@ app.post('/module', (req, res) => {
     });
     // res.json(result);
 });
+
 app.get('/module', (req, res) => {
     console.log(req.body);
     // let result = '';
     client.connect(function(err) {
         assert.equal(null, err);
         console.log("Connected successfully to server");
-
         const db = client.db(dbName);
-
         const collection = db.collection('module');
-
         collection.find({}).toArray((err,result) => {
             console.log('cours',result);
             res.json(result)
@@ -184,6 +181,43 @@ app.get('/course', (req, res) => {
         });
         // client.close();
     });
+});
+
+app.post('/getPasswordByEmail',(req, res)=>{
+    console.log(req.body.email);
+    let options={
+        queries:{
+            'email':req.body.email
+        }
+    }
+    getDocuments('users',options, (err,docs)=>{
+        console.log("err: " +err)
+        if(docs.length>=1)
+        {
+            res.send(true);
+        }
+        else {
+            res.send(false);
+        }
+    });
+    /*let newPasswordRecoveryCode = codeGenerator();
+    sendEmail(req.body.email,"Password Recovery Code", newPasswordRecoveryCode);*/
+
+
+});
+app.post('/getPasswordByPhoneNumber',(req, res)=>{
+    console.log(req.body);
+    /*//checking the email address
+   getDocuments('users',{'email':req.body.email});
+   let newPasswordRecoveryCode = codeGenerator();
+   sendEmail(req.body.email,"Password Recovery Code", newPasswordRecoveryCode);
+   */
+
+    res.send("Please check your phone");
+
+});
+app.post('/getPasswordByCode',(req, res)=>{
+    console.log(req.body);
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

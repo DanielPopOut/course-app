@@ -40,6 +40,8 @@
 .form-connexion-content{
     flex: 5;
     padding: 4px;
+    display: flex;
+    flex-direction: column;
 }
 .form-connexion-content>div{
     margin: 10px;
@@ -60,6 +62,12 @@
 .password-forgotten-div {
     padding: 3px;
     margin: 2px;
-    color: darkslateblue;
-    text-shadow: 1px 1px 2px;
+    color: #2009af;
+    text-shadow: 0.5px 0.5px 1px;
+}
+.new-account-button{
+    margin: 10px;
+    color: #d7d9e8;
+    background-color: #08106d;
+    padding: 4px 10px;
 }

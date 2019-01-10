@@ -6,16 +6,15 @@
 .flash-message{
     font-size: 18px;
 }
-.success{
+.flash-box-success{
     background-color: lightgreen;
     color: darkblue;
 }
-.error{
+.flash-box-error{
     background-color: lightcoral;
     color: darkblue;
-
 }
-.warning{
+.flash-box-warning{
     background-color: burlywood;
     color: darkblue;
 }
