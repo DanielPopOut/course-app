@@ -21,15 +21,68 @@ function LabelHelper(props) {
     if (props.label) {
         return (<label className={"form-helper-label"}> {props.label} </label>);
     }
-    return (<span/>);
+    return (<span></span>);
 }
+
+
+
 
 
 export class CheckBoxHelper extends Component {
     render() {
-        return ("");
+        return (
+            <div>
+                <input type={'checkbox'} name={this.props.params.name}/>
+                <LabelHelper label={this.props.name}/>
+            </div>
+        );
     }
 }
+
+export class CheckBoxesHelper extends Component {
+    render() {
+        return (
+            <div>
+                {this.props.options.map((params,key)=>{
+                   return( <CheckBoxHelper key={key} params={params}/>);
+                })}
+            </div>
+        );
+    }
+}
+export class RadiosHelper extends Component {
+    render() {
+        return (
+            <div className={"form-helper-radio-group"}>
+                <div className={"form-helper-radio-group-header"}>
+                    {this.props.params.title || ""}
+                </div>
+                <div className={"form-helper-radio-group-body"}>
+                    {
+                        this.props.params.options.map((option,key)=>{
+                            option=Object.assign({},option,{name:this.props.params.name});
+                            return( <RadioHelper key={key} params={option} onChange={(e)=>this.props.onChange(e)}/>);
+                    })}
+
+                </div>
+
+            </div>
+        );
+    }
+}
+
+
+export class RadioHelper extends Component {
+    render() {
+        return (
+            <div>
+                <input type={'radio'} onChange={(e)=>this.props.onChange(e)} name={this.props.params.name}/>
+                <LabelHelper label={this.props.params.value}/>
+            </div>
+        );
+    }
+}
+
 
 export class TextareaHelper extends Component {
 
@@ -49,12 +102,13 @@ export class TextareaHelper extends Component {
     }
 }
 
+
 export class InputTextHelper extends Component {
     render() {
         return (
             <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
-                <input type={"text"}
+                <input type={this.props.params.type}
                        required={'required'}
                        className={"form-helper-input"}
                        name={this.props.params.name}
@@ -66,41 +120,6 @@ export class InputTextHelper extends Component {
         );
     }
 }
-export class InputEmailHelper extends Component {
-    render() {
-        return (
-            <div className={'form-helper-div-input'}>
-                <LabelHelper label={this.props.params.label}/>
-                <input type={"email"}
-                       required={'required'}
-                       className={"form-helper-input"}
-                       name={this.props.params.name}
-                       onChange={this.props.onChange}
-                       value={this.props.params.value}
-                       placeholder={this.props.params.placeholder || this.props.params.name}
-                />
-            </div>
-        );
-    }
-}
-export class InputPasswordHelper extends Component {
-    render() {
-        return (
-            <div className={'form-helper-div-input'}>
-                <LabelHelper label={this.props.params.label}/>
-                <input type={"password"}
-                       required={'required'}
-                       className={"form-helper-input"}
-                       name={this.props.params.name}
-                       onChange={this.props.onChange}
-                       value={this.props.params.value}
-                       placeholder={this.props.params.placeholder || this.props.params.name}
-                />
-            </div>
-        );
-    }
-}
-
 export class SelectHelper extends Component {
     render() {
         return (
@@ -190,15 +209,10 @@ export class FormHelper extends Component {
         console.log(this.state.dataToSend);
     }
     handleClick(e){
-        let registration_path = REGISTRATIONS_PATH+this.state.collectionName;
-        console.log(registration_path);
+        let registration_path = this.props.registration_path || REGISTRATIONS_PATH+this.state.collectionName;
         ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
             console.log(response.data);
-            if (response.data.data.ok) {
-                alert("Enregistrement Effectué");
-            } else{
-                alert("Enregistrement non Effectué");
-            }
+           alert(response.data.message);
         });
     }
     render() {
@@ -211,17 +225,12 @@ export class FormHelper extends Component {
                 <section className={"form-title"}> user registration form</section>
                 {this.props.data.fields.map(function (elt, key) {
                     switch (elt.type) {
-                        case 'text': {
-                            return (<InputTextHelper key={key} generalOptions={generalOptions} params={elt}  onChange={onChangeCallBack} />);
-                        }
-                            break;
-                        case 'email': {
-                            return (<InputEmailHelper key={key} params={elt}  onChange={onChangeCallBack} />);
-                        }
-                            break;
+                        case 'text':
+                        case 'email':
+                        case 'number':
                         case 'password': {
                             return (
-                                <InputPasswordHelper key={key}  params={elt} onChange={onChangeCallBack} />);
+                                <InputTextHelper key={key}  params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'button': {

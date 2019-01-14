@@ -20,6 +20,10 @@
 .form-helper-half-width{
     width: 50%;
 }
+
+.form-helper-div-input{
+    width: 100%;
+}
 .form-helper-input{
     width: 95%;
     border: solid 1px ;
@@ -42,6 +46,11 @@
 }
 .form-helper-select>option{
 
+}
+.form-helper-label{
+    font-weight: bold;
+    font-family: serif;
+    margin: 4px;
 }
 form-helper-button{
     margin: 2px;

@@ -7,7 +7,9 @@
     --white-background-color: #e7e7e7;
     --grey-line-color: #e7e7e7;
     --text-color: #000000;
-
+}
+*{
+    box-sizing: border-box;
 }
 
 html, body, #root, .App {

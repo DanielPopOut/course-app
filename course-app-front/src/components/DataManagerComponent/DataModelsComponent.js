@@ -14,7 +14,7 @@ export const UsersModel={
         {name: "name", type: 'text', placeholder: 'Name', label: 'Nom'},
         {name: "surname", type: 'text', placeholder: 'SurName', label: 'Prenom'},
         {name: "address", type: 'text', placeholder: 'Address', label: 'Adresse'},
-        {name: "contacts", type: 'text', placeholder: 'Tel1/Tel2 ', label: 'Telephone'},
+        {name: "contact", type: 'number', placeholder: 'Tel1/Tel2 ', label: 'Telephone'},
         {name: "email", type: 'email', placeholder: 'Email', label: 'Email'},
         {name: "pseudo", type: 'text', placeholder: 'UserName', label: 'Pseudo'},
         {name: "password", type: 'password', placeholder: 'Password', label: 'Mot de Passe'}

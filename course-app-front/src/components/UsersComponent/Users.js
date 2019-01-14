@@ -18,7 +18,7 @@ export class UsersCreationForm extends Component{
             }
         };
         let formData=Object.assign({},UsersModel,options);
-        return(<FormHelper data={UsersModel}/>);
+        return(<FormHelper data={UsersModel} registration_path = "newuser"/>);
     }
 }
 
@@ -44,8 +44,6 @@ class UsersList extends Component{
                                     <div> {elt.surname}</div>
                                     <div> {elt.address}</div>
                                     {
-
-
                                        /* fieldsToShow.map((currentField)=>{
                                             return(<div> {elt[currentField]}</div>)
                                         })*/

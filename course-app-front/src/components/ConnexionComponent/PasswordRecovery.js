@@ -1,34 +1,145 @@
 import React,{Component} from 'react';
 import './passwordrecovery.css';
-import {InputTextHelper,ButtonHelper}from '../HelperComponent/FormHelper';
+import {InputTextHelper, ButtonHelper,RadioHelper, RadiosHelper} from '../HelperComponent/FormHelper';
 import Flash from '../FlashComponent/Flash';
+import {validateEmail, validatePhoneNumber} from "../StaticFunctionsComponent/StaticFunctions";
 
-import { RECOVERY_PASSWORD_EMAIL_PATH } from '../../server/SERVER_CONST';
+import { PASSWORD_RECOVERY_PATH } from '../../server/SERVER_CONST';
 import { RECOVERY_PASSWORD_CODE_PATH } from '../../server/SERVER_CONST';
-import { RECOVERY_PASSWORD_PHONE_PATH } from '../../server/SERVER_CONST';
+
 import { ServerService } from '../../server/ServerService';
 
-class FisrtStep extends Component {
-    handleChange(e){
-        this.setState({dataToSend:{email:[e.target.value]}})
-        console.log("email : " +this.state.dataToSend.email);
+
+class FirstStep extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            contactoremail: "email",
+            inputEmailparams: {
+                name: 'email',
+                type: "email",
+                label: "Email",
+                placeholder: "Email"
+            },
+            inputcontactparams: {
+                name: 'contact',
+                type: "Number",
+                label: "Telephone",
+                placeholder: "Telephone"
+            },
+            contact:"",
+            email:"",
+            dataToSend:{}
+        }
     }
-    render() {
-        let inputEmailparams={
-            name: 'email',
-            type: "email",
-            label: "Veuillez Saisir votre Adresse mail",
-            placeholder:"Email"
+    handleChange(e){
+        switch (e.target.name){
+            case "email":this.setState({
+                contactoremail:"email",
+                email:e.target.value
+            });
+            break;
+            case "contact":this.setState({
+                contactoremail:"contact",
+                contact:e.target.value
+            });
+            break;
+        }
+        console.log(e.target.name+" : "+e.target.value);
+    }
+
+    contactoremail(){
+        switch (this.state.contactoremail) {
+            case "email":
+                return (
+                    <InputTextHelper params={this.state.inputEmailparams} onChange={(e) => this.handleChange(e)}/>
+                );
+                break;
+            case "contact":
+                return (
+                    <InputTextHelper params={this.state.inputcontactparams} onChange={(e) => this.handleChange(e)}/>
+                );
+                break;
+        }
+    }
+    handleClick(){
+        let err=0;
+        switch (this.state.contactoremail) {
+            case "email":
+                if(validateEmail(this.state.email)){
+                    this.setState({
+                        dataToSend:{
+                            contactoremail:this.state.contactoremail,
+                            email:this.state.email
+                        }
+                    });
+
+                }else{
+                    err=1;
+                    alert("Veuillez Saisir Une Adresse Mail Valide");
+                }
+                break;
+            case "contact":
+                if(validatePhoneNumber(this.state.contact)){
+                    this.setState({
+                        dataToSend:{
+                            contactoremail:this.state.contactoremail,
+                            contact:this.state.contact
+                        }
+                    });
+                }else {
+                    err=1;
+                    alert("Veuillez Saisir Un Numero Valide")
+                }
+                break;
+        }
+        if(!err){
+            ServerService
+                .postToServer(PASSWORD_RECOVERY_PATH,this.state.dataToSend)
+                .then(
+                    (response)=>{
+                        console.log(response.data);
+                        if(response.data.status) {
+                            this.props.nextStep(this.state.dataToSend);
+                            console.log(response.data.message);
+                        }else {
+                            console.log(response.data.message);
+                        }
+                    });
         }
 
+    }
+    render() {
         return (
-            <div className={"form-helper-div-input"}>
-                <InputTextHelper params={inputEmailparams} onChange={(e)=>this.props.onChange(e)}/>
+            <div className={"pass-recov-setp-one-block"}>
+                <div className={"pass-recov-step-one-header " + this.state.contactoremail}>
+                    <div onClick={(e)=>this.setState({contactoremail : "email"})}> EMail </div>
+                    <div  onClick={(e)=>this.setState({contactoremail : "contact"})}>  Telephone </div>
+                </div>
+                <div className={"pass-recov-step-one-content"}>
+                    {this.contactoremail()}
+                </div>
+                <div className={"pass-recov-step-one-footer"}>
+                    <button className={"pass-recov-button"} onClick={(e)=>this.handleClick(e)}> Suivant</button>
+                </div>
             </div>
         );
     }
 }
 class SecondStep extends Component {
+    handleChange(e){
+        this.setState({dataToSend:{email:[e.target.value]}})
+        console.log("email : " +this.state.dataToSend.email);
+    }
+    render() {
+
+        return (
+            <React.Fragment>
+            </React.Fragment>
+        );
+    }
+}
+class ThirdStep extends Component {
     render() {
         let inputCodeparams={
             name: 'sendedcode',
@@ -43,7 +154,7 @@ class SecondStep extends Component {
         );
     }
 }
-class ThirdStep extends Component {
+class FourthStep extends Component {
     render() {
         let inputEmailparams={
             name: 'Email',
@@ -62,10 +173,15 @@ class ThirdStep extends Component {
 }
 
 class PasswordRecovery extends Component{
+    messages=[
+        "",
+        "Retrouvez Votre Mot De Passe par Mail ou Telephone",
+    ];
     constructor(props){
         super(props);
         this.state={
             currentStep:1,
+            currentMessage:this.messages[1],
             inProcess:0,
             email:"",
             code:""
@@ -77,74 +193,46 @@ class PasswordRecovery extends Component{
             return ( <div> <img src={"/images/al.gif"}/> </div>)
         }
     }
-    displayOptions(){
-        switch (this.state.currentStep){
-            case 1:return(
-                <ButtonHelper params={{type:'button',value:"Suivant"}} onClick={(e)=>this.nextStep(e)}/>
-            ); break;
-            case 2: return(
-                <React.Fragment>
-                    <ButtonHelper params={{type:'reset',value:"Precedent"}} onClick={(e)=>this.previousStep(e)}/>
-                    <ButtonHelper params={{type:'button',value:"Suivant"}} onClick={(e)=>this.nextStep(e)}/>
-                </React.Fragment>
-            ); break;
-            case 3: return(
-                <ButtonHelper params={{type:'reset',value:"Precedent"}} onClick={(e)=>this.previousStep(e)}/>
-            ); break;
-        }
-    }
+
     displayCurrentStep(){
         switch (this.state.currentStep){
-            case 1:return(<FisrtStep onChange={(e)=>this.handleChange(e)} />); break;
-            case 2: return(<SecondStep  onChange={(e)=>this.handleChange(e)} />); break;
-            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} />); break;
+            case 1:return(<FirstStep  nextStep={(e)=>this.nextStep(e)} />); break;
+            case 2: return(<SecondStep  onChange={(e)=>this.handleChange(e)} nextStep={(e)=>this.nextStep(e)} />); break;
+            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} nextStep={(e)=>this.nextStep(e)} />); break;
+            case 4: return(<FourthStep  onChange={(e)=>this.handleChange(e)}  nextStep={(e)=>this.nextStep(e)} />); break;
         }
     }
 
     handleChange(e){
-        this.setState({[e.target.name] : e.target.value});
-        console.log(this.state);
+        console.log("name : " +e.target.name);
+        console.log("value : " +e.target.value);
+        //this.setState({[e.target.name] : e.target.value});
+        //console.log(this.state);
     }
 
-    emailValidator(email){
-        if(!email.length>=5){return false}
-        if(!email.indexOf('@')){return false}
-        if(!email.indexOf('.')){return false}
-        return true;
+    nextStep(e){
+        console.log(JSON.stringify({
+            currentStep:this.state.currentStep,
+            e:e
+        }))
     }
-    nextStep(){
-        this.setState({inProcess:1});
-       /* if(this.state.currentStep === 1 && this.emailValidator(this.state.email)){
-            ServerService
-                .postToServer(RECOVERY_PASSWORD_EMAIL_PATH,this.state)
-                .then((response)=>{
-                    console.log(response.data);
-                    console.log(response.data.length);
-                    if(response.data.length === 0){
 
-                    }
-                });
-        }
-*/
-       this.setState({currentStep: this.state.currentStep + 1});
-        console.log("current Step : "+this.state.currentStep);
-        this.setState({inProcess:0});
-    }
     previousStep(){
         this.setState({currentStep: this.state.currentStep - 1});
     }
 
     render(){
         return(
-            <div>
+            <div className={"block-password-recovery"}>
                 <div className={"section-header"}>
                     {"Mot de Passe Oublié ?"}
                     <div className={"bottom-border"}>  </div>
                 </div>
+                <Flash type={"note"} message={this.state.currentMessage}/>
                 <div>{this.processWorking()}</div>
-                <div> {this.displayCurrentStep()} </div>
+                 {this.displayCurrentStep()}
                 <div className={"password-recovery-footer"}>
-                    {this.displayOptions()}
+                {/*    {this.displayOptions()}*/}
                 </div>
             </div>
         );
