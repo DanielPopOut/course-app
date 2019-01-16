@@ -34,10 +34,13 @@ app.get('/', (req, res) => res.send('Hello World!'));
 
 const sendEmail = function (receiver, subject, content) {
     var transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        service: 'Gmail',
         auth: {
             user: 'cyrillemarvelmedia@gmail.com',
-            pass: 'Cyrille@1891'
+            pass: 'Cyrille@1891',
+            type: 'OAuth2',
         }
     });
 
@@ -55,7 +58,7 @@ const sendEmail = function (receiver, subject, content) {
             console.log('Email sent: ' + info.response);
         }
     });
-}
+};
 
 const insertOneDocument = function (collection, documentToInsert, callback) {
     // Insert some documents
@@ -69,8 +72,7 @@ const insertOneDocument = function (collection, documentToInsert, callback) {
                 callback(result);
             });
     });
-
-}
+};
 const insertManyDocuments = function (collection, dataToSave, callback) {
     client.connect(function (err) { //server connection
         assert.equal(null, err);
@@ -83,17 +85,41 @@ const insertManyDocuments = function (collection, dataToSave, callback) {
                     callback(result);
                 });
     });
-}
+};
 const getDocuments = function (collection, options = {}, callback) {
     client.connect(function (err) { //server connection
         assert.equal(null, err);
         console.log("connected successfully to server");
         db = client.db(dbName);
         db.collection(collection).find(options.queries || {}, options.fields || {}).toArray((err, docs) => {
+            assert.equal(err, null);
             callback(err, docs);
         });
     });
-}
+};
+const findOneDocument = function (collection, options = {}, callback) {
+    client.connect(function (err) { //server connection
+        assert.equal(null, err);
+        console.log("connected successfully to server");
+        db = client.db(dbName);
+        db.collection(collection).findOne(options.queries || {}, options.fields || {},(err, docs) => {
+            assert.equal(err, null);
+            callback(err, docs);
+        });
+    });
+};
+
+const updateOne=function(collection,params,callback){
+    client.connect(function (err) { //server connection
+        assert.equal(null, err);
+        console.log("connected successfully to server");
+        db = client.db(dbName);
+        db.collection(collection)
+            .updateOne(params.filter,params.update,params.options||{},(err,result)=>{
+                callback(err,result);
+            });
+    });
+};
 
 app.get('/getDocuments/:collection/:options', function (req, res) {
     getDocuments(req.params.collection, req.params.options, (err, docs) => {
@@ -123,9 +149,7 @@ app.post('/course', (req, res) => {
     client.connect(function (err) {
         assert.equal(null, err);
         console.log("Connected successfully to server");
-
         const db = client.db(dbName);
-
         const collection = db.collection('courses');
         // Insert some documents
         insertOneDocument(collection, req.body);
@@ -171,7 +195,6 @@ app.get('/course', (req, res) => {
         assert.equal(null, err);
         console.log("Connected successfully to server");
         const db = client.db(dbName);
-
         const collection = db.collection('courses');
         // Insert some documents
         collection.find({}).toArray((err, result) => {
@@ -191,7 +214,7 @@ app.post('/newuser',(req,res)=>{
                     {pseudo : req.body.pseudo}
                 ]
             }
-        }
+        };
         getDocuments('users',options,(err,docs)=>{
             if(docs.length===0){
                 return true;
@@ -251,8 +274,9 @@ app.post('/passwordRecovery', (req, res) => {
                 options:{
                     upsert:false
                 }
-            }
+            };
 
+           // sendEmail("cyrilledassie@gmail.com","password-recovery",code);
 
             updateOne("users",updateParams,(err,result)=>{
                 if(err) {
@@ -268,22 +292,31 @@ app.post('/passwordRecovery', (req, res) => {
         }
         res.send(response);
     });
+});
 
+app.post('/passwordRecoveryCode', (req,res)=>{
+    console.log(req.body);
+    let options = {
+        queries: {
+            [req.body.phoneoremail]: req.body[req.body.phoneoremail],
+            passwordresetcode:req.body.code
+        }
+    };
+    findOneDocument('users',options, (err,doc)=>{
+        console.log("document");
+        console.log(JSON.stringify(doc));
+        if(doc === null){
+            res.send({status:0,message:"Code incorrect. Vérifiez et reéssayez SVP!."})
+        }else {
+            res.send({status:1,message:"Code vérifié"})
+        }
+    });
 });
 
 app.post('/getPasswordByCode', (req, res) => {
     console.log(req.body);
+    res.send("code");
 });
 
-const updateOne=function(collection,params,callback){
-    client.connect(function (err) { //server connection
-        assert.equal(null, err);
-        console.log("connected successfully to server");
-        db = client.db(dbName);
-        db.collection(collection)
-            .updateOne(params.filter,params.update,params.options||{},(err,result)=>{
-                callback(err,result);
-            });
-    });
-}
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

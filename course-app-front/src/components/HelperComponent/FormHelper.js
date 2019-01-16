@@ -112,7 +112,7 @@ export class InputTextHelper extends Component {
                        required={'required'}
                        className={"form-helper-input"}
                        name={this.props.params.name}
-                       onChange={this.props.onChange}
+                       onChange={(e)=>this.props.onChange(e)}
                        value={this.props.params.value}
                        placeholder={this.props.params.placeholder || this.props.params.name}
                 />

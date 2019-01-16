@@ -5,7 +5,7 @@ import Flash from '../FlashComponent/Flash';
 import {validateEmail, validatePhoneNumber} from "../StaticFunctionsComponent/StaticFunctions";
 
 import { PASSWORD_RECOVERY_PATH } from '../../server/SERVER_CONST';
-import { RECOVERY_PASSWORD_CODE_PATH } from '../../server/SERVER_CONST';
+import { PASSWORD_RECOVERY_CODE_PATH } from '../../server/SERVER_CONST';
 
 import { ServerService } from '../../server/ServerService';
 
@@ -45,7 +45,6 @@ class FirstStep extends Component {
             });
             break;
         }
-        console.log(e.target.name+" : "+e.target.value);
     }
 
     contactoremail(){
@@ -107,7 +106,6 @@ class FirstStep extends Component {
                         }
                     });
         }
-
     }
     render() {
         return (
@@ -127,43 +125,121 @@ class FirstStep extends Component {
     }
 }
 class SecondStep extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            DataToSend:{
+                code:""
+            }
+        }
+    }
     handleChange(e){
-        this.setState({dataToSend:{email:[e.target.value]}})
-        console.log("email : " +this.state.dataToSend.email);
+        let newdatatosend= Object.assign({},this.state.dataToSend,this.props.data[1],{code:e.target.value});
+        this.setState({dataToSend:newdatatosend});
+        console.log(this.state.dataToSend);
+    }
+    handleClick(e){
+        if(this.state.dataToSend.code.length>=4){
+            ServerService.postToServer(PASSWORD_RECOVERY_CODE_PATH,this.state.dataToSend).then((response)=>{
+                console.log(response.data);
+                if(response.data.status){
+                    this.props.nextStep({codeverification: 1});
+                }else {
+                    alert(response.data.message);
+                }
+            });
+        }else {
+            alert("Veuillez vérifier le code entré SVP.");
+        }
     }
     render() {
+        let inputCodeparams={
+            name: 'recoverycode',
+            type: "text",
+            label: "Code",
+            placeholder: "CODE"
+        };
+        let buttonParams={
+            type:'button',
+            name:"codevalidatebutton",
+            value:"Valider"
+        };
 
         return (
             <React.Fragment>
+                <div className={"pass-recov-step-one-content"}>
+                    <InputTextHelper params={inputCodeparams} onChange={(e)=>this.handleChange(e)}/>
+                </div>
+                <div className={""}>
+                    <ButtonHelper params={buttonParams} onClick={(e)=>this.handleClick(e)}> Valider</ButtonHelper>
+                </div>
             </React.Fragment>
         );
     }
 }
 class ThirdStep extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            dataToSend:{
+                newpassword:"",
+                newpasswordtwo:""
+            }
+
+        };
+    }
+
+    handleChange(e){
+        let newdatatosend=Object.assign({},this.state.dataToSend,{[e.target.name]:e.target.value})
+        this.setState({dataToSend:newdatatosend});
+      /*  console.log(this.state.dataToSend);
+        console.log(this.state);
+*/
+    }
+    handleClick(e) {
+
+    }
+
     render() {
-        let inputCodeparams={
-            name: 'sendedcode',
-            type: "text",
-            placeholder:" - - - - ",
-            label: "Veuillez Saisir le code recu par mail"
-        }
+        let inputNewPassword={
+            name: 'newpassword',
+            type: "password",
+            label:"Nouveau Mot De Passe",
+            placeholder:"Nouveau Mot De passe ",
+        };
+        let inputNewPasswordVerify={
+            name: 'newpasswordtwo',
+            type: "password",
+            label: "Entrez de nouveau votre mot de passe",
+            placeholder:" Nouveau Mot de Passe",
+        };
+        let previousbuttonparams={
+            type:'button',
+            name: 'previous',
+            value: 'Precedent',
+        };
+        let nextbuttonparams={
+            type:'button',
+            name: 'next',
+            value: 'Valider',
+        };
+
         return (
-            <div className={"form-helper-div-input"}>
-                <InputTextHelper params={inputCodeparams} required={'required'} onChange={(e)=>this.props.onChange(e)}/>
+            <div className={"pass-recov-newpass-block"}>
+                <div className={""}>
+                    <InputTextHelper params={inputNewPassword} required={'required'} onChange={(e)=>this.props.onChange(e)}/>
+                    <InputTextHelper params={inputNewPasswordVerify} required={'required'} onChange={(e)=>this.props.onChange(e)}/>
+                </div>
+                <div>
+                    <ButtonHelper params={previousbuttonparams} onClick={(e)=>this.props.previousStep(e)} />
+                    <ButtonHelper params={nextbuttonparams} onClick={(e)=>this.handleClick(e)}/>
+                </div>
             </div>
         );
     }
 }
 class FourthStep extends Component {
     render() {
-        let inputEmailparams={
-            name: 'Email',
-            type: "email",
-            placeholder:"Email"
-        }
-        let currentStep={
-            step:2
-        }
         return (
             <div>
                 <Flash type={"success"} message={"Nouveau Mot de passe Enregistré"}/>
@@ -176,6 +252,9 @@ class PasswordRecovery extends Component{
     messages=[
         "",
         "Retrouvez Votre Mot De Passe par Mail ou Telephone",
+        "Un code vous a été Envoyé. Veuillez saisir le Code Reçu.",
+        "Entrez vos nouveaux parametres",
+
     ];
     constructor(props){
         super(props);
@@ -184,7 +263,8 @@ class PasswordRecovery extends Component{
             currentMessage:this.messages[1],
             inProcess:0,
             email:"",
-            code:""
+            code:"",
+            currentData:{}
         }
     }
     processWorking(){
@@ -197,7 +277,7 @@ class PasswordRecovery extends Component{
     displayCurrentStep(){
         switch (this.state.currentStep){
             case 1:return(<FirstStep  nextStep={(e)=>this.nextStep(e)} />); break;
-            case 2: return(<SecondStep  onChange={(e)=>this.handleChange(e)} nextStep={(e)=>this.nextStep(e)} />); break;
+            case 2: return(<SecondStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
             case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} nextStep={(e)=>this.nextStep(e)} />); break;
             case 4: return(<FourthStep  onChange={(e)=>this.handleChange(e)}  nextStep={(e)=>this.nextStep(e)} />); break;
         }
@@ -211,10 +291,12 @@ class PasswordRecovery extends Component{
     }
 
     nextStep(e){
-        console.log(JSON.stringify({
-            currentStep:this.state.currentStep,
-            e:e
-        }))
+        this.setState({
+            currentData: {[this.state.currentStep]:e },
+            currentMessage:this.messages[this.state.currentStep +1],
+        });
+        this.setState({currentStep: this.state.currentStep + 1});
+        console.log(this.state);
     }
 
     previousStep(){
