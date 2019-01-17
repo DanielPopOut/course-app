@@ -232,9 +232,7 @@ class NewCourseView extends Component {
                 {name: 'password', type: 'password', placeholder: 'Mot de passe',},
                 {name: 'birthdate', type: 'date', placeholder: 'Date de naissance',},
             ]}/>
-            {/*<ShowDataComponent/>*/}
 
-            <DataManagerComponent/>
         </div>;
     }
 }

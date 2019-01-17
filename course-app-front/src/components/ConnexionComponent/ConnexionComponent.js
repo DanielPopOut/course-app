@@ -58,8 +58,8 @@ class ConnexionComponent extends Component{
                         </div>
                     </div>
                     <div className={"form-connexion-footer"}>
-                        <div> <button type={"button"} className={"new-account-button"} onClick={()=>this.newAccount()}> Creer Un Compte </button></div>
-                        <div className={"password-forgotten-div"} onClick={()=>this.newPassword()}> Mot de passe Oublié ?</div>
+                        <div> <button type={"button"} className={"new-account-button"} onClick={()=>this.newAccount()}> Créer Un Nouveau Compte </button></div>
+                        <div className={"password-forgotten-div"} onClick={()=>this.newPassword()}> Des Problèmes pour vous Connecter ?</div>
                     </div>
                 </form>
 

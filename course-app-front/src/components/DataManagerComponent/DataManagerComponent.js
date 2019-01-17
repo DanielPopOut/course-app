@@ -58,8 +58,7 @@ class DataManagerComponent extends Component {
         return <div>
             <h2>{this.props.title}</h2>
 
-
-
+            
             <Modal visible={this.state.modalVisibility} closeModal={()=>this.setState({modalVisibility: false})}>
                 <FormCreatorComponent title='Créer nouvelle matière' dataModel={[
                     {name: 'module', type: 'text', placeholder: 'matière', label: 'Matière'},

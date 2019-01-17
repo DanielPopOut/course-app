@@ -3,7 +3,7 @@ export const validateEmail = function (email) {
         return (true)
     }
     return (false)
-}
+};
 export const validatePhoneNumber = function (phonenumber) {
     var phoneno = /^\d{9}$/;
     if ((phonenumber.match(phoneno)))
@@ -13,4 +13,18 @@ export const validatePhoneNumber = function (phonenumber) {
     else {
         return false;
     }
-}
+};
+
+export const validatePassword = (password)=>{
+    var passw=  /^[A-Za-z]\w{7,14}$/;
+    if(password.match(passw))
+    {
+        //alert('Correct, try another...')
+        return true;
+    }
+    else
+    {
+        //alert('Wrong...!')
+        return false;
+    }
+};

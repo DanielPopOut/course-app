@@ -13,22 +13,30 @@
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-
-
 }
 .login-button-validate{
     width: 100%;
     color: white;
-    background-color: green;
+    background-color: #328ae4;
     border: solid thin aliceblue;
-    padding: 5px;
-    margin: 2px 2px 14px;
+    padding: 10px;
+    border-radius: 6px;
+}
+.login-button-validate:hover{
+    background-color: #23609e;
 }
 .form-connexion-header,.form-connexion-content,.form-connexion-footer{
     width: 100%;
 }
 .form-connexion-header{
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #291690;
+    font-weight: bold;
+    font-size: larger;
+    font-family: sans-serif;
 }
 .form-connexion-header > div{
     display: inline-block;
@@ -42,6 +50,8 @@
     padding: 4px;
     display: flex;
     flex-direction: column;
+    color: black;
+    font-weight: 500;
 }
 .form-connexion-content>div{
     margin: 10px;
@@ -62,12 +72,12 @@
 .password-forgotten-div {
     padding: 3px;
     margin: 2px;
-    color: #2009af;
-    text-shadow: 0.5px 0.5px 1px;
+    color: #113a86e3;
+    text-shadow: 0.5px 0.5px 0px;
 }
 .new-account-button{
     margin: 10px;
-    color: #d7d9e8;
-    background-color: #08106d;
+    color: #21215f;
+    background-color: #22243c00;
     padding: 4px 10px;
 }

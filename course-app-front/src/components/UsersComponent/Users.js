@@ -8,17 +8,7 @@ import {LISTS_PATH} from "../../server/SERVER_CONST";
 export class UsersCreationForm extends Component{
 
     render(){
-        let options={
-            generalOptions:{
-                label:false,
-                callBacks:{
-                    onClickCallBack:false,
-                    onReport:false
-                }
-            }
-        };
-        let formData=Object.assign({},UsersModel,options);
-        return(<FormHelper data={UsersModel} registration_path = "newuser"/>);
+        return(<FormHelper data={UsersModel} options={{label:''}} registration_path = "newuser"/>);
     }
 }
 
@@ -100,13 +90,11 @@ export default class Users extends Component{
                         <div className={'users-interface-form-block'}>
                             <UsersCreationForm/>
                         </div>
-
+                    </section>
+                    <section className={"user-details-section"}>
                         <div className={"users-interface-list-block"}>
                             <UsersList ListToShow={this.state.ListToShow}/>
                         </div>
-                    </section>
-                    <section className={"user-details-section"}>
-
 
                     </section>
                 </div>

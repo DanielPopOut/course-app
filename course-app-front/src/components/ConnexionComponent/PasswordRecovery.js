@@ -2,10 +2,10 @@ import React,{Component} from 'react';
 import './passwordrecovery.css';
 import {InputTextHelper, ButtonHelper,RadioHelper, RadiosHelper} from '../HelperComponent/FormHelper';
 import Flash from '../FlashComponent/Flash';
-import {validateEmail, validatePhoneNumber} from "../StaticFunctionsComponent/StaticFunctions";
+import {validateEmail, validatePhoneNumber, validatePassword} from "../StaticFunctionsComponent/StaticFunctions";
 
-import { PASSWORD_RECOVERY_PATH } from '../../server/SERVER_CONST';
-import { PASSWORD_RECOVERY_CODE_PATH } from '../../server/SERVER_CONST';
+import { PASSWORD_RECOVERY_PATH,PASSWORD_RECOVERY_CODE_PATH ,PASSWORD_RESET_PATH} from '../../server/SERVER_CONST';
+
 
 import { ServerService } from '../../server/ServerService';
 
@@ -141,9 +141,8 @@ class SecondStep extends Component {
     handleClick(e){
         if(this.state.dataToSend.code.length>=4){
             ServerService.postToServer(PASSWORD_RECOVERY_CODE_PATH,this.state.dataToSend).then((response)=>{
-                console.log(response.data);
                 if(response.data.status){
-                    this.props.nextStep({codeverification: 1});
+                    this.props.nextStep(this.state.dataToSend);
                 }else {
                     alert(response.data.message);
                 }
@@ -185,21 +184,27 @@ class ThirdStep extends Component {
                 newpassword:"",
                 newpasswordtwo:""
             }
-
         };
     }
 
     handleChange(e){
-        let newdatatosend=Object.assign({},this.state.dataToSend,{[e.target.name]:e.target.value})
+        let newdatatosend=Object.assign({},this.state.dataToSend,{[e.target.name]:e.target.value});
         this.setState({dataToSend:newdatatosend});
-      /*  console.log(this.state.dataToSend);
-        console.log(this.state);
-*/
+        console.log(this.state.dataToSend);
     }
     handleClick(e) {
-
+        if((this.state.dataToSend.newpassword.length>=4) && (this.state.dataToSend.newpassword === this.state.dataToSend.newpasswordtwo) ){
+            let newdatatosend = Object.assign({},this.state.dataToSend,this.props.data[2]);
+                ServerService.postToServer(PASSWORD_RESET_PATH, newdatatosend).then((response)=>{
+                    console.log(response.data);
+                    if(response.data.status === 1){
+                        this.props.nextStep({status:1});
+                    }else{
+                        alert(response.data.message);
+                    }
+                });
+        }
     }
-
     render() {
         let inputNewPassword={
             name: 'newpassword',
@@ -227,8 +232,8 @@ class ThirdStep extends Component {
         return (
             <div className={"pass-recov-newpass-block"}>
                 <div className={""}>
-                    <InputTextHelper params={inputNewPassword} required={'required'} onChange={(e)=>this.props.onChange(e)}/>
-                    <InputTextHelper params={inputNewPasswordVerify} required={'required'} onChange={(e)=>this.props.onChange(e)}/>
+                    <InputTextHelper params={inputNewPassword} required={'required'} onChange={(e)=>this.handleChange(e)}/>
+                    <InputTextHelper params={inputNewPasswordVerify} required={'required'} onChange={(e)=>this.handleChange(e)}/>
                 </div>
                 <div>
                     <ButtonHelper params={previousbuttonparams} onClick={(e)=>this.props.previousStep(e)} />
@@ -254,7 +259,6 @@ class PasswordRecovery extends Component{
         "Retrouvez Votre Mot De Passe par Mail ou Telephone",
         "Un code vous a été Envoyé. Veuillez saisir le Code Reçu.",
         "Entrez vos nouveaux parametres",
-
     ];
     constructor(props){
         super(props);
@@ -278,7 +282,7 @@ class PasswordRecovery extends Component{
         switch (this.state.currentStep){
             case 1:return(<FirstStep  nextStep={(e)=>this.nextStep(e)} />); break;
             case 2: return(<SecondStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
-            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} nextStep={(e)=>this.nextStep(e)} />); break;
+            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
             case 4: return(<FourthStep  onChange={(e)=>this.handleChange(e)}  nextStep={(e)=>this.nextStep(e)} />); break;
         }
     }

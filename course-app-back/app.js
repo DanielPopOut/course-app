@@ -313,9 +313,35 @@ app.post('/passwordRecoveryCode', (req,res)=>{
     });
 });
 
-app.post('/getPasswordByCode', (req, res) => {
+app.post('/passwordReset', (req, res) => {
     console.log(req.body);
-    res.send("code");
+
+    let updateParams={
+        filter:{
+            [req.body.contactoremail]: req.body[req.body.contactoremail],
+            passwordresetcode:req.body.code
+        },
+        update:{
+            $set:{
+                password:req.body.newpassword
+            }
+        },
+        options:{
+            upsert:false
+        }
+    };
+    updateOne('users',updateParams,(err,result)=>{
+        let response={};
+        if(err) {
+            response ={status:0,message:"Mise a jour non effectuee"};
+            throw err;
+        } else{
+            response ={status:1,message:"Mise a jour effectuee avec succes !"};
+            console.log(err);
+        }
+        res.send(response);
+    });
+
 });
 
 

@@ -5,7 +5,7 @@ import { ServerService } from '../../server/ServerService';
 
 
 let data = {
-    generalOptions: {className:"text-centered"},
+    options: {className:"text-centered"},
     elements: [
         {type: 'text', name: "the_name", value: "", placeholder: "", event: ''},
         {type: 'button', name: "the_name", value: "", placeholder: "", event: ''},
@@ -23,10 +23,6 @@ function LabelHelper(props) {
     }
     return (<span></span>);
 }
-
-
-
-
 
 export class CheckBoxHelper extends Component {
     render() {
@@ -102,18 +98,18 @@ export class TextareaHelper extends Component {
     }
 }
 
-
 export class InputTextHelper extends Component {
     render() {
         return (
             <div className={'form-helper-div-input'}>
-                <LabelHelper label={this.props.params.label}/>
+                <LabelHelper label={ this.props.params.label}/>
                 <input type={this.props.params.type}
                        required={'required'}
                        className={"form-helper-input"}
                        name={this.props.params.name}
                        onChange={(e)=>this.props.onChange(e)}
                        value={this.props.params.value}
+                       autoComplete={'off'}
                        placeholder={this.props.params.placeholder || this.props.params.name}
                 />
             </div>
@@ -147,7 +143,6 @@ export class ButtonHelper extends Component {
         );
     }
 }
-
 
 export class ListFromModelHelper extends Component {
     constructor(props){
@@ -218,11 +213,11 @@ export class FormHelper extends Component {
     render() {
         let onChangeCallBack=(e)=>{this.handleChange(e)};
         let onClickCallBack=(e)=>{this.handleClick(e)};
-        let generalOptions = this.props.data.generalOptions;
+        let options = this.props.options|| {};
         return (
             <div>
             <form>
-                <section className={"form-title"}> user registration form</section>
+                <section className={"form-helper-title"}> <h3>user registration form</h3></section>
                 {this.props.data.fields.map(function (elt, key) {
                     switch (elt.type) {
                         case 'text':
@@ -230,22 +225,22 @@ export class FormHelper extends Component {
                         case 'number':
                         case 'password': {
                             return (
-                                <InputTextHelper key={key}  params={elt} onChange={onChangeCallBack} />);
+                                <InputTextHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'button': {
-                            return (<ButtonHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<ButtonHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'select': {
-                            return (<SelectHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<SelectHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                         case 'listfrommodel': {
-                            return (<ListFromModelHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<ListFromModelHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'textarea': {
-                            return (<TextareaHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<TextareaHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                     }
