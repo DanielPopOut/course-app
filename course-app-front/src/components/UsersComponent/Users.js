@@ -6,22 +6,29 @@ import {ServerService} from "../../server/ServerService";
 import {LISTS_PATH} from "../../server/SERVER_CONST";
 
 export class UsersCreationForm extends Component{
-
     render(){
         return(<FormHelper data={UsersModel} options={{label:''}} registration_path = "newuser"/>);
     }
 }
 
 class UsersList extends Component{
-
     render(){
-        let listToShow= this.props.ListToShow.reverse();
-        let fieldsToShow = []
+        let listToShow= this.props.listToShow;
+        let fieldsToShow = ["",'Name','Surname','address','contact','email'];
 
-        return(
-            <div>
+        return (
+            <div className={"users-interface-list-block"}>
+                <div className={"users-interface-list-block-header"}>
+                    <div>
+                        {
+                            fieldsToShow.map((elt, key) => {
+                                return (<div key={key}>{elt}</div>);
+                            })
+                        }
+                    </div>
+                </div>
                 {
-                    listToShow.map((elt,key)=>{
+                    listToShow.map((elt, key) => {
                         return (
                             <div key={key} className={"user-list-single-block"}>
                                 <div className={"user-list-avatar"}>
@@ -29,27 +36,29 @@ class UsersList extends Component{
                                         <img src={"/images/user3_thom1.png"}/>
                                     </figure>
                                 </div>
-                                <section className={"user-list-infos"}>
-                                    <div> {elt.name}</div>
-                                    <div> {elt.surname}</div>
-                                    <div> {elt.address}</div>
-                                    {
-                                       /* fieldsToShow.map((currentField)=>{
-                                            return(<div> {elt[currentField]}</div>)
-                                        })*/
-                                    }
-                                </section>
+
+                                <div> {elt.name}</div>
+                                <div> {elt.surname}</div>
+                                <div> {elt.address}</div>
+                                <div> {elt.contact}</div>
+                                <div> {elt.email}</div>
+
                             </div>
                         );
                     })
                 }
+
             </div>
         );
     }
 }
 class UserInterfaceHeader extends Component{
     render(){
-       return("");
+       return(
+           <div className={"users-interface-header"}>
+               <h3>{"Welcome to Users Management Interface !!"} </h3>
+           </div>
+       );
     }
 }
 class UserInterfaceFooter extends Component{
@@ -86,17 +95,8 @@ export default class Users extends Component{
                     <UserInterfaceHeader/>
                 </div>
                 <div className={"users-interface-content"}>
-                    <section className={"users-form-list-section"}>
-                        <div className={'users-interface-form-block'}>
-                            <UsersCreationForm/>
-                        </div>
-                    </section>
-                    <section className={"user-details-section"}>
-                        <div className={"users-interface-list-block"}>
-                            <UsersList ListToShow={this.state.ListToShow}/>
-                        </div>
+                    <UsersList listToShow={this.state.ListToShow}/>
 
-                    </section>
                 </div>
                 <div className={"users-interface-footer"}>
                     <UserInterfaceFooter/>
@@ -104,5 +104,4 @@ export default class Users extends Component{
             </div>
         )
     }
-
 }

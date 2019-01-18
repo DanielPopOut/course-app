@@ -109,7 +109,6 @@ export class InputTextHelper extends Component {
                        name={this.props.params.name}
                        onChange={(e)=>this.props.onChange(e)}
                        value={this.props.params.value}
-                       autoComplete={'off'}
                        placeholder={this.props.params.placeholder || this.props.params.name}
                 />
             </div>

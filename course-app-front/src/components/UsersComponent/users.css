@@ -4,9 +4,6 @@
     border-right: solid 1px;
     border-color: #494e7d;
     padding: 5px;
-
-
-   /* box-shadow: blue 0px 0px 1px;*/
 }
 
 
@@ -18,49 +15,49 @@
 }
 
 
+/*
 .users-form-list-section{
     display: flex;
     justify-content: space-around;
 }
+*/
 
-.users-interface-form-block,.users-interface-list-block{
-    width: 350px;
-    margin: 4px;
-    padding: 2px;
-}
+
 
 .users-interface-form-block{
 
 }
 .users-interface-list-block{
-    max-height: 450px;
-    overflow-y: scroll;
+    display: table;
+    width: 100%;
+}
+.users-interface-list-block-header{
+    display: table-header-group;
+}
+.users-interface-list-block-header > div {
+    display: table-row;
+}
+.users-interface-list-block-header > div >div {
+    display:table-cell;
+    border-right: solid thin green;
+    width: 75px;
 }
 .user-list-single-block{
-    display: flex;
+    display: table-row;
     border-bottom: solid thin cadetblue;
     margin: 4px;
     padding: 2px;
     box-shadow: 1px 1px 3px cadetblue;
 }
+.user-list-single-block:nth-of-type(odd){
+    background-color: #e5e6d8;
+}
+.user-list-single-block>div{
+    display: table-cell;
+    border-right: solid thin green;
+    width: 75px;
+}
 .user-list-single-block:hover{
-    color: #069b0b;
     box-shadow: inset 1px 1px 3px cadetblue;
-}
-
-.user-list-single-block > aside{
-    flex: 1
-}
-.user-list-single-block > section{
-    flex :5;
-}
-
-
-
-.users-details-section{
-
-}
-.users-interface-footer{
-
 }
 

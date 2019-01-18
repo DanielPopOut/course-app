@@ -11,7 +11,6 @@ const dbName = 'alpham';//'courseAppDB';
 const assert = require('assert');
 const client = new MongoClient(DB_URL);
 
-
 var nodemailer = require('nodemailer');
 
 
@@ -206,7 +205,7 @@ app.get('/course', (req, res) => {
 });
 
 app.post('/newuser',(req,res)=>{
-    function checkExist() {
+
         let options={
             queries:{
                 $or:[
@@ -215,26 +214,22 @@ app.post('/newuser',(req,res)=>{
                 ]
             }
         };
+
+        let userExist=false;
         getDocuments('users',options,(err,docs)=>{
             if(docs.length===0){
-                return true;
+                insertOneDocument('users',req.body,(result)=>{
+                    let status = JSON.stringify(result);
+                    if (status === '{"n":1,"ok":1}') {
+                        res.send({status:1,message:"Compte enregistre. veuillez confirmer via votre adresse mail"});
+                    }else{
+                        res.send({status:1,message:"Desole. votre compte n\'a pas ete enregistre"});
+                    }
+                });
+            }else {
+                res.send({status:0,message:"Ce Compte existe deja !"});
             }
         });
-        return false;
-    }
-
-    if (checkExist()){
-        insertOneDocument('users',req.body,(result)=>{
-            let status = JSON.stringify(result);
-            if (status === '{"n":1,"ok":1}') {
-                res.send({status:1,message:"Compte enregistre. veuillez confirmer via votre adresse mail"});
-            }else{
-                res.send({status:1,message:"Desole. votre compte n\'a pas ete enregistre"});
-            }
-        });
-    }else {
-        res.send({status:0,message:"Ce Compte existe deja !"});
-    }
 });
 app.post('/passwordRecovery', (req, res) => {
 
@@ -341,7 +336,6 @@ app.post('/passwordReset', (req, res) => {
         }
         res.send(response);
     });
-
 });
 
 

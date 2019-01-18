@@ -13,7 +13,6 @@
 }
 
 html, body, #root, .App {
-    height: 100%;
     color: var(--secondary-color);
 }
 .container{
@@ -182,12 +181,12 @@ section {
     display: flex;
     justify-content:center;
     align-items: center;
-
 }
 
 .container {
     max-width: 70%;
     margin: auto;
+    height: 100%;
 }
 
 .margin-30px {

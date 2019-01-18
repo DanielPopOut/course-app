@@ -16,6 +16,8 @@ export const validatePhoneNumber = function (phonenumber) {
 };
 
 export const validatePassword = (password)=>{
+   /*
+
     var passw=  /^[A-Za-z]\w{7,14}$/;
     if(password.match(passw))
     {
@@ -27,4 +29,8 @@ export const validatePassword = (password)=>{
         //alert('Wrong...!')
         return false;
     }
+
+    */
+
+   return true;
 };
