@@ -3,6 +3,8 @@ import './connexionComponent.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import {UsersCreationForm} from "../UsersComponent/Users";
 import  PasswordRecovery  from './PasswordRecovery';
+import {ServerService} from "../../server/ServerService";
+import {AUTHENTICATION} from "../../server/SERVER_CONST";
 
 
 class ConnexionComponent extends Component{
@@ -11,6 +13,10 @@ class ConnexionComponent extends Component{
         this.state={
             newAccountModalVisibility:false,
             newPasswordModalVisibility:false,
+            dataToSend:{
+                pseudo:'',
+                password:''
+            }
         }
     }
     newAccount(){
@@ -25,6 +31,23 @@ class ConnexionComponent extends Component{
             newAccountModalVisibility :false,
             newPasswordModalVisibility :false
         });
+    }
+    handleChange(e){
+        let newdatatosend=Object.assign({},this.state.dataToSend,{[e.target.name]:e.target.value});
+        this.setState({dataToSend:newdatatosend});
+        console.log(this.state.dataToSend);
+    }
+    handleLoginValidate(e){
+        if(this.state.dataToSend.pseudo!=='' &&  this.state.dataToSend.password!=='' ){
+            ServerService.postToServer(AUTHENTICATION,this.state.dataToSend).then((response)=>{
+                if(response.data.success){
+                    alert(response.data.message);
+                    console.log(response.data);
+                }else{
+                    alert(response.data.message);
+                }
+            });
+        }
     }
 
     render(){
@@ -47,14 +70,14 @@ class ConnexionComponent extends Component{
                     <div className={"form-connexion-content"}>
                         <div>
                             <label> Pseudo </label>
-                            <input type={"text"} name={"pseudo"} placeholder={"Pseudo"}/>
+                            <input onChange={(e)=>this.handleChange(e)} type={"text"} name={"pseudo"} placeholder={"Pseudo"}/>
                         </div>
                         <div>
                             <label> Mot de Passe </label>
-                            <input type={"password"} name={"password"} placeholder={"Mot de Passe"}/>
+                            <input onChange={(e)=>this.handleChange(e)} type={"password"} name={"password"} placeholder={"Mot de Passe"}/>
                         </div>
                         <div>
-                            <div> <button type={"button"} className={"login-button-validate"}> Se Connecter </button></div>
+                            <div> <button type={"button"} onClick={(e)=>{this.handleLoginValidate(e)}} className={"login-button-validate"}> Se Connecter </button></div>
                         </div>
                     </div>
                     <div className={"form-connexion-footer"}>

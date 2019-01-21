@@ -5,13 +5,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongo = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
+const jwt = require('jsonwebtoken');
 
 const DB_URL = 'mongodb://localhost:27017/';
 const dbName = 'alpham';//'courseAppDB';
 const assert = require('assert');
 const client = new MongoClient(DB_URL);
 
-var nodemailer = require('nodemailer');
 
 
 app.use(cors());
@@ -31,8 +31,24 @@ app.use(function (req, res, next) {
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
+const generateToken = function (user) {
+
+    let payload={
+        name:user.pseudo,
+        admin:user.admin
+    };
+    let secret="fakekey";
+    let options={
+        expiresIn: 60 * 60
+        //algorithm:'RS256'
+    };
+    let token = jwt.sign(payload,secret,options);
+    return token;
+};
+
 const sendEmail = function (receiver, subject, content) {
-    var transporter = nodemailer.createTransport({
+    let nodemailer = require('nodemailer');
+    let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
         service: 'Gmail',
@@ -131,10 +147,10 @@ app.get('/getDocuments/:collection/:options', function (req, res) {
 app.post('/insertDocument/:collection', function (req, res) {
     insertOneDocument(req.params.collection, req.body, function (result) {
         console.log("here the result" + JSON.stringify(result));
-        let status = JSON.stringify(result);
+        let success = JSON.stringify(result);
 
         if (status === '{"n":1,"ok":1}') {
-            console.log(status);
+            console.log(success);
             let subjet = " Account Creation Confirmation ";
             let content = "we are happy to confirm your Account creation";
             sendEmail(req.body.email, subjet, content);
@@ -209,7 +225,7 @@ app.post('/newuser',(req,res)=>{
         let options={
             queries:{
                 $or:[
-                    {email:req.body.email},
+                    {email:req.body.email.toLowerCase()},
                     {pseudo : req.body.pseudo}
                 ]
             }
@@ -219,15 +235,15 @@ app.post('/newuser',(req,res)=>{
         getDocuments('users',options,(err,docs)=>{
             if(docs.length===0){
                 insertOneDocument('users',req.body,(result)=>{
-                    let status = JSON.stringify(result);
-                    if (status === '{"n":1,"ok":1}') {
-                        res.send({status:1,message:"Compte enregistre. veuillez confirmer via votre adresse mail"});
+                    let success = JSON.stringify(result);
+                    if (success === '{"n":1,"ok":1}') {
+                        res.send({success:1,message:"Compte enregistre. veuillez confirmer via votre adresse mail"});
                     }else{
-                        res.send({status:1,message:"Desole. votre compte n\'a pas ete enregistre"});
+                        res.send({success:1,message:"Desole. votre compte n\'a pas ete enregistre"});
                     }
                 });
             }else {
-                res.send({status:0,message:"Ce Compte existe deja !"});
+                res.send({success:0,message:"Ce Compte existe deja !"});
             }
         });
 });
@@ -280,10 +296,10 @@ app.post('/passwordRecovery', (req, res) => {
                     console.log(err);
                 }
             });
-            response={status:1,message:"un code vous a ete envoye !"};
+            response={success:1,message:"un code vous a ete envoye !"};
         }
         else {
-            response={status:0,message:"Compte Introuvable!. Verifiez vos parametres SVP."};
+            response={success:0,message:"Compte Introuvable!. Verifiez vos parametres SVP."};
         }
         res.send(response);
     });
@@ -301,9 +317,9 @@ app.post('/passwordRecoveryCode', (req,res)=>{
         console.log("document");
         console.log(JSON.stringify(doc));
         if(doc === null){
-            res.send({status:0,message:"Code incorrect. Vérifiez et reéssayez SVP!."})
+            res.send({success:0,message:"Code incorrect. Vérifiez et reéssayez SVP!."})
         }else {
-            res.send({status:1,message:"Code vérifié"})
+            res.send({success:1,message:"Code vérifié"})
         }
     });
 });
@@ -328,15 +344,34 @@ app.post('/passwordReset', (req, res) => {
     updateOne('users',updateParams,(err,result)=>{
         let response={};
         if(err) {
-            response ={status:0,message:"Mise a jour non effectuee"};
+            response ={success:0,message:"Mise a jour non effectuee"};
             throw err;
         } else{
-            response ={status:1,message:"Mise a jour effectuee avec succes !"};
+            response ={success:1,message:"Mise a jour effectuee avec succes !"};
             console.log(err);
         }
         res.send(response);
     });
 });
 
+app.post('/authentication', function (req, res) {
+    let options = {
+        queries: {
+            pseudo: req.body.pseudo,
+            password:req.body.password
+        }
+    };
+    findOneDocument('users',options, (err,doc)=>{
+        if(doc === null){
+            res.send({success:0,message:"Login incorrect. Vérifiez et reéssayez SVP!."});
+        }else {
+            console.log(doc);
+            let token=generateToken({pseudo:doc.pseudo, admin:false});
+            console.log('token : '+token);
+            console.log("verify "+jwt.verify(token,"fakekey"));
+            res.send({success:1,message:"Code vérifié",token:token,verify:jwt.verify(token,"fakekey")});
+        }
+    });
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

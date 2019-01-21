@@ -58,9 +58,10 @@
     justify-content: center;
     border-color: white;
     border-radius: 5px;
+    cursor: pointer;
 }
 .form-helper-button:hover{
-
+    transform: scale(1.02);
 }
 
 .hr-button-block{

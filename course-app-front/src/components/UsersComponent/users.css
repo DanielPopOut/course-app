@@ -1,9 +1,7 @@
 .users-interface-block{
     width:100%;
-    border-left: solid 1px;
-    border-right: solid 1px;
     border-color: #494e7d;
-    padding: 5px;
+
 }
 
 
@@ -33,6 +31,10 @@
 }
 .users-interface-list-block-header{
     display: table-header-group;
+    display: table-header-group;
+    background-color: #e1e2ec;
+    font-family: fantasy;
+    color: #030535;
 }
 .users-interface-list-block-header > div {
     display: table-row;
@@ -44,20 +46,47 @@
 }
 .user-list-single-block{
     display: table-row;
-    border-bottom: solid thin cadetblue;
-    margin: 4px;
-    padding: 2px;
-    box-shadow: 1px 1px 3px cadetblue;
+    background-color: white;
+    border-bottom: solid thin lavender;
 }
 .user-list-single-block:nth-of-type(odd){
+    display: table-row;
     background-color: #e5e6d8;
+
 }
 .user-list-single-block>div{
     display: table-cell;
-    border-right: solid thin green;
-    width: 75px;
+    border: solid 0.5px lavender;
+    border-bottom: solid thin lightsteelblue;
 }
 .user-list-single-block:hover{
-    box-shadow: inset 1px 1px 3px cadetblue;
+    border-bottom: solid thin blue;
+    box-shadow: 1px 1px 3px;
+    transform: scale(1.02);
+
 }
+
+.user-search-new-div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0px;
+
+}
+.input-user-search{
+    border: none;
+}
+.input-user-search:focus{
+    border-style: none;
+}
+.button-image-user-search{
+
+    height: 50px
+}
+.div-user-search-block{
+    border: solid thin rebeccapurple;
+    display: flex;
+    flex: 2;
+}
+
 
