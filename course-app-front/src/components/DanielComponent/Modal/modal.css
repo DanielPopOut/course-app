@@ -1,0 +1,29 @@
+
+.modal  {
+    position: fixed;
+    bottom:0;
+    top:0;
+    left: 0;
+    right:0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    z-index:10;
+    background-color: rgba(0, 0, 0, 0.18);
+    overflow-y: auto;
+}
+
+
+.modal-box {
+    min-width: 300px;
+    min-height: 300px;
+    height: max-content;
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+
+}
+
+.display-none {
+    display: none;
+}

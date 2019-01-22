@@ -92,19 +92,7 @@ const insertOneDocument = function (collection, documentToInsert, callback) {
             });
     });
 };
-const insertManyDocuments = function (collection, dataToSave, callback) {
-    client.connect(function (err) { //server connection
-        assert.equal(null, err);
-        console.log("connected successfully to server");
-        db = client.db(dbName);
-        db.collection(collection)
-            .insertMany(dataToSave,
-                function (err, result) {
-                    assert.equal(err, null);
-                    callback(result);
-                });
-    });
-};
+
 const getDocuments = function (collection, options = {}, callback) {
     client.connect(function (err) { //server connection
         assert.equal(null, err);
@@ -116,6 +104,7 @@ const getDocuments = function (collection, options = {}, callback) {
         });
     });
 };
+
 const findOneDocument = function (collection, options = {}, callback) {
     client.connect(function (err) { //server connection
         assert.equal(null, err);
@@ -208,7 +197,6 @@ app.get('/module', (req, res) => {
     });
 });
 
-
 app.get('/course', (req, res) => {
     client.connect(function (err) {
         assert.equal(null, err);
@@ -251,6 +239,31 @@ app.post('/newuser',(req,res)=>{
             }
         });
 });
+
+app.get('/findusers',(req,res)=>{
+    //console.log("req query "+JSON.stringify(req.query));
+        let options={};
+        if(req.query.valueToSearch === "")
+            options={};
+        else
+            options= {
+                queries:{
+                    $or:[
+                        {name : req.query.valueToSearch},
+                        {surname : req.query.valueToSearch},
+                        {pseudo : req.query.valueToSearch},
+                        {email : req.query.valueToSearch}
+                    ]
+                }
+
+            };
+
+        getDocuments('users',options,(err,docs)=>{
+            assert.equal(null, err);
+            res.send({success:1,message:"Ce Compte existe deja !",'users':docs});
+        });
+});
+
 app.post('/passwordRecovery', (req, res) => {
 
     var response={};
@@ -377,5 +390,6 @@ app.post('/authentication', function (req, res) {
         }
     });
 });
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

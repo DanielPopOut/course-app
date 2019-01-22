@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import './modalhelper.css';
+import '../DanielComponent/Modal/modal.css';
 
 export default class ModalHelper extends Component {
 

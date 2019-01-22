@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './modal.css'
 
 class ModalComponent extends Component {
     render() {
@@ -9,7 +10,6 @@ class ModalComponent extends Component {
                 </div>
             </div>
         );
-
     }
 }
 
