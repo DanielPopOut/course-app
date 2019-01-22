@@ -53,7 +53,8 @@ class App extends Component {
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
-                    <Route path='/daniel' component = {DataManagerPage}/>
+                    <Route path='/daniel' render={(props) => <DataManagerPage {...props} collection='users'/>}/>
+
                 </main>
                 <footer>
                     <div style={{color: 'var(--main-color)'}}>Rainbow Travel Agency &copy; 2018</div>

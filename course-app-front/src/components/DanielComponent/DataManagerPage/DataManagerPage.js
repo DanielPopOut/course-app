@@ -13,6 +13,10 @@ class DataManagerPage extends Component {
         super(props);
         // let dataModel = UserModel;
         let dataToSendModel = UsersModel.fields;
+        let dataToShow = this.props.dataToShow;
+        if(!props.dataToShow){
+            this.retrieveDataOnServer();
+        }
         this.state = {
             dataModel: UsersModel,
             dataToSend: Object.assign({}, dataToSendModel),
@@ -44,10 +48,37 @@ class DataManagerPage extends Component {
     }
 
     retrieveDataOnServer() {
-        ServerService.getFromServer().then(response => this.setState({datas: response.data}));
+        if(!this.props.collection){
+            return ;
+        }
+        ServerService.postToServer('api/get', {collection: this.props.collection}).then(response => {
+            console.log(response);
+            this.setState({dataToShow: response.data})
+        });
     }
 
-    addElement(element) {
+    insertElementInDataBase(element) {
+        ServerService.postToServer('api/insert', {collection: this.props.collection, data: element}).then(response => {
+            if (response.status === 200) {
+                this.addElementToList(Object.assign(element, {_id: response.data}))
+            }
+        });
+    }
+    updateElementInDataBase(element) {
+        return ServerService.postToServer('api/update', {collection: this.props.collection, data: element}).then(response => {
+            console.log('updateresult', response)
+            return response.status === 200 ? this.updateElement(element) :false;
+        });
+    }
+    deleteElementInDataBase(element) {
+        return ServerService.postToServer('api/delete', {collection: this.props.collection, data: element}).then(response => {
+            console.log('delete result', response)
+            return response.status === 200 ? this.deleteElement(element) :false;
+
+        });
+    }
+
+    addElementToList(element) {
         let newDataToShowList = [...this.state.dataToShow].concat([element]);
         this.setState({dataToShow: newDataToShowList, modalVisibility: false});
         console.log(newDataToShowList);
@@ -92,7 +123,7 @@ class DataManagerPage extends Component {
                             onClose={() => this.setState({modalVisibility: false})}>
                 <BasicFormCreatorComponent
                     dataModel={this.state.dataToSendModel}
-                    onValidate={element => this.addElement(element)}
+                    onValidate={element => this.insertElementInDataBase(element)}
                 />
             </ModalComponent>
             <DataArrayComponent
@@ -100,7 +131,7 @@ class DataManagerPage extends Component {
                 dataModel={this.state.dataToSendModel}
                 // fields={['name', 'title']}
                 dataToShow={this.state.dataToShow}
-                updateElement={elementToUpdate => this.updateElement(elementToUpdate)}
+                updateElement={elementToUpdate => this.updateElementInDataBase(elementToUpdate)}
                 deleteElement={elementToUpdate => this.deleteElement(elementToUpdate)}
             />
 

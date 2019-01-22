@@ -11,7 +11,7 @@
     /*only relevant for first row*/
     letter-spacing: normal;
     border:none !important;
-    background-color: unset;
+    background-color: ;
 }
 
 .data-array-table tr td:nth-child(2) {
@@ -42,7 +42,8 @@ table {
 
 .div-table-container {
     overflow-x: scroll;
-    margin-left: 10em;
+    margin-left: 90px;
+    /*margin-left: 10em;*/
     overflow-y: visible;
     padding: 0;
 }

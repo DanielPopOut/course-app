@@ -42,7 +42,7 @@ class DataArrayComponent extends Component {
                 async dataToSend => {
                     let answer = await this.props.updateElement(dataToSend);
                     console.log('awaited answer', answer);
-                    this.setModalVisibility(false);
+                    this.setModalVisibility(!answer);
                 }
             }
         />;
@@ -86,7 +86,7 @@ class DataArrayComponent extends Component {
                                          onClick={() => this.deleteElementClick(dataModelElement)}>Delete</td>);
             allColumnElement.unshift(<td key='modify'
                                          onClick={() => this.modifyElementClick(dataModelElement)}>Modify</td>);
-            return <tr key={dataModelElement._id | step.toString() + 'd'} className=''
+            return <tr key={dataModelElement._id ? dataModelElement._id : (step.toString() + 'd')} className=''
                        onClick={() => this.onElementClick(dataModelElement)}>
                 {allColumnElement}
             </tr>;
@@ -97,7 +97,7 @@ class DataArrayComponent extends Component {
         allFieldsColumn.unshift(<td key='modify'>Modify</td>);
 
         return <div className='div-table-container'>
-            <table className='overflow-x data-array-table margin-30px'>
+            <table className='overflow-x data-array-table'>
                 <thead>
                 <tr>{allFieldsColumn}</tr>
                 </thead>
