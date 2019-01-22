@@ -1,45 +1,67 @@
-*:focus{
-    box-shadow: #069b0b 1px 2px 4px ;
-    font-family: Calibri;
-}
-.form{
+
+.form-helper{
 
 }
-.form-max-width{
+.form-helper-title{
+    margin: 2px;
+    text-align: center;
+    font-size: 20px;
+    text-transform: capitalize;
+    border-bottom: solid thin;
+
+}
+.form-helper-max-width{
     width: 100%;
 }
-.form-half-width{
+.form-helper-half-width{
     width: 50%;
 }
-input{
+
+.form-helper-div-input{
     width: 100%;
-    border: solid 1px burlywood;
-    background-color: white;
-    color: black;
-    padding: 2px;
-    margin: 3px;
 }
-.input-text{
+.form-helper-input{
+    width: 98%;
+    border: solid 1px #123112;
+    background-color: white;
+    border-radius: 2px;
+    color: black;
+    padding: 6px;
+    margin: 7px;
+    height: 35px;
+}
+.form-helper-input:focus{
 
 }
-textarea{
+
+.form-helper-textarea{
     width: 100%;
     min-height: 150px;
 }
 
-select{
+.form-helper-select{
 
 }
-select>option{
+.form-helper-select>option{
 
 }
-button{
-    margin: 2px;
-    padding: 2px;
-    display: inline-block;
+.form-helper-label{
+    font-weight: bold;
+    font-family: serif;
+    margin: 4px;
+}
+.form-helper-button{
+    margin: 4px;
+    padding: 7px 35px;
     display: flex;
     align-content: center;
     justify-content: center;
+    border-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.form-helper-button:hover{
+    transform: scale(1.02);
 }
 
 .hr-button-block{
@@ -56,19 +78,17 @@ button{
     color: white;
 }
 .success{
-    background-color: #069b0b;
+    background-color: #4bd025;
     color: white;
 }
 .warning{
     background-color: darkkhaki;
     color: black;
-
 }
 
 .text-centered{
     text-align: center;
 }
-
 
 .list-from-model-container{
 

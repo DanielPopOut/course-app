@@ -5,7 +5,7 @@ import { ServerService } from '../../server/ServerService';
 
 
 let data = {
-    generalOptions: {className:"text-centered"},
+    options: {className:"text-centered"},
     elements: [
         {type: 'text', name: "the_name", value: "", placeholder: "", event: ''},
         {type: 'button', name: "the_name", value: "", placeholder: "", event: ''},
@@ -19,30 +19,79 @@ let data = {
 
 function LabelHelper(props) {
     if (props.label) {
-        return (<label> {props.label} </label>);
+        return (<label className={"form-helper-label"}> {props.label} </label>);
     }
-    return (<span/>);
+    return (<span></span>);
 }
-
 
 export class CheckBoxHelper extends Component {
     render() {
-        return ("");
+        return (
+            <div>
+                <input type={'checkbox'} name={this.props.params.name}/>
+                <LabelHelper label={this.props.name}/>
+            </div>
+        );
     }
 }
+
+export class CheckBoxesHelper extends Component {
+    render() {
+        return (
+            <div>
+                {this.props.options.map((params,key)=>{
+                   return( <CheckBoxHelper key={key} params={params}/>);
+                })}
+            </div>
+        );
+    }
+}
+export class RadiosHelper extends Component {
+    render() {
+        return (
+            <div className={"form-helper-radio-group"}>
+                <div className={"form-helper-radio-group-header"}>
+                    {this.props.params.title || ""}
+                </div>
+                <div className={"form-helper-radio-group-body"}>
+                    {
+                        this.props.params.options.map((option,key)=>{
+                            option=Object.assign({},option,{name:this.props.params.name});
+                            return( <RadioHelper key={key} params={option} onChange={(e)=>this.props.onChange(e)}/>);
+                    })}
+
+                </div>
+
+            </div>
+        );
+    }
+}
+
+
+export class RadioHelper extends Component {
+    render() {
+        return (
+            <div>
+                <input type={'radio'} onChange={(e)=>this.props.onChange(e)} name={this.props.params.name}/>
+                <LabelHelper label={this.props.params.value}/>
+            </div>
+        );
+    }
+}
+
 
 export class TextareaHelper extends Component {
 
     render() {
         return (
-            <div className={'div-input'}>
+            <div className={'form-helper-div-input'}>
                 <LabelHelper label={this.props.params.label}/>
                 <textarea
+                    required={'required'}
+                    className={"form-helper-textarea"}
                     name={this.props.params.name}
                     onChange={this.props.onChange}
                 >
-
-
                 </textarea>
             </div>
         );
@@ -52,24 +101,20 @@ export class TextareaHelper extends Component {
 export class InputTextHelper extends Component {
     render() {
         return (
-            <div className={'div-input'}>
-                <LabelHelper label={this.props.params.label}/>
-                <input type={"text"} name={this.props.params.name} onChange={this.props.onChange} value={this.props.params.value}/>
+            <div className={'form-helper-div-input'}>
+                <LabelHelper label={ this.props.params.label}/>
+                <input type={this.props.params.type}
+                       required={'required'}
+                       className={this.props.className || "form-helper-input"}
+                       name={this.props.params.name}
+                       onChange={(e)=>this.props.onChange(e)}
+                       value={this.props.params.value}
+                       placeholder={this.props.params.placeholder || this.props.params.name}
+                />
             </div>
         );
     }
 }
-export class InputPasswordHelper extends Component {
-    render() {
-        return (
-            <div className={'div-input'}>
-                <LabelHelper label={this.props.params.label}/>
-                <input type={"password"} name={this.props.params.name} onChange={this.props.onChange} value={this.props.params.value}/>
-            </div>
-        );
-    }
-}
-
 export class SelectHelper extends Component {
     render() {
         return (
@@ -90,9 +135,9 @@ export class ButtonHelper extends Component {
             <button
                 type={this.props.params.type}
                 className={this.props.params.className}
-                onClick={this.props.params.onClick}
+                onClick={this.props.onClick}
             >
-                {this.props.params.value}
+                {this.props.params.value || this.props.params.name }
             </button>
         );
     }
@@ -158,49 +203,50 @@ export class FormHelper extends Component {
         console.log(this.state.dataToSend);
     }
     handleClick(e){
-        let registration_path = REGISTRATIONS_PATH+this.state.collectionName;
-        console.log(registration_path);
+        let registration_path = this.props.registration_path || REGISTRATIONS_PATH+this.state.collectionName;
         ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
             console.log(response.data);
+           alert(response.data.message);
         });
     }
     render() {
         let onChangeCallBack=(e)=>{this.handleChange(e)};
         let onClickCallBack=(e)=>{this.handleClick(e)};
+        let options = this.props.options|| {};
         return (
             <div>
             <form>
+                <section className={"form-helper-title"}> <h3>user registration form</h3></section>
                 {this.props.data.fields.map(function (elt, key) {
                     switch (elt.type) {
-                        case 'text': {
-                            return (<InputTextHelper key={key} params={elt} onChange={onChangeCallBack} />);
-                        }
-                            break;
+                        case 'text':
+                        case 'email':
+                        case 'number':
                         case 'password': {
                             return (
-                                <InputPasswordHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                                <InputTextHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'button': {
-                            return (<ButtonHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<ButtonHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'select': {
-                            return (<SelectHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<SelectHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                         case 'listfrommodel': {
-                            return (<ListFromModelHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<ListFromModelHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'textarea': {
-                            return (<TextareaHelper key={key} params={elt} onChange={onChangeCallBack} />);
+                            return (<TextareaHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
                         }
                             break;
                     }
                 })}
                 <div className={'hr-button-block'}>
-                    <ButtonHelper params = {{type: 'reset', className:'danger', value:'Reset'}}/>
-                    <ButtonHelper params = {{type: 'button',className:'success', value:'Valider', onClick:onClickCallBack}}/>
+                    <ButtonHelper params = {{type: 'reset', className:' form-helper-button danger', value:'Reset'}}/>
+                    <ButtonHelper params = {{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>
                 </div>
             </form>
             </div>

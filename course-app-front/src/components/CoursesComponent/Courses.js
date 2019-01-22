@@ -9,7 +9,7 @@ import AddAdminCourse from "../AddAdminCourseComponent/AddAdminCourse";
 
 
 function Courses(props) {
-    let baseURL = '/courses/';
+    let baseURL = '/courses/daniel/';
     return (
         <div>
             <h2> Courses Options </h2>

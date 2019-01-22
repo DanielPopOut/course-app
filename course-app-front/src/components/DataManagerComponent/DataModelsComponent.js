@@ -11,13 +11,13 @@ export const UsersModel={
     dataModel:"users",
     title: 'users',
     fields:[
-        {name: "name", type: 'text', placeholder: 'Nom', label: 'Name'},
-        {name: "surname", type: 'text', placeholder: 'Prenom', label: 'SurName'},
-        {name: "address", type: 'text', placeholder: 'Adresse', label: 'Adresse'},
-        {name: "contacts", type: 'text', placeholder: 'Tel1/Tel2 ', label: 'Telephone'},
+        {name: "name", type: 'text', placeholder: 'Name', label: 'Nom'},
+        {name: "surname", type: 'text', placeholder: 'SurName', label: 'Prenom'},
+        {name: "address", type: 'text', placeholder: 'Address', label: 'Adresse'},
+        {name: "contact", type: 'number', placeholder: 'Tel1/Tel2 ', label: 'Telephone'},
         {name: "email", type: 'email', placeholder: 'Email', label: 'Email'},
-        {name: "pseudo", type: 'text', placeholder: 'Nom d\'Utilisateur', label: 'Pseudo'},
-        {name: "password", type: 'password', placeholder: 'Mot de Passe', label: 'Mot de Passe'}
+        {name: "pseudo", type: 'text', placeholder: 'UserName', label: 'Pseudo'},
+        {name: "password", type: 'password', placeholder: 'Password', label: 'Mot de Passe'}
     ]
 };
 

@@ -12,7 +12,11 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.10",
-    "nodemon": "^1.18.9"
+    "nexmo": "^2.4.0",
+    "nodemailer": "^5.1.0",
+    "nodemon": "^1.18.9",
+    "sendemail": "^3.4.0"
   }
 }

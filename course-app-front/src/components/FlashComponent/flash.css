@@ -1,0 +1,33 @@
+.flash-box{
+    width: 100%;
+    padding: 2px;
+    margin: 4px;
+    text-align: center;
+    border: solid 2px rgba(253, 255, 242, 0.35);
+}
+.flash-message{
+    font-size: large;
+    font-weight: bold;
+    font-family: monospace;
+
+}
+.flash-box-success{
+    background-color: #22a514d9;
+    color: #ffffff;
+
+}
+.flash-box-error{
+    background-color: #921010;
+    color: white;
+
+}
+.flash-box-warning{
+    background-color: #c77409;
+    color: white;
+}
+
+.flash-box-note{
+    background-color: white;
+    color: #030220;
+
+}
