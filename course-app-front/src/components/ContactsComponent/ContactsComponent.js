@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import './contactscomponent.css'
-import {FormHelper} from "../HelperComponent/FormHelper";
+/*import {FormHelper} from "../HelperComponent/FormHelper";*/
 
 class ContactForm extends Component{
     render(){
@@ -10,10 +10,7 @@ class ContactForm extends Component{
             </div>
         );
     }
-
 }
-
-
 
 class ContactsComponent extends Component{
     render(){

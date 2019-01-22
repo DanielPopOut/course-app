@@ -11,19 +11,6 @@ class Welctext extends Component {
     }
 }
 
-class WelcomeGallery extends Component{
-    render(){
-        return(
-            <div className={'welcome-gallery-block'}>
-                {this.props.list.map((x)=>{
-
-                })}
-
-            </div>
-        )
-    }
-}
-
 
 
 class Welcslogan extends Component {

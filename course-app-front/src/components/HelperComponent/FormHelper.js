@@ -105,7 +105,7 @@ export class InputTextHelper extends Component {
                 <LabelHelper label={ this.props.params.label}/>
                 <input type={this.props.params.type}
                        required={'required'}
-                       className={this.props.className || "form-helper-input"}
+                       className={this.props.params.className || "form-helper-input"}
                        name={this.props.params.name}
                        onChange={(e)=>this.props.onChange(e)}
                        value={this.props.params.value}

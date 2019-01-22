@@ -1,8 +1,9 @@
 export const validateEmail = function (email) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        return (false)
+    } else {
         return (true)
     }
-    return (false)
 };
 export const validatePhoneNumber = function (phonenumber) {
     var phoneno = /^\d{9}$/;

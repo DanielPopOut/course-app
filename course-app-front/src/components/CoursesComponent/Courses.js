@@ -8,35 +8,37 @@ import CourseSelection from "../CourseSelectionComponent/CourseSelectionComponen
 import AddAdminCourse from "../AddAdminCourseComponent/AddAdminCourse";
 
 
-function Courses(props) {
-    let baseURL = '/courses/daniel/';
-    return (
-        <div>
-            <h2> Courses Options </h2>
-            <div className='coursemenu'>
-                <ul>
-                    <li>
-                        <Link to={baseURL +'newcourse'}> New Course</Link>
-                    </li>
-                    <li>
-                        <Link to={baseURL +'section'}> Section</Link>
-                    </li>
-                        <li>
-                        <Link to={baseURL +'selection'}> Selection</Link>
-                    </li>
-                    <li>
-                        <Link to={baseURL +'admin'}> Admin</Link>
-                    </li>
-                </ul>
-            </div>
+class Courses extends Component {
+    render() {
+        let baseURL = '/courses/daniel/';
+        return (
             <div>
-                <Route path={baseURL +'newcourse'} component={NewCourse}/>
-                <Route path={baseURL + 'section'} component={CourseSection}/>
-                <Route path={baseURL + 'selection'} component={CourseSelection}/>
-                <Route path={baseURL + 'admin'} component={AddAdminCourse}/>
+                <h2> Courses Options </h2>
+                <div className='coursemenu'>
+                    <ul>
+                        <li>
+                            <Link to={baseURL + 'newcourse'}> New Course</Link>
+                        </li>
+                        <li>
+                            <Link to={baseURL + 'section'}> Section</Link>
+                        </li>
+                        <li>
+                            <Link to={baseURL + 'selection'}> Selection</Link>
+                        </li>
+                        <li>
+                            <Link to={baseURL + 'admin'}> Admin</Link>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <Route path={baseURL + 'newcourse'} component={NewCourse}/>
+                    <Route path={baseURL + 'section'} component={CourseSection}/>
+                    <Route path={baseURL + 'selection'} component={CourseSelection}/>
+                    <Route path={baseURL + 'admin'} component={AddAdminCourse}/>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default Courses;

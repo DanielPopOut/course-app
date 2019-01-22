@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
-import FormHelper from '../HelperComponent/FormHelper'
-import './collaborators.css';
+import './dataviewhelper.css';
 
 
 class DataViewList extends Component{
@@ -8,9 +7,23 @@ class DataViewList extends Component{
         return("");
     }
 }
-class DataViewElement extends Component{
+export class DataViewElement extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            dataToDisplay:this.props.data
+        }
+    }
     render(){
-        return("");
+        return(
+            <div>
+                {
+                    Object.keys(this.state.dataToDisplay).forEach((key)=>{
+                    return(  <div> {key} : {this.state.dataToDisplay[key]}</div>)  ;
+                    })
+                }
+            </div>
+        );
     }
 }
 

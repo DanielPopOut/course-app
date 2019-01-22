@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import './passwordrecovery.css';
-import {InputTextHelper, ButtonHelper,RadioHelper, RadiosHelper} from '../HelperComponent/FormHelper';
+import {InputTextHelper, ButtonHelper} from '../HelperComponent/FormHelper';
 import Flash from '../FlashComponent/Flash';
-import {validateEmail, validatePhoneNumber, validatePassword} from "../StaticFunctionsComponent/StaticFunctions";
+import {validateEmail, validatePhoneNumber} from "../StaticFunctionsComponent/StaticFunctions";
 
 import { PASSWORD_RECOVERY_PATH,PASSWORD_RECOVERY_CODE_PATH ,PASSWORD_RESET_PATH} from '../../server/SERVER_CONST';
 
@@ -44,6 +44,7 @@ class FirstStep extends Component {
                 contact:e.target.value
             });
             break;
+            default : break;
         }
     }
 
@@ -59,6 +60,7 @@ class FirstStep extends Component {
                     <InputTextHelper params={this.state.inputcontactparams} onChange={(e) => this.handleChange(e)}/>
                 );
                 break;
+            default : break;
         }
     }
     handleClick(){
@@ -91,6 +93,7 @@ class FirstStep extends Component {
                     alert("Veuillez Saisir Un Numero Valide")
                 }
                 break;
+            default : break;
         }
         if(!err){
             ServerService
@@ -274,19 +277,9 @@ class PasswordRecovery extends Component{
     processWorking(){
         if(this.state.inProcess === 1)
         {
-            return ( <div> <img src={"/images/al.gif"}/> </div>)
+            return ( <div> <img src={"/images/al.gif"} alt={"Processing ..."}/> </div>)
         }
     }
-
-    displayCurrentStep(){
-        switch (this.state.currentStep){
-            case 1:return(<FirstStep  nextStep={(e)=>this.nextStep(e)} />); break;
-            case 2: return(<SecondStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
-            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
-            case 4: return(<FourthStep  onChange={(e)=>this.handleChange(e)}  nextStep={(e)=>this.nextStep(e)} />); break;
-        }
-    }
-
     handleChange(e){
         console.log("name : " +e.target.name);
         console.log("value : " +e.target.value);
@@ -306,6 +299,19 @@ class PasswordRecovery extends Component{
     previousStep(){
         this.setState({currentStep: this.state.currentStep - 1});
     }
+    displayCurrentStep(){
+        switch (this.state.currentStep){
+            case 1: return(<FirstStep  nextStep={(e)=>this.nextStep(e)} />); break;
+            case 2: return(<SecondStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
+            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
+            case 4: return(<FourthStep  onChange={(e)=>this.handleChange(e)}  nextStep={(e)=>this.nextStep(e)} />); break;
+            default : break;
+        }
+    }
+
+
+
+
 
     render(){
         return(

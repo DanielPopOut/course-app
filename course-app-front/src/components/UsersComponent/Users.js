@@ -3,8 +3,11 @@ import './users.css';
 import {UsersModel} from '../DataManagerComponent/DataModelsComponent'
 import FormHelper, {ButtonHelper, InputTextHelper} from '../HelperComponent/FormHelper';
 import {ServerService} from "../../server/ServerService";
-import {LISTS_PATH} from "../../server/SERVER_CONST";
+import {LISTS_PATH, USERS_FILTER_PATH} from "../../server/SERVER_CONST";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
+import {DataViewElement} from "../HelperComponent/DataViewHelper";
+
+
 
 export class UsersCreationForm extends Component{
     render(){
@@ -19,17 +22,15 @@ class SingleUserblock extends Component{
             user:this.props.user
         }
     }
-    handleClick(){
-        this.props.onClick(this.state.user);
+    handleClick(e){
+        this.props.handleClick(this.state.user);
     }
     render(){
         return(
-            <div onClick={()=>{this.handleClick()}} className={"user-list-single-block"}>
+            <div onClick={(e)=>{this.handleClick(e)}} className={"user-list-single-block"}>
                 <div className={"user-list-avatar"}>
-                    <figure>
-                        <img src={this.state.user.avatar || "/images/user3_thom1.png"}/>
-                        <figcaption>
-                        </figcaption>
+                    <figure className={"figure-avatar"}>
+                        <img src={this.state.user.avatar || "/images/user3_thom1.png"} alt={"avatar"}/>
                     </figure>
                 </div>
                 <div> {this.state.user.name}</div>
@@ -51,6 +52,9 @@ class UsersList extends Component{
     }
     handleClick(user){
         console.log(user);
+        let visibility = true;
+        let children = <DataViewElement data={user}/>;
+        this.props.handleModal(visibility,children);
     }
     render(){
         let listToShow= this.props.listToShow;
@@ -69,26 +73,38 @@ class UsersList extends Component{
                 </div>
                 {
                     listToShow.map((elt, key) => {
-                        return (<SingleUserblock key={key} user={elt} onClick={(e)=>this.handleClick(e)} />);
+                        return (<SingleUserblock key={key} user={elt} handleClick={(user)=>this.handleClick(user)} />);
                     })
                 }
             </div>
         );
     }
 }
+
 class UserInterfaceHeader extends Component{
     constructor(props){
         super(props);
         this.state={
-
+            valueToSearch:"",
+            dataToSend:[]
         }
     }
-    handleSearchValidate(e){
+    handleValidateSearch(e){
+        let options={valueToSearch: this.state.valueToSearch};
 
-
+        this.props.handleFilter([]);
+        ServerService.getFromServer(USERS_FILTER_PATH,options).then((response)=>{
+            console.log(response.data);
+            this.props.handleFilter(response.data.users);
+        });
+    }
+    handleChange(e){
+        this.setState({valueToSearch:e.target.value});
     }
     handleClick(e){
-
+        let visibility=true;
+        let children=<UsersCreationForm/>;
+        this.props.handleModal(visibility,children);
     }
 
     render(){
@@ -98,7 +114,10 @@ class UserInterfaceHeader extends Component{
             className:"form-helper-button success"
         };
         let inputsearchparams={
-
+            type:'text',
+            name : 'input-user-search',
+            className : " form-helper-input input-user-search",
+            placeholder :'Search'
         };
 
        return(
@@ -108,15 +127,15 @@ class UserInterfaceHeader extends Component{
                </div>
                <div className={"user-search-new-div"}>
                    <div className={"div-user-search-block"}>
-                       <input type={'text'}
-                              className={" form-helper-input input-user-search"}
-                              placeholder= {'Search'}
+                       <InputTextHelper params={inputsearchparams}
                               onChange={(e)=>this.handleChange(e)}
                        />
-
-                       <img src={"/images/search.jpg"}
-                            onClick={(e)=>this.handleSearchValidate(e)}
-                            className={"button-image-user-search"}/>
+                       <div className={"div-img-search"}>
+                           <img src={"/images/search.jpg"}
+                                alt={"Search"}
+                                onClick={(e)=>this.handleValidateSearch(e)}
+                                className={"button-image-user-search"}/>
+                       </div>
                    </div>
                    <div className={'new-user-button'}>
 
@@ -144,44 +163,57 @@ export default class Users extends Component{
         this.state={
             ListToShow:[],
             modalVisibility:false,
-            modalChildren:''
+            modalChildren:""
         }
     }
     getListToShow(){
         let collection="users/";
         let options = {};
         ServerService.getFromServer(LISTS_PATH+collection+options).then((res)=>{
-          //  console.log(res.data);
+          //console.log(res.data);
             this.setState({ListToShow:res.data});
         });
     }
     componentDidMount(){
         this.getListToShow();
     }
+
+    handleModalClose(){
+        this.setState({modalChildren:""});
+        this.setState({modalVisibility:false});
+    }
+    handleModal(visibility,children){
+        this.setState({
+            modalVisibility:visibility,
+            modalChildren:children
+        });
+    }
+    handleFilter(users){
+        this.setState({ ListToShow:users});
+    }
+
     render(){
         return(
             <React.Fragment>
                 <div>
                     <ModalComponent
-                        visible={this.state.newPasswordModalVisibility}
-                        onClose={()=>this.handleClose()}
+                        visible={this.state.modalVisibility}
+                        onClose={()=>this.handleModalClose()}
                         children={this.state.modalChildren}
                     />
                 </div>
 
                 <div className={"users-interface-block"}>
                     <div className={"users-interface-header"}>
-                        <UserInterfaceHeader/>
+                        <UserInterfaceHeader handleFilter={(users)=>this.handleFilter(users)} handleModal={(v,ch)=>this.handleModal(v,ch)}/>
                     </div>
                     <div className={"users-interface-content"}>
-                        <UsersList listToShow={this.state.ListToShow}/>
+                        <UsersList listToShow={this.state.ListToShow} handleModal={(v,ch)=>this.handleModal(v,ch)}/>
                     </div>
                     <div className={"users-interface-footer"}>
                         <UserInterfaceFooter/>
                     </div>
                 </div>
-
-
             </React.Fragment>
 
         )
