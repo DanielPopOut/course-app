@@ -102,7 +102,7 @@ class DataManagerPage extends Component {
                 deleteElement={elementToUpdate => this.deleteElement(elementToUpdate)}
             />
 
-            <button onClick={()=>ServerService.postToServer('/api', {collection: 'user', action: 'insert', data: {lion: 'jaune'}, banana: 'banana'})}>Test Post api</button>
+            <button onClick={()=>ServerService.postToServer('/api/insert', {collection: 'test', action: 'insert', data: {lion: 'jaune'}, banana: 'banana'})}>Test Post api</button>
         </div>;
     }
 }
