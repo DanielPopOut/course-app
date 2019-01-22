@@ -101,3 +101,5 @@ export const contactsModel={
         { name:"sections_id",type:'text',placeholder:'Sections',label:'Sections'},
     ]
 };
+
+
