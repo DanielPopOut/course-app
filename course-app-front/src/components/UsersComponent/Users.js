@@ -169,7 +169,7 @@ export default class Users extends Component{
     getListToShow(){
         let collection="users/";
         let options = {};
-        ServerService.getFromServer(LISTS_PATH+collection+options).then((res)=>{
+        ServerService.postToServer('/api/get', {collection: 'users'}).then((res)=>{
           //console.log(res.data);
             this.setState({ListToShow:res.data});
         });

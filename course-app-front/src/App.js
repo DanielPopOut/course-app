@@ -82,8 +82,8 @@ class App extends Component {
 
                     {/*<DataManagerPage {...coursesModel} />*/}
                     {/*<DataManagerPage {...chaptersModel}/>*/}
-                    <DataManagerPage {...sectionsModel}/>
-                    <DataManagerPage {...levelsModel}/>
+                    {/*<DataManagerPage {...sectionsModel}/>*/}
+                    {/*<DataManagerPage {...levelsModel}/>*/}
 
                 </main>
                 <footer>

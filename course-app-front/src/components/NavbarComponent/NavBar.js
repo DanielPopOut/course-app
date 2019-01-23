@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Redirect from 'react-router/es/Redirect';
 import './NavBar.css';
+import { Link } from 'react-router-dom';
 
 
 export default class NavBar extends Component {
@@ -24,34 +25,17 @@ export default class NavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectionAddress: '',
         };
-    }
-
-    setRedirection(redirectionAddress) {
-        this.setState({redirectionAddress: redirectionAddress});
-    }
-
-    checkRedirection(redirectionAddress = this.state.redirectionAddress) {
-        console.log('redirection', this.state.redirectionAddress);
-        if (redirectionAddress) {
-            this.setState({
-                redirectionAddress: '',
-            });
-            return <Redirect to={redirectionAddress}/>;
-        }
-        return '';
     }
 
     render() {
         let tableauToUse = this.props.loggedIn ?  this.loggedInTableauNavbar : this.tableauNavbar;
         return (
-            this.state.redirectionAddress ? this.checkRedirection() :
                 <div className='lg-only full-width'>
                     <div className={' navbar-component '} style={{width: '100%', display: 'flex'}}>
                         {tableauToUse.map(x =>
-                            <div key={x.title} onClick={() => this.setRedirection(x.redirectionAddress)}>
-                                {x.title + JSON.stringify(this.props[x.content])}
+                            <div key={x.title} >
+                                <Link to={x.redirectionAddress} style={{color: 'white'}}> {x.title + (x.content ? JSON.stringify(this.props[x.content]) : '')}</Link>
                             </div>)
                         }
                     </div>
