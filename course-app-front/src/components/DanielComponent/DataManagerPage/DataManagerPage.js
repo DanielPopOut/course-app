@@ -113,7 +113,7 @@ class DataManagerPage extends Component {
     render() {
         return <div style={{padding: '80px', marginBottom: '100px'}}>
             <div className='flex-container flex-center'>
-                <span style={{fontSize: '30px', fontWeight: '800'}}>{this.state.dataModel.title} </span>
+                <span style={{fontSize: '30px', fontWeight: '800'}}>{this.props.collection} </span>
                 <button
                     onClick={() => this.setState({modalVisibility: true})}>New
                 </button>
@@ -122,20 +122,18 @@ class DataManagerPage extends Component {
             <ModalComponent visible={this.state.modalVisibility}
                             onClose={() => this.setState({modalVisibility: false})}>
                 <BasicFormCreatorComponent
-                    dataModel={this.state.dataToSendModel}
+                    dataModel={this.props.fields}
                     onValidate={element => this.insertElementInDataBase(element)}
                 />
             </ModalComponent>
             <DataArrayComponent
-                title='Data test'
-                dataModel={this.state.dataToSendModel}
-                // fields={['name', 'title']}
+                title={this.props.collection }
+                dataModel={this.props.fields}
+                fields={this.props.fields ? this.props.fields.map(x=> x.name) : null}
                 dataToShow={this.state.dataToShow}
                 updateElement={elementToUpdate => this.updateElementInDataBase(elementToUpdate)}
                 deleteElement={elementToUpdate => this.deleteElement(elementToUpdate)}
             />
-
-            <button onClick={()=>ServerService.postToServer('/api/insert', {collection: 'test', action: 'insert', data: {lion: 'jaune'}, banana: 'banana'})}>Test Post api</button>
         </div>;
     }
 }

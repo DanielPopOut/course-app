@@ -33,13 +33,16 @@ class FirstStep extends Component {
         }
     }
     handleChange(e){
+        console.log('handle change', e.target.value);
         switch (e.target.name){
-            case "email":this.setState({
+            case "email":
+                this.setState({
                 contactoremail:"email",
                 email:e.target.value
             });
             break;
-            case "contact":this.setState({
+            case "contact":
+                this.setState({
                 contactoremail:"contact",
                 contact:e.target.value
             });
@@ -96,12 +99,13 @@ class FirstStep extends Component {
             default : break;
         }
         if(!err){
+            console.log('donnes envoyees', this.state.dataToSend);
             ServerService
                 .postToServer(PASSWORD_RECOVERY_PATH,this.state.dataToSend)
                 .then(
                     (response)=>{
                         console.log(response.data);
-                        if(response.data.status) {
+                        if(response.data.success) {
                             this.props.nextStep(this.state.dataToSend);
                             console.log(response.data.message);
                         }else {
@@ -144,7 +148,7 @@ class SecondStep extends Component {
     handleClick(e){
         if(this.state.dataToSend.code.length>=4){
             ServerService.postToServer(PASSWORD_RECOVERY_CODE_PATH,this.state.dataToSend).then((response)=>{
-                if(response.data.status){
+                if(response.data.success){
                     this.props.nextStep(this.state.dataToSend);
                 }else {
                     alert(response.data.message);
@@ -200,7 +204,7 @@ class ThirdStep extends Component {
             let newdatatosend = Object.assign({},this.state.dataToSend,this.props.data[2]);
                 ServerService.postToServer(PASSWORD_RESET_PATH, newdatatosend).then((response)=>{
                     console.log(response.data);
-                    if(response.data.status === 1){
+                    if(response.data.success){
                         this.props.nextStep({status:1});
                     }else{
                         alert(response.data.message);

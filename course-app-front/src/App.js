@@ -10,6 +10,10 @@ import ConnexionComponent from './components/ConnexionComponent/ConnexionCompone
 import ContactsComponent from './components/ContactsComponent/ContactsComponent';
 import Users from './components/UsersComponent/Users';
 import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
+import {
+    chaptersModel, coursesModel, levelsModel, sectionsModel,
+    syllabusesModel,
+} from './components/DataManagerComponent/DataModelsComponent';
 
 
 class App extends Component {
@@ -55,9 +59,14 @@ class App extends Component {
                     <Route path='/connexion' component = {ConnexionComponent}/>
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} collection='users'/>}/>
 
+
+                    {/*<DataManagerPage {...coursesModel} />*/}
+                    {/*<DataManagerPage {...chaptersModel}/>*/}
+                    {/*<DataManagerPage {...sectionsModel}/>*/}
+                    {/*<DataManagerPage {...levelsModel}/>*/}
+
                 </main>
                 <footer>
-                    <div style={{color: 'var(--main-color)'}}>Rainbow Travel Agency &copy; 2018</div>
                 </footer>
             </div>
         );

@@ -11,7 +11,7 @@ import {DataViewElement} from "../HelperComponent/DataViewHelper";
 
 export class UsersCreationForm extends Component{
     render(){
-        return(<FormHelper data={UsersModel} options={{label:''}} registration_path = "newuser"/>);
+        return(<FormHelper data={UsersModel} options={{label:''}} registration_path = "authentication/newuser"/>);
     }
 }
 

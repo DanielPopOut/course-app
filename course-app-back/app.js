@@ -1,3 +1,8 @@
+// import { getDocuments, insertOneDocument } from './basicDBFunction';
+
+// import { getDocuments, insertOneDocument } from './basicDBFunction';
+let BDFunctions=require('./basicDBFunction');
+let MailingFunctions=require('./mail');
 const express = require('express');
 const app = express();
 const port = 7221;
@@ -5,8 +10,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongo = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
-const jwt = require('jsonwebtoken');
 const endpoints = require('./endpoints');
+const authentication = require('./authentication');
 
 
 const DB_URL = 'mongodb://localhost:27017/';
@@ -32,23 +37,15 @@ app.use(function (req, res, next) {
 });
 
 app.use('/api', endpoints);
+app.use('/authentication', authentication);
+
+app.get('/sendMail', (req,res)=>{
+    console.log('hmmmm');
+   MailingFunctions.sendEmail('daniel.tchangang@gmail.com', 'test', 'test oooohhhhh');
+});
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
-const generateToken = function (user) {
-
-    let payload={
-        name:user.pseudo,
-        admin:user.admin
-    };
-    let secret="fakekey";
-    let options={
-        expiresIn: 60 * 60
-        //algorithm:'RS256'
-    };
-    let token = jwt.sign(payload,secret,options);
-    return token;
-};
 
 const sendEmail = function (receiver, subject, content) {
     let nodemailer = require('nodemailer');
@@ -79,55 +76,7 @@ const sendEmail = function (receiver, subject, content) {
     });
 };
 
-const insertOneDocument = function (collection, documentToInsert, callback) {
-    // Insert some documents
-    client.connect(function (err) { //server connection
-        assert.equal(null, err);
-        console.log("connected successfully to server");
-        db = client.db(dbName);
-        db.collection(collection)
-            .insertOne(documentToInsert, function (err, result) {
-                assert.equal(err, null);
-                callback(result);
-            });
-    });
-};
 
-const getDocuments = function (collection, options = {}, callback) {
-    client.connect(function (err) { //server connection
-        assert.equal(null, err);
-        console.log("connected successfully to server");
-        db = client.db(dbName);
-        db.collection(collection).find(options.queries || {}, options.fields || {}).toArray((err, docs) => {
-            assert.equal(err, null);
-            callback(err, docs);
-        });
-    });
-};
-
-const findOneDocument = function (collection, options = {}, callback) {
-    client.connect(function (err) { //server connection
-        assert.equal(null, err);
-        console.log("connected successfully to server");
-        db = client.db(dbName);
-        db.collection(collection).findOne(options.queries || {}, options.fields || {},(err, docs) => {
-            assert.equal(err, null);
-            callback(err, docs);
-        });
-    });
-};
-
-const updateOne=function(collection,params,callback){
-    client.connect(function (err) { //server connection
-        assert.equal(null, err);
-        console.log("connected successfully to server");
-        db = client.db(dbName);
-        db.collection(collection)
-            .updateOne(params.filter,params.update,params.options||{},(err,result)=>{
-                callback(err,result);
-            });
-    });
-};
 
 app.get('/getDocuments/:collection/:options', function (req, res) {
     getDocuments(req.params.collection, req.params.options, (err, docs) => {
@@ -212,184 +161,32 @@ app.get('/course', (req, res) => {
     });
 });
 
-app.post('/newuser',(req,res)=>{
 
-        let options={
-            queries:{
-                $or:[
-                    {email:req.body.email.toLowerCase()},
-                    {pseudo : req.body.pseudo}
-                ]
-            }
-        };
-
-        let userExist=false;
-        getDocuments('users',options,(err,docs)=>{
-            if(docs.length===0){
-                insertOneDocument('users',req.body,(result)=>{
-                    let success = JSON.stringify(result);
-                    if (success === '{"n":1,"ok":1}') {
-                        res.send({success:1,message:"Compte enregistre. veuillez confirmer via votre adresse mail"});
-                    }else{
-                        res.send({success:1,message:"Desole. votre compte n\'a pas ete enregistre"});
-                    }
-                });
-            }else {
-                res.send({success:0,message:"Ce Compte existe deja !"});
-            }
-        });
-});
 
 app.get('/findusers',(req,res)=>{
     //console.log("req query "+JSON.stringify(req.query));
-        let options={};
-        if(req.query.valueToSearch === "")
-            options={};
-        else
-            options= {
-                queries:{
-                    $or:[
-                        {name : req.query.valueToSearch},
-                        {surname : req.query.valueToSearch},
-                        {pseudo : req.query.valueToSearch},
-                        {email : req.query.valueToSearch}
-                    ]
-                }
-
-            };
-
-        getDocuments('users',options,(err,docs)=>{
-            assert.equal(null, err);
-            res.send({success:1,message:"Ce Compte existe deja !",'users':docs});
-        });
-});
-
-app.post('/passwordRecovery', (req, res) => {
-
-    var response={};
-    let options = {
-        queries: {
-            [req.body.phoneoremail]: req.body[req.body.phoneoremail]
-        }
-    };
-    function codeGenerator(){
-        let code = "";
-        for(let i=1;i<=4;i++){
-            code.concat(""+Math.floor(Math.random() * 10));
-        }
-        return code;
-    }
-    getDocuments('users', options, (err, docs) => {
-        console.log("err: " + err)
-        let codeGenerator=()=>{
-            let code = new String();
-            for(let i=1;i<=4;i++){
-              code=code+Math.floor(Math.random() * 10).toString();
+    let options={};
+    if(req.query.valueToSearch === "")
+        options={};
+    else
+        options= {
+            queries:{
+                $or:[
+                    {name : req.query.valueToSearch},
+                    {surname : req.query.valueToSearch},
+                    {pseudo : req.query.valueToSearch},
+                    {email : req.query.valueToSearch}
+                ]
             }
-            return code;
+
         };
-        if (docs.length >= 1) {
-            console.log(docs);
-            let code = codeGenerator();
-            console.log("code : "+code);
-            let updateParams={
-                filter:{
-                    [req.body.phoneoremail]: req.body[req.body.phoneoremail]
-                },
-                update:{
-                    $set:{passwordresetcode: code}
-                },
-                options:{
-                    upsert:false
-                }
-            };
 
-           // sendEmail("cyrilledassie@gmail.com","password-recovery",code);
-
-            updateOne("users",updateParams,(err,result)=>{
-                if(err) {
-                    throw err;
-                } else{
-                    console.log(err);
-                }
-            });
-            response={success:1,message:"un code vous a ete envoye !"};
-        }
-        else {
-            response={success:0,message:"Compte Introuvable!. Verifiez vos parametres SVP."};
-        }
-        res.send(response);
+    getDocuments('users',options,(err,docs)=>{
+        assert.equal(null, err);
+        res.send({success:1,message:"Ce Compte existe deja !",'users':docs});
     });
 });
 
-app.post('/passwordRecoveryCode', (req,res)=>{
-    console.log(req.body);
-    let options = {
-        queries: {
-            [req.body.phoneoremail]: req.body[req.body.phoneoremail],
-            passwordresetcode:req.body.code
-        }
-    };
-    findOneDocument('users',options, (err,doc)=>{
-        console.log("document");
-        console.log(JSON.stringify(doc));
-        if(doc === null){
-            res.send({success:0,message:"Code incorrect. Vérifiez et reéssayez SVP!."})
-        }else {
-            res.send({success:1,message:"Code vérifié"})
-        }
-    });
-});
-
-app.post('/passwordReset', (req, res) => {
-    console.log(req.body);
-
-    let updateParams={
-        filter:{
-            [req.body.contactoremail]: req.body[req.body.contactoremail],
-            passwordresetcode:req.body.code
-        },
-        update:{
-            $set:{
-                password:req.body.newpassword
-            }
-        },
-        options:{
-            upsert:false
-        }
-    };
-    updateOne('users',updateParams,(err,result)=>{
-        let response={};
-        if(err) {
-            response ={success:0,message:"Mise a jour non effectuee"};
-            throw err;
-        } else{
-            response ={success:1,message:"Mise a jour effectuee avec succes !"};
-            console.log(err);
-        }
-        res.send(response);
-    });
-});
-
-app.post('/authentication', function (req, res) {
-    let options = {
-        queries: {
-            pseudo: req.body.pseudo,
-            password:req.body.password
-        }
-    };
-    findOneDocument('users',options, (err,doc)=>{
-        if(doc === null){
-            res.send({success:0,message:"Login incorrect. Vérifiez et reéssayez SVP!."});
-        }else {
-            console.log(doc);
-            let token=generateToken({pseudo:doc.pseudo, admin:false});
-            console.log('token : '+token);
-            console.log("verify "+jwt.verify(token,"fakekey"));
-            res.send({success:1,message:"Code vérifié",token:token,verify:jwt.verify(token,"fakekey")});
-        }
-    });
-});
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
