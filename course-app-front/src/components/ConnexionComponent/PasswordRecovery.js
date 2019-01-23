@@ -32,19 +32,28 @@ class FirstStep extends Component {
             dataToSend:{}
         }
     }
+
     handleChange(e){
-        console.log('handle change', e.target.value);
         switch (e.target.name){
             case "email":
                 this.setState({
-                contactoremail:"email",
-                email:e.target.value
+                    contactoremail:"email",
+                    email:e.target.value,
+                    dataToSend:{
+                        contactoremail:"email",
+                        email:e.target.value
+                    }
+
             });
             break;
             case "contact":
                 this.setState({
-                contactoremail:"contact",
-                contact:e.target.value
+                    contactoremail:"contact",
+                    contact:e.target.value,
+                    dataToSend:{
+                        contactoremail:"contact",
+                        conctact:e.target.value
+                    }
             });
             break;
             default : break;
@@ -66,6 +75,7 @@ class FirstStep extends Component {
             default : break;
         }
     }
+
     handleClick(){
         let err=0;
         switch (this.state.contactoremail) {
@@ -77,6 +87,7 @@ class FirstStep extends Component {
                             email:this.state.email
                         }
                     });
+                    console.log(this.state.dataToSend);
 
                 }else{
                     err=1;
@@ -91,6 +102,8 @@ class FirstStep extends Component {
                             contact:this.state.contact
                         }
                     });
+
+                    console.log(this.state.dataToSend);
                 }else {
                     err=1;
                     alert("Veuillez Saisir Un Numero Valide")
@@ -114,18 +127,19 @@ class FirstStep extends Component {
                     });
         }
     }
+
     render() {
         return (
             <div className={"pass-recov-setp-one-block"}>
                 <div className={"pass-recov-step-one-header " + this.state.contactoremail}>
                     <div onClick={(e)=>this.setState({contactoremail : "email"})}> EMail </div>
-                    <div  onClick={(e)=>this.setState({contactoremail : "contact"})}>  Telephone </div>
+                    <div onClick={(e)=>this.setState({contactoremail : "contact"})}>  Telephone </div>
                 </div>
                 <div className={"pass-recov-step-one-content"}>
                     {this.contactoremail()}
                 </div>
                 <div className={"pass-recov-step-one-footer"}>
-                    <button className={"pass-recov-button"} onClick={(e)=>this.handleClick(e)}> Suivant</button>
+                    <button className={"pass-recov-button"} onClick={()=>this.handleClick()}> Suivant</button>
                 </div>
             </div>
         );

@@ -180,7 +180,6 @@ app.get('/findusers',(req,res)=>{
             }
 
         };
-
     getDocuments('users',options,(err,docs)=>{
         assert.equal(null, err);
         res.send({success:1,message:"Ce Compte existe deja !",'users':docs});

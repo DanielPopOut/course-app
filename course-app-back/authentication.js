@@ -91,7 +91,7 @@ router.post('/passwordRecovery', (req, res) => {
     let response = {};
     let options = {
         queries: {
-            [req.body.phoneoremail]: req.body[req.body.phoneoremail],
+            [req.body.contactoremail]: req.body[req.body.contactoremail],
         },
     };
 
@@ -110,7 +110,7 @@ router.post('/passwordRecovery', (req, res) => {
             console.log('code : ' + code);
             let updateParams = {
                 filter: {
-                    [req.body.phoneoremail]: req.body[req.body.phoneoremail],
+                    [req.body.contactoremail]: req.body[req.body.contactoremail],
                 },
                 update: {
                     $set: {passwordresetcode: code},
@@ -130,7 +130,7 @@ router.post('/passwordRecovery', (req, res) => {
                 }
             });
             response = {success: 1, message: 'un code vous a ete envoye !'};
-            MailingFunctions.sendEmail(req.body.phoneoremail,
+            MailingFunctions.sendEmail(req.body[req.body.contactoremail],
                 'Reinitialisation de votre mot de passe AlphaM',
                 'Le code pour réinitialiser votre mot de passe est ' + code);
         }
@@ -145,7 +145,7 @@ router.post('/passwordRecoveryCode', (req, res) => {
     console.log(req.body);
     let options = {
         queries: {
-            [req.body.phoneoremail]: req.body[req.body.phoneoremail],
+            [req.body.contactoremail]: req.body[req.body.contactoremail],
             passwordresetcode: req.body.code,
         },
     };
