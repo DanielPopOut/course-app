@@ -14,14 +14,34 @@ import {
     chaptersModel, coursesModel, levelsModel, sectionsModel,
     syllabusesModel,
 } from './components/DataManagerComponent/DataModelsComponent';
+import {getToken, userLogged$ } from './server/axiosInstance';
 
 
 class App extends Component {
     constructor(props) {
         super(props);
+        userLogged$.subscribe(bool => {this.handleUserLogin(bool)});
         this.state = {
             menuOpen: false,
+            loggedIn: false,
+            decodedToken: '',
         };
+    }
+
+    handleUserLogin(bool){
+        this.setState({loggedIn: bool})
+        if (bool){
+            this.setDecodedToken();
+        }
+    }
+
+    setDecodedToken() {
+        let token = getToken();
+        if (!getToken() || getToken().length < 1) return;
+        console.log(JSON.parse(window.atob(token.split('.')[1])));
+        this.setState({
+            decodedToken: JSON.parse(window.atob(token.split('.')[1])),
+        });
     }
 
     openMenu() {
@@ -43,7 +63,7 @@ class App extends Component {
                           }}>
                         {/*<FontAwesomeIcon icon='list' style={{margin: '0 30px'}}/>*/}
                     </span>
-                    <NavBar className='lg-only'/>
+                    <NavBar className='lg-only' loggedIn={this.state.loggedIn} decodedToken={this.state.decodedToken}/>
                 </nav>
                 <aside className={this.state.menuOpen ? 'menu-open' : 'menu-closed'}>
 
@@ -62,8 +82,8 @@ class App extends Component {
 
                     {/*<DataManagerPage {...coursesModel} />*/}
                     {/*<DataManagerPage {...chaptersModel}/>*/}
-                    {/*<DataManagerPage {...sectionsModel}/>*/}
-                    {/*<DataManagerPage {...levelsModel}/>*/}
+                    <DataManagerPage {...sectionsModel}/>
+                    <DataManagerPage {...levelsModel}/>
 
                 </main>
                 <footer>

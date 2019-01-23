@@ -66,13 +66,13 @@ class DataManagerPage extends Component {
     }
     updateElementInDataBase(element) {
         return ServerService.postToServer('api/update', {collection: this.props.collection, data: element}).then(response => {
-            console.log('updateresult', response)
+            console.log('updateresult', response);
             return response.status === 200 ? this.updateElement(element) :false;
         });
     }
     deleteElementInDataBase(element) {
         return ServerService.postToServer('api/delete', {collection: this.props.collection, data: element}).then(response => {
-            console.log('delete result', response)
+            console.log('delete result', response);
             return response.status === 200 ? this.deleteElement(element) :false;
 
         });
@@ -132,7 +132,7 @@ class DataManagerPage extends Component {
                 fields={this.props.fields ? this.props.fields.map(x=> x.name) : null}
                 dataToShow={this.state.dataToShow}
                 updateElement={elementToUpdate => this.updateElementInDataBase(elementToUpdate)}
-                deleteElement={elementToUpdate => this.deleteElement(elementToUpdate)}
+                deleteElement={elementToUpdate => this.deleteElementInDataBase(elementToUpdate)}
             />
         </div>;
     }

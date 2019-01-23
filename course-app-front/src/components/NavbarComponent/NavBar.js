@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Redirect from 'react-router/es/Redirect';
 import './NavBar.css';
 
+
 export default class NavBar extends Component {
     tableauNavbar = [
         {title: 'AlphaM', redirectionAddress: '/welcome'},
@@ -10,6 +11,14 @@ export default class NavBar extends Component {
         // {title: 'Contacts', redirectionAddress: '/contacts'},
         // {title: 'Users', redirectionAddress: '/users'},
         {title: 'Connexion', redirectionAddress: '/connexion'},
+    ];
+    loggedInTableauNavbar = [
+        {title: 'AlphaM', redirectionAddress: '/welcome'},
+        {title: 'Departements', redirectionAddress: '/departments'},
+        {title: 'Cours', redirectionAddress: '/courses'},
+        {title: 'Contacts', redirectionAddress: '/contacts'},
+        {title: 'Users', redirectionAddress: '/users'},
+        {title: 'Deconnexion', redirectionAddress: '/connexion', content: 'decodedToken'},
     ];
 
     constructor(props) {
@@ -35,13 +44,14 @@ export default class NavBar extends Component {
     }
 
     render() {
+        let tableauToUse = this.props.loggedIn ?  this.loggedInTableauNavbar : this.tableauNavbar;
         return (
             this.state.redirectionAddress ? this.checkRedirection() :
                 <div className='lg-only full-width'>
                     <div className={' navbar-component '} style={{width: '100%', display: 'flex'}}>
-                        {this.tableauNavbar.map(x =>
+                        {tableauToUse.map(x =>
                             <div key={x.title} onClick={() => this.setRedirection(x.redirectionAddress)}>
-                                {x.title}
+                                {x.title + JSON.stringify(this.props[x.content])}
                             </div>)
                         }
                     </div>
