@@ -3,7 +3,20 @@ import Redirect from 'react-router/es/Redirect';
 import './NavBar.css';
 import { Link } from 'react-router-dom';
 
+class Connexion extends Component{
+    display(){
+        return(
+            <div>
 
+                {"Connexion"}
+                </div>
+        )
+    }
+    render(){
+        return(this.display());
+    }
+
+}
 export default class NavBar extends Component {
     tableauNavbar = [
         {title: 'AlphaM', redirectionAddress: '/welcome'},
@@ -31,15 +44,27 @@ export default class NavBar extends Component {
     render() {
         let tableauToUse = this.props.loggedIn ?  this.loggedInTableauNavbar : this.tableauNavbar;
         return (
-                <div className='lg-only full-width'>
-                    <div className={' navbar-component '} style={{width: '100%', display: 'flex'}}>
-                        {tableauToUse.map(x =>
-                            <div key={x.title} >
-                                <Link to={x.redirectionAddress} style={{color: 'white'}}> {x.title + (x.content ? JSON.stringify(this.props[x.content]) : '')}</Link>
-                            </div>)
-                        }
-                    </div>
+            <div className={' navbar-component lg-only full-width'}>
+                <div className={'nav-brand'}>
+
                 </div>
+                <div className={'navbar-items-block'}>
+                    {tableauToUse.map(x =>
+                        <div key={x.title} className={'navbar-item-div'}>
+                            <Link
+                                to={x.redirectionAddress}
+                                className={'navbar-item-link'}
+                            >
+                                {x.title + (x.content ? JSON.stringify(this.props[x.content]) : '')}
+                            </Link>
+                        </div>)
+                    }
+                </div>
+                <div className={'navbar-right-side'}>
+                    <Connexion/>
+                </div>
+            </div>
+
         );
     }
 }

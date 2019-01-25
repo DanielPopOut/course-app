@@ -67,7 +67,6 @@ export class RadiosHelper extends Component {
     }
 }
 
-
 export class RadioHelper extends Component {
     render() {
         return (
@@ -78,7 +77,6 @@ export class RadioHelper extends Component {
         );
     }
 }
-
 
 export class TextareaHelper extends Component {
 
@@ -91,6 +89,7 @@ export class TextareaHelper extends Component {
                     className={"form-helper-textarea"}
                     name={this.props.params.name}
                     onChange={this.props.onChange}
+                    value={this.props.params.value}
                 >
                 </textarea>
             </div>

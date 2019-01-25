@@ -32,8 +32,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/crudOperations', cruds);
-app.use('/authentication', authentication);
+
 
 app.get('/sendMail', (req,res)=>{
     console.log('hmmmm');
@@ -183,5 +182,12 @@ app.get('/findusers',(req,res)=>{
 });
 
 
+app.post('/*', (req,res,next)=>{
+    console.log(req);
+    console.log('voiciiiiii')
+    next()
+})
+app.use('/authentication', authentication);
+app.use('/crudOperations', cruds);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
