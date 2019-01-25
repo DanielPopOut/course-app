@@ -21,7 +21,7 @@
     width: 100%;
 }
 .users-interface-list-block-header{
-    display: table-header-group;
+
     display: table-header-group;
     background-color: #e1e2ec;
     font-family: fantasy;
@@ -43,7 +43,6 @@
 .user-list-single-block:nth-of-type(odd){
     display: table-row;
     background-color: #e5e6d8;
-
 }
 .user-list-single-block>div{
     display: table-cell;
@@ -54,7 +53,6 @@
     border-bottom: solid thin blue;
     box-shadow: 1px 1px 3px;
     transform: scale(1.02);
-
 }
 
 .user-search-new-div{
@@ -62,9 +60,8 @@
     align-items: center;
     justify-content: space-between;
     margin: 20px 0px;
-
 }
-.input-user-search{
+.search-input{
     border: none;
     max-height: 100%;
     margin: 0;

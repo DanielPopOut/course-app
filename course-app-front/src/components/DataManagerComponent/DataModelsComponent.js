@@ -7,7 +7,7 @@
 *
 * */
 
-export const UsersModel={
+export const usersModel={
     collection:"users",
     title: 'users',
     fields:[

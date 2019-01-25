@@ -191,7 +191,7 @@ router.post('/passwordReset', (req, res) => {
 });
 
 
-router.post('/', function (req, res) {
+router.post('/login', function (req, res) {
     let options = {
         queries: {
             pseudo: req.body.pseudo,

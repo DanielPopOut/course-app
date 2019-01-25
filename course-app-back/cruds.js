@@ -48,7 +48,7 @@ const deleteOneDocumentById = function (collection, documentToDelete, callback) 
         console.log('connected successfully to server');
         db = client.db(dbName);
         db.collection(collection)
-          .deleteOne(ObjectID(documentToDelete._id), function (err, result) {
+          .deleteOne({_id: ObjectID(documentToDelete._id)}, function (err, result) {
               assert.equal(err, null);
               callback(result);
           });

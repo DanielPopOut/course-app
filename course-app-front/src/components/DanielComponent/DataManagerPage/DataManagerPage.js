@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import ModalComponent from '../Modal/ModalComponent';
-import { UsersModel } from '../../DataManagerComponent/DataModelsComponent';
+import { usersModel } from '../../DataManagerComponent/DataModelsComponent';
 import { ServerService } from '../../../server/ServerService';
 import DataArrayComponent from '../DataArray/DataArrayComponent';
 import BasicFormCreatorComponent from '../FormCreator/BasicFormCreatorComponent';
+import {ButtonHelper} from "../../HelperComponent/FormHelper";
 
 class DataManagerPage extends Component {
     //Prend un objet dataModel qui représente le formulaire à créer
@@ -12,38 +13,17 @@ class DataManagerPage extends Component {
     constructor(props) {
         super(props);
         // let dataModel = UserModel;
-        let dataToSendModel = UsersModel.fields;
+        let dataToSendModel = usersModel.fields;
         let dataToShow = this.props.dataToShow;
         if(!props.dataToShow){
             this.retrieveDataOnServer();
         }
         this.state = {
-            dataModel: UsersModel,
+            dataModel: usersModel,
             dataToSend: Object.assign({}, dataToSendModel),
             dataToSendModel: dataToSendModel,
             modalVisibility: false,
-            dataToShow: [{_id: '1', name: 'banan'}, {_id: '2', name: 'banan'}, {_id: '3', name: 'banan'},
-                {
-                    _id: 4,
-                    name: 'banan',
-                },
-                {
-                    _id: 5,
-                    title: 'amigoAZERTYUIOPQSDFGHJKLMWXCVBN',
-                    title1: 'amigo',
-                    title2: 'amigo',
-                    title3: 'amigo',
-                },
-                {
-                    _id: 6,
-                    'name': 'Daniel',
-                    'surname': 'TCHANGANG',
-                    'address': '1341',
-                    'contacts': 'NFOEANo ',
-                    'email': 'ANIEOAN',
-                    'pseudo': 'NDA',
-                    'password': 'daniel1995',
-                }],
+            dataToShow: [],
         };
     }
 
@@ -51,31 +31,36 @@ class DataManagerPage extends Component {
         if(!this.props.collection){
             return ;
         }
-        ServerService.postToServer('api/get', {collection: this.props.collection}).then(response => {
+        ServerService.postToServer('crudOperations/get', {collection: this.props.collection}).then(response => {
             console.log(response);
             this.setState({dataToShow: response.data})
         });
     }
 
     insertElementInDataBase(element) {
-        ServerService.postToServer('api/insert', {collection: this.props.collection, data: element}).then(response => {
+        ServerService.postToServer('crudOperations/insert', {collection: this.props.collection, data: element}).then(response => {
             if (response.status === 200) {
                 this.addElementToList(Object.assign(element, {_id: response.data}))
             }
         });
     }
     updateElementInDataBase(element) {
-        return ServerService.postToServer('api/update', {collection: this.props.collection, data: element}).then(response => {
+        return ServerService.postToServer('crudOperations/update', {collection: this.props.collection, data: element}).then(response => {
             console.log('updateresult', response);
             return response.status === 200 ? this.updateElement(element) :false;
         });
     }
     deleteElementInDataBase(element) {
-        return ServerService.postToServer('api/delete', {collection: this.props.collection, data: element}).then(response => {
-            console.log('delete result', response);
-            return response.status === 200 ? this.deleteElement(element) :false;
+        console.log('you are trying to delete this.' +
+            {collection: this.props.collection, data: element} );
+        return(
+            ServerService.postToServer('crudOperations/delete', {collection: this.props.collection, data: element})
+            .then(response => {
+                console.log('delete result', response);
+                return response.status === 200 ? this.deleteElement(element) :false;
 
-        });
+            })
+        );
     }
 
     addElementToList(element) {
@@ -111,21 +96,24 @@ class DataManagerPage extends Component {
     }
 
     render() {
-        return <div style={{padding: '80px', marginBottom: '100px'}}>
+        return <div style={{marginBottom: '100px'}}>
             <div className='flex-container flex-center'>
                 <span style={{fontSize: '30px', fontWeight: '800'}}>{this.props.collection} </span>
-                <button
-                    onClick={() => this.setState({modalVisibility: true})}>New
-                </button>
+                <ButtonHelper
+                    params={{value:'NEW',className :'form-helper-button warning'}}
+                    onClick={() => this.setState({modalVisibility: true})}/>
             </div>
-            {/*{this.createForm()}*/}
-            <ModalComponent visible={this.state.modalVisibility}
-                            onClose={() => this.setState({modalVisibility: false})}>
-                <BasicFormCreatorComponent
-                    dataModel={this.props.fields}
-                    onValidate={element => this.insertElementInDataBase(element)}
-                />
-            </ModalComponent>
+
+            <ModalComponent
+                visible={this.state.modalVisibility}
+                onClose={() => this.setState({modalVisibility: false})}
+                children={
+                    <BasicFormCreatorComponent
+                                dataModel={this.props.fields}
+                                onValidate={element => this.insertElementInDataBase(element)}
+                    />}
+           />
+
             <DataArrayComponent
                 title={this.props.collection }
                 dataModel={this.props.fields}

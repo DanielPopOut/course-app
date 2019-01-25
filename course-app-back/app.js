@@ -1,5 +1,4 @@
 // import { getDocuments, insertOneDocument } from './basicDBFunction';
-
 // import { getDocuments, insertOneDocument } from './basicDBFunction';
 let BDFunctions=require('./basicDBFunction');
 let MailingFunctions=require('./mail');
@@ -10,16 +9,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongo = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
-const endpoints = require('./endpoints');
+const cruds = require('./cruds');
 const authentication = require('./authentication');
-
 
 const DB_URL = 'mongodb://localhost:27017/';
 const dbName = 'alpham';//'courseAppDB';
 const assert = require('assert');
 const client = new MongoClient(DB_URL);
-
-
 
 app.use(cors());
 // parse application/x-www-form-urlencoded
@@ -36,7 +32,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/api', endpoints);
+app.use('/crudOperations', cruds);
 app.use('/authentication', authentication);
 
 app.get('/sendMail', (req,res)=>{

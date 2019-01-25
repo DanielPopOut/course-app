@@ -15,6 +15,16 @@ export const validatePhoneNumber = function (phonenumber) {
         return false;
     }
 };
+export const loadDataIntoModel=(datamodel,data)=>{
+    let fields=[];
+    console.log(datamodel);
+    datamodel.fields.forEach((row,index)=>{
+       fields.push(Object.assign({},row,{value:data[row.name]}));
+    });
+    datamodel=Object.assign({},datamodel,{fields:fields});
+    console.log(datamodel);
+    return datamodel;
+};
 
 export const validatePassword = (password)=>{
    /*

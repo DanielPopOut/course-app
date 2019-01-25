@@ -1,0 +1,27 @@
+.element-view-block{
+    color: #030117;
+    border: solid 2px ghostwhite;
+    border-radius: 5px;
+    font-size: medium;
+    font-style: oblique;
+    font-weight: 500;
+}
+.element-view-row{
+    padding: 2px;
+    display: table-row;
+}
+.element-view-row:hover{
+    transform:scale(1.02);
+    color: red;
+
+}
+.element-view-row:nth-of-type(odd){
+    background-color: #f6fdf7;
+}
+.element-view-row-label{
+    background-color: #edf3ee;
+}.element-view-row-label,.element-view-row-value{
+    display: table-cell;
+    border-bottom: solid 1px #d8ded9;
+    padding: 2px;
+}

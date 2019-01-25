@@ -1,7 +1,7 @@
 export const COURSE_PATH = 'course';
 export const AUTHENTICATION = 'authentication/login';
 export const FILTER = 'filter';
-export const REGISTRATIONS_PATH = 'insertDocument/';
+export const REGISTRATIONS_PATH = 'api/insert/';
 export const LISTS_PATH = 'getDocuments/';
 export const PASSWORD_RECOVERY_PATH= 'authentication/passwordRecovery/';
 export const PASSWORD_RECOVERY_CODE_PATH= 'authentication/passwordRecoveryCode/';

@@ -193,7 +193,7 @@ export class FormHelper extends Component {
     {
         super(props);
         this.state={
-            collectionName:this.props.data.dataModel,
+            collectionName:this.props.data.collection||'',
             dataToSend:{}
         };
     }

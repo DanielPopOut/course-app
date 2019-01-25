@@ -10,7 +10,7 @@ import ConnexionComponent from './components/ConnexionComponent/ConnexionCompone
 import ContactsComponent from './components/ContactsComponent/ContactsComponent';
 import Users from './components/UsersComponent/Users';
 import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
-import {
+import {usersModel,
     chaptersModel, coursesModel, levelsModel, sectionsModel,
     syllabusesModel,
 } from './components/DataManagerComponent/DataModelsComponent';
@@ -37,6 +37,7 @@ class App extends Component {
 
     setDecodedToken() {
         let token = getToken();
+        console.log("here my token : "+token);
         if (!getToken() || getToken().length < 1) return;
         console.log(JSON.parse(window.atob(token.split('.')[1])));
         this.setState({
@@ -77,7 +78,7 @@ class App extends Component {
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
-                    <Route path='/daniel' render={(props) => <DataManagerPage {...props} collection='users'/>}/>
+                    <Route path='/daniel' render={(props) => <DataManagerPage {...usersModel}/>}/>
 
 
                     {/*<DataManagerPage {...coursesModel} />*/}
