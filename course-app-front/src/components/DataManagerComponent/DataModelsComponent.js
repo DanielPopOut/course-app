@@ -58,7 +58,7 @@ export const coursesModel={
     collection:"courses",
     fields:[
         { name:"title",type:'text',placeholder:'Titre du Cours',label:'Titre'},
-        { name:"description",type:'text',placeholder:'Description du cours',label:'Description'},
+        { name:"description",type:'textarea',placeholder:'Description du cours',label:'Description'},
         { name:"levels_id",type:'text',placeholder:'Niveaux',label:'Niveaux'},
         { name:"modules_id",type:'text',placeholder:'Modules',label:'Modules'},
         { name:"submodules_id",type:'text',placeholder:'Sous Modules',label:'Sous Modules'},

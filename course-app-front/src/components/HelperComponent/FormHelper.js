@@ -161,8 +161,8 @@ export class ListFromModelHelper extends Component {
         this.props.onChange(this.state.dataToSend);
     }
     componentDidMount(){
-        console.log(this.props.params);
-        console.log("list from "+this.props.params.targetedModel.dataModel + " Mounted");
+       /* console.log(this.props.params);
+        console.log("list from "+this.props.params.targetedModel.dataModel + " Mounted");*/
         this.props.onChange(this.state.dataToSend);
     }
 
@@ -251,6 +251,46 @@ export class FormHelper extends Component {
             </form>
             </div>
         );
+    }
+}
+
+
+export class InputHelper extends Component {
+    constructor(props)
+    {
+        super(props);
+    }
+    renderfield(params){
+        let onChangeCallBack=(e)=>{this.props.onChange(e)};
+        let options = this.props.options || {};
+        switch (params.type) {
+            case 'text':
+            case 'email':
+            case 'number':
+            case 'password': {
+                return (
+                    <InputTextHelper  options={options} params={params} onChange={onChangeCallBack} />);
+            }
+                break;
+            case 'button': {
+                return (<ButtonHelper options={options} params={params} onChange={onChangeCallBack} />);
+            }
+                break;
+            case 'select': {
+                return (<SelectHelper  options={options} params={params} onChange={onChangeCallBack} />);
+            }
+            case 'listfrommodel': {
+                return (<ListFromModelHelper  options={options} params={params} onChange={onChangeCallBack} />);
+            }
+                break;
+            case 'textarea': {
+                return (<TextareaHelper options={options} params={params} onChange={onChangeCallBack} />);
+            }
+                break;
+        }
+    }
+    render() {
+        return ( this.renderfield(this.props.params) );
     }
 }
 

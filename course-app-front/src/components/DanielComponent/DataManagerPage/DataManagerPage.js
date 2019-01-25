@@ -58,7 +58,6 @@ class DataManagerPage extends Component {
             .then(response => {
                 console.log('delete result', response);
                 return response.status === 200 ? this.deleteElement(element) :false;
-
             })
         );
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './BasicFormCreatorComponent.css'
-import {ButtonHelper, FormFieldsHelper, InputTextHelper} from "../../HelperComponent/FormHelper";
+import {ButtonHelper, FormFieldsHelper, InputHelper, InputTextHelper} from "../../HelperComponent/FormHelper";
 import FormHelper from "../../HelperComponent/FormHelper";
 
 class BasicFormCreatorComponent extends Component {
@@ -42,7 +42,7 @@ class BasicFormCreatorComponent extends Component {
                 value: this.state.dataToSend[dataModelElement.name] || ''
             };
             return <div className='label-input-div' key={dataModelElement.name}>
-                <InputTextHelper params={inputparams} onChange={e => this.modifyData(e)}/>
+                <InputHelper params={inputparams} onChange={e => this.modifyData(e)}/>
             </div>;
         });
     }
