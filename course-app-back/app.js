@@ -181,12 +181,11 @@ app.get('/findusers',(req,res)=>{
     });
 });
 
-
 app.post('/*', (req,res,next)=>{
     console.log(req);
-    console.log('voiciiiiii')
+    console.log('voiciiiiii');
     next()
-})
+});
 app.use('/authentication', authentication);
 app.use('/crudOperations', cruds);
 

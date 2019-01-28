@@ -204,8 +204,10 @@ export class FormHelper extends Component {
     handleClick(e){
         let registration_path = this.props.registration_path || REGISTRATIONS_PATH+this.state.collectionName;
         ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
-            console.log(response.data);
-           alert(response.data.message);
+            alert("suiguiente !!");
+            if(response.status!==200){
+                alert(response.data.text);
+            }
         });
     }
     render() {

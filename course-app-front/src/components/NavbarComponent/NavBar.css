@@ -54,12 +54,18 @@ nav {
     justify-content: center;
 }
 .navbar-item-div:hover{
-    background-color: transparent;
-    color: black;
+    background-color: #343775;
+    color: #fdfff2;
 }
 .navbar-item-link{
     color: inherit;
     text-decoration-line: none;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center
 }
 .navbar-right-side{
     flex: 1;
@@ -68,3 +74,7 @@ nav {
 .navbar-item-div.selected {
     color : var(--secondary-color)
 }
+
+
+
+

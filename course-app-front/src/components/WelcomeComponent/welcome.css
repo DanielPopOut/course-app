@@ -6,11 +6,6 @@
     text-shadow: 2px 4px blanchedalmond;
 }
 
-.w_image>img{
-    height: 200px;
-    width: 250px;
-}
-
 .welc_slogan{
     font-size: 39px;
     color: #51420e;
@@ -20,17 +15,12 @@
 }
 
 .welcome{
-    margin-top: 20px;
     background-image: url("img/photobg.png");
     height: 75%;
     background-repeat: no-repeat;
     background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-}
-.welcome-gallery-block{
-    display: flex;
-    width: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+
 }

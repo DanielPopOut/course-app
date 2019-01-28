@@ -24,7 +24,9 @@ const USER_DB_NAME = 'users';
 const generateToken = function (user) {
 
     let payload = {
-        name: user.pseudo,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
         admin: user.admin,
     };
     let secret = 'fakekey';
@@ -56,33 +58,33 @@ router.get('/validate/:id', (req, res) => {
 
 router.post('/newuser', (req, res) => {
     if (!req.body.email || !req.body.password) {
-        res.status(400).json({text: 'data required not filled'});
+        res.status(403).json({text: 'data required not filled'});
+    }else{
+        let options = {
+            queries: {
+                $or: [
+                    {email: req.body.email.toLowerCase()},
+                    {pseudo: req.body.pseudo},
+                ],
+            },
+        };
+        let userExist = false;
+        BDFunctions.getDocuments(USER_DB_NAME, options, (err, docs) => {
+            if (docs.length === 0) {
+                BDFunctions.insertOneDocument('users', req.body, (result) => {
+                    let success = JSON.stringify(result);
+                    if (success === '{"n":1,"ok":1}') {
+                        MailingFunctions.sendEmail(req.body.email, 'Bienvenue chez AlphaM', 'Cliquez sur ce lien pour confirmer votre compte :  http://localhost:7221/authentication/validate/' + result.insertedId);
+                        res.status(200).json({text: 'Compte enregistre. veuillez confirmer via votre adresse mail'});
+                    } else {
+                        res.status(200).json({text: 'Desole. votre compte n\'a pas ete enregistre'});
+                    }
+                });
+            } else {
+                res.status(403).json({text: 'Ce Compte existe deja !'});
+            }
+        });
     }
-    let options = {
-        queries: {
-            $or: [
-                {email: req.body.email.toLowerCase()},
-                {pseudo: req.body.pseudo},
-            ],
-        },
-    };
-
-    let userExist = false;
-    BDFunctions.getDocuments(USER_DB_NAME, options, (err, docs) => {
-        if (docs.length === 0) {
-            BDFunctions.insertOneDocument('users', req.body, (result) => {
-                let success = JSON.stringify(result);
-                if (success === '{"n":1,"ok":1}') {
-                    MailingFunctions.sendEmail(req.body.email, 'Bienvenue chez AlphaM', 'Cliquez sur ce lien pour confirmer votre compte :  http://localhost:7221/authentication/validate/' + result.insertedId);
-                    res.send({success: 1, message: 'Compte enregistre. veuillez confirmer via votre adresse mail'});
-                } else {
-                    res.send({success: 1, message: 'Desole. votre compte n\'a pas ete enregistre'});
-                }
-            });
-        } else {
-            res.send({success: 0, message: 'Ce Compte existe deja !'});
-        }
-    });
 });
 
 
@@ -200,13 +202,11 @@ router.post('/login', function (req, res) {
     };
     BDFunctions.findOneDocument('users', options, (err, doc) => {
         if (doc === null) {
-            res.send({success: 0, message: 'Login incorrect. Vérifiez et reéssayez SVP!.'});
+            res.status(403).json({text: 'Login Incorrect. Vérifiez vos parametres et reéssayez SVP!.'});
         } else {
             console.log(doc);
-            let token = generateToken({pseudo: doc.pseudo, admin: false});
-            console.log('token : ' + token);
-            console.log('verify ' + jwt.verify(token, 'fakekey'));
-            res.send({success: 1, message: 'Code vérifié', token: token, verify: jwt.verify(token, 'fakekey')});
+            let token = generateToken(doc);
+            res.status(200).json({token: token});
         }
     });
 });

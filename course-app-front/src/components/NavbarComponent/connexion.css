@@ -1,0 +1,55 @@
+.loggin-button{
+    background-color: white;
+    color: black;
+    font-weight: bold;
+ /*   border: solid 2px #4266af;*/
+    border-radius: 5px;
+}
+.loggin-button:hover{
+    background-color: #4266af;
+    color: white;
+    border: solid 2px white;
+    border-radius: 2px;
+}
+.connexion-tooltip{
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+
+}
+.tooltip .tooltip-content{
+    visibility: hidden;
+    background-color: #39336382;
+    color: #f1f1f1;
+    text-align: left;
+    border-radius: 6px;
+    padding: 5px 1px;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    right: 0%;
+
+}
+.tooltip:hover .tooltip-content{
+    visibility: visible;
+}
+.logout-div{
+    height: 100%;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+   display: contents;
+}
+.logout-div:hover{
+    background-color: inherit;
+}
+.logout-button{
+    text-align: center;
+    margin: 2px;
+    background: #3e5d9a;
+    color: white;
+    font-weight: 400;
+    padding: 2px;
+    border-radius: 20px;
+    cursor: pointer;
+}

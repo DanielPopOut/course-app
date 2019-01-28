@@ -14,7 +14,7 @@ class DataManagerPage extends Component {
         super(props);
         // let dataModel = UserModel;
         let dataToSendModel = usersModel.fields;
-        let dataToShow = this.props.dataToShow;
+
         if(!props.dataToShow){
             this.retrieveDataOnServer();
         }

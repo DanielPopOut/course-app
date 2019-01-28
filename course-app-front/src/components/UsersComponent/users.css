@@ -62,10 +62,10 @@
     margin: 20px 0px;
 }
 .search-input{
-    border: none;
+    border: none !important;
     max-height: 100%;
-    margin: 0;
-    padding: 0px 6px;
+    margin: 0 !important;
+    padding: 0px 6px !important;
     border-radius: 4px;
 }
 .input-user-search:focus{

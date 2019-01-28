@@ -124,7 +124,7 @@ class UserInterfaceHeader extends Component{
         let inputsearchparams={
             type:'text',
             name : 'input-user-search',
-            className : " form-helper-input search-input",
+            className : "search-input form-helper-input ",
             placeholder :'Search'
         };
 
