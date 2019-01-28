@@ -4,37 +4,16 @@ import ShowDataComponent from '../ShowDataComponent/ShowDataComponent';
 import FormCreatorComponent from '../FormCreatorComponent/FormCreatorComponent';
 import { ServerService } from '../../server/ServerService';
 import { MODULE_URL } from '../../server/SERVER_CONST';
+import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 
 class DataManagerComponent extends Component {
     //Pros ==> dataModel, title
     constructor(props) {
         super(props);
         this.state = {
-            url: 'NIOA',
+            url: '',
             modalVisibility: false,
-            dataToShow: [{
-                '_id': '5c0aa65c45b3aa560addf31f',
-                'title': 'wwmigo',
-                'module': '',
-                'submodule': 'BUOBOUB',
-                'description': '',
-            },
-                {
-                    '_id': '5c0aa67c028bfa5610500db1',
-                    'title': 'wwmigo',
-                    'module': '',
-                    'submodule': 'BUOBOUB',
-                    'description': '',
-                },
-                {'_id': '5c0aa7b3d20c215646ea3dc9'},
-                {'_id': '5c0aa7df7d0c62564d1aa792'},
-                {
-                    '_id': '5c0aa91f5acd9c567f1fcab2',
-                    'title': 'wwmigo',
-                    'module': '',
-                    'submodule': 'BUOBOUB',
-                    'description': '',
-                }],
+            dataToShow: [],
         };
     }
 
@@ -55,35 +34,32 @@ class DataManagerComponent extends Component {
 
 
     render() {
-        return <div>
-            <h2>{this.props.title}</h2>
 
-            
-            <Modal visible={this.state.modalVisibility} closeModal={()=>this.setState({modalVisibility: false})}>
+        let children=
+            <React.Fragment>
                 <FormCreatorComponent title='Créer nouvelle matière' dataModel={[
                     {name: 'module', type: 'text', placeholder: 'matière', label: 'Matière'},
                 ]}/>
                 <button onClick={()=> this.openModalToAddNewData()}>Ajouter </button>
                 <button onClick={()=> this.retrieveDataAtURL()}>Recupere donnees</button>
                 <ShowDataComponent dataToShow={this.state.dataToShow}/>
-            </Modal>
-            <button onClick={()=>this.setState({modalVisibility: true})}>Afficher Modal</button>
-            <div className='margin-30px'>Eoho</div>
-        </div>;
-    }
-}
+            </React.Fragment>;
+        return(
+            <div>
+                <h2>{this.props.title}</h2>
 
+                <ModalComponent
+                    visible={this.state.modalVisibility}
+                    children={children}
+                    onClose={()=>this.setState({modalVisibility: false})}
+                />
 
-class Modal extends Component {
-    render() {
-            return <div className={'modal ' + (this.props.visible ?  '' : 'display-none')} onClick={()=>this.props.closeModal()}>
-            <div className='modal-box' onClick={e=>e.stopPropagation()}>
-                {this.props.children}
+                <button onClick={()=>this.setState({modalVisibility: true})}>Afficher Modal</button>
+                <div className='margin-30px'>Eoho</div>
             </div>
-
-
-        </div>
+        );
     }
 }
+
 
 export default DataManagerComponent;

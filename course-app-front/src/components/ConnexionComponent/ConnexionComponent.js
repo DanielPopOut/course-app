@@ -5,6 +5,7 @@ import {UsersCreationForm} from "../UsersComponent/Users";
 import  PasswordRecovery  from './PasswordRecovery';
 import {ServerService} from "../../server/ServerService";
 import {AUTHENTICATION} from "../../server/SERVER_CONST";
+import Redirect from "react-router-dom/es/Redirect";
 
 
 class ConnexionComponent extends Component{
@@ -40,11 +41,13 @@ class ConnexionComponent extends Component{
     handleLoginValidate(e){
         if(this.state.dataToSend.pseudo!=='' &&  this.state.dataToSend.password!=='' ){
             ServerService.postToServer(AUTHENTICATION,this.state.dataToSend).then((response)=>{
-                if(response.data.success){
-                    alert(response.data.message);
-                    console.log(response.data);
+                console.log("status"+ response.status);
+                if(response.status==200){
+                   // alert(response.data.message);
+                    //console.log(response.data.text);
+                    return <Redirect to={'/welcome'}/>
                 }else{
-                    alert(response.data.message);
+                    alert(response.data.text);
                 }
             });
         }
@@ -70,11 +73,11 @@ class ConnexionComponent extends Component{
                     <div className={"form-connexion-content"}>
                         <div>
                             <label> Pseudo </label>
-                            <input onChange={(e)=>this.handleChange(e)} type={"text"} name={"pseudo"} placeholder={"Pseudo"}/>
+                            <input onChange={(e)=>this.handleChange(e)} type={"text"} autoComplete={'off'} name={"pseudo"} placeholder={"Pseudo"}/>
                         </div>
                         <div>
                             <label> Mot de Passe </label>
-                            <input onChange={(e)=>this.handleChange(e)} type={"password"} name={"password"} placeholder={"Mot de Passe"}/>
+                            <input onChange={(e)=>this.handleChange(e)} type={"password"}autoComplete={"off"} name={"password"} placeholder={"Mot de Passe"}/>
                         </div>
                         <div>
                             <div> <button type={"button"} onClick={(e)=>{this.handleLoginValidate(e)}} className={"login-button-validate"}> Se Connecter </button></div>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './BasicFormCreatorComponent.css'
+import {ButtonHelper, FormFieldsHelper, InputHelper, InputTextHelper} from "../../HelperComponent/FormHelper";
+import FormHelper from "../../HelperComponent/FormHelper";
 
 class BasicFormCreatorComponent extends Component {
     //Prend un objet dataModel qui représente le formulaire à créer
@@ -17,7 +19,7 @@ class BasicFormCreatorComponent extends Component {
     }
 
     onEnterClick(event) {
-        if (event.key === 'Enter') {
+        if (event.name === 'Save') {
             this.onValidate()
         }
     }
@@ -30,35 +32,81 @@ class BasicFormCreatorComponent extends Component {
     }
 
     createForm() {
+
         return this.props.dataModel.map(dataModelElement => {
+            let inputparams = {
+                type: dataModelElement.type,
+                label: dataModelElement.label || dataModelElement.name,
+                name: dataModelElement.name,
+                placeholder: dataModelElement.placeholder,
+                value: this.state.dataToSend[dataModelElement.name] || ''
+            };
             return <div className='label-input-div' key={dataModelElement.name}>
-                <label>{dataModelElement.label || dataModelElement.name}</label>
-                <input type={dataModelElement.type}
-                       name={dataModelElement.name}
-                       placeholder={dataModelElement.placeholder}
-                       value={this.state.dataToSend[dataModelElement.name] || ''}
-                       onChange={e => this.modifyData(e)}/>
+                <InputHelper params={inputparams} onChange={e => this.modifyData(e)}/>
             </div>;
         });
     }
-
     onValidate() {
         this.props.onValidate ? this.props.onValidate(this.state.dataToSend) : alert(JSON.stringify(this.state.dataToSend));
     }
+
 
     onReset() {
         this.setState({dataToSend: Object.assign({},this.state.dataToSendModel)});
         console.log(this.state.dataToSend);
     }
+    buttons(){
+
+        let result=
+
+        <React.Fragment>
+            <div className={"hr-button-block"}>
+                {   this.props.onValidate?
+                    <ButtonHelper
+                        onClick={() => this.props.onValidate( this.state.dataToSend)}
+                        params={{
+                            type:'button',
+                            value:'Valider',
+                            className:'form-helper-button success'
+                        }}/>
+                    :''
+                }
+                {   this.props.onDelete?
+                    <ButtonHelper
+                        onClick={() => this.props.onDelete( this.state.dataToSend)}
+                        params={{
+                            type:'button',
+                            value:'Supprimer',
+                            className:'form-helper-button danger'
+                        }}/>
+                    :''
+                }
+                {
+                this.props.onModify?
+                    <ButtonHelper
+                        onClick={() => this.props.onModify( this.state.dataToSend)}
+                        params={{
+                            type:'button',
+                            value:'Modifier',
+                            className:'form-helper-button success'
+                        }}/>
+                    :''
+            }
+            </div>
+        </React.Fragment>;
+
+            return (result);
+
+    }
+
 
     render() {
         // console.log('data to send', this.state.dataToSend)
         return <div onKeyPress={(event) => this.onEnterClick(event)}>
             <h2>{this.props.title}</h2>
             {this.createForm()}
-            <div className='margin-30px flex-container'>
-                <button onClick={() => this.onValidate()}> Validate</button>
-                {/*<button onClick={() => this.onReset()}> Reset</button>*/}
+            <div className='flex-container'>
+                { this.buttons() }
                 {this.props.children}
             </div>
         </div>;

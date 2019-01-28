@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import './coursesection.css';
+import './coursesubsection.css';
+import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
+import {subsectionsModel} from "../DataManagerComponent/DataModelsComponent";
 
-const aSection ={
+const aSubSection ={
     title:"New CourseSubSection Course",
     type:{value:"new section Type"},
     content:"" +
@@ -11,7 +13,7 @@ const aSection ={
     "new section content;"
 };
 
-class SectionContent extends Component{
+class SubSectionContent extends Component{
     render(){
         return(
             <div>
@@ -20,7 +22,7 @@ class SectionContent extends Component{
         );
     }
 }
-class SectionHeader extends Component{
+class SubSectionHeader extends Component{
     render(){
         return(
             <div>
@@ -31,7 +33,7 @@ class SectionHeader extends Component{
     }
 }
 
-class SectionContainer extends Component{
+class SubSectionContainer extends Component{
     render(){
         return(
             <div className={"section-container"}>
@@ -43,9 +45,9 @@ class SectionContainer extends Component{
 }
 
 
-export default class CourseSection extends Component{
+export default class CourseSubSection extends Component{
     render(){
-        return(<SectionContainer section={aSection}/>);
+        return(<DataManagerPage {...subsectionsModel}/>);
     }
 }
 

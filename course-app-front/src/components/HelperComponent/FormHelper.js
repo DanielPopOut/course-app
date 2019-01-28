@@ -67,7 +67,6 @@ export class RadiosHelper extends Component {
     }
 }
 
-
 export class RadioHelper extends Component {
     render() {
         return (
@@ -78,7 +77,6 @@ export class RadioHelper extends Component {
         );
     }
 }
-
 
 export class TextareaHelper extends Component {
 
@@ -91,6 +89,7 @@ export class TextareaHelper extends Component {
                     className={"form-helper-textarea"}
                     name={this.props.params.name}
                     onChange={this.props.onChange}
+                    value={this.props.params.value}
                 >
                 </textarea>
             </div>
@@ -161,8 +160,8 @@ export class ListFromModelHelper extends Component {
         this.props.onChange(this.state.dataToSend);
     }
     componentDidMount(){
-        console.log(this.props.params);
-        console.log("list from "+this.props.params.targetedModel.dataModel + " Mounted");
+       /* console.log(this.props.params);
+        console.log("list from "+this.props.params.targetedModel.dataModel + " Mounted");*/
         this.props.onChange(this.state.dataToSend);
     }
 
@@ -193,7 +192,7 @@ export class FormHelper extends Component {
     {
         super(props);
         this.state={
-            collectionName:this.props.data.dataModel,
+            collectionName:this.props.data.collection||'',
             dataToSend:{}
         };
     }
@@ -205,8 +204,10 @@ export class FormHelper extends Component {
     handleClick(e){
         let registration_path = this.props.registration_path || REGISTRATIONS_PATH+this.state.collectionName;
         ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
-            console.log(response.data);
-           alert(response.data.message);
+            alert("suiguiente !!");
+            if(response.status!==200){
+                alert(response.data.text);
+            }
         });
     }
     render() {
@@ -251,6 +252,46 @@ export class FormHelper extends Component {
             </form>
             </div>
         );
+    }
+}
+
+
+export class InputHelper extends Component {
+    constructor(props)
+    {
+        super(props);
+    }
+    renderfield(params){
+        let onChangeCallBack=(e)=>{this.props.onChange(e)};
+        let options = this.props.options || {};
+        switch (params.type) {
+            case 'text':
+            case 'email':
+            case 'number':
+            case 'password': {
+                return (
+                    <InputTextHelper  options={options} params={params} onChange={onChangeCallBack} />);
+            }
+                break;
+            case 'button': {
+                return (<ButtonHelper options={options} params={params} onChange={onChangeCallBack} />);
+            }
+                break;
+            case 'select': {
+                return (<SelectHelper  options={options} params={params} onChange={onChangeCallBack} />);
+            }
+            case 'listfrommodel': {
+                return (<ListFromModelHelper  options={options} params={params} onChange={onChangeCallBack} />);
+            }
+                break;
+            case 'textarea': {
+                return (<TextareaHelper options={options} params={params} onChange={onChangeCallBack} />);
+            }
+                break;
+        }
+    }
+    render() {
+        return ( this.renderfield(this.props.params) );
     }
 }
 

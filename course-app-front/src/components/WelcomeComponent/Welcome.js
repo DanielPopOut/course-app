@@ -5,34 +5,15 @@ import React, { Component } from 'react';
 import './welcome.css';
 
 
-class Welctext extends Component {
-    render() {
-        return ( <div className='welc_text'>{this.props.text}</div>);
-    }
-}
-
-
-
-class Welcslogan extends Component {
-    render() {
-        return (
-            <div className='welc_slogan'>
-                {this.props.text}
-            </div>
-        );
-    }
-}
-
 class Welcome extends Component {
     render() {
         return (
             <div className='welcome'>
-                <Welctext text='Welcome to AlphaM'/>
-
-                <Welcslogan text='Aprennez en Toute Simplicite !!'/>
-                <div>
-
+                <div className='welc_text'> {'Welcome to AlphaM'}</div>
+                <div className='welc_slogan'>
+                    {'Aprennez en Toute Simplicite !!'}
                 </div>
+
             </div>
         );
     }

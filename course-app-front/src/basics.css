@@ -27,37 +27,6 @@ html, body, #root, .App {
     width: 100%;
 }
 
-aside {
-    height: 100%;
-    margin-top: 45px;
-    max-height: calc(100% - 96px);
-    transform: translateX(0px);
-    width: 300px;
-    position: fixed;
-    z-index: 3;
-    transition: .5s cubic-bezier(.4,0,.2,1);
-    transition-property: transform,width,max-width,-webkit-transform;
-    background-color: var(--third-color);
-}
-
-
-nav {
-    margin-top: 0px;
-    transform: translateY(0px);
-    z-index: 3;
-    position: fixed;
-    width: 100%;
-    height: 40px;
-    /*background-color: var(--main-color);*/
-    background-color: #413f44e0;
-    display: flex;
-    align-items: center;
-    color: white;
-    font-weight: normal;
-}
-.nav-brand{
-
-}
 main {
     color: var(--text-color);
    /* height: 100%;*/

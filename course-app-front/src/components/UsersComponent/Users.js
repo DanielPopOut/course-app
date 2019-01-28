@@ -1,17 +1,21 @@
 import React,{Component} from 'react';
 import './users.css';
-import {UsersModel} from '../DataManagerComponent/DataModelsComponent'
+import {usersModel} from '../DataManagerComponent/DataModelsComponent'
 import FormHelper, {ButtonHelper, InputTextHelper} from '../HelperComponent/FormHelper';
 import {ServerService} from "../../server/ServerService";
 import {LISTS_PATH, USERS_FILTER_PATH} from "../../server/SERVER_CONST";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import {DataViewElement} from "../HelperComponent/DataViewHelper";
+import {loadDataIntoModel} from "../StaticFunctionsComponent/StaticFunctions";
+import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
 
 
 
 export class UsersCreationForm extends Component{
     render(){
-        return(<FormHelper data={UsersModel} options={{label:''}} registration_path = "authentication/newuser"/>);
+        let options={label:''};
+
+        return(<FormHelper data={usersModel} registration_path={'authentication/newuser'} title={"Nouvel Utilisateur"} options={options}/>);
     }
 }
 
@@ -42,7 +46,7 @@ class SingleUserblock extends Component{
         );
     }
 }
-
+/*
 class UsersList extends Component{
     constructor(props){
         super(props);
@@ -52,8 +56,12 @@ class UsersList extends Component{
     }
     handleClick(user){
         console.log(user);
+        let usersmodel= loadDataIntoModel(usersModel,user);
         let visibility = true;
-        let children = <DataViewElement data={user}/>;
+        let children = <React.Fragment>
+            {/!*<DataViewElement data={user}/>*!/}
+            <FormHelper data={usersmodel} title={"Modify User"} modify={true} options={{label:false}} />
+        </React.Fragment>;
         this.props.handleModal(visibility,children);
     }
     render(){
@@ -79,7 +87,7 @@ class UsersList extends Component{
             </div>
         );
     }
-}
+}*/
 
 class UserInterfaceHeader extends Component{
     constructor(props){
@@ -116,7 +124,7 @@ class UserInterfaceHeader extends Component{
         let inputsearchparams={
             type:'text',
             name : 'input-user-search',
-            className : " form-helper-input input-user-search",
+            className : "search-input form-helper-input ",
             placeholder :'Search'
         };
 
@@ -169,7 +177,7 @@ export default class Users extends Component{
     getListToShow(){
         let collection="users/";
         let options = {};
-        ServerService.postToServer('/api/get', {collection: 'users'}).then((res)=>{
+        ServerService.postToServer('/crudOperations/get', {collection: 'users'}).then((res)=>{
           //console.log(res.data);
             this.setState({ListToShow:res.data});
         });
@@ -202,13 +210,12 @@ export default class Users extends Component{
                         children={this.state.modalChildren}
                     />
                 </div>
-
                 <div className={"users-interface-block"}>
                     <div className={"users-interface-header"}>
                         <UserInterfaceHeader handleFilter={(users)=>this.handleFilter(users)} handleModal={(v,ch)=>this.handleModal(v,ch)}/>
                     </div>
                     <div className={"users-interface-content"}>
-                        <UsersList listToShow={this.state.ListToShow} handleModal={(v,ch)=>this.handleModal(v,ch)}/>
+                        <DataManagerPage {...usersModel}/>
                     </div>
                     <div className={"users-interface-footer"}>
                         <UserInterfaceFooter/>

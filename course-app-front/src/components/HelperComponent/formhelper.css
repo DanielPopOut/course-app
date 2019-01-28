@@ -5,9 +5,8 @@
 .form-helper-title{
     margin: 2px;
     text-align: center;
-    font-size: 20px;
     text-transform: capitalize;
-    border-bottom: solid thin;
+
 
 }
 .form-helper-max-width{
@@ -22,15 +21,15 @@
 }
 .form-helper-input{
     width: 98%;
-    border: solid 1px #123112;
+    border: solid 1px #dce4dc;;
     background-color: white;
-    border-radius: 2px;
     color: black;
     padding: 6px;
     margin: 7px;
     height: 35px;
 }
 .form-helper-input:focus{
+    font-style: normal;
 
 }
 
@@ -68,6 +67,8 @@
     display: flex;
     align-content: space-around;
     justify-content: space-around;
+    margin: 10px;
+    width: 100%;
 }
 .primary{
     background-color: whitesmoke;
@@ -82,8 +83,9 @@
     color: white;
 }
 .warning{
-    background-color: darkkhaki;
-    color: black;
+    background-color: #dcd035;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .text-centered{

@@ -16,10 +16,15 @@ export class DataViewElement extends Component{
     }
     render(){
         return(
-            <div>
+            <div className={"element-view-block"}>
                 {
-                    Object.keys(this.state.dataToDisplay).forEach((key)=>{
-                    return(  <div> {key} : {this.state.dataToDisplay[key]}</div>)  ;
+                    Object.keys(this.state.dataToDisplay).map((elt,key)=>{
+                     return(
+                         <div  key={key} className={"element-view-row"}>
+                             <div className={"element-view-row-label"}> {elt}</div>
+                             <div className={"element-view-row-value"}> {this.state.dataToDisplay[elt]}</div>
+                         </div>
+                     );
                     })
                 }
             </div>

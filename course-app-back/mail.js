@@ -2,18 +2,14 @@ let express = require('express');
 let router = express.Router();
 
 let nodemailer = require('nodemailer');
+const email_user = "cyrillemarvelmedia@gmail.com";//'uzenze.cm@gmail.com';
+const email_pass = "Cyrille@1891";//'julesUzenze';
 
 let transporter = nodemailer.createTransport({
-    // host: 'smtp.gmail.com',
-    // port: 465,
     service: 'gmail',
     auth: {
-        user: 'uzenze.cm@gmail.com',
-        pass: 'julesUzenze',
-        /*
-        user: 'cyrillemarvelmedia@gmail.com',
-        pass: 'Cyrille@1891',*/
-        // type: 'OAuth2',
+        user: email_user,
+        pass: email_pass
     }
 });
 
@@ -22,7 +18,7 @@ module.exports = {
         console.log('email ready to be sent');
 
         let mailOptions = {
-            from: 'uzenze.cm@gmail.com',
+            from: email_user,
             to: receiver,
             subject: subject,
             text: content
@@ -39,6 +35,4 @@ module.exports = {
             }
         });
     },
-
-
 };

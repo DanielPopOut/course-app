@@ -48,7 +48,7 @@ axiosInstance.interceptors.request.use(function (config) {
     return config;
 }, function (error) {
     // Do something with request error
-    return Promise.reject(error);
+    return Promise.reject(error.response);
 });
 
 
@@ -62,9 +62,9 @@ axiosInstance.interceptors.response.use(function (response) {
     switch (response.status) {
         case 200:
             if (response.request.responseURL.indexOf(AUTHENTICATION) > 0) {
-                let token = response.data;
+                let token = response.data.token;
                 if (!token) {
-                    return
+                    return response;
                 }
                 setToken(token);
                 setLoggedIn(true);

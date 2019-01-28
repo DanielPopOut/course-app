@@ -6,40 +6,61 @@ import NewCourse from "../NewCourseComponent/NewCourse";
 import CourseSection from "../CourseSectionComponent/CourseSection";
 import CourseSelection from "../CourseSelectionComponent/CourseSelectionComponent";
 import AddAdminCourse from "../AddAdminCourseComponent/AddAdminCourse";
+import DataManagerComponent from "../DataManagerComponent/DataManagerComponent";
+import {coursesModel} from "../DataManagerComponent/DataModelsComponent";
+import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
 
 
+class CoursesHeader extends Component{
+    render(){
+        return(
+            <div>
+
+
+
+
+            </div>
+        );
+    }
+
+}
+
+
+class CoursesList extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            dataToShow:this.props.dataToShow||[],
+        }
+    }
+
+    render(){
+        return("");
+    }
+}
 class Courses extends Component {
     render() {
         let baseURL = '/courses/daniel/';
         return (
-            <div>
-                <h2> Courses Options </h2>
-                <div className='coursemenu'>
-                    <ul>
-                        <li>
-                            <Link to={baseURL + 'newcourse'}> New Course</Link>
-                        </li>
-                        <li>
-                            <Link to={baseURL + 'section'}> Section</Link>
-                        </li>
-                        <li>
-                            <Link to={baseURL + 'selection'}> Selection</Link>
-                        </li>
-                        <li>
-                            <Link to={baseURL + 'admin'}> Admin</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <Route path={baseURL + 'newcourse'} component={NewCourse}/>
-                    <Route path={baseURL + 'section'} component={CourseSection}/>
-                    <Route path={baseURL + 'selection'} component={CourseSelection}/>
-                    <Route path={baseURL + 'admin'} component={AddAdminCourse}/>
-                </div>
-            </div>
+
+           <DataManagerPage {...coursesModel}/>
+
         );
     }
 }
 
+
+
+class CoursesFooter extends Component{
+    render(){
+        return(
+            <div>
+
+
+            </div>
+        )
+    }
+
+}
 export default Courses;
 
