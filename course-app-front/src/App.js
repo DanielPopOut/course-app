@@ -12,7 +12,7 @@ import Users from './components/UsersComponent/Users';
 import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
 import {usersModel,
     chaptersModel, coursesModel, levelsModel, sectionsModel,
-    syllabusesModel, UsersModel,
+    syllabusesModel,
 } from './components/DataManagerComponent/DataModelsComponent';
 import {getToken, removeToken, userLogged$, messageToShow$} from './server/axiosInstance';
 import ModalComponent from "./components/DanielComponent/Modal/ModalComponent";
@@ -144,7 +144,7 @@ class App extends Component {
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
-                    <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...UsersModel} collection='users'/>}/>
+                    <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
 
 
                     {/*<DataManagerPage {...coursesModel} />*/}
