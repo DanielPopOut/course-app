@@ -191,7 +191,7 @@ router.post('/passwordReset', (req, res) => {
 });
 
 
-router.post('/', function (req, res) {
+router.post('/login', function (req, res) {
     let options = {
         queries: {
             pseudo: req.body.pseudo,
@@ -206,7 +206,7 @@ router.post('/', function (req, res) {
             let token = generateToken({pseudo: doc.pseudo, admin: false});
             console.log('token : ' + token);
             console.log('verify ' + jwt.verify(token, 'fakekey'));
-            res.send({success: 1, message: 'Code vérifié', token: token, verify: jwt.verify(token, 'fakekey')});
+            res.send(token);
         }
     });
 });
