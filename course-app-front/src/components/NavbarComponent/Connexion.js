@@ -39,7 +39,7 @@ class Connexion extends Component {
                             className={"logout-button"}
                             onClick={()=>this.props.logout()}
                         >
-                            {'Deconnexion'}
+                            Deconnexion
                         </div>
                     </div>
                 </div>

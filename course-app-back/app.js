@@ -11,6 +11,7 @@ const mongo = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
 const cruds = require('./cruds');
 const authentication = require('./authentication');
+const courses = require('./courses');
 
 const DB_URL = 'mongodb://localhost:27017/';
 const dbName = 'alpham';//'courseAppDB';
@@ -34,43 +35,12 @@ app.use(function (req, res, next) {
 
 
 
-app.get('/sendMail', (req,res)=>{
+/*app.get('/sendMail', (req,res)=>{
     console.log('hmmmm');
    MailingFunctions.sendEmail('daniel.tchangang@gmail.com', 'test', 'test oooohhhhh');
-});
+});*/
 
 app.get('/', (req, res) => res.send('Hello World!'));
-
-
-const sendEmail = function (receiver, subject, content) {
-    let nodemailer = require('nodemailer');
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        service: 'Gmail',
-        auth: {
-            user: 'cyrillemarvelmedia@gmail.com',
-            pass: 'Cyrille@1891',
-            type: 'OAuth2',
-        }
-    });
-
-    var mailOptions = {
-        from: 'cyrillemarvelmedia@gmail.com',
-        to: receiver,
-        subject: subject,
-        text: content
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-};
-
 
 
 app.get('/getDocuments/:collection/:options', function (req, res) {
@@ -156,8 +126,6 @@ app.get('/course', (req, res) => {
     });
 });
 
-
-
 app.get('/findusers',(req,res)=>{
     //console.log("req query "+JSON.stringify(req.query));
     let options={};
@@ -188,5 +156,6 @@ app.post('/*', (req,res,next)=>{
 });
 app.use('/authentication', authentication);
 app.use('/crudOperations', cruds);
+app.use('/courses', courses);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -6,6 +6,8 @@ import { Subject } from "rxjs";
 // Add a request interceptor
 const userLogged = new Subject();
 export const userLogged$ = userLogged.asObservable();
+const messageToShow = new Subject();
+export const messageToShow$ = messageToShow.asObservable();
 export let isLoggedIn = true;
 
 export function setLoggedIn(bool) {
@@ -21,6 +23,7 @@ function setToken(token) {
 export function removeToken() {
     console.log('token removed');
     localStorage.removeItem('token');
+    setLoggedIn(false);
 }
 
 export function getToken() {
@@ -79,10 +82,11 @@ axiosInstance.interceptors.response.use(function (response) {
 }, function (error) {
     // Do something with response error
     // console.log(error.response, error.response);
-    // if (error.response) {
-    //     if (error.response.data['message']){
-    //         messageToShow.next(error.response.data['message']);
-    //     }
+    if (error.response) {
+        if (error.response.data['text']) {
+            messageToShow.next(error.response.data['text']);
+        }
+    }
     //     switch (error.response.status) {
     //         case 401 :
     //             console.log('bad credentials ');
@@ -97,6 +101,8 @@ axiosInstance.interceptors.response.use(function (response) {
     //     setLoggedIn(false);
     //     return Promise.reject(error);
     // }
+    console.log(error.response,error);
+    // return error.response;
     return Promise.reject(error);
 });
 

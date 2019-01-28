@@ -63,15 +63,15 @@ class DataArrayComponent extends Component {
 
     createShowDataTable() {
         let allFields = this.props.fields ? this.props.fields : this.getAllFields(this.props.dataToShow);
-        let tableToShow = this.props.dataToShow.map((dataModelElement, step) => {
+        let tableToShow = this.props.dataToShow.map((dataModelElement, key) => {
             let allColumnElement = allFields.map((field, step) =>
-                <div className={"data-array-table-body-cell"} key={step.toString() + 'i'}>
+                <div className={"data-array-table-body-cell"} key={step}>
                     {dataModelElement[field]}
                 </div>
             );
             return (
                 <div
-                    key={dataModelElement._id ? dataModelElement._id : (step.toString() + 'd')}
+                    key={key}
                     className='data-array-table-body-row'
                     onClick={() => this.onElementClick(dataModelElement)}
                 >
@@ -80,8 +80,8 @@ class DataArrayComponent extends Component {
             );
         });
 
-        let allFieldsColumn = allFields.map(field =>
-            <div className={"data-array-table-header-cell"} key={field}>
+        let allFieldsColumn = allFields.map((field,key) =>
+            <div className={"data-array-table-header-cell"} key={key}>
                 {field}
             </div>
         );

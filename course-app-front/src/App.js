@@ -14,7 +14,7 @@ import {usersModel,
     chaptersModel, coursesModel, levelsModel, sectionsModel,
     syllabusesModel,
 } from './components/DataManagerComponent/DataModelsComponent';
-import {getToken, removeToken, userLogged$} from './server/axiosInstance';
+import {getToken, removeToken, userLogged$, messageToShow$} from './server/axiosInstance';
 import ModalComponent from "./components/DanielComponent/Modal/ModalComponent";
 import Redirect from "react-router-dom/es/Redirect";
 
@@ -24,12 +24,15 @@ class App extends Component {
     constructor(props) {
         super(props);
         userLogged$.subscribe(bool => {this.handleUserLogin(bool)});
+        messageToShow$.subscribe(message => {this.handleMessageToShow(message)});
         this.state = {
             menuOpen: false,
             loggedIn: false,
             decodedToken: '',
             modalVisibility: false,
-            modalChildren: ""
+            modalChildren: "",
+            messageModalVisibility: false,
+            messageToShow: '',
         };
     }
 
@@ -42,9 +45,24 @@ class App extends Component {
                 modalChildren: ""
             });
         }else {
-
+            this.setState({
+                loggedIn: false,
+                decodedToken: ''
+            });
         }
     }
+
+    handleMessageToShow(message){
+        this.setState({
+            messageModalVisibility: true,
+            messageToShow: message,
+        });
+        setTimeout(()=>this.setState({
+            messageModalVisibility: false,
+            messageToShow: '',
+        }),2000);
+    }
+
 
     handleModalclose() {
         this.setState({
@@ -72,10 +90,7 @@ class App extends Component {
         if (getToken() || getToken().length > 1) {
             removeToken()
         };
-        this.setState({
-            loggedIn: false,
-            decodedToken: ''
-        });
+
         return <Redirect to={'/welcome'}/>
     }
 
@@ -92,9 +107,15 @@ class App extends Component {
             <div className="App" onClick={() => this.closeMenu()}>
                 <ModalComponent
                     visible={this.state.modalVisibility}
-                    children={this.state.modalChildren}
                     onClose={() => this.handleModalclose()}
-                />
+                >
+                    {this.state.modalChildren}
+                </ModalComponent>
+                <ModalComponent
+                    visible={this.state.messageModalVisibility}
+                >
+                    <div style={{color: 'black'}}>{this.state.messageToShow}</div>
+                </ModalComponent>
                 <nav>
                     <span className='sm-only  '
                           onClick={e => {

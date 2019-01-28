@@ -5,8 +5,6 @@ import {Link} from 'react-router-dom';
 import Connexion from "./Connexion";
 
 
-
-
 export default class NavBar extends Component {
     tableauNavbar = [
         //{title: 'AlphaM', redirectionAddress: '/welcome'},
@@ -28,10 +26,9 @@ export default class NavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
         };
     }
-
-
 
     render() {
         let tableauToUse = this.props.loggedIn ? this.loggedInTableauNavbar : this.tableauNavbar;
@@ -42,7 +39,6 @@ export default class NavBar extends Component {
                             <Link
                                 to={'/welcome'}
                                 className={'navbar-item-link login-button'}
-                                onClick={() => this.openLoginModal()}
                             >
                                 {'AlphaM'}
                             </Link>

@@ -42,9 +42,7 @@ class Courses extends Component {
     render() {
         let baseURL = '/courses/daniel/';
         return (
-
            <DataManagerPage {...coursesModel}/>
-
         );
     }
 }

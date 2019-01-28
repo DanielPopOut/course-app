@@ -3,10 +3,8 @@
 let DBFunctions = require('./basicDBFunction');
 let MailingFunctions = require('./mail');
 
-
 let express = require('express');
 let router = express.Router();
-
 
 const mongo = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
@@ -16,47 +14,45 @@ const DB_URL = 'mongodb://localhost:27017/';
 const dbName = 'alpham';//'courseAppDB';
 const client = new MongoClient(DB_URL);
 const ObjectID = require('mongodb').ObjectID;
-const jwt = require('jsonwebtoken');
 
 const USER_DB_NAME = 'users';
 
-
-const generateToken = function (user) {
-
-    let payload = {
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        admin: user.admin,
-    };
-    let secret = 'fakekey';
-    let options = {
-        expiresIn: 60 * 60,
-        //algorithm:'RS256'
-    };
-    let token = jwt.sign(payload, secret, options);
-    return token;
-};
-
-router.get('/validate/:id', (req, res) => {
+router.get('/assignTeacher/:email', (req, res) => {
     DBFunctions.findOneDocument(USER_DB_NAME,
         {queries: {_id: ObjectID(req.params.id)}},
         (err, doc) => {
-        if (doc){
-            DBFunctions.updateOne(USER_DB_NAME,
-                {filter: {_id: ObjectID(req.params.id)}, update: {$set: { validated : true }}},
-                (err, result)=> {
-                console.log(result);
-                    res.json("merci d'avoir validé votre compté :-)!")
-                })
-        }else {
-            console.log(doc)
-            res.json("Compte introuvable!")
-        }
-    });
+            if (doc){
+                DBFunctions.updateOne(USER_DB_NAME,
+                    {filter: {_id: ObjectID(req.params.id)}, update: {$set: { validated : true }}},
+                    (err, result)=> {
+                        console.log(result);
+                        res.json("merci d'avoir validé votre compté :-)!")
+                    })
+            }else {
+                console.log(doc)
+                res.json("Compte introuvable!")
+            }
+        });
+});
+router.get('/addStudent/:email', (req, res) => {
+    DBFunctions.findOneDocument(USER_DB_NAME,
+        {queries: {_id: ObjectID(req.params.id)}},
+        (err, doc) => {
+            if (doc){
+                DBFunctions.updateOne(USER_DB_NAME,
+                    {filter: {_id: ObjectID(req.params.id)}, update: {$set: { validated : true }}},
+                    (err, result)=> {
+                        console.log(result);
+                        res.json("merci d'avoir validé votre compté :-)!")
+                    })
+            }else {
+                console.log(doc)
+                res.json("Compte introuvable!")
+            }
+        });
 });
 
-router.post('/newuser', (req, res) => {
+router.post('/newcourse', (req, res) => {
     if (!req.body.email || !req.body.password) {
         res.status(403).json({text: 'data required not filled'});
     }else{
@@ -88,7 +84,7 @@ router.post('/newuser', (req, res) => {
 });
 
 
-router.post('/passwordRecovery', (req, res) => {
+router.post('/assignTeacher', (req, res) => {
     console.log('req.body', req.body);
     let response = {};
     let options = {
