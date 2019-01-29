@@ -36,14 +36,14 @@ export const syllabusesModel={
     ]
 };
 
-export const departmentsModel={
+export const modulesModel={
     collection:"departments",
     fields:[
         { name:"label",type:'text',placeholder:'Appelation',label:'Appelation'},
         { name:"description",type:'textarea',placeholder:'Description',label:'Description'},
-        { name:"syllabuses",type:'listfrommodel',label:'Syllabuses',targetedModel: syllabusesModel},
+
     ]
-}
+};
 
 export const levelsModel={
     collection:"levels",

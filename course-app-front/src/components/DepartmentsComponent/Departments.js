@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './department.css';
-import {departmentsModel} from '../DataManagerComponent/DataModelsComponent';
+import {modulesModel} from '../DataManagerComponent/DataModelsComponent';
 import FormHelper from '../HelperComponent/FormHelper';
 import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
 
@@ -13,7 +13,7 @@ class Departments extends Component{
 
                 </div>
                 <div className={'department-body'}>
-                    <DataManagerPage {... departmentsModel}/>
+                    <DataManagerPage {... modulesModel}/>
                     {/*<FormHelper data={departmentsModel}/>*/}
                 </div>
                 <div className={'department-footer'}>  </div>
