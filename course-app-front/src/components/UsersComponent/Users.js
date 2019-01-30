@@ -5,8 +5,6 @@ import FormHelper, {ButtonHelper, InputTextHelper} from '../HelperComponent/Form
 import {ServerService} from "../../server/ServerService";
 import {LISTS_PATH, USERS_FILTER_PATH} from "../../server/SERVER_CONST";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
-import {DataViewElement} from "../HelperComponent/DataViewHelper";
-import {loadDataIntoModel} from "../StaticFunctionsComponent/StaticFunctions";
 import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
 
 

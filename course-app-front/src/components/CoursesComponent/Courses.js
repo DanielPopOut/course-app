@@ -3,7 +3,6 @@ import {Route, Link} from 'react-router-dom';
 import './courses.css';
 
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
-import {retrieveDataOnServer} from "../StaticFunctionsComponent/CrudsFunctions";
 import Redirect from "react-router-dom/es/Redirect";
 
 const courseslist = [

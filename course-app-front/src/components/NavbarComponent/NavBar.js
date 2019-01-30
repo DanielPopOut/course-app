@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 
 import './NavBar.css';
 import {Link} from 'react-router-dom';
-import Connexion from "./Connexion";
+import Connexion from "../ConnexionComponent/Connexion";
 
 
 export default class NavBar extends Component {
     tableauNavbar = [
         //{title: 'AlphaM', redirectionAddress: '/welcome'},
-        // {title: 'Departements', redirectionAddress: '/departments'},
+      //  {title: 'Departements', redirectionAddress: '/departments'},
         // {title: 'Cours', redirectionAddress: '/courses'},
         // {title: 'Contacts', redirectionAddress: '/contacts'},
         // {title: 'Users', redirectionAddress: '/users'},
@@ -20,7 +20,6 @@ export default class NavBar extends Component {
         {title: 'Cours', redirectionAddress: '/courses'},
         {title: 'Contacts', redirectionAddress: '/contacts'},
         {title: 'Users', redirectionAddress: '/users'},
-        //{title: 'Deconnexion', redirectionAddress: '/connexion', content: 'decodedToken'},
     ];
 
     constructor(props) {
@@ -43,7 +42,6 @@ export default class NavBar extends Component {
                                 {'AlphaM'}
                             </Link>
                         </div>
-
                     </div>
                 <div className={'navbar-items-block'}>
                         {tableauToUse.map(x =>
@@ -58,13 +56,12 @@ export default class NavBar extends Component {
                         }
                     </div>
                 <div className={'navbar-right-side'}>
-                        <Connexion
-                            onpenLoginModal={()=>this.props.openLoginModal()}
-                            loggedIn={this.props.loggedIn}
-                            decodedToken={this.props['decodedToken']}
-                            logout={()=>this.props.logout()}
-                        />
-                    </div>
+                    <Connexion
+                        loggedIn={this.state.loggedIn}
+                        decodedToken={this.state.decodedToken}
+                        logout={() => this.deleteToken()}
+                    />
+                </div>
             </div>
         );
     }
