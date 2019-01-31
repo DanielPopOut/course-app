@@ -123,8 +123,6 @@ class App extends Component {
 
                     <Route exact path='/' component = {Welcome}/>
                     <Route push path='/welcome' component = {Welcome}/>
-                    <Route path='/departments' component = {Departments}/>
-                    <Route path='/welcome' component = {Welcome}/>
                     <Route path='/courses' component = {Courses}/>
                     <Route path='/course/:id' component = {Course}/>
                     <Route path='/users' component = {Users}/>
