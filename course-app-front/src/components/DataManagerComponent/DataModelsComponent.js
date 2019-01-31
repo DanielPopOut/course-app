@@ -7,6 +7,11 @@
 *
 * */
 
+export function titleModel({name= 'title', type='text', placeholder= 'course title', label= 'new title'}) {
+
+    return [{ name,type,placeholder,label}];
+}
+
 export const usersModel={
     collection:"users",
     title: 'users',

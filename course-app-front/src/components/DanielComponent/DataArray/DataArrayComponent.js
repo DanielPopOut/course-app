@@ -30,7 +30,10 @@ class DataArrayComponent extends Component {
 
     onElementClick(element) {
         console.log('selected ', element);
-        this.setModalVisibility(true);
+        if(this.props.onElementClick){
+            this.props.onElementClick();
+            return;
+        }
         let newBasicFormCreatorComponent = <BasicFormCreatorComponent
             dataModel={this.props.dataModel}
             data={element}
@@ -50,6 +53,7 @@ class DataArrayComponent extends Component {
             }
         />;
         this.setState({modalComponentChild: newBasicFormCreatorComponent});
+        this.setModalVisibility(true);
     }
 
 

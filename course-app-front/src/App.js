@@ -15,8 +15,10 @@ import {usersModel,
     syllabusesModel,
 } from './components/DataManagerComponent/DataModelsComponent';
 import {getToken, removeToken, userLogged$, messageToShow$} from './server/axiosInstance';
-import ModalComponent from "./components/DanielComponent/Modal/ModalComponent";
+import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
 import Redirect from "react-router-dom/es/Redirect";
+import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
+import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
 
 
 
@@ -138,13 +140,15 @@ class App extends Component {
                 <main className={' container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
 
                     <Route exact path='/' component = {Welcome}/>
-                    <Route path='/welcome' component = {Welcome}/>
+                    <Route push path='/welcome' component = {Welcome}/>
                     <Route path='/departments' component = {Departments}/>
                     <Route path='/courses' component = {Courses}/>
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
+                    {/*<Route path='/quill' render={(props) => <QuillComponent/>}/>*/}
+                    <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>
 
 
                     {/*<DataManagerPage {...coursesModel} />*/}
@@ -155,6 +159,8 @@ class App extends Component {
                 </main>
                 <footer>
                 </footer>
+                <ModalComponent2/>
+
             </div>
         );
     }

@@ -13,7 +13,7 @@
 }
 
 html, body, #root, .App {
-    color: var(--secondary-color);
+    color: var(--text-color);
 }
 .container{
     max-width: 1000px;

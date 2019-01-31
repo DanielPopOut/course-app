@@ -9,6 +9,8 @@ import AddAdminCourse from "../AddAdminCourseComponent/AddAdminCourse";
 import DataManagerComponent from "../DataManagerComponent/DataManagerComponent";
 import {coursesModel} from "../DataManagerComponent/DataModelsComponent";
 import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
+// import { browserHistory } from 'react-router'
+
 
 
 class CoursesHeader extends Component{
@@ -41,8 +43,12 @@ class CoursesList extends Component{
 class Courses extends Component {
     render() {
         let baseURL = '/courses/daniel/';
+        console.log('course props',this.props);
         return (
-           <DataManagerPage {...coursesModel}/>
+            <div>
+                <DataManagerPage {...coursesModel}/>
+                <button onClick={()=>this.props.history.push('daniel')}>Go to success</button>
+            </div>
         );
     }
 }
