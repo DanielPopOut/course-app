@@ -1,5 +1,7 @@
 import React,{Component} from "react";
 import './connexion.css';
+import ModalComponent from "../DanielComponent/Modal/ModalComponent";
+import ConnexionComponent from "./ConnexionComponent";
 
 class Connexion extends Component {
     constructor(props) {
@@ -18,6 +20,13 @@ class Connexion extends Component {
                 <div>{content.email} </div>
             </div>
         )
+    }
+
+    openLoginModal(){
+        this.setState({
+            modalVisibility: true,
+            modalChildren: <ConnexionComponent/>
+        })
     }
 
     display() {
@@ -46,11 +55,11 @@ class Connexion extends Component {
             )
         } else {
             return (
-                <div key={'Connexiont'} className={'navbar-item-div '}>
+                <div key={'Connexion'} className={'navbar-item-div '}>
                     <div
                         /* to={'/connexion'}*/
                         className={'navbar-item-link loggin-button'}
-                        onClick={() => this.props.onpenLoginModal()}
+                        onClick={() => this.openLoginModal()}
                     >
                         {'Connexion'}
                     </div>
@@ -58,10 +67,23 @@ class Connexion extends Component {
             )
         }
     }
-
+    closeModal(){
+        this.setState({
+            modalVisibility: false,
+            modalChildren: ""
+        })
+    }
     render() {
         return (
-            this.display()
+                <React.Fragment>
+                    <ModalComponent
+                        visible={this.state.modalVisibility}
+                        onClose={() => this.closeModal()}
+                    >
+                        {this.state.modalChildren}
+                        </ModalComponent>
+                    {this.display()}
+                </React.Fragment>
         )
     }
 

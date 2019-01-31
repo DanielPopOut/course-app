@@ -12,25 +12,31 @@ class ConnexionComponent extends Component{
     constructor(props){
         super(props);
         this.state={
-            newAccountModalVisibility:false,
-            newPasswordModalVisibility:false,
+            modalVisibility:false,
+            modalChildren:"",
             dataToSend:{
                 pseudo:'',
                 password:''
             }
-        }
+        };
     }
     newAccount(){
-        this.setState({newAccountModalVisibility :true});
+        this.setState({
+            modalVisibility :true,
+            modalChildren:<UsersCreationForm/>
+        });
     }
     newPassword(){
-        this.setState({newPasswordModalVisibility :true});
+        this.setState({
+            modalVisibility :true,
+            modalChildren:<PasswordRecovery/>
+        });
     }
 
-    handleClose(){
+    handleCloseModal(){
         this.setState({
-            newAccountModalVisibility :false,
-            newPasswordModalVisibility :false
+            modalVisibility :false,
+            modalChildren:""
         });
     }
     handleChange(e){
@@ -38,42 +44,41 @@ class ConnexionComponent extends Component{
         this.setState({dataToSend:newdatatosend});
         console.log(this.state.dataToSend);
     }
-    handleLoginValidate(e){
+    handleLoginValidate(){
         if(this.state.dataToSend.pseudo!=='' &&  this.state.dataToSend.password!=='' ){
             ServerService.postToServer(AUTHENTICATION,this.state.dataToSend).then((response)=>{
-                console.log("status"+ response.status);
-                if(response.status==200){
-                   // alert(response.data.message);
-                    //console.log(response.data.text);
-                    return <Redirect to={'/welcome'}/>
+                //console.log("status"+ response.status);
+                if(response.status===200){
+                    this.handleCloseModal();
+                    console.log(this.props);
                 }else{
                     alert(response.data.text);
                 }
             });
         }
     }
+    handleKeyPress(event){
+        console.log("event : "+event.key);
+        if (event.key==='Enter'){
+            this.handleLoginValidate();
+        }
+    }
 
     render(){
+    //    console.log("props 2 ",this.props);
         return (
             <div className={"form-connexion-block"}>
-                <ModalComponent
-                    visible={this.state.newAccountModalVisibility}
-                    onClose={()=>this.handleClose()}
-                    children={<UsersCreationForm/>}
-                />
-                <ModalComponent
-                    visible={this.state.newPasswordModalVisibility}
-                    onClose={()=>this.handleClose()}
-                    children={<PasswordRecovery/>}
-                />
-                <form className={'form-connexion'}>
+                <ModalComponent visible={this.state.modalVisibility}  onClose={()=>this.handleCloseModal()}>
+                    {this.state.modalChildren}
+                </ModalComponent>
+                <form className={'form-connexion'} onKeyPress={(event)=>this.handleKeyPress(event)}>
                     <div className={"form-connexion-header"}>
                         <div>Connexion </div>
                     </div>
                     <div className={"form-connexion-content"}>
                         <div>
                             <label> Pseudo </label>
-                            <input onChange={(e)=>this.handleChange(e)} type={"text"} autoComplete={'off'} name={"pseudo"} placeholder={"Pseudo"}/>
+                            <input onChange={(e)=>this.handleChange(e)} autoFocus={true} type={"text"} autoComplete={'off'} name={"pseudo"} placeholder={"Pseudo"}/>
                         </div>
                         <div>
                             <label> Mot de Passe </label>
@@ -88,7 +93,6 @@ class ConnexionComponent extends Component{
                         <div className={"password-forgotten-div"} onClick={()=>this.newPassword()}> Des Problèmes pour vous Connecter ?</div>
                     </div>
                 </form>
-
             </div>
         );
     }

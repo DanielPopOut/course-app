@@ -40,4 +40,33 @@ export class ServerService {
         return axiosInstance.get(URL_PATH);
     }
 
+    static retrieveAllDocumentsWithCollectionName(collection) {
+        axiosInstance.post('crudOperations/get', {collection: collection}).then(response => {
+            console.log(response);
+            this.setState({dataToShow: response.data})
+        });
+    }
+    static insertElementInDataBase(collection,element){
+        axiosInstance.post('crudOperations/insert', {collection: collection, data: element}).then(response => {
+            if (response.status === 200) {
+                return(Object.assign(element, {_id: response.data}));
+            }else {
+                return false;
+            }
+        });
+    };
+    static updateElementInDataBase (collection,element){
+        axiosInstance.post('crudOperations/update', {collection: collection, data: element}).then(response => {
+            console.log('updateresult', response);
+            return response.status === 200 || false;
+        });
+    };
+
+    static deleteElementInDataBase(element) {
+        axiosInstance.post('crudOperations/delete', {collection: this.props.collection, data: element})
+            .then(response => {
+                console.log('delete result', response);
+                return response.status === 200 || false;
+            });
+    };
 }

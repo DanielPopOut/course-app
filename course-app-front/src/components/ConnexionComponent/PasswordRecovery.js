@@ -1,15 +1,23 @@
 import React,{Component} from 'react';
 import './passwordrecovery.css';
 import {InputTextHelper, ButtonHelper} from '../HelperComponent/FormHelper';
-import Flash from '../FlashComponent/Flash';
 import {validateEmail, validatePhoneNumber} from "../StaticFunctionsComponent/StaticFunctions";
-
 import { PASSWORD_RECOVERY_PATH,PASSWORD_RECOVERY_CODE_PATH ,PASSWORD_RESET_PATH} from '../../server/SERVER_CONST';
-
-
 import { ServerService } from '../../server/ServerService';
 
+class Message extends Component{
+    render(){
 
+        return(
+            <div className={'message-box message-box-'+ this.props.type || "success"}>
+                <div className='message-message'>
+                    {this.props.message || ""}
+                </div>
+            </div>
+        );
+
+    }
+}
 class FirstStep extends Component {
     constructor(props){
         super(props);
@@ -182,6 +190,7 @@ class SecondStep extends Component {
         let buttonParams={
             type:'button',
             name:"codevalidatebutton",
+            className:'form-helper-button success',
             value:"Valider"
         };
 
@@ -243,11 +252,13 @@ class ThirdStep extends Component {
             type:'button',
             name: 'previous',
             value: 'Precedent',
+            className:'form-helper-button warning'
         };
         let nextbuttonparams={
             type:'button',
             name: 'next',
             value: 'Valider',
+            className:'form-helper-button success'
         };
 
         return (
@@ -256,7 +267,7 @@ class ThirdStep extends Component {
                     <InputTextHelper params={inputNewPassword} required={'required'} onChange={(e)=>this.handleChange(e)}/>
                     <InputTextHelper params={inputNewPasswordVerify} required={'required'} onChange={(e)=>this.handleChange(e)}/>
                 </div>
-                <div>
+                <div className={'hr-button-block'}>
                     <ButtonHelper params={previousbuttonparams} onClick={(e)=>this.props.previousStep(e)} />
                     <ButtonHelper params={nextbuttonparams} onClick={(e)=>this.handleClick(e)}/>
                 </div>
@@ -268,7 +279,7 @@ class FourthStep extends Component {
     render() {
         return (
             <div>
-                <Flash type={"success"} message={"Nouveau Mot de passe Enregistré"}/>
+                <Message type={"success"} message={"Nouveau Mot de passe Enregistré"}/>
             </div>
         );
     }
@@ -338,7 +349,7 @@ class PasswordRecovery extends Component{
                     {"Mot de Passe Oublié ?"}
                     <div className={"bottom-border"}>  </div>
                 </div>
-                <Flash type={"note"} message={this.state.currentMessage}/>
+                <Message type={"note"} message={this.state.currentMessage}/>
                 <div>{this.processWorking()}</div>
                  {this.displayCurrentStep()}
                 <div className={"password-recovery-footer"}>

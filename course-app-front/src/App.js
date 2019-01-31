@@ -5,20 +5,18 @@ import NavBar from './components/NavbarComponent/NavBar';
 import {Route} from 'react-router-dom';
 import Welcome from './components/WelcomeComponent/Welcome';
 import Courses from './components/CoursesComponent/Courses';
-import Departments from './components/DepartmentsComponent/Departments'
+import Course from './components/CoursesComponent/Course';
 import ConnexionComponent from './components/ConnexionComponent/ConnexionComponent';
 import ContactsComponent from './components/ContactsComponent/ContactsComponent';
 import Users from './components/UsersComponent/Users';
 import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
-import {usersModel,
-    chaptersModel, coursesModel, levelsModel, sectionsModel,
-    syllabusesModel,
-} from './components/DataManagerComponent/DataModelsComponent';
+import {usersModel} from './components/DataManagerComponent/DataModelsComponent';
 import {getToken, removeToken, userLogged$, messageToShow$} from './server/axiosInstance';
 import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
 import Redirect from "react-router-dom/es/Redirect";
 import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
 import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
+import Connexion from "./components/ConnexionComponent/Connexion";
 
 
 
@@ -31,8 +29,6 @@ class App extends Component {
             menuOpen: false,
             loggedIn: false,
             decodedToken: '',
-            modalVisibility: false,
-            modalChildren: "",
             messageModalVisibility: false,
             messageToShow: '',
         };
@@ -42,10 +38,6 @@ class App extends Component {
         this.setState({loggedIn: bool})
         if (bool){
             this.setDecodedToken();
-            this.setState({
-                modalVisibility: false,
-                modalChildren: ""
-            });
         }else {
             this.setState({
                 loggedIn: false,
@@ -66,19 +58,6 @@ class App extends Component {
     }
 
 
-    handleModalclose() {
-        this.setState({
-            modalVisibility: false,
-            modalChildren: ""
-        });
-    }
-
-    openLoginModal() {
-        this.setState({
-            modalVisibility: true,
-            modalChildren: <ConnexionComponent/>
-        });
-    }
     setDecodedToken() {
         let token = getToken();
         console.log("here my token : "+token);
@@ -107,18 +86,14 @@ class App extends Component {
     render() {
         return (
             <div className="App" onClick={() => this.closeMenu()}>
-                <ModalComponent
-                    visible={this.state.modalVisibility}
-                    onClose={() => this.handleModalclose()}
-                >
-                    {this.state.modalChildren}
-                </ModalComponent>
+
                 <ModalComponent
                     visible={this.state.messageModalVisibility}
                 >
                     <div style={{color: 'black'}}>{this.state.messageToShow}</div>
                 </ModalComponent>
-                <nav>
+                <div>
+                    <nav>
                     <span className='sm-only  '
                           onClick={e => {
                               this.setState({menuOpen: !this.state.menuOpen});
@@ -127,13 +102,20 @@ class App extends Component {
                         {/*<FontAwesomeIcon icon='list' style={{margin: '0 30px'}}/>*/}
                     </span>
                     <NavBar
-                        className='lg-only'
+                        /* className='lg-only'*/
                         loggedIn={this.state.loggedIn}
                         decodedToken={this.state.decodedToken}
-                        openLoginModal={()=>this.openLoginModal()}
                         logout={()=>this.deleteToken()}
                     />
                 </nav>
+
+
+
+                </div>
+
+
+
+
                 <aside className={this.state.menuOpen ? 'menu-open' : 'menu-closed'}>
 
                 </aside>
@@ -142,7 +124,9 @@ class App extends Component {
                     <Route exact path='/' component = {Welcome}/>
                     <Route push path='/welcome' component = {Welcome}/>
                     <Route path='/departments' component = {Departments}/>
+                    <Route path='/welcome' component = {Welcome}/>
                     <Route path='/courses' component = {Courses}/>
+                    <Route path='/course/:id' component = {Course}/>
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>

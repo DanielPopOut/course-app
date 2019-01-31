@@ -13,7 +13,6 @@
     overflow-y: auto;
 }
 
-
 .modal-box {
     min-width: 300px;
     min-height: 300px;
@@ -21,6 +20,7 @@
     background-color: white;
     border-radius: 5px;
     padding: 20px;
+    color:black;
 
 }
 
