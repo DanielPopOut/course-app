@@ -46,8 +46,8 @@ class DataManagerPage extends Component {
                      });
     }
 
-    updateElementInDataBase(element) {
-        return ServerService.postToServer('crudOperations/update', {collection: this.props.collection, data: element})
+    replaceElementInDataBase(element) {
+        return ServerService.postToServer('crudOperations/replace', {collection: this.props.collection, data: element})
                             .then(response => {
                                 console.log('updateresult', response);
                                 return response.status === 200 ? this.updateElement(element) : false;
@@ -122,7 +122,7 @@ class DataManagerPage extends Component {
                 fields={this.props.fields ? this.props.fields.map(x => x.name) : null}
                 dataToShow={this.state.dataToShow}
                 onElementClick={()=>console.log('banana')}
-                updateElement={elementToUpdate => this.updateElementInDataBase(elementToUpdate)}
+                updateElement={elementToUpdate => this.replaceElementInDataBase(elementToUpdate)}
                 deleteElement={elementToUpdate => this.deleteElementInDataBase(elementToUpdate)}
             />
         </div>;

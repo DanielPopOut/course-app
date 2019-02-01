@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4580d8ea-b115-4604-9cd8-8dd8ea7ed115" name="Default" comment="" />
+    <list default="true" id="4580d8ea-b115-4604-9cd8-8dd8ea7ed115" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-back/app.js" afterPath="$PROJECT_DIR$/course-app-back/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-back/cruds.js" afterPath="$PROJECT_DIR$/course-app-back/cruds.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js" afterPath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js" afterPath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css" afterPath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/server/ServerService.js" afterPath="$PROJECT_DIR$/course-app-front/src/server/ServerService.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -14,28 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="QuillComponent.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/QuillComponent/QuillComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="27" column="39" lean-forward="false" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-                <element signature="e#87#151#0" expanded="true" />
-                <marker date="1548943068765" expanded="true" signature="2029:2073" ph="..." />
-                <marker date="1548943068765" expanded="true" signature="2159:2183" ph="..." />
-                <marker date="1548943068765" expanded="true" signature="2231:2255" ph="..." />
-                <marker date="1548943068765" expanded="true" signature="2303:2327" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreateCourseComponent.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CreateCourseComponent.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="654">
-              <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+            <state relative-caret-position="446">
+              <caret line="53" column="57" lean-forward="true" selection-start-line="53" selection-start-column="57" selection-end-line="53" selection-end-column="57" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -43,11 +35,55 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerService.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CreateCourseComponent.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/course-app-front/src/server/ServerService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="25" column="36" lean-forward="true" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
+            <state relative-caret-position="364">
+              <caret line="77" column="24" lean-forward="false" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#44#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ModalComponent.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="35" column="13" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="35" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ModalService.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/modal/ModalService.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="modal.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -56,77 +92,11 @@
       <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/course-app-front/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="133" column="0" lean-forward="false" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+            <state relative-caret-position="648">
+              <caret line="143" column="28" lean-forward="false" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
-                <marker date="1548949635013" expanded="true" signature="5456:5511" ph="&lt;div/&gt;" />
-                <marker date="1548949635013" expanded="true" signature="5456:5528" ph="{...}" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BasicFormCreatorComponent.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/FormCreator/BasicFormCreatorComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="5" column="6" lean-forward="false" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ModalComponent.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="13" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataModelsComponent.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataModelsComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="102" lean-forward="false" selection-start-line="9" selection-start-column="102" selection-end-line="9" selection-end-column="102" />
-              <folding>
-                <marker date="1548949492449" expanded="true" signature="1823:2011" ph="{&quot;collection&quot;: &quot;levels&quot;...}" />
-                <marker date="1548949492449" expanded="true" signature="1861:2009" ph="[...]" />
-                <marker date="1548949492449" expanded="true" signature="2041:2606" ph="{&quot;collection&quot;: &quot;courses&quot;...}" />
-                <marker date="1548949492449" expanded="true" signature="2080:2604" ph="[...]" />
-                <marker date="1548949492449" expanded="true" signature="2205:2604" ph="[...]" />
-                <marker date="1548949492449" expanded="true" signature="2635:2863" ph="{&quot;collection&quot;: &quot;submodules&quot;...}" />
-                <marker date="1548949492449" expanded="true" signature="2677:2861" ph="[...]" />
-                <marker date="1548949492449" expanded="true" signature="2893:3300" ph="{&quot;collection&quot;: &quot;sections&quot;...}" />
-                <marker date="1548949492449" expanded="true" signature="2933:3298" ph="[...]" />
-                <marker date="1548949492449" expanded="true" signature="3332:3645" ph="{&quot;collection&quot;: &quot;subsections&quot;...}" />
-                <marker date="1548949492449" expanded="true" signature="3375:3643" ph="[...]" />
-                <marker date="1548949492449" expanded="true" signature="3674:4236" ph="{&quot;collection&quot;: &quot;contacts&quot;...}" />
-                <marker date="1548949492449" expanded="true" signature="3714:4234" ph="[...]" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="basics.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/basics.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="14" column="23" lean-forward="false" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="App.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/App.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -134,11 +104,31 @@
       <file leaf-file-name="DataManagerPage.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+            <state relative-caret-position="324">
+              <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-back/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="514">
+              <caret line="158" column="29" lean-forward="true" selection-start-line="158" selection-start-column="29" selection-end-line="158" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cruds.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-back/cruds.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-504">
+              <caret line="46" column="28" lean-forward="true" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -148,15 +138,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>backgroun</find>
-      <find>class</find>
       <find>this.state.dat</find>
       <find>margin</find>
       <find>flex-container</find>
@@ -183,8 +171,10 @@
       <find>inputHelper</find>
       <find>color</find>
       <find>componentTo</find>
-      <find>course</find>
       <find>App</find>
+      <find>course</find>
+      <find>chapter</find>
+      <find>/replace</find>
     </findStrings>
     <replaceStrings>
       <replace>courseData</replace>
@@ -198,10 +188,14 @@
       <replace>$1 $2</replace>
       <replace>success</replace>
       <replace>chapter</replace>
+      <replace>element</replace>
+      <replace>children</replace>
+      <replace>childSection</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/../../../../Programmation/Projets/React/air-reader-app/airreaderfront/src</dir>
       <dir>$PROJECT_DIR$/course-app-front/src/components/DanielComponent</dir>
+      <dir>$PROJECT_DIR$/course-app-front/src</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -234,7 +228,6 @@
         <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataArray/DataArrayComponent.css" />
         <option value="$PROJECT_DIR$/course-app-back/package.json" />
         <option value="$PROJECT_DIR$/course-app-back/test/test-pages.js" />
-        <option value="$PROJECT_DIR$/course-app-back/app.js" />
         <option value="$PROJECT_DIR$/course-app-back/mail.js" />
         <option value="$PROJECT_DIR$/course-app-back/basicDBFunction.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/ConnexionComponent/PasswordRecovery.js" />
@@ -245,19 +238,23 @@
         <option value="$PROJECT_DIR$/course-app-front/src/components/NavbarComponent/NavBar.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/UsersComponent/Users.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/FormCreator/BasicFormCreatorComponent.js" />
-        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataArray/DataArrayComponent.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/CoursesComponent/Courses.js" />
         <option value="$PROJECT_DIR$/course-app-front/public/index.html" />
         <option value="$PROJECT_DIR$/course-app-front/src/modal/ModalService.js" />
-        <option value="$PROJECT_DIR$/course-app-front/src/App.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/basics.css" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataModelsComponent.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/App.css" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/QuillComponent/QuillComponent.js" />
-        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/App.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.css" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/server/ServerService.js" />
+        <option value="$PROJECT_DIR$/course-app-back/app.js" />
+        <option value="$PROJECT_DIR$/course-app-back/cruds.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js" />
       </list>
     </option>
   </component>
@@ -386,6 +383,24 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="DanielComponent" type="462c0819:PsiDirectoryNode" />
+              <item name="CreateCourseComponent" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AppCours" type="462c0819:PsiDirectoryNode" />
+              <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DanielComponent" type="462c0819:PsiDirectoryNode" />
+              <item name="DataArray" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AppCours" type="462c0819:PsiDirectoryNode" />
+              <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DanielComponent" type="462c0819:PsiDirectoryNode" />
               <item name="DataManagerPage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -501,12 +516,12 @@
       <workItem from="1543915736234" duration="20060000" />
       <workItem from="1544985418695" duration="53243000" />
       <workItem from="1548689086851" duration="16335000" />
-      <workItem from="1548941464148" duration="4924000" />
+      <workItem from="1548941464148" duration="9622000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108646000" />
+    <option name="totallyTimeSpent" value="113344000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -515,6 +530,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24954791" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -527,7 +543,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -573,20 +588,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataManagerComponent.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="23" lean-forward="false" selection-start-line="17" selection-start-column="27" selection-end-line="18" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/NewCourseComponent/NewCourse.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="204" column="13" lean-forward="false" selection-start-line="204" selection-start-column="13" selection-end-line="204" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js" />
     <entry file="file://$PROJECT_DIR$/course-app-front/package.json">
       <provider selected="true" editor-type-id="text-editor">
@@ -691,14 +692,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-back/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-402">
-          <caret line="43" column="86" lean-forward="true" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/components/ConnexionComponent/PasswordRecovery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1652">
@@ -785,6 +778,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
           <caret line="42" column="91" lean-forward="false" selection-start-line="42" selection-start-column="91" selection-end-line="42" selection-end-column="91" />
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -832,6 +828,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="806">
           <caret line="54" column="17" lean-forward="false" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -903,21 +900,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/modal/ModalService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="21" lean-forward="false" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -926,33 +908,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="13" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataModelsComponent.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="102" lean-forward="false" selection-start-line="9" selection-start-column="102" selection-end-line="9" selection-end-column="102" />
-          <folding>
-            <marker date="1548949492449" expanded="true" signature="1823:2011" ph="{&quot;collection&quot;: &quot;levels&quot;...}" />
-            <marker date="1548949492449" expanded="true" signature="1861:2009" ph="[...]" />
-            <marker date="1548949492449" expanded="true" signature="2041:2606" ph="{&quot;collection&quot;: &quot;courses&quot;...}" />
-            <marker date="1548949492449" expanded="true" signature="2080:2604" ph="[...]" />
-            <marker date="1548949492449" expanded="true" signature="2205:2604" ph="[...]" />
-            <marker date="1548949492449" expanded="true" signature="2635:2863" ph="{&quot;collection&quot;: &quot;submodules&quot;...}" />
-            <marker date="1548949492449" expanded="true" signature="2677:2861" ph="[...]" />
-            <marker date="1548949492449" expanded="true" signature="2893:3300" ph="{&quot;collection&quot;: &quot;sections&quot;...}" />
-            <marker date="1548949492449" expanded="true" signature="2933:3298" ph="[...]" />
-            <marker date="1548949492449" expanded="true" signature="3332:3645" ph="{&quot;collection&quot;: &quot;subsections&quot;...}" />
-            <marker date="1548949492449" expanded="true" signature="3375:3643" ph="[...]" />
-            <marker date="1548949492449" expanded="true" signature="3674:4236" ph="{&quot;collection&quot;: &quot;contacts&quot;...}" />
-            <marker date="1548949492449" expanded="true" signature="3714:4234" ph="[...]" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -961,28 +921,6 @@
         <state relative-caret-position="187">
           <caret line="668" column="13" lean-forward="true" selection-start-line="668" selection-start-column="13" selection-end-line="668" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="133" column="0" lean-forward="false" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-            <marker date="1548949635013" expanded="true" signature="5456:5511" ph="&lt;div/&gt;" />
-            <marker date="1548949635013" expanded="true" signature="5456:5528" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1019,16 +957,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/FormCreator/BasicFormCreatorComponent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
+        <state relative-caret-position="-769">
           <caret line="5" column="6" lean-forward="false" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js">
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="654">
-          <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+        <state relative-caret-position="34">
+          <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -1037,9 +991,65 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/server/ServerService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="25" column="36" lean-forward="true" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
+        <state relative-caret-position="364">
+          <caret line="77" column="24" lean-forward="false" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-back/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="158" column="29" lean-forward="true" selection-start-line="158" selection-start-column="29" selection-end-line="158" selection-end-column="29" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-back/cruds.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-504">
+          <caret line="46" column="28" lean-forward="true" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="35" column="13" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="35" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/modal/ModalService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="143" column="28" lean-forward="false" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="53" column="57" lean-forward="true" selection-start-line="53" selection-start-column="57" selection-end-line="53" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
