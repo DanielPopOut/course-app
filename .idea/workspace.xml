@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4580d8ea-b115-4604-9cd8-8dd8ea7ed115" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-back/authentication.js" afterPath="$PROJECT_DIR$/course-app-back/authentication.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-back/endpoints.js" afterPath="$PROJECT_DIR$/course-app-back/endpoints.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/App.js" afterPath="$PROJECT_DIR$/course-app-front/src/App.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-back/app.js" afterPath="$PROJECT_DIR$/course-app-back/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-back/cruds.js" afterPath="$PROJECT_DIR$/course-app-back/cruds.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js" afterPath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js" afterPath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css" afterPath="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-app-front/src/server/ServerService.js" afterPath="$PROJECT_DIR$/course-app-front/src/server/ServerService.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,43 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="authentication.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-back/authentication.js">
+      <file leaf-file-name="CreateCourseComponent.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="187" column="9" lean-forward="false" selection-start-line="187" selection-start-column="9" selection-end-line="187" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="endpoints.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-back/endpoints.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-402">
-              <caret line="50" column="16" lean-forward="false" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="axiosInstance.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/server/axiosInstance.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-345">
-              <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConnexionComponent.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/ConnexionComponent/ConnexionComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="41" column="91" lean-forward="false" selection-start-line="41" selection-start-column="91" selection-end-line="41" selection-end-column="91" />
+            <state relative-caret-position="446">
+              <caret line="53" column="57" lean-forward="true" selection-start-line="53" selection-start-column="57" selection-end-line="53" selection-end-column="57" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -63,46 +35,68 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Courses.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/CoursesComponent/Courses.js">
+      <file leaf-file-name="CreateCourseComponent.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="79" lean-forward="false" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="79" />
+            <state relative-caret-position="34">
+              <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerService.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/server/ServerService.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="364">
+              <caret line="77" column="24" lean-forward="false" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="24" />
               <folding>
-                <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#0#44#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="App.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ModalComponent.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="35" column="13" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="35" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ModalService.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/modal/ModalService.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="modal.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/course-app-front/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="78" column="73" lean-forward="false" selection-start-line="78" selection-start-column="73" selection-end-line="78" selection-end-column="73" />
+            <state relative-caret-position="648">
+              <caret line="143" column="28" lean-forward="false" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataModelsComponent.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataModelsComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="23" lean-forward="false" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Users.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/UsersComponent/Users.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="67" column="18" lean-forward="false" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -110,21 +104,31 @@
       <file leaf-file-name="DataManagerPage.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="57" column="5" lean-forward="false" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
+            <state relative-caret-position="324">
+              <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-back/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="514">
+              <caret line="158" column="29" lean-forward="true" selection-start-line="158" selection-start-column="29" selection-end-line="158" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NavBar.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course-app-front/src/components/NavbarComponent/NavBar.js">
+      <file leaf-file-name="cruds.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/course-app-back/cruds.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="37" column="157" lean-forward="false" selection-start-line="37" selection-start-column="157" selection-end-line="37" selection-end-column="157" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-504">
+              <caret line="46" column="28" lean-forward="true" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -134,20 +138,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>flex</find>
-      <find>props.</find>
-      <find>home</find>
-      <find>npm</find>
-      <find>urlEnc</find>
-      <find>backgroun</find>
-      <find>class</find>
       <find>this.state.dat</find>
       <find>margin</find>
       <find>flex-container</find>
@@ -171,6 +168,13 @@
       <find>export const</find>
       <find>element re</find>
       <find>ServerSer</find>
+      <find>inputHelper</find>
+      <find>color</find>
+      <find>componentTo</find>
+      <find>App</find>
+      <find>course</find>
+      <find>chapter</find>
+      <find>/replace</find>
     </findStrings>
     <replaceStrings>
       <replace>courseData</replace>
@@ -183,10 +187,15 @@
       <replace>router.</replace>
       <replace>$1 $2</replace>
       <replace>success</replace>
+      <replace>chapter</replace>
+      <replace>element</replace>
+      <replace>children</replace>
+      <replace>childSection</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/../../../../Programmation/Projets/React/air-reader-app/airreaderfront/src</dir>
       <dir>$PROJECT_DIR$/course-app-front/src/components/DanielComponent</dir>
+      <dir>$PROJECT_DIR$/course-app-front/src</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -209,36 +218,43 @@
         <option value="$PROJECT_DIR$/course-app-front/src/components/WelcomeComponent/Welcome.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/ConnexionComponent/ConnexionComponent.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/NewCourseComponent/newcourse.css" />
-        <option value="$PROJECT_DIR$/course-app-front/src/server/ServerService.js" />
-        <option value="$PROJECT_DIR$/course-app-front/public/index.html" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/FormCreatorComponent/FormCreatorComponent.css" />
-        <option value="$PROJECT_DIR$/course-app-front/src/components/CoursesComponent/Courses.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/NewCourseComponent/NewCourse.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataManagerComponent.css" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataManagerComponent.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/FormCreatorComponent/FormCreatorComponent.js" />
-        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/ShowDataComponent/ShowDataComponent.js" />
-        <option value="$PROJECT_DIR$/course-app-front/src/basics.css" />
-        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/FormCreator/BasicFormCreatorComponent.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/HelperComponent/FormHelper.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataArray/DataArrayComponent.css" />
-        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataArray/DataArrayComponent.js" />
         <option value="$PROJECT_DIR$/course-app-back/package.json" />
         <option value="$PROJECT_DIR$/course-app-back/test/test-pages.js" />
-        <option value="$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataModelsComponent.js" />
-        <option value="$PROJECT_DIR$/course-app-back/app.js" />
         <option value="$PROJECT_DIR$/course-app-back/mail.js" />
         <option value="$PROJECT_DIR$/course-app-back/basicDBFunction.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/ConnexionComponent/PasswordRecovery.js" />
-        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js" />
         <option value="$PROJECT_DIR$/course-app-back/endpoints.js" />
         <option value="$PROJECT_DIR$/course-app-back/authentication.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/server/SERVER_CONST.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/server/axiosInstance.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/NavbarComponent/NavBar.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/components/UsersComponent/Users.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/FormCreator/BasicFormCreatorComponent.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataArray/DataArrayComponent.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/CoursesComponent/Courses.js" />
+        <option value="$PROJECT_DIR$/course-app-front/public/index.html" />
+        <option value="$PROJECT_DIR$/course-app-front/src/modal/ModalService.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/basics.css" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataModelsComponent.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/App.css" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/QuillComponent/QuillComponent.js" />
         <option value="$PROJECT_DIR$/course-app-front/src/App.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.css" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/server/ServerService.js" />
+        <option value="$PROJECT_DIR$/course-app-back/app.js" />
+        <option value="$PROJECT_DIR$/course-app-back/cruds.js" />
+        <option value="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js" />
       </list>
     </option>
   </component>
@@ -266,7 +282,7 @@
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="y" value="23" />
-    <option name="width" value="1128" />
+    <option name="width" value="1680" />
     <option name="height" value="1027" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -337,6 +353,12 @@
               <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
               <item name="AppCours" type="462c0819:PsiDirectoryNode" />
               <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AppCours" type="462c0819:PsiDirectoryNode" />
+              <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -345,22 +367,6 @@
               <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AppCours" type="462c0819:PsiDirectoryNode" />
-              <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="ConnexionComponent" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AppCours" type="462c0819:PsiDirectoryNode" />
-              <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="CoursesComponent" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
@@ -369,6 +375,15 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="DanielComponent" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AppCours" type="462c0819:PsiDirectoryNode" />
+              <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DanielComponent" type="462c0819:PsiDirectoryNode" />
+              <item name="CreateCourseComponent" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
@@ -394,7 +409,8 @@
               <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="DataManagerComponent" type="462c0819:PsiDirectoryNode" />
+              <item name="DanielComponent" type="462c0819:PsiDirectoryNode" />
+              <item name="FormCreator" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
@@ -402,7 +418,23 @@
               <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="UsersComponent" type="462c0819:PsiDirectoryNode" />
+              <item name="DanielComponent" type="462c0819:PsiDirectoryNode" />
+              <item name="Modal" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AppCours" type="462c0819:PsiDirectoryNode" />
+              <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DataManagerComponent" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AppCours" type="462c0819:PsiDirectoryNode" />
+              <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="modal" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
@@ -410,6 +442,15 @@
               <item name="course-app-front" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="AppCours" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="katex" type="70bed36:NamedLibraryElementNode" />
             </path>
           </expand>
           <select />
@@ -432,16 +473,16 @@
     <property name="node.js.path.for.package.standard" value="project" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Programmation/Projets/React/air-reader-app/airreaderfront/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/course-app-front/src/components/DanielComponent" />
+      <recent name="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/QuillComponent" />
       <recent name="$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataArray" />
       <recent name="$PROJECT_DIR$/course-app-front/src/components" />
       <recent name="$PROJECT_DIR$/course-app-front/src/components/FormCreatorComponent" />
-      <recent name="$PROJECT_DIR$/course-app-front" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -474,14 +515,17 @@
       <workItem from="1543593752086" duration="431000" />
       <workItem from="1543915736234" duration="20060000" />
       <workItem from="1544985418695" duration="53243000" />
+      <workItem from="1548689086851" duration="16335000" />
+      <workItem from="1548941464148" duration="9622000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87387000" />
+    <option name="totallyTimeSpent" value="113344000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24954791" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -490,19 +534,15 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3132037" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.283521" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24954791" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -540,7 +580,6 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/course-app-front/src/App.js</url>
-          <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
@@ -549,134 +588,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/logo.svg">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-back/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/.env.production">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="21" lean-forward="false" selection-start-line="0" selection-start-column="21" selection-end-line="0" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/node_modules/axios/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="111" column="2" lean-forward="false" selection-start-line="111" selection-start-column="2" selection-end-line="111" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/CourseSelectionComponent/CourseSelectionComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="34" column="24" lean-forward="false" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="15" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/structural.rnc" />
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/WelcomeComponent/Welcome.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="46" column="98" lean-forward="false" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="98" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/App.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="22" lean-forward="true" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/NewCourseComponent/newcourse.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/FormCreatorComponent/FormCreatorComponent.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/App.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="8" column="3" lean-forward="false" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataManagerComponent.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="23" lean-forward="false" selection-start-line="17" selection-start-column="27" selection-end-line="18" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/NewCourseComponent/NewCourse.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="204" column="13" lean-forward="false" selection-start-line="204" selection-start-column="13" selection-end-line="204" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataManagerComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="64" column="26" lean-forward="true" selection-start-line="63" selection-start-column="69" selection-end-line="65" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/ShowDataComponent/ShowDataComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="52" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js" />
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/basics.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2923">
-          <caret line="205" column="13" lean-forward="false" selection-start-line="205" selection-start-column="13" selection-end-line="205" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -722,31 +634,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/FormCreator/BasicFormCreatorComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-            <marker date="1548149511757" expanded="true" signature="425:850" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="577:843" ph="{&quot;dataToSendModel&quot;: dataToSendModel...}" />
-            <marker date="1548149511757" expanded="true" signature="876:960" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="913:954" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="981:1184" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="1203:1778" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="1265:1770" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="1286:1759" ph="&lt;div/&gt;" />
-            <marker date="1548149511757" expanded="true" signature="1445:1740" ph="&lt;input/&gt;" />
-            <marker date="1548149511757" expanded="true" signature="1797:1929" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="1945:2079" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="2094:2589" ph="{...}" />
-            <marker date="1548149511757" expanded="true" signature="2173:2582" ph="&lt;div/&gt;" />
-            <marker date="1548149511757" expanded="true" signature="2312:2567" ph="&lt;div/&gt;" />
-            <marker date="1548149511757" expanded="true" signature="2451:2509" ph="/*...*/" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/course-app-back/node_modules/body-parser/lib/types/urlencoded.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4298">
@@ -781,7 +668,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="45" lean-forward="true" selection-start-line="0" selection-start-column="45" selection-end-line="0" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -789,7 +675,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
           <caret line="815" column="0" lean-forward="false" selection-start-line="815" selection-start-column="0" selection-end-line="815" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -797,17 +682,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1073">
           <caret line="69" column="7" lean-forward="true" selection-start-line="69" selection-start-column="7" selection-end-line="69" selection-end-column="7" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataArray/DataArrayComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-404">
-          <caret line="5" column="6" lean-forward="false" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -815,20 +689,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
           <caret line="38" column="13" lean-forward="true" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
-          <folding>
-            <marker date="1548259518661" expanded="true" signature="447:1074" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-back/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-402">
-          <caret line="43" column="86" lean-forward="true" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
-          <folding>
-            <marker date="1548259518652" expanded="true" signature="4883:5527" ph="{...}" />
-            <marker date="1548259518652" expanded="true" signature="5405:5523" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -838,64 +698,64 @@
           <caret line="101" column="25" lean-forward="false" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
           <folding>
             <element signature="e#0#38#0" expanded="false" />
-            <marker date="1548259518670" expanded="true" signature="505:4994" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="4913:4956" ph="&lt;div/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="4913:4975" ph="&lt;div/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="4913:4992" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5030:6659" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5054:5177" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5097:5171" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5122:5161" ph="{&quot;code&quot;: &quot;&quot;...}" />
-            <marker date="1548259518670" expanded="true" signature="5197:5408" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5427:5893" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5477:5812" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5586:5800" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5629:5712" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5717:5786" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5817:5887" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5907:6657" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="5937:6067" ph="{&quot;name&quot;: 'recoverycode'...}" />
-            <marker date="1548259518670" expanded="true" signature="6094:6199" ph="{&quot;name&quot;: &quot;codevalidatebutton&quot;...}" />
-            <marker date="1548259518670" expanded="true" signature="6231:6640" ph="&lt;React.Fragment/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="6264:6435" ph="&lt;div/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="6452:6610" ph="&lt;div/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="6694:9120" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="6718:6884" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="6761:6877" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="6786:6867" ph="{&quot;newpassword&quot;: &quot;&quot;...}" />
-            <marker date="1548259518670" expanded="true" signature="6905:7107" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="7127:7749" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="7267:7743" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="7457:7731" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="7552:7632" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="7636:7713" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="7763:9118" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="7794:7959" ph="{&quot;name&quot;: 'newpassword'...}" />
-            <marker date="1548259518670" expanded="true" signature="7996:8181" ph="{&quot;name&quot;: 'newpasswordtwo'...}" />
-            <marker date="1548259518670" expanded="true" signature="8216:8316" ph="{&quot;name&quot;: 'previous'...}" />
-            <marker date="1548259518670" expanded="true" signature="8347:8441" ph="{&quot;name&quot;: 'next'...}" />
-            <marker date="1548259518670" expanded="true" signature="8473:9101" ph="&lt;div/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="8534:8831" ph="&lt;div/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="8848:9082" ph="&lt;div/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="9156:9331" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="9171:9329" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="9202:9312" ph="&lt;div/&gt;" />
-            <marker date="1548259518670" expanded="true" signature="9388:9579" ph="[...]" />
-            <marker date="1548259518670" expanded="true" signature="9603:9830" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="9646:9824" ph="{&quot;email&quot;: &quot;&quot;...}" />
-            <marker date="1548259518670" expanded="true" signature="9851:10005" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="9900:9999" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="10025:10224" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="10131:10218" ph="//..." />
-            <marker date="1548259518670" expanded="true" signature="10241:10508" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="10265:10401" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="10626:11223" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="10667:11217" ph="{...}" />
-            <marker date="1548259518670" expanded="true" signature="10688:10752" ph="..." />
-            <marker date="1548259518670" expanded="true" signature="10772:10904" ph="..." />
-            <marker date="1548259518670" expanded="true" signature="10924:11055" ph="..." />
-            <marker date="1548259518670" expanded="true" signature="11075:11178" ph="..." />
-            <marker date="1548259518670" expanded="true" signature="11200:11207" ph="..." />
+            <marker date="1548949492424" expanded="true" signature="505:4994" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="4913:4956" ph="&lt;div/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="4913:4975" ph="&lt;div/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="4913:4992" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5030:6659" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5054:5177" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5097:5171" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5122:5161" ph="{&quot;code&quot;: &quot;&quot;...}" />
+            <marker date="1548949492424" expanded="true" signature="5197:5408" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5427:5893" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5477:5812" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5586:5800" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5629:5712" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5717:5786" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5817:5887" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5907:6657" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="5937:6067" ph="{&quot;name&quot;: 'recoverycode'...}" />
+            <marker date="1548949492424" expanded="true" signature="6094:6199" ph="{&quot;name&quot;: &quot;codevalidatebutton&quot;...}" />
+            <marker date="1548949492424" expanded="true" signature="6231:6640" ph="&lt;React.Fragment/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="6264:6435" ph="&lt;div/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="6452:6610" ph="&lt;div/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="6694:9120" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="6718:6884" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="6761:6877" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="6786:6867" ph="{&quot;newpassword&quot;: &quot;&quot;...}" />
+            <marker date="1548949492424" expanded="true" signature="6905:7107" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="7127:7749" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="7267:7743" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="7457:7731" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="7552:7632" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="7636:7713" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="7763:9118" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="7794:7959" ph="{&quot;name&quot;: 'newpassword'...}" />
+            <marker date="1548949492424" expanded="true" signature="7996:8181" ph="{&quot;name&quot;: 'newpasswordtwo'...}" />
+            <marker date="1548949492424" expanded="true" signature="8216:8316" ph="{&quot;name&quot;: 'previous'...}" />
+            <marker date="1548949492424" expanded="true" signature="8347:8441" ph="{&quot;name&quot;: 'next'...}" />
+            <marker date="1548949492424" expanded="true" signature="8473:9101" ph="&lt;div/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="8534:8831" ph="&lt;div/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="8848:9082" ph="&lt;div/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="9156:9331" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="9171:9329" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="9202:9312" ph="&lt;div/&gt;" />
+            <marker date="1548949492424" expanded="true" signature="9388:9579" ph="[...]" />
+            <marker date="1548949492424" expanded="true" signature="9603:9830" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="9646:9824" ph="{&quot;email&quot;: &quot;&quot;...}" />
+            <marker date="1548949492424" expanded="true" signature="9851:10005" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="9900:9999" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="10025:10224" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="10131:10218" ph="//..." />
+            <marker date="1548949492424" expanded="true" signature="10241:10508" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="10265:10401" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="10626:11223" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="10667:11217" ph="{...}" />
+            <marker date="1548949492424" expanded="true" signature="10688:10752" ph="..." />
+            <marker date="1548949492424" expanded="true" signature="10772:10904" ph="..." />
+            <marker date="1548949492424" expanded="true" signature="10924:11055" ph="..." />
+            <marker date="1548949492424" expanded="true" signature="11075:11178" ph="..." />
+            <marker date="1548949492424" expanded="true" signature="11200:11207" ph="..." />
           </folding>
         </state>
       </provider>
@@ -904,15 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
           <caret line="91" column="6" lean-forward="false" selection-start-line="91" selection-start-column="6" selection-end-line="91" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/server/ServerService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="6" column="8" lean-forward="false" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -920,94 +771,282 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="27" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/CoursesComponent/Courses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="79" lean-forward="false" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="79" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/components/ConnexionComponent/ConnexionComponent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="41" column="91" lean-forward="false" selection-start-line="41" selection-start-column="91" selection-end-line="41" selection-end-column="91" />
+        <state relative-caret-position="612">
+          <caret line="42" column="91" lean-forward="false" selection-start-line="42" selection-start-column="91" selection-end-line="42" selection-end-column="91" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/server/axiosInstance.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-345">
-          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#0#41#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/components/NavbarComponent/NavBar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="37" column="157" lean-forward="false" selection-start-line="37" selection-start-column="157" selection-end-line="37" selection-end-column="157" />
+        <state relative-caret-position="850">
+          <caret line="50" column="37" lean-forward="false" selection-start-line="50" selection-start-column="37" selection-end-line="50" selection-end-column="37" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#0#39#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/course-app-back/authentication.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="187" column="9" lean-forward="false" selection-start-line="187" selection-start-column="9" selection-end-line="187" selection-end-column="9" />
-          <folding />
+        <state relative-caret-position="3179">
+          <caret line="189" column="9" lean-forward="false" selection-start-line="189" selection-start-column="9" selection-end-line="189" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-back/endpoints.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-402">
-          <caret line="50" column="16" lean-forward="false" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-back/endpoints.js" />
     <entry file="file://$PROJECT_DIR$/course-app-front/src/components/UsersComponent/Users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="67" column="18" lean-forward="false" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
+        <state relative-caret-position="1241">
+          <caret line="75" column="18" lean-forward="false" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js">
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/AddAdminCourseComponent/AddAdminCourse.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="57" column="5" lean-forward="false" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
+        <state relative-caret-position="323">
+          <caret line="19" column="12" lean-forward="false" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/FlashComponent/Flash.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="14" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataManagerComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="806">
+          <caret line="54" column="17" lean-forward="false" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/ShowDataComponent/ShowDataComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataArray/DataArrayComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="34" column="19" lean-forward="false" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/node_modules/react-router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="901">
+          <caret line="53" column="14" lean-forward="false" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="14" lean-forward="false" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#26#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_cdn.jsdelivr.net_npm_katex@0.10.0_dist_katex.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-28604">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/server/axiosInstance.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#26#0" expanded="false" />
+            <marker date="1548759849107" expanded="true" signature="3049:3085" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/CoursesComponent/Courses.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="48" column="41" lean-forward="false" selection-start-line="48" selection-start-column="41" selection-end-line="48" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DataManagerComponent/DataModelsComponent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="23" lean-forward="false" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+        <state relative-caret-position="153">
+          <caret line="9" column="102" lean-forward="false" selection-start-line="9" selection-start-column="102" selection-end-line="9" selection-end-column="102" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/node_modules/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="668" column="13" lean-forward="true" selection-start-line="668" selection-start-column="13" selection-end-line="668" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/basics.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="14" column="23" lean-forward="false" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/App.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/QuillComponent/QuillComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="27" column="39" lean-forward="false" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#87#151#0" expanded="true" />
+            <marker date="1548943068765" expanded="true" signature="2029:2073" ph="..." />
+            <marker date="1548943068765" expanded="true" signature="2159:2183" ph="..." />
+            <marker date="1548943068765" expanded="true" signature="2231:2255" ph="..." />
+            <marker date="1548943068765" expanded="true" signature="2303:2327" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/FormCreator/BasicFormCreatorComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-769">
+          <caret line="5" column="6" lean-forward="false" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/modal.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/DataManagerPage/DataManagerPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/server/ServerService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="77" column="24" lean-forward="false" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-back/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="158" column="29" lean-forward="true" selection-start-line="158" selection-start-column="29" selection-end-line="158" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-back/cruds.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-504">
+          <caret line="46" column="28" lean-forward="true" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/Modal/ModalComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="35" column="13" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="35" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/modal/ModalService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/course-app-front/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="78" column="73" lean-forward="false" selection-start-line="78" selection-start-column="73" selection-end-line="78" selection-end-column="73" />
+        <state relative-caret-position="648">
+          <caret line="143" column="28" lean-forward="false" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/course-app-front/src/components/DanielComponent/CreateCourseComponent/CreateCourseComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="53" column="57" lean-forward="true" selection-start-line="53" selection-start-column="57" selection-end-line="53" selection-end-column="57" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

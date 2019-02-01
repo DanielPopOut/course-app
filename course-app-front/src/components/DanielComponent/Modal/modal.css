@@ -14,8 +14,6 @@
 }
 
 .modal-box {
-    min-width: 300px;
-    min-height: 300px;
     height: max-content;
     background-color: white;
     border-radius: 5px;

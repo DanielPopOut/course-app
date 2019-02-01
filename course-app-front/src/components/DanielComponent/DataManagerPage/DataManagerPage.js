@@ -4,7 +4,7 @@ import { usersModel } from '../../DataManagerComponent/DataModelsComponent';
 import { ServerService } from '../../../server/ServerService';
 import DataArrayComponent from '../DataArray/DataArrayComponent';
 import BasicFormCreatorComponent from '../FormCreator/BasicFormCreatorComponent';
-import {ButtonHelper} from "../../HelperComponent/FormHelper";
+import { ButtonHelper } from '../../HelperComponent/FormHelper';
 
 class DataManagerPage extends Component {
     //Prend un objet dataModel qui représente le formulaire à créer
@@ -15,7 +15,7 @@ class DataManagerPage extends Component {
         // let dataModel = UserModel;
         let dataToSendModel = usersModel.fields;
 
-        if(!props.dataToShow){
+        if (!props.dataToShow) {
             this.retrieveDataOnServer();
         }
         this.state = {
@@ -28,37 +28,41 @@ class DataManagerPage extends Component {
     }
 
     retrieveDataOnServer() {
-        if(!this.props.collection){
-            return ;
+        if (!this.props.collection) {
+            return;
         }
         ServerService.postToServer('crudOperations/get', {collection: this.props.collection}).then(response => {
             console.log(response);
-            this.setState({dataToShow: response.data})
+            this.setState({dataToShow: response.data});
         });
     }
 
     insertElementInDataBase(element) {
-        ServerService.postToServer('crudOperations/insert', {collection: this.props.collection, data: element}).then(response => {
-            if (response.status === 200) {
-                this.addElementToList(Object.assign(element, {_id: response.data}))
-            }
-        });
+        ServerService.postToServer('crudOperations/insert', {collection: this.props.collection, data: element})
+                     .then(response => {
+                         if (response.status === 200) {
+                             this.addElementToList(Object.assign(element, {_id: response.data}));
+                         }
+                     });
     }
-    updateElementInDataBase(element) {
-        return ServerService.postToServer('crudOperations/update', {collection: this.props.collection, data: element}).then(response => {
-            console.log('updateresult', response);
-            return response.status === 200 ? this.updateElement(element) :false;
-        });
+
+    replaceElementInDataBase(element) {
+        return ServerService.postToServer('crudOperations/replace', {collection: this.props.collection, data: element})
+                            .then(response => {
+                                console.log('updateresult', response);
+                                return response.status === 200 ? this.updateElement(element) : false;
+                            });
     }
+
     deleteElementInDataBase(element) {
         console.log('you are trying to delete this.' +
-            {collection: this.props.collection, data: element} );
-        return(
+            {collection: this.props.collection, data: element});
+        return (
             ServerService.postToServer('crudOperations/delete', {collection: this.props.collection, data: element})
-            .then(response => {
-                console.log('delete result', response);
-                return response.status === 200 ? this.deleteElement(element) :false;
-            })
+                         .then(response => {
+                             console.log('delete result', response);
+                             return response.status === 200 ? this.deleteElement(element) : false;
+                         })
         );
     }
 
@@ -105,20 +109,20 @@ class DataManagerPage extends Component {
 
             <ModalComponent
                 visible={this.state.modalVisibility}
-                onClose={() => this.setState({modalVisibility: false})}
-                children={
-                    <BasicFormCreatorComponent
-                                dataModel={this.props.fields}
-                                onValidate={element => this.insertElementInDataBase(element)}
-                    />}
-           />
+                onClose={() => this.setState({modalVisibility: false})}>
+                <BasicFormCreatorComponent
+                    dataModel={this.props.fields}
+                    onValidate={element => this.insertElementInDataBase(element)}
+                />
+            </ModalComponent>
 
             <DataArrayComponent
-                title={this.props.collection }
+                title={this.props.collection}
                 dataModel={this.props.fields}
-                fields={this.props.fields ? this.props.fields.map(x=> x.name) : null}
+                fields={this.props.fields ? this.props.fields.map(x => x.name) : null}
                 dataToShow={this.state.dataToShow}
-                updateElement={elementToUpdate => this.updateElementInDataBase(elementToUpdate)}
+                onElementClick={()=>console.log('banana')}
+                updateElement={elementToUpdate => this.replaceElementInDataBase(elementToUpdate)}
                 deleteElement={elementToUpdate => this.deleteElementInDataBase(elementToUpdate)}
             />
         </div>;

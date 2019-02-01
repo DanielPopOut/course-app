@@ -35,6 +35,20 @@ const replaceOneDocumentById = function (collection, documentToUpdate, callback)
         callback(result);
     });
 };
+const updateOneDocumentById = function (collection, documentToUpdate, updateToMake, callback) {
+    // Insert some documents
+    client.connect(async function (err) { //server connection
+        assert.equal(null, err);
+        console.log('connected successfully to server');
+        db = client.db(dbName);
+        console.log('update To make', updateToMake, {_id: ObjectID(documentToUpdate._id)});
+        let result =  await db.collection(collection)
+          .updateOne({_id: ObjectID(documentToUpdate._id)},
+              updateToMake);
+        console.log(result.result);
+        callback(result);
+    });
+};
 const deleteOneDocumentById = function (collection, documentToDelete, callback) {
     // Insert some documents
     client.connect(async function (err) { //server connectiogit pulln
@@ -103,10 +117,16 @@ router.post('/delete', function (req, res) {
     deleteOneDocumentById(collection, data, (result) => res.send(result));
 });
 
-router.post('/update', function (req, res) {
+router.post('/replace', function (req, res) {
     let {collection, data} = {...req.body};
     console.log(collection, data);
     replaceOneDocumentById(collection, data, (result) => res.send(result.insertedId));
+
+});
+router.post('/update', function (req, res) {
+    let {collection, data, update} = {...req.body};
+    console.log(collection, data, update);
+    updateOneDocumentById(collection, data,update, (result) => res.send(result));
 
 });
 

@@ -12,8 +12,10 @@ import Users from './components/UsersComponent/Users';
 import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
 import {usersModel} from './components/DataManagerComponent/DataModelsComponent';
 import {getToken, removeToken, userLogged$, messageToShow$} from './server/axiosInstance';
-import ModalComponent from "./components/DanielComponent/Modal/ModalComponent";
+import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
 import Redirect from "react-router-dom/es/Redirect";
+import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
+import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
 import Connexion from "./components/ConnexionComponent/Connexion";
 
 
@@ -120,13 +122,15 @@ class App extends Component {
                 <main className={' container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
 
                     <Route exact path='/' component = {Welcome}/>
-                    <Route path='/welcome' component = {Welcome}/>
+                    <Route push path='/welcome' component = {Welcome}/>
                     <Route path='/courses' component = {Courses}/>
                     <Route path='/course/:id' component = {Course}/>
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
+                    {/*<Route path='/quill' render={(props) => <QuillComponent/>}/>*/}
+                    <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>
 
 
                     {/*<DataManagerPage {...coursesModel} />*/}
@@ -137,6 +141,8 @@ class App extends Component {
                 </main>
                 <footer>
                 </footer>
+                <ModalComponent2/>
+
             </div>
         );
     }

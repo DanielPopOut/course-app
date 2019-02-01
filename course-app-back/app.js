@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 
 app.use(function (req, res, next) {
-    console.info(`${req.method} ${req.originalUrl}`);
+    // console.info(`${req.method} ${req.originalUrl}`);
     next();
 });
 
@@ -163,8 +163,8 @@ app.post('/finduserswithemails',(req,res)=>{
 
 
 app.post('/*', (req,res,next)=>{
-    console.log(req);
-    console.log('voiciiiiii');
+    // console.log(req);
+    // console.log('voiciiiiii');
     next()
 });
 app.use('/authentication', authentication);
