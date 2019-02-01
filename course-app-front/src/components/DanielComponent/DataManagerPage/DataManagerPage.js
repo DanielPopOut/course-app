@@ -99,7 +99,7 @@ class DataManagerPage extends Component {
             <div className='flex-container flex-center'>
                 <span style={{fontSize: '30px', fontWeight: '800'}}>{this.props.collection} </span>
                 <ButtonHelper
-                    params={{value:'NEW',className :'form-helper-button warning'}}
+                    {...{value:'NEW',className :'form-helper-button warning'}}
                     onClick={() => this.setState({modalVisibility: true})}/>
             </div>
 

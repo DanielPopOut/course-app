@@ -1,6 +1,6 @@
 // import { getDocuments, insertOneDocument } from './basicDBFunction';
 // import { getDocuments, insertOneDocument } from './basicDBFunction';
-let BDFunctions=require('./basicDBFunction');
+let DBFunctions=require('./basicDBFunction');
 let MailingFunctions=require('./mail');
 const express = require('express');
 const app = express();
@@ -143,11 +143,24 @@ app.get('/findusers',(req,res)=>{
             }
 
         };
-    getDocuments('users',options,(err,docs)=>{
+    DBFunctions.getDocuments('users',options,(err,docs)=>{
         assert.equal(null, err);
         res.send({success:1,message:"Ce Compte existe deja !",'users':docs});
     });
 });
+app.post('/finduserswithemails',(req,res)=>{
+    //console.log("req query "+JSON.stringify(req.query));
+    let options= {
+            queries:{
+                email:{$in:req.body}
+            }
+        };
+   DBFunctions.getDocuments('users',options,(err,docs)=>{
+        assert.equal(null, err);
+        res.status(200).json({message:docs.length+" record(s)",users:docs});
+    });
+});
+
 
 app.post('/*', (req,res,next)=>{
     console.log(req);

@@ -42,7 +42,7 @@ class BasicFormCreatorComponent extends Component {
                 value: this.state.dataToSend[dataModelElement.name] || ''
             };
             return <div className='label-input-div' key={dataModelElement.name}>
-                <InputHelper params={inputparams} onChange={e => this.modifyData(e)}/>
+                <InputHelper {...inputparams} onChange={e => this.modifyData(e)}/>
             </div>;
         });
     }
@@ -64,7 +64,7 @@ class BasicFormCreatorComponent extends Component {
                 {   this.props.onValidate?
                     <ButtonHelper
                         onClick={() => this.props.onValidate( this.state.dataToSend)}
-                        params={{
+                        {...{
                             type:'button',
                             value:'Valider',
                             className:'form-helper-button success'
@@ -74,7 +74,7 @@ class BasicFormCreatorComponent extends Component {
                 {   this.props.onDelete?
                     <ButtonHelper
                         onClick={() => this.props.onDelete( this.state.dataToSend)}
-                        params={{
+                        {...{
                             type:'button',
                             value:'Supprimer',
                             className:'form-helper-button danger'
@@ -85,7 +85,7 @@ class BasicFormCreatorComponent extends Component {
                 this.props.onModify?
                     <ButtonHelper
                         onClick={() => this.props.onModify( this.state.dataToSend)}
-                        params={{
+                        {...{
                             type:'button',
                             value:'Modifier',
                             className:'form-helper-button success'

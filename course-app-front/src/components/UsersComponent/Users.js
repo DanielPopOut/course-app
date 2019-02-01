@@ -133,7 +133,7 @@ class UserInterfaceHeader extends Component{
                </div>
                <div className={"user-search-new-div"}>
                    <div className={"div-user-search-block"}>
-                       <InputTextHelper params={inputsearchparams}
+                       <InputTextHelper {...inputsearchparams}
                               onChange={(e)=>this.handleChange(e)}
                        />
                        <div className={"div-img-search"}>
@@ -145,7 +145,7 @@ class UserInterfaceHeader extends Component{
                    </div>
                    <div className={'new-user-button'}>
 
-                   <ButtonHelper params={buttonnewuser} onClick={(e)=>this.handleClick(e)}/>
+                   <ButtonHelper {...buttonnewuser} onClick={(e)=>this.handleClick(e)}/>
 
                    </div>
                </div>

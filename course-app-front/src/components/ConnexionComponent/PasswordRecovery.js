@@ -72,12 +72,12 @@ class FirstStep extends Component {
         switch (this.state.contactoremail) {
             case "email":
                 return (
-                    <InputTextHelper params={this.state.inputEmailparams} onChange={(e) => this.handleChange(e)}/>
+                    <InputTextHelper {...this.state.inputEmailparams} onChange={(e) => this.handleChange(e)}/>
                 );
                 break;
             case "contact":
                 return (
-                    <InputTextHelper params={this.state.inputcontactparams} onChange={(e) => this.handleChange(e)}/>
+                    <InputTextHelper {...this.state.inputcontactparams} onChange={(e) => this.handleChange(e)}/>
                 );
                 break;
             default : break;
@@ -197,10 +197,10 @@ class SecondStep extends Component {
         return (
             <React.Fragment>
                 <div className={"pass-recov-step-one-content"}>
-                    <InputTextHelper params={inputCodeparams} onChange={(e)=>this.handleChange(e)}/>
+                    <InputTextHelper {...inputCodeparams} onChange={(e)=>this.handleChange(e)}/>
                 </div>
                 <div className={""}>
-                    <ButtonHelper params={buttonParams} onClick={(e)=>this.handleClick(e)}> Valider</ButtonHelper>
+                    <ButtonHelper {...buttonParams} onClick={(e)=>this.handleClick(e)}> Valider</ButtonHelper>
                 </div>
             </React.Fragment>
         );
@@ -264,12 +264,12 @@ class ThirdStep extends Component {
         return (
             <div className={"pass-recov-newpass-block"}>
                 <div className={""}>
-                    <InputTextHelper params={inputNewPassword} required={'required'} onChange={(e)=>this.handleChange(e)}/>
-                    <InputTextHelper params={inputNewPasswordVerify} required={'required'} onChange={(e)=>this.handleChange(e)}/>
+                    <InputTextHelper {...inputNewPassword} required={'required'} onChange={(e)=>this.handleChange(e)}/>
+                    <InputTextHelper {...inputNewPasswordVerify} required={'required'} onChange={(e)=>this.handleChange(e)}/>
                 </div>
                 <div className={'hr-button-block'}>
-                    <ButtonHelper params={previousbuttonparams} onClick={(e)=>this.props.previousStep(e)} />
-                    <ButtonHelper params={nextbuttonparams} onClick={(e)=>this.handleClick(e)}/>
+                    <ButtonHelper {...previousbuttonparams} onClick={(e)=>this.props.previousStep(e)} />
+                    <ButtonHelper {...nextbuttonparams} onClick={(e)=>this.handleClick(e)}/>
                 </div>
             </div>
         );

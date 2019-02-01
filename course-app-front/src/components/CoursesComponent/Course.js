@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import './course.css';
 import {ButtonHelper} from "../HelperComponent/FormHelper";
+import NewTeacher from "./NewTeacher";
 
 const courseslist = [
     {
@@ -57,26 +58,18 @@ class Course extends Component{
         return (
             <div>
                 <div style={{textAlign:'right'}}>
-                    <ButtonHelper
-                        params={{
-                            name: 'newteacher',
-                            value: 'New Teacher',
-                            className: 'form-helper-button success'
-                        }} onClick={() => {
-                    }}
-                    />
+                    <NewTeacher course={this.state.courseToDisplay}/>
                 </div>
-
                 <h2>
                     {this.state.courseToDisplay.title}
-                </h2>
+                    </h2>
                 <div>
                     {this.state.courseToDisplay.description}
                     </div>
                 <div className={'course-content-div'}>
                     <div style={{textAlign:'right'}}>
                         <ButtonHelper
-                            params={{
+                            {...{
                                 name: 'newsection',
                                 value: 'New Section',
                                 className: 'form-helper-button success'
@@ -84,7 +77,6 @@ class Course extends Component{
                         }}
                         />
                     </div>
-
                 </div>
             </div>
         )

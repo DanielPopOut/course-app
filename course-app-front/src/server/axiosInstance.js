@@ -83,8 +83,8 @@ axiosInstance.interceptors.response.use(function (response) {
     // Do something with response error
     // console.log(error.response, error.response);
     if (error.response) {
-        if (error.response.data['text']) {
-            messageToShow.next(error.response.data['text']);
+        if (error.response.data['errorMessage']) {
+            messageToShow.next(error.response.data['errorMessage']);
         }
     }
     //     switch (error.response.status) {

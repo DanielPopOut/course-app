@@ -28,7 +28,7 @@ export class CheckBoxHelper extends Component {
     render() {
         return (
             <div>
-                <input type={'checkbox'} name={this.props.params.name}/>
+                <input type={'checkbox'} name={this.props.name}/>
                 <LabelHelper label={this.props.name}/>
             </div>
         );
@@ -40,7 +40,7 @@ export class CheckBoxesHelper extends Component {
         return (
             <div>
                 {this.props.options.map((params,key)=>{
-                   return( <CheckBoxHelper key={key} params={params}/>);
+                   return( <CheckBoxHelper key={key} {...params}/>);
                 })}
             </div>
         );
@@ -51,13 +51,13 @@ export class RadiosHelper extends Component {
         return (
             <div className={"form-helper-radio-group"}>
                 <div className={"form-helper-radio-group-header"}>
-                    {this.props.params.title || ""}
+                    {this.props.title || ""}
                 </div>
                 <div className={"form-helper-radio-group-body"}>
                     {
-                        this.props.params.options.map((option,key)=>{
-                            option=Object.assign({},option,{name:this.props.params.name});
-                            return( <RadioHelper key={key} params={option} onChange={(e)=>this.props.onChange(e)}/>);
+                        this.props.options.map((option,key)=>{
+                            option=Object.assign({},option,{name:this.props.name});
+                            return( <RadioHelper key={key} {...option} onChange={(e)=>this.props.onChange(e)}/>);
                     })}
 
                 </div>
@@ -71,8 +71,8 @@ export class RadioHelper extends Component {
     render() {
         return (
             <div>
-                <input type={'radio'} onChange={(e)=>this.props.onChange(e)} name={this.props.params.name}/>
-                <LabelHelper label={this.props.params.value}/>
+                <input type={'radio'} onChange={(e)=>this.props.onChange(e)} name={this.props.name}/>
+                <LabelHelper label={this.props.value}/>
             </div>
         );
     }
@@ -83,13 +83,13 @@ export class TextareaHelper extends Component {
     render() {
         return (
             <div className={'form-helper-div-input'}>
-                <LabelHelper label={this.props.params.label}/>
+                <LabelHelper label={this.props.label}/>
                 <textarea
                     required={'required'}
                     className={"form-helper-textarea"}
-                    name={this.props.params.name}
+                    name={this.props.name}
                     onChange={this.props.onChange}
-                    value={this.props.params.value}
+                    value={this.props.value}
                 >
                 </textarea>
             </div>
@@ -101,14 +101,14 @@ export class InputTextHelper extends Component {
     render() {
         return (
             <div className={'form-helper-div-input'}>
-                <LabelHelper label={ this.props.params.label}/>
-                <input type={this.props.params.type}
+                <LabelHelper label={ this.props.label}/>
+                <input type={this.props.type}
                        required={'required'}
-                       className={this.props.params.className || "form-helper-input"}
-                       name={this.props.params.name}
+                       className={this.props.className || "form-helper-input"}
+                       name={this.props.name}
                        onChange={(e)=>this.props.onChange(e)}
-                       value={this.props.params.value}
-                       placeholder={this.props.params.placeholder || this.props.params.name}
+                       value={this.props.value}
+                       placeholder={this.props.placeholder || this.props.name}
                 />
             </div>
         );
@@ -118,8 +118,8 @@ export class SelectHelper extends Component {
     render() {
         return (
             <div>
-                <select name={this.props.params.name}>
-                    {this.params.options.map(function (key,elt) {
+                <select name={this.props.name}>
+                    {this.options.map(function (key,elt) {
                         return (<option value={elt.avalue}> {elt.ashownvalue}  </option>);
                     })}
                 </select>
@@ -132,11 +132,11 @@ export class ButtonHelper extends Component {
     render() {
         return (
             <button
-                type={this.props.params.type}
-                className={this.props.params.className}
+                type={this.props.type}
+                className={this.props.className}
                 onClick={this.props.onClick}
             >
-                {this.props.params.value || this.props.params.name }
+                {this.props.value || this.props.name }
             </button>
         );
     }
@@ -148,7 +148,7 @@ export class ListFromModelHelper extends Component {
         this.state={
             dataToSend:{
                 target:{
-                    name:this.props.params.name,
+                    name:this.props.name,
                     value:[]
                 }
             }
@@ -161,7 +161,7 @@ export class ListFromModelHelper extends Component {
     }
     componentDidMount(){
        /* console.log(this.props.params);
-        console.log("list from "+this.props.params.targetedModel.dataModel + " Mounted");*/
+        console.log("list from "+this.props.targetedModel.dataModel + " Mounted");*/
         this.props.onChange(this.state.dataToSend);
     }
 
@@ -225,29 +225,29 @@ export class FormHelper extends Component {
                         case 'number':
                         case 'password': {
                             return (
-                                <InputTextHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
+                                <InputTextHelper key={key} options={options} {...elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'button': {
-                            return (<ButtonHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
+                            return (<ButtonHelper key={key} options={options} {...elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'select': {
-                            return (<SelectHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
+                            return (<SelectHelper key={key} options={options} {...elt} onChange={onChangeCallBack} />);
                         }
                         case 'listfrommodel': {
-                            return (<ListFromModelHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
+                            return (<ListFromModelHelper key={key} options={options} {...elt} onChange={onChangeCallBack} />);
                         }
                             break;
                         case 'textarea': {
-                            return (<TextareaHelper key={key} options={options} params={elt} onChange={onChangeCallBack} />);
+                            return (<TextareaHelper key={key} options={options} {...elt} onChange={onChangeCallBack} />);
                         }
                             break;
                     }
                 })}
                 <div className={'hr-button-block'}>
-                    <ButtonHelper params = {{type: 'reset', className:' form-helper-button danger', value:'Reset'}}/>
-                    <ButtonHelper params = {{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>
+                    <ButtonHelper {...{type: 'reset', className:' form-helper-button danger', value:'Reset'}}/>
+                    <ButtonHelper {...{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>
                 </div>
             </form>
             </div>
@@ -270,22 +270,22 @@ export class InputHelper extends Component {
             case 'number':
             case 'password': {
                 return (
-                    <InputTextHelper  options={options} params={params} onChange={onChangeCallBack} />);
+                    <InputTextHelper  options={options} {...params} onChange={onChangeCallBack} />);
             }
                 break;
             case 'button': {
-                return (<ButtonHelper options={options} params={params} onChange={onChangeCallBack} />);
+                return (<ButtonHelper options={options} {...params} onChange={onChangeCallBack} />);
             }
                 break;
             case 'select': {
-                return (<SelectHelper  options={options} params={params} onChange={onChangeCallBack} />);
+                return (<SelectHelper  options={options} {...params} onChange={onChangeCallBack} />);
             }
             case 'listfrommodel': {
-                return (<ListFromModelHelper  options={options} params={params} onChange={onChangeCallBack} />);
+                return (<ListFromModelHelper  options={options} {...params} onChange={onChangeCallBack} />);
             }
                 break;
             case 'textarea': {
-                return (<TextareaHelper options={options} params={params} onChange={onChangeCallBack} />);
+                return (<TextareaHelper options={options} {...params} onChange={onChangeCallBack} />);
             }
                 break;
         }

@@ -1,0 +1,41 @@
+.user-search-new-div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
+.search-input{
+    border: none !important;
+    max-height: 100%;
+    margin: 0 !important;
+    padding: 0px 6px !important;
+    border-radius: 4px;
+}
+.input-user-search:focus{
+    border-style: none;
+    border-right: 0px;
+}
+.div-img-search{
+    max-height: 45px;
+    padding: 1px;
+    max-width: 35px;
+}
+.button-image-user-search{
+    height: 100%;
+}
+.div-user-search-block{
+    display: flex;
+    flex: 2;
+    border: solid 1px #19042d70;
+    border-radius: 4px;
+    height: 35px;
+
+}
+.teacher-to-add-div{
+    display: flex;
+    border-bottom: solid thin black;
+
+}
+.teacher-to-add-div>div:nth-child(2){
+    flex: 1;
+}

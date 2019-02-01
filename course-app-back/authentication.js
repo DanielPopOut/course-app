@@ -1,25 +1,14 @@
-// import { findOneDocument, getDocuments, insertOneDocument, updateOne } from './basicDBFunction';
 
 let DBFunctions = require('./basicDBFunction');
 let MailingFunctions = require('./mail');
 
-
 let express = require('express');
 let router = express.Router();
 
-
-const mongo = require('mongodb');
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-
-const DB_URL = 'mongodb://localhost:27017/';
-const dbName = 'alpham';//'courseAppDB';
-const client = new MongoClient(DB_URL);
 const ObjectID = require('mongodb').ObjectID;
 const jwt = require('jsonwebtoken');
 
 const USER_DB_NAME = 'users';
-
 
 const generateToken = function (user) {
 
@@ -58,7 +47,7 @@ router.get('/validate/:id', (req, res) => {
 
 router.post('/newuser', (req, res) => {
     if (!req.body.email || !req.body.password) {
-        res.status(403).json({text: 'data required not filled'});
+        res.status(403).json({errorMessage: 'data required not filled'});
     }else{
         let options = {
             queries: {
@@ -75,18 +64,17 @@ router.post('/newuser', (req, res) => {
                     let success = JSON.stringify(result);
                     if (success === '{"n":1,"ok":1}') {
                         MailingFunctions.sendEmail(req.body.email, 'Bienvenue chez AlphaM', 'Cliquez sur ce lien pour confirmer votre compte :  http://localhost:7221/authentication/validate/' + result.insertedId);
-                        res.status(200).json({text: 'Compte enregistre. veuillez confirmer via votre adresse mail'});
+                        res.status(200).json({message: 'Compte enregistre. veuillez confirmer via votre adresse mail'});
                     } else {
-                        res.status(200).json({text: 'Desole. votre compte n\'a pas ete enregistre'});
+                        res.status(200).json({message: 'Desole. votre compte n\'a pas ete enregistre'});
                     }
                 });
             } else {
-                res.status(403).json({text: 'Ce Compte existe deja !'});
+                res.status(403).json({errorMessage: 'Ce Compte existe deja !'});
             }
         });
     }
 });
-
 
 router.post('/passwordRecovery', (req, res) => {
     console.log('req.body', req.body);
@@ -191,7 +179,6 @@ router.post('/passwordReset', (req, res) => {
         res.send(response);
     });
 });
-
 
 router.post('/login', function (req, res) {
     let options = {

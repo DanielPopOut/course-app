@@ -4,6 +4,7 @@ import './courses.css';
 
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import Redirect from "react-router-dom/es/Redirect";
+import RegisterForCourse from "./RegisterForCourse";
 
 const courseslist = [
     {
@@ -43,6 +44,12 @@ const courseslist = [
         "description "
     }
 ];
+let userConnected={
+    _id:'diirgwr5g7rwerue9r8e8',
+    name:'a name',
+    surname:'a surname'
+};
+
 
 class CoursesHeader extends Component{
     render(){
@@ -66,7 +73,7 @@ class CoursesHeader extends Component{
                 </div>
                 <div className={"user-search-new-div"}>
                     <div className={"div-user-search-block"}>
-                        <InputTextHelper params={inputsearchparams}
+                        <InputTextHelper {...inputsearchparams}
                                          onChange={(e)=>this.handleChange(e)}
                         />
                         <div className={"div-img-search"}>
@@ -77,7 +84,7 @@ class CoursesHeader extends Component{
                         </div>
                     </div>
                     <div className={'new-user-button'}>
-                        <ButtonHelper params={buttonnewuser} />
+                        <ButtonHelper {...buttonnewuser} />
                     </div>
                 </div>
             </React.Fragment>
@@ -94,7 +101,25 @@ class CoursesList extends Component{
         }
     }
 
+    register(course){
+        if(userConnected.hasOwnProperty('student')){
+            userConnected.student.push(course._id);
+            console.log('userConnected',userConnected);
+        }else {
+            let student=[];
+            student.push(course._id);
+            userConnected.student=student;
+            console.log('userConnected',userConnected);
+        }
+        return (true);
+    }
+    unregister(course){
+        userConnected.student=userConnected.student.filter((value)=>{return(value!==course._id)});
+        console.log('userConnected',userConnected);
+        return (true);
+    }
     handleClick(course){
+
         this.props.openCourse(course);
     }
 
@@ -104,15 +129,21 @@ class CoursesList extends Component{
                 {
                     this.state.dataToShow.map((course,key)=>{
                        return(
-                           <div key={key} onClick={(e)=>this.handleClick(course)} className={'course-item col-3'}>
+                           <div key={key} onClick={(e)=>this.handleClick(course)} className={'course-item col-3 tooltip'}>
                                <div>
                                    <img src={"images/prem_couv.jpg"}  className={'course-cover-image'} alt={'Premiere de couverture'}/>
-
                                    <div className={"course-description"}>
                                        {course.description}
                                    </div>
                                </div>
                                <div className={"course-title"}>{course.title}</div>
+                               <div className={"tooltip-content"} onClick={e=>e.stopPropagation()}>
+                                   <RegisterForCourse course={course}
+                                                      register={()=>this.register(course)}
+                                                      unregister={()=>this.unregister(course)}                                                         register={()=>this.register(course)
+                                                      }
+                                   />
+                               </div>
                            </div>
                        )
                     })
