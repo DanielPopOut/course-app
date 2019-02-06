@@ -175,7 +175,7 @@ class Teachers extends Component{
                         onChange={(e)=>this.handleChange(e)}
                     />
                     <div className={"div-img-search"}>
-                        <img src={"/images/search.jpg"}
+                        <img src={"/images/search.png"}
                              alt={"Search"}
                              onClick={(e)=>this.handleValidateSearch(e)}
                              className={"button-image-user-search"}/>

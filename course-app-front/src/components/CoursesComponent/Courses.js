@@ -3,8 +3,8 @@ import {Route, Link} from 'react-router-dom';
 import './courses.css';
 
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
-import Redirect from "react-router-dom/es/Redirect";
 import RegisterForCourse from "./RegisterForCourse";
+import {getToken, removeToken, userLogged$, messageToShow$, getDecodedToken} from '../../server/axiosInstance';
 
 const courseslist = [
     {
@@ -18,8 +18,6 @@ const courseslist = [
         '_id':2,
         title:"course title",
         description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
         "description "
     }, {
         '_id':3,
@@ -55,7 +53,7 @@ class CoursesHeader extends Component{
     render(){
         console.log("autre: ",this.props);
 
-        let buttonnewuser={
+        let buttonnewcourse={
             name:"newuserbutton",
             value:"Ajouter un cours",
             className:"form-helper-button success"
@@ -77,14 +75,14 @@ class CoursesHeader extends Component{
                                          onChange={(e)=>this.handleChange(e)}
                         />
                         <div className={"div-img-search"}>
-                            <img src={"/images/search.jpg"}
+                            <img src={"/images/search.png"}
                                  alt={"Search"}
                                  onClick={(e)=>this.handleValidateSearch(e)}
                                  className={"button-image-user-search"}/>
                         </div>
                     </div>
                     <div className={'new-user-button'}>
-                        <ButtonHelper {...buttonnewuser} />
+                        <ButtonHelper {...buttonnewcourse} />
                     </div>
                 </div>
             </React.Fragment>
@@ -94,14 +92,21 @@ class CoursesHeader extends Component{
 
 class CoursesList extends Component{
     constructor(props){
+        userLogged$.subscribe(bool => {this.handleUserLogin(bool)});
         //console.log("init: ",props);
         super(props);
         this.state={
             dataToShow:courseslist,
+            userLoggedIn:false,
         }
     }
 
-    register(course){
+    handleUserLogin(bool){
+        this.setState({
+            userLoggedIn:bool
+        });
+    }
+    registerforcourse(course){
         if(userConnected.hasOwnProperty('student')){
             userConnected.student.push(course._id);
             console.log('userConnected',userConnected);
@@ -113,16 +118,29 @@ class CoursesList extends Component{
         }
         return (true);
     }
-    unregister(course){
+    cancelregistration(course){
         userConnected.student=userConnected.student.filter((value)=>{return(value!==course._id)});
         console.log('userConnected',userConnected);
         return (true);
     }
     handleClick(course){
-
         this.props.openCourse(course);
     }
 
+    showInscriptionOptions(course){
+       // if(this.state.userLoggedIn){
+            return(
+                <div className={"tooltip-content"} onClick={e=>e.stopPropagation()}>
+                    <RegisterForCourse
+                        course={course}
+                        newregistration={()=>this.registerforcourse(course)}
+                        cancelregistration={()=>this.cancelregistration(course)}                                                         register={()=>this.register(course)
+                    }
+                    />
+                </div>
+            );
+       // }
+    }
     render(){
         return(
             <div className={'courses-list-div'}>
@@ -137,19 +155,12 @@ class CoursesList extends Component{
                                    </div>
                                </div>
                                <div className={"course-title"}>{course.title}</div>
-                               <div className={"tooltip-content"} onClick={e=>e.stopPropagation()}>
-                                   <RegisterForCourse course={course}
-                                                      register={()=>this.register(course)}
-                                                      unregister={()=>this.unregister(course)}                                                         register={()=>this.register(course)
-                                                      }
-                                   />
-                               </div>
+                               {this.showInscriptionOptions(course)}
                            </div>
-                       )
+                       );
                     })
                 }
             </div>
-            /* <DataManagerPage {...coursesModel}/>*/
         );
     }
 }
@@ -159,7 +170,6 @@ class CoursesFooter extends Component{
     render(){
         return(
             <div>
-
 
             </div>
         )
@@ -171,9 +181,11 @@ class Courses extends Component {
     constructor(props){
         super(props);
         this.state={
+            userLoggedIn:false
 
         }
     }
+
 
     handleOpenCourse(course){
         console.log("here");
@@ -186,7 +198,10 @@ class Courses extends Component {
         return (
             <React.Fragment>
                 <CoursesHeader/>
-                <CoursesList openCourse={(course)=>this.handleOpenCourse(course)}/>
+                <CoursesList
+                    openCourse = {(course)=>this.handleOpenCourse(course)}
+                    userLoggedIn = {this.state.userLoggedIn}
+                />
                 <CoursesFooter/>
             </React.Fragment>
         );

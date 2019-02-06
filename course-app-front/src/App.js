@@ -11,7 +11,7 @@ import ContactsComponent from './components/ContactsComponent/ContactsComponent'
 import Users from './components/UsersComponent/Users';
 import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
 import {usersModel} from './components/DataManagerComponent/DataModelsComponent';
-import {getToken, removeToken, userLogged$, messageToShow$} from './server/axiosInstance';
+import {getToken, removeToken,getDecodedToken, userLogged$, messageToShow$} from './server/axiosInstance';
 import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
 import Redirect from "react-router-dom/es/Redirect";
 import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
@@ -39,10 +39,7 @@ class App extends Component {
         if (bool){
             this.setDecodedToken();
         }else {
-            this.setState({
-                loggedIn: false,
-                decodedToken: ''
-            });
+            this.closeModal()
         }
     }
 
@@ -51,29 +48,15 @@ class App extends Component {
             messageModalVisibility: true,
             messageToShow: message,
         });
-        setTimeout(()=>this.setState({
-            messageModalVisibility: false,
-            messageToShow: '',
-        }),2000);
+        setTimeout(()=>this.closeModal(),2000);
     }
-
 
     setDecodedToken() {
-        let token = getToken();
-        console.log("here my token : "+token);
-        if (!getToken() || getToken().length < 1) return;
-        console.log(JSON.parse(window.atob(token.split('.')[1])));
         this.setState({
-            decodedToken: JSON.parse(window.atob(token.split('.')[1])),
+            decodedToken: getDecodedToken() || "",
         });
     }
-    deleteToken(){
-        if (getToken() || getToken().length > 1) {
-            removeToken()
-        };
 
-        return <Redirect to={'/welcome'}/>
-    }
 
     openMenu() {
         this.setState({menuOpen: true});
@@ -82,6 +65,12 @@ class App extends Component {
     closeMenu() {
         this.setState({menuOpen: false});
     }
+    closeModal(){
+        this.setState({
+            messageModalVisibility: false,
+            messageToShow: '',
+        })
+    }
 
     render() {
         return (
@@ -89,6 +78,7 @@ class App extends Component {
 
                 <ModalComponent
                     visible={this.state.messageModalVisibility}
+                    onClose={()=>this.closeModal()}
                 >
                     <div style={{color: 'black'}}>{this.state.messageToShow}</div>
                 </ModalComponent>
@@ -104,8 +94,6 @@ class App extends Component {
                     <NavBar
                         /* className='lg-only'*/
                         loggedIn={this.state.loggedIn}
-                        decodedToken={this.state.decodedToken}
-                        logout={()=>this.deleteToken()}
                     />
                 </nav>
 

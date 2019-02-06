@@ -121,7 +121,6 @@ class DataManagerPage extends Component {
                 dataModel={this.props.fields}
                 fields={this.props.fields ? this.props.fields.map(x => x.name) : null}
                 dataToShow={this.state.dataToShow}
-                onElementClick={()=>console.log('banana')}
                 updateElement={elementToUpdate => this.replaceElementInDataBase(elementToUpdate)}
                 deleteElement={elementToUpdate => this.deleteElementInDataBase(elementToUpdate)}
             />

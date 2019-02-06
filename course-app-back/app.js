@@ -1,22 +1,15 @@
-// import { getDocuments, insertOneDocument } from './basicDBFunction';
-// import { getDocuments, insertOneDocument } from './basicDBFunction';
-let DBFunctions=require('./basicDBFunction');
-let MailingFunctions=require('./mail');
 const express = require('express');
 const app = express();
 const port = 7221;
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const mongo = require('mongodb');
-const MongoClient = require('mongodb').MongoClient;
+
 const cruds = require('./cruds');
 const authentication = require('./authentication');
 const courses = require('./courses');
 
-const DB_URL = 'mongodb://localhost:27017/';
-const dbName = 'alpham';//'courseAppDB';
-const assert = require('assert');
-const client = new MongoClient(DB_URL);
+let CrudDBFunctions=require('./CrudDBFunctions');
+
 
 app.use(cors());
 // parse application/x-www-form-urlencoded
@@ -33,25 +26,17 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-
-/*app.get('/sendMail', (req,res)=>{
-    console.log('hmmmm');
-   MailingFunctions.sendEmail('daniel.tchangang@gmail.com', 'test', 'test oooohhhhh');
-});*/
-
 app.get('/', (req, res) => res.send('Hello World!'));
 
-
-app.get('/getDocuments/:collection/:options', function (req, res) {
+/*app.get('/getDocuments/:collection/:options', function (req, res) {
     getDocuments(req.params.collection, req.params.options, (err, docs) => {
         assert(true, err);
         console.log("list of documents returned");
         res.send(docs);
     });
-});
+});*/
 
-app.post('/insertDocument/:collection', function (req, res) {
+/*app.post('/insertDocument/:collection', function (req, res) {
     insertOneDocument(req.params.collection, req.body, function (result) {
         console.log("here the result" + JSON.stringify(result));
         let success = JSON.stringify(result);
@@ -64,9 +49,9 @@ app.post('/insertDocument/:collection', function (req, res) {
         }
         res.send(JSON.stringify({process: "process ended ", data: result}));
     });
-});
+});*/
 
-app.post('/course', (req, res) => {
+/*app.post('/course', (req, res) => {
     console.log(req.body);
     client.connect(function (err) {
         assert.equal(null, err);
@@ -78,9 +63,9 @@ app.post('/course', (req, res) => {
         // client.close();
     });
     res.json(areaToShow2);
-});
+});*/
 
-app.post('/module', (req, res) => {
+/*app.post('/module', (req, res) => {
     console.log(req.body);
     // let result = '';
     client.connect(function (err) {
@@ -93,9 +78,9 @@ app.post('/module', (req, res) => {
         // client.close();
     });
     // res.json(result);
-});
+});*/
 
-app.get('/module', (req, res) => {
+/*app.get('/module', (req, res) => {
     console.log(req.body);
     // let result = '';
     client.connect(function (err) {
@@ -109,9 +94,9 @@ app.get('/module', (req, res) => {
         });
         // client.close();
     });
-});
+});*/
 
-app.get('/course', (req, res) => {
+/*app.get('/course', (req, res) => {
     client.connect(function (err) {
         assert.equal(null, err);
         console.log("Connected successfully to server");
@@ -124,9 +109,9 @@ app.get('/course', (req, res) => {
         });
         // client.close();
     });
-});
+});*/
 
-app.get('/findusers',(req,res)=>{
+/*app.get('/findusers',(req,res)=>{
     //console.log("req query "+JSON.stringify(req.query));
     let options={};
     if(req.query.valueToSearch === "")
@@ -141,13 +126,12 @@ app.get('/findusers',(req,res)=>{
                     {email : req.query.valueToSearch}
                 ]
             }
-
         };
     DBFunctions.getDocuments('users',options,(err,docs)=>{
         assert.equal(null, err);
         res.send({success:1,message:"Ce Compte existe deja !",'users':docs});
     });
-});
+});*/
 app.post('/finduserswithemails',(req,res)=>{
     //console.log("req query "+JSON.stringify(req.query));
     let options= {
@@ -155,12 +139,19 @@ app.post('/finduserswithemails',(req,res)=>{
                 email:{$in:req.body}
             }
         };
-   DBFunctions.getDocuments('users',options,(err,docs)=>{
-        assert.equal(null, err);
-        res.status(200).json({message:docs.length+" record(s)",users:docs});
-    });
+   CrudDBFunctions.getAllDocument({
+       collection: 'users',
+       options: options,
+       callback: (result,err='')=>{
+           if(err){
+               console.log('error',err);
+               res.status(500).send({errorMessage:"User List Could not be returned !!"});
+           }else{
+               res.status(200).send(result);
+           }
+       }
+   });
 });
-
 
 app.post('/*', (req,res,next)=>{
     // console.log(req);

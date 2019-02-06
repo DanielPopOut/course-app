@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-let DBFunctions=require('./basicDBFunction');
+
 
 
 router.post('/newStudent', (req, res) => {

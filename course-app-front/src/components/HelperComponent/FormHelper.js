@@ -204,9 +204,10 @@ export class FormHelper extends Component {
     handleClick(e){
         let registration_path = this.props.registration_path || REGISTRATIONS_PATH+this.state.collectionName;
         ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
-            alert("suiguiente !!");
             if(response.status!==200){
                 alert(response.data.text);
+            }else{
+
             }
         });
     }
@@ -218,8 +219,9 @@ export class FormHelper extends Component {
             <div>
             <form>
                 <section className={"form-helper-title"}> <h3>user registration form</h3></section>
-                {this.props.data.fields.map(function (elt, key) {
-                    switch (elt.type) {
+                {
+                    this.props.data.fields.map(function (elt, key) {
+                        switch (elt.type) {
                         case 'text':
                         case 'email':
                         case 'number':
@@ -244,7 +246,8 @@ export class FormHelper extends Component {
                         }
                             break;
                     }
-                })}
+                    })
+                }
                 <div className={'hr-button-block'}>
                     <ButtonHelper {...{type: 'reset', className:' form-helper-button danger', value:'Reset'}}/>
                     <ButtonHelper {...{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>
@@ -291,7 +294,7 @@ export class InputHelper extends Component {
         }
     }
     render() {
-        return ( this.renderfield(this.props.params) );
+        return ( this.renderfield(this.props) );
     }
 }
 

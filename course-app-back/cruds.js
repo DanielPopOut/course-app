@@ -1,82 +1,6 @@
 let express = require('express');
 let router = express.Router();
-
-
-const mongo = require('mongodb');
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-
-const DB_URL = 'mongodb://localhost:27017/';
-const dbName = 'alpham';//'courseAppDB';
-const client = new MongoClient(DB_URL);
-const ObjectID = require('mongodb').ObjectID;
-
-
-const insertOneDocument = function (collection, documentToInsert, callback) {
-    // Insert some documents
-    client.connect(async function (err) { //server connection
-        assert.equal(null, err);
-        console.log('connected successfully to server');
-        db = client.db(dbName);
-        let result = await db.collection(collection)
-          .insertOne(documentToInsert);
-        callback(result);
-    });
-};
-const replaceOneDocumentById = function (collection, documentToUpdate, callback) {
-    // Insert some documents
-    client.connect(async function (err) { //server connection
-        assert.equal(null, err);
-        console.log('connected successfully to server');
-        db = client.db(dbName);
-        let result =  await db.collection(collection)
-          .replaceOne({_id: ObjectID(documentToUpdate._id)},
-              Object.assign(documentToUpdate, {_id: ObjectID(documentToUpdate._id)}));
-        callback(result);
-    });
-};
-const updateOneDocumentById = function (collection, documentToUpdate, updateToMake, callback) {
-    // Insert some documents
-    client.connect(async function (err) { //server connection
-        assert.equal(null, err);
-        console.log('connected successfully to server');
-        db = client.db(dbName);
-        console.log('update To make', updateToMake, {_id: ObjectID(documentToUpdate._id)});
-        let result =  await db.collection(collection)
-          .updateOne({_id: ObjectID(documentToUpdate._id)},
-              updateToMake);
-        console.log(result.result);
-        callback(result);
-    });
-};
-const deleteOneDocumentById = function (collection, documentToDelete, callback) {
-    // Insert some documents
-    client.connect(async function (err) { //server connectiogit pulln
-        assert.equal(null, err);
-        console.log('connected successfully to server');
-        db = client.db(dbName);
-        let result = await db.collection(collection)
-          .deleteOne({_id: ObjectID(documentToDelete._id)});
-        console.log('deletion happened', result);
-        callback(result);
-          //     , function (err, result) {
-          //     assert.equal(err, null);
-          //     callback(result);
-          // });
-    });
-};
-const getAllDocument = function (collection, callback) {
-    // Retrieve all documents
-    client.connect(async function (err) { //server connection
-        assert.equal(null, err);
-        console.log('connected successfully to server');
-        db = client.db(dbName);
-
-        let arrayElements = await db.collection(collection)
-                              .find({}).toArray();
-        callback(arrayElements);
-    });
-};
+let CrudDBFunctions = require('./CrudDBFunctions');
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now());
@@ -88,46 +12,101 @@ router.get('/', function (req, res, next) {
     next();
 });
 
-router.get('/loup', function (req, res) {
-    console.log('ekie');
-});
-// define the about route
-router.get('/about', function (req, res) {
-    res.send('About birds');
-});
-
 router.post('/get', function (req, res) {
     let {collection, data} = {...req.body};
     console.log(collection, data);
-    getAllDocument(collection, result => {
-        console.log(collection, result.length, ' elements returned ');
-        res.send(JSON.stringify(result));
+    CrudDBFunctions.getAllDocument({
+        collection:collection,
+        callback: (result,err='') => {
+            if (err) {
+                console.log('error', err);
+                res.status(400).send({message: "error"});
+            } else {
+                console.log(collection, result.length, ' elements returned ');
+                //res.status(200).json(JSON.stringify(result));
+                res.status(200).send(JSON.stringify(result));
+            }
+        }
     });
 });
 
 router.post('/insert', function (req, res) {
     let {collection, data} = {...req.body};
     console.log(collection, data);
-    insertOneDocument(collection, data, (result) => res.send(result.insertedId));
-});
+    CrudDBFunctions.insertOneDocument(collection, data,
+        (result,err='') => {
+        if(err) {
+
+            console.log('error',err);
+            res.status(400).send({message:"Insertion failed !!"});
+        }else {
+            console.log(collection, result.length, ' elements returned ');
+            //res.status(200).json(JSON.stringify(result));
+            res.status(200).send(result.insertedId);
+        }
+        //(result) => res.send(result.insertedId));
+});}
+);
 
 router.post('/delete', function (req, res) {
     let {collection, data} = {...req.body};
     console.log(collection, data);
-    deleteOneDocumentById(collection, data, (result) => res.send(result));
+    CrudDBFunctions.deleteOneDocumentById(
+        collection,
+        data,
+       // (result) => res.send(result),
+        (result,err='') => {
+            if(err) {
+                console.log('error',err);
+                res.status(400).send({message:"Deletion failed!!"});
+            }else {
+                console.log(collection, result.length, ' elements returned ');
+                //res.status(200).json(JSON.stringify(result));
+                res.status(200).send(result);
+            }
+        }
+
+    );
 });
 
 router.post('/replace', function (req, res) {
     let {collection, data} = {...req.body};
     console.log(collection, data);
-    replaceOneDocumentById(collection, data, (result) => res.send(result.insertedId));
+    CrudDBFunctions.replaceOneDocumentById(
+        collection,
+        data,
+        (result,err='') => {
+            if(err) {
+                console.log('error',err);
+                res.status(400).send({message:"replace failed!!"});
+            }else {
+               // console.log(collection, result, ' elements returned ');
+                //res.status(200).json(JSON.stringify(result));
+                res.status(200).send(result);
+            }
+        });
+        //(result) => res.send(result.insertedId));
 
 });
 router.post('/update', function (req, res) {
     let {collection, data, update} = {...req.body};
     console.log(collection, data, update);
-    updateOneDocumentById(collection, data,update, (result) => res.send(result));
-
+    CrudDBFunctions.updateOneDocumentById(
+        collection,
+        data,
+        update,
+        (result,err='') => {
+            if(err) {
+                console.log('error',err);
+                res.status(400).send({message:"update failed!!"});
+            }else {
+                console.log(collection, result.length, ' elements returned ');
+                //res.status(200).json(JSON.stringify(result));
+                res.status(200).send(result);
+            }
+        }
+    );
+        //(result) => res.send(result));
 });
 
 module.exports = router;

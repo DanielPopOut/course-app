@@ -6,86 +6,21 @@ import {ServerService} from "../../server/ServerService";
 import {LISTS_PATH, USERS_FILTER_PATH} from "../../server/SERVER_CONST";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
-
-
+import {loadDataIntoModel} from "../StaticFunctionsComponent/StaticFunctions";
 
 export class UsersCreationForm extends Component{
     render(){
         let options={label:''};
-
-        return(<FormHelper data={usersModel} registration_path={'authentication/newuser'} title={"Nouvel Utilisateur"} options={options}/>);
-    }
-}
-
-class SingleUserblock extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            user:this.props.user
-        }
-    }
-    handleClick(e){
-        this.props.handleClick(this.state.user);
-    }
-    render(){
         return(
-            <div onClick={(e)=>{this.handleClick(e)}} className={"user-list-single-block"}>
-                <div className={"user-list-avatar"}>
-                    <figure className={"figure-avatar"}>
-                        <img src={this.state.user.avatar || "/images/user3_thom1.png"} alt={"avatar"}/>
-                    </figure>
-                </div>
-                <div> {this.state.user.name}</div>
-                <div> {this.state.user.surname}</div>
-                <div> {this.state.user.address}</div>
-                <div> {this.state.user.contact}</div>
-                <div> {this.state.user.email}</div>
-            </div>
+            <FormHelper
+                data={usersModel}
+                registration_path={'authentication/newuser'}
+                title={"Nouvel Utilisateur"}
+                options={options}
+            />
         );
     }
 }
-/*
-class UsersList extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            selected:''
-        };
-    }
-    handleClick(user){
-        console.log(user);
-        let usersmodel= loadDataIntoModel(usersModel,user);
-        let visibility = true;
-        let children = <React.Fragment>
-            {/!*<DataViewElement data={user}/>*!/}
-            <FormHelper data={usersmodel} title={"Modify User"} modify={true} options={{label:false}} />
-        </React.Fragment>;
-        this.props.handleModal(visibility,children);
-    }
-    render(){
-        let listToShow= this.props.listToShow;
-        let fieldsToShow = ["",'Name','Surname','address','contact','email'];
-
-        return (
-            <div className={"users-interface-list-block"}>
-                <div className={"users-interface-list-block-header"}>
-                    <div>
-                        {
-                            fieldsToShow.map((elt, key) => {
-                                return (<div key={key}>{elt}</div>);
-                            })
-                        }
-                    </div>
-                </div>
-                {
-                    listToShow.map((elt, key) => {
-                        return (<SingleUserblock key={key} user={elt} handleClick={(user)=>this.handleClick(user)} />);
-                    })
-                }
-            </div>
-        );
-    }
-}*/
 
 class UserInterfaceHeader extends Component{
     constructor(props){
@@ -114,11 +49,6 @@ class UserInterfaceHeader extends Component{
     }
 
     render(){
-        let buttonnewuser={
-            name:"newuserbutton",
-            value:"Ajouter un utilisateur",
-            className:"form-helper-button success"
-        };
         let inputsearchparams={
             type:'text',
             name : 'input-user-search',
@@ -137,16 +67,11 @@ class UserInterfaceHeader extends Component{
                               onChange={(e)=>this.handleChange(e)}
                        />
                        <div className={"div-img-search"}>
-                           <img src={"/images/search.jpg"}
+                           <img src={"/images/search.png"}
                                 alt={"Search"}
                                 onClick={(e)=>this.handleValidateSearch(e)}
                                 className={"button-image-user-search"}/>
                        </div>
-                   </div>
-                   <div className={'new-user-button'}>
-
-                   <ButtonHelper {...buttonnewuser} onClick={(e)=>this.handleClick(e)}/>
-
                    </div>
                </div>
            </React.Fragment>
@@ -213,7 +138,7 @@ export default class Users extends Component{
                         <UserInterfaceHeader handleFilter={(users)=>this.handleFilter(users)} handleModal={(v,ch)=>this.handleModal(v,ch)}/>
                     </div>
                     <div className={"users-interface-content"}>
-                        <DataManagerPage {...usersModel}/>
+                        <DataManagerPage {...usersModel} />
                     </div>
                     <div className={"users-interface-footer"}>
                         <UserInterfaceFooter/>

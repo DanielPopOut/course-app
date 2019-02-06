@@ -30,6 +30,14 @@ export function getToken() {
     return localStorage.getItem(TOKEN);
 }
 
+export function getDecodedToken() {
+    let token = getToken();
+    console.log("here my token : "+token);
+    if (!getToken() || getToken().length < 1) return false;
+    console.log(JSON.parse(window.atob(token.split('.')[1])));
+    return(JSON.parse(window.atob(token.split('.')[1])));
+
+}
 
 let axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,

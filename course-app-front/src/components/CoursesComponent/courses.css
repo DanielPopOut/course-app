@@ -37,13 +37,14 @@
     visibility: hidden;
 }
 .tooltip .tooltip-content{
-    position: fixed;
-    top: 50%;
-    width: 100%;
+    visibility: hidden;
+    position: absolute;
+    top: 40%;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: center;
     background-color: transparent;
-
 }
 .tooltip:hover .tooltip-content{
     visibility: visible;

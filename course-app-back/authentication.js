@@ -1,17 +1,16 @@
 
-let DBFunctions = require('./basicDBFunction');
+let CrudDBFunctions = require('./CrudDBFunctions');
 let MailingFunctions = require('./mail');
 
 let express = require('express');
 let router = express.Router();
 
-const ObjectID = require('mongodb').ObjectID;
 const jwt = require('jsonwebtoken');
 
-const USER_DB_NAME = 'users';
+const collectionName = 'users';
+const ObjectID = require('mongodb').ObjectID;
 
 const generateToken = function (user) {
-
     let payload = {
         name: user.name,
         surname: user.surname,
@@ -28,25 +27,37 @@ const generateToken = function (user) {
 };
 
 router.get('/validate/:id', (req, res) => {
-    DBFunctions.findOneDocument(USER_DB_NAME,
-        {queries: {_id: ObjectID(req.params.id)}},
-        (err, doc) => {
-        if (doc){
-            DBFunctions.updateOne(USER_DB_NAME,
-                {filter: {_id: ObjectID(req.params.id)}, update: {$set: { validated : true }}},
-                (err, result)=> {
-                console.log(result);
-                    res.json("merci d'avoir validé votre compté :-)!")
-                })
-        }else {
-            console.log(doc)
-            res.json("Compte introuvable!")
+    CrudDBFunctions.getOneDocument({
+        collection:'users',
+        options:{
+            queries:{_id:ObjectID(req.params.id)}
+        },
+        callback:(result,err='')=>{
+            if(err){
+                res.status(403).send("users not found !!")
+            }else {
+                console.log("users to validate : ",result);
+                CrudDBFunctions.updateOneDocumentById(
+                    'users',
+                    result,
+                    {"validated":true},
+                    (result,err='')=>{
+                        if(err){
+                            console.log('err',err);
+                            res.status(400).send("User Found but validation Failed !!");
+                        }else {
+                            res.status(200).send("Email validated Successfully "+result);
+                        }
+                    }
+                )
+            }
         }
     });
+
 });
 
 router.post('/newuser', (req, res) => {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email || !req.body.password || !req.body.pseudo) {
         res.status(403).json({errorMessage: 'data required not filled'});
     }else{
         let options = {
@@ -58,19 +69,39 @@ router.post('/newuser', (req, res) => {
             },
         };
         let userExist = false;
-        DBFunctions.getDocuments(USER_DB_NAME, options, (err, docs) => {
-            if (docs.length === 0) {
-                DBFunctions.insertOneDocument('users', req.body, (result) => {
-                    let success = JSON.stringify(result);
-                    if (success === '{"n":1,"ok":1}') {
-                        MailingFunctions.sendEmail(req.body.email, 'Bienvenue chez AlphaM', 'Cliquez sur ce lien pour confirmer votre compte :  http://localhost:7221/authentication/validate/' + result.insertedId);
-                        res.status(200).json({message: 'Compte enregistre. veuillez confirmer via votre adresse mail'});
-                    } else {
-                        res.status(200).json({message: 'Desole. votre compte n\'a pas ete enregistre'});
+
+        CrudDBFunctions.getOneDocument({
+            collection:'users',
+            options:options,
+            callback:(result,err='')=>{
+                if(err){
+                    console.log('error',err);
+                    res.status(403).send('error while checking if user exist');
+                }else {
+                    if(!result){
+                        CrudDBFunctions.insertOneDocument(
+                            'users',
+                            req.body,
+                            (result,err='')=>{
+                                if(err){
+                                    console.log('error',err);
+                                    res.status(400).send('insertion failed');
+                                }else {
+                                    MailingFunctions.sendEmail(req.body.email, 'Bienvenue chez AlphaM', 'Cliquez sur ce lien pour confirmer votre compte :  http://localhost:7221/authentication/validate/' + result.insertedId);
+                                    res.status(200).json({message: 'Compte enregistre. veuillez confirmer via votre adresse mail'});
+                                }
+                            });
+                    }else {
+                        let message="";
+                        if(result.email === req.body.email){
+                            message=" Cet adresse est deja utilisé.";
+                        }
+                        if(result.pseudo === req.body.pseudo){
+                            message=message+" Ce Pseudo est deja utilisé.";
+                        }
+                        res.status(403).json({errorMessage: message});
                     }
-                });
-            } else {
-                res.status(403).json({errorMessage: 'Ce Compte existe deja !'});
+                }
             }
         });
     }
@@ -84,50 +115,46 @@ router.post('/passwordRecovery', (req, res) => {
             [req.body.contactoremail]: req.body[req.body.contactoremail],
         },
     };
+    CrudDBFunctions.getOneDocument({
+        collection:'users',
+        options:options,
+        callback: (result,err='') => {
+            if(err) {
+                console.log('error',err);
+                res.status(403).json({errorMessage:"Desole Cet Email n\'est pas valide !!"});
+            }else {
+                console.log(result.length, ' elements returned ');
+                //res.status(200).json(JSON.stringify(result));
+                let codeGenerator = () => {
+                    let code = new String();
+                    for (let i = 1; i <= 4; i++) {
+                        code = code + Math.floor(Math.random() * 10).toString();
+                    }
+                    return code;
+                };
+                let code = codeGenerator();
+                console.log('code : ' + code);
 
-    DBFunctions.getDocuments('users', options, (err, docs) => {
-        console.log('err: ' + err);
-        let codeGenerator = () => {
-            let code = new String();
-            for (let i = 1; i <= 4; i++) {
-                code = code + Math.floor(Math.random() * 10).toString();
+                CrudDBFunctions.updateOneDocumentById(
+                    'users',
+                    result,
+                    {"passwordresetcode": code},
+                    (result, err = '') => {
+                        if (err) {
+                            console.log('error', err);
+                            res.status(403).send({errorMessage: "Update failed !!"});
+                        } else {
+                           /* MailingFunctions.sendEmail(
+                                req.body[req.body.contactoremail],
+                                'Reinitialisation de votre mot de passe AlphaM',
+                                'Le code pour réinitialiser votre mot de passe est ' + code
+                            );*/
+                            res.status(200).send({message: "un code vous a ete envoye !'"})
+                        }
+                    });
+                //res.status(200).send(JSON.stringify(result));
             }
-            return code;
-        };
-        if (docs.length >= 1) {
-            console.log(docs);
-            let code = codeGenerator();
-            console.log('code : ' + code);
-            let updateParams = {
-                filter: {
-                    [req.body.contactoremail]: req.body[req.body.contactoremail],
-                },
-                update: {
-                    $set: {passwordresetcode: code},
-                },
-                options: {
-                    upsert: false,
-                },
-            };
-
-            // sendEmail("cyrilledassie@gmail.com","password-recovery",code);
-
-            DBFunctions.updateOne('users', updateParams, (err, result) => {
-                if (err) {
-                    throw err;
-                } else {
-                    console.log(err);
-                }
-            });
-            response = {success: 1, message: 'un code vous a ete envoye !'};
-            MailingFunctions.sendEmail(req.body[req.body.contactoremail],
-                'Reinitialisation de votre mot de passe AlphaM',
-                'Le code pour réinitialiser votre mot de passe est ' + code);
         }
-        else {
-            response = {success: 0, message: 'Compte Introuvable!. Verifiez vos parametres SVP.'};
-        }
-        res.send(response);
     });
 });
 
@@ -139,7 +166,19 @@ router.post('/passwordRecoveryCode', (req, res) => {
             passwordresetcode: req.body.code,
         },
     };
-    DBFunctions.findOneDocument('users', options, (err, doc) => {
+    CrudDBFunctions.getOneDocument({
+        collection:'users',
+        options,
+        callback:(result,err)=>{
+            if (err){
+                console.log("error ",err);
+                res.status(404),send({errorMessage:"User Not Found !!"});
+            } else {
+                res.status(200).send({message:"Code Vérifié"});
+            }
+        }
+    });
+   /* BasicDBFunctions.findOneDocument('users', options, (err, doc) => {
         console.log('document');
         console.log(JSON.stringify(doc));
         if (doc === null) {
@@ -147,7 +186,7 @@ router.post('/passwordRecoveryCode', (req, res) => {
         } else {
             res.send({success: 1, message: 'Code vérifié'});
         }
-    });
+    });*/
 });
 
 router.post('/passwordReset', (req, res) => {
@@ -167,7 +206,39 @@ router.post('/passwordReset', (req, res) => {
             upsert: false,
         },
     };
-    DBFunctions.updateOne('users', updateParams, (err, result) => {
+    let options = {
+        queries: {
+            [req.body.contactoremail]: req.body[req.body.contactoremail],
+            passwordresetcode: req.body.code,
+        },
+    };
+    CrudDBFunctions.getOneDocument({
+        collection:'users',
+        options:options,
+        callback:(result,err='')=>{
+            if(err){
+                console.log('error',err);
+                res.status(403).json({errorMessage:"corresponding user not Found"});
+            }else {
+                CrudDBFunctions.updateOneDocumentById(
+                    'users',
+                    result,
+                    {
+                        password: req.body.newpassword
+                    },
+                    (result,err='')=>{
+                        if(err){
+                            console.log('err',err);
+                            res.status(403).json({ errorMessage : "Password Reset failed !!" });
+                        }else {
+                            res.status(200).json({ message : " Password Reset Successfully" });
+                        }
+                    });
+            }
+        }
+    });
+
+    /*BasicDBFunctions.updateOne('users', updateParams, (err, result) => {
         let response = {};
         if (err) {
             response = {success: 0, message: 'Mise a jour non effectuee'};
@@ -177,7 +248,7 @@ router.post('/passwordReset', (req, res) => {
             console.log(err);
         }
         res.send(response);
-    });
+    });*/
 });
 
 router.post('/login', function (req, res) {
@@ -187,13 +258,22 @@ router.post('/login', function (req, res) {
             password: req.body.password,
         },
     };
-    DBFunctions.findOneDocument('users', options, (err, doc) => {
-        if (doc === null) {
-            res.status(403).json({text: 'Login Incorrect. Vérifiez vos parametres et reéssayez SVP!.'});
-        } else {
-            console.log(doc);
-            let token = generateToken(doc);
-            res.status(200).json({token: token});
+    CrudDBFunctions.getOneDocument({
+        collection:'users',
+        options:options,
+        callback:(result,err='')=>{
+            if(err){
+                console.log('login error ',err);
+                res.status(403).send({errorMessage:"Incorrect Login or Password !!"});
+            }else {
+                console.log(result);
+                if(result){
+                    let token = generateToken(result);
+                    res.status(200).json({token: token});
+                }else {
+                    res.status(403).send({errorMessage:"Incorrect Login or Password !!"});
+                }
+            }
         }
     });
 });

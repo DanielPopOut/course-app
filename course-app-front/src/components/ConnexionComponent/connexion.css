@@ -11,13 +11,8 @@
     border: solid 2px white;
     border-radius: 2px;
 }
-.connexion-tooltip{
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
 
-}
-.tooltip .tooltip-content{
+.connexion-tooltip .tooltip-content{
     visibility: hidden;
     background-color: #39336382;
     color: #f1f1f1;
@@ -30,7 +25,7 @@
     right: 0%;
 
 }
-.tooltip:hover .tooltip-content{
+.connexion-tooltip:hover .tooltip-content{
     visibility: visible;
 }
 .logout-div{

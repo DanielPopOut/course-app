@@ -56,11 +56,7 @@ export default class NavBar extends Component {
                         }
                     </div>
                 <div className={'navbar-right-side'}>
-                    <Connexion
-                        loggedIn={this.state.loggedIn}
-                        decodedToken={this.state.decodedToken}
-                        logout={() => this.deleteToken()}
-                    />
+                    <Connexion />
                 </div>
             </div>
         );
