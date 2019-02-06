@@ -144,11 +144,11 @@ router.post('/passwordRecovery', (req, res) => {
                             console.log('error', err);
                             res.status(403).send({errorMessage: "Update failed !!"});
                         } else {
-                           /* MailingFunctions.sendEmail(
+                            MailingFunctions.sendEmail(
                                 req.body[req.body.contactoremail],
                                 'Reinitialisation de votre mot de passe AlphaM',
                                 'Le code pour réinitialiser votre mot de passe est ' + code
-                            );*/
+                            );
                             res.status(200).send({message: "un code vous a ete envoye !'"})
                         }
                     });
