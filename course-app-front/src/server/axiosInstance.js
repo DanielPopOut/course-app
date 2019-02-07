@@ -2,7 +2,6 @@ import axios from 'axios';
 import { AUTHENTICATION, TOKEN } from './SERVER_CONST';
 import { Subject } from "rxjs";
 
-
 // Add a request interceptor
 const userLogged = new Subject();
 export const userLogged$ = userLogged.asObservable();
@@ -36,7 +35,6 @@ export function getDecodedToken() {
     if (!getToken() || getToken().length < 1) return false;
     console.log(JSON.parse(window.atob(token.split('.')[1])));
     return(JSON.parse(window.atob(token.split('.')[1])));
-
 }
 
 let axiosInstance = axios.create({
@@ -61,8 +59,6 @@ axiosInstance.interceptors.request.use(function (config) {
     // Do something with request error
     return Promise.reject(error.response);
 });
-
-
 
 axiosInstance.interceptors.response.use(function (response) {
     // Do something with response data

@@ -53,9 +53,8 @@ module.exports = {
                 let result = await database.collection(collection)
                     .replaceOne(
                         {_id: ObjectID(documentToUpdate._id)},
-                        Object.assign(documentToUpdate,updateToMake)
+                        Object.assign(documentToUpdate,{_id:ObjectID(documentToUpdate._id)},updateToMake)
                     );
-                console.log(result.result);
                 callback(result);
             }catch (e) {
                 callback({},e);

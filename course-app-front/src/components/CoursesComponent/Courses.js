@@ -128,7 +128,7 @@ class CoursesList extends Component{
     }
 
     showInscriptionOptions(course){
-       // if(this.state.userLoggedIn){
+       if(this.state.userLoggedIn){
             return(
                 <div className={"tooltip-content"} onClick={e=>e.stopPropagation()}>
                     <RegisterForCourse
@@ -139,27 +139,31 @@ class CoursesList extends Component{
                     />
                 </div>
             );
-       // }
+       }
     }
     render(){
         return(
-            <div className={'courses-list-div'}>
-                {
-                    this.state.dataToShow.map((course,key)=>{
-                       return(
-                           <div key={key} onClick={(e)=>this.handleClick(course)} className={'course-item col-3 tooltip'}>
-                               <div>
-                                   <img src={"images/prem_couv.jpg"}  className={'course-cover-image'} alt={'Premiere de couverture'}/>
-                                   <div className={"course-description"}>
-                                       {course.description}
-                                   </div>
-                               </div>
-                               <div className={"course-title"}>{course.title}</div>
-                               {this.showInscriptionOptions(course)}
-                           </div>
-                       );
-                    })
-                }
+            <div>
+                <div>Login state { this.state.userLoggedIn?"user connected " : "user logged out"}</div>
+                <div className={'courses-list-div'}>
+
+                    {
+                        this.state.dataToShow.map((course,key)=>{
+                            return(
+                                <div key={key} onClick={(e)=>this.handleClick(course)} className={'course-item col-3 tooltip'}>
+                                    <div>
+                                        <img src={"images/prem_couv.jpg"}  className={'course-cover-image'} alt={'Premiere de couverture'}/>
+                                        <div className={"course-description"}>
+                                            {course.description}
+                                        </div>
+                                    </div>
+                                    <div className={"course-title"}>{course.title}</div>
+                                    {this.showInscriptionOptions(course)}
+                                </div>
+                            );
+                        })
+                    }
+                </div>
             </div>
         );
     }

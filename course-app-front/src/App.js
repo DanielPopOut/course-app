@@ -48,7 +48,7 @@ class App extends Component {
             messageModalVisibility: true,
             messageToShow: message,
         });
-        setTimeout(()=>this.closeModal(),2000);
+       /* setTimeout(()=>this.closeModal(),2000);*/
     }
 
     setDecodedToken() {
@@ -79,6 +79,7 @@ class App extends Component {
                 <ModalComponent
                     visible={this.state.messageModalVisibility}
                     onClose={()=>this.closeModal()}
+                    position={25}
                 >
                     <div style={{color: 'black'}}>{this.state.messageToShow}</div>
                 </ModalComponent>

@@ -98,11 +98,18 @@ router.post('/update', function (req, res) {
         (result,err='') => {
             if(err) {
                 console.log('error',err);
-                res.status(400).send({message:"update failed!!"});
+                res.status(400).send({errorMessage:"update failed!!"});
             }else {
-                console.log(collection, result.length, ' elements returned ');
-                //res.status(200).json(JSON.stringify(result));
-                res.status(200).send(result);
+                if(result.result.nModified===0){
+                    console.log("update result", result.result);
+                    res.status(400).send({errorMessage:"update failed!!"});
+                    console.log("failed");
+                }else {
+                    console.log("successful");
+                    console.log("update result", result.result);
+                    //res.status(200).json(JSON.stringify(result));
+                    res.status(200).send(result);
+                }
             }
         }
     );

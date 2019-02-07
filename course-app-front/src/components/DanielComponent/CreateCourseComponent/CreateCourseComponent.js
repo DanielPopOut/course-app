@@ -6,7 +6,6 @@ import QuillComponent from '../QuillComponent/QuillComponent';
 import './CreateCourseComponent.css';
 import { ServerService } from '../../../server/ServerService';
 
-
 class CreateCourseComponent extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +24,6 @@ class CreateCourseComponent extends Component {
 
     async createNewCourseOnServer(title){
         let courseData = {title, content: '', chapters: []};
-        let courseDataId = 'azezrge"';
         let courseInserted = await ServerService.insertElementInDataBase('courses',courseData);
 
         console.log('result', courseInserted);
@@ -84,15 +82,6 @@ class SectionElementComponent extends Component {
     }
 
 
-    addContent(content) {
-        console.log(content, content.split[1]);
-        let requestToAddContentOnserver = true;
-        if (requestToAddContentOnserver) {
-            this.setState({element: Object.assign({}, this.state.element, {content: content})});
-        }
-        return requestToAddContentOnserver;
-    }
-
     createNewchildSectionOnServer(title){
         let childSectionData = {title, content: '', children: []};
         let childSectionDataId = 'azezrge"';
@@ -113,8 +102,19 @@ class SectionElementComponent extends Component {
         this.setState({children: [...this.state.children,childSectionDataWithId]});
     }
 
-    async modifyTitleOnServer(newTitle){
-        let changeDone = await ServerService.updateElementInDataBase(collectionDbName[this.props.elementName],this.state.element,{"$set":{"title": newTitle}});
+
+    async modifyContentOnServer(newContent){
+        let changeDone = await ServerService.updateElementInDataBase(collectionDbName[this.props.elementName],this.state.element,{"content": newContent});
+        return changeDone;
+    }
+
+    modifyContent(content) {
+        this.setState({
+            element: Object.assign({}, this.state.element, {content: content}),
+        });
+    }
+   async modifyTitleOnServer(newTitle){
+        let changeDone = await ServerService.updateElementInDataBase(collectionDbName[this.props.elementName],this.state.element,{"title": newTitle});
         return changeDone;
     }
 
@@ -129,13 +129,28 @@ class SectionElementComponent extends Component {
         return <button onClick={() => showModal({
             children: <QuillComponent
                 text={this.state.element.content}
-                onValidate={async (data) => {
+                onValidate={
+                    async data => {
+                        console.log(data);
+                        let newContent = data.text
+                        if (newContent) {
+                            let result = await this.modifyContentOnServer(newContent);
+                            if (result){
+                                this.modifyContent(newContent);
+                                showModal(false);
+                            }
+                        }
+                    }
+
+                    /*async (data) => {
                     let a = await this.addContent(data.text);
                     console.log('awaited ', a);
                     if (a) {
                         showModal(false);
                     }
-                }}
+                }*/
+
+                }
             />,
         })}>{objectToShow.content ? 'Modify' : 'Add'} content</button>
     }

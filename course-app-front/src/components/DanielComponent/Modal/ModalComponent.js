@@ -6,7 +6,7 @@ import { modalToShow$ } from '../../../modal/ModalService';
 function ModalComponent(props) {
 
         return(
-            <div className={'modal ' + (props.visible ?  '' : 'display-none')} onClick={()=>props.onClose()}>
+            <div className={'modal ' + (props.visible ?  '' : 'display-none')} style={{zIndex:props.position|| 10 }} onClick={()=>props.onClose()}>
                 <div className='modal-box' onClick={e=>e.stopPropagation()}>
                     {props.children}
                 </div>
