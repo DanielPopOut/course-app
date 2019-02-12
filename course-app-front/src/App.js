@@ -48,7 +48,7 @@ class App extends Component {
             messageModalVisibility: true,
             messageToShow: message,
         });
-       /* setTimeout(()=>this.closeModal(),2000);*/
+        setTimeout(()=>this.closeModal(),2000);
     }
 
     setDecodedToken() {

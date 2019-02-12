@@ -97,12 +97,13 @@ router.post('/update', function (req, res) {
         update,
         (result,err='') => {
             if(err) {
-                console.log('error',err);
+                console.log('update error',err);
                 res.status(400).send({errorMessage:"update failed!!"});
             }else {
                 if(result.result.nModified===0){
+                    console.log("collection : ",collection,"; data :",data,"; update : ",update);
                     console.log("update result", result.result);
-                    res.status(400).send({errorMessage:"update failed!!"});
+                    res.status(400).send({errorMessage:"update failed!! no modification"});
                     console.log("failed");
                 }else {
                     console.log("successful");

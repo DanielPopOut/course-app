@@ -14,8 +14,8 @@ class CreateCourseComponent extends Component {
     }
 
     handleChange(value, delta, source, editor) {
-        console.log(typeof value, delta);
-        console.log('get content', editor.getContents());
+        //console.log(typeof value, delta);
+        //console.log('get content', editor.getContents());
         this.setState({text: value, delta: editor.getContents(), other: {source, editor: editor.getContents()}});
         if (this.props.onChange) {
             this.props.onChange({text: value, delta: editor.getContents()});
@@ -26,7 +26,7 @@ class CreateCourseComponent extends Component {
         let courseData = {title, content: '', chapters: []};
         let courseInserted = await ServerService.insertElementInDataBase('courses',courseData);
 
-        console.log('result', courseInserted);
+        //console.log('result', courseInserted);
         return courseInserted;
     }
 
@@ -67,6 +67,7 @@ let lowerLevelComponentName = {
     chapter: 'section',
     section: 'subsection'
 };
+
 let collectionDbName = {
     course: 'courses',
     chapter: 'chapters',
@@ -81,27 +82,37 @@ class SectionElementComponent extends Component {
         this.state = {element: Object.assign({},props.element), children: []}; // You can also pass a Quill Delta here
     }
 
-
-    createNewchildSectionOnServer(title){
-        let childSectionData = {title, content: '', children: []};
-        let childSectionDataId = 'azezrge"';
-
-        let childSectionDataWithId = Object.assign({},childSectionData, {_id : childSectionDataId});
-        return childSectionDataWithId;
-    }
-
     async createNewchildSectionOnServer(title){
-        let childSectionData = {title, content: '', children: []};
-        let childSectionInserted = await ServerService.insertElementInDataBase(collectionDbName[lowerLevelComponentName[this.props.elementName]],childSectionData);
 
-        console.log('result insertion',this.props.elementName, childSectionInserted);
+        let childSectionData = {title, content: ''};
+        if(lowerLevelComponentName[lowerLevelComponentName[this.props.elementName]]){
+            childSectionData[lowerLevelComponentName[lowerLevelComponentName[this.props.elementName]]+'s']=[];
+        }
+        console.log("childElement ",childSectionData);
+
+        let data={
+            element:{
+                elementName:this.props.elementName,
+                elementProperties:this.state.element
+            },
+            childelement:childSectionData
+        };
+
+        let childSectionInserted = await ServerService.postToServer('courses/newSubElement', data).then(
+            (response)=>{
+                console.log("this is the response",response);
+                if (response.status === 200) {
+                    console.log("data inserted", response.data);
+                    return response.data;
+                }
+            }
+        );
         return childSectionInserted;
     }
 
     createNewchildSection(childSectionDataWithId) {
         this.setState({children: [...this.state.children,childSectionDataWithId]});
     }
-
 
     async modifyContentOnServer(newContent){
         let changeDone = await ServerService.updateElementInDataBase(collectionDbName[this.props.elementName],this.state.element,{"content": newContent});
@@ -114,15 +125,17 @@ class SectionElementComponent extends Component {
         });
     }
    async modifyTitleOnServer(newTitle){
+        alert("Here");
+        console.log("this state element",this.state.element);
         let changeDone = await ServerService.updateElementInDataBase(collectionDbName[this.props.elementName],this.state.element,{"title": newTitle});
         return changeDone;
     }
 
-    modifyTitle(newTitle){
+   modifyTitle(newTitle){
         this.setState({
             element: Object.assign({}, this.state.element, {title:newTitle}),
-        })
-    }
+        });
+   }
 
     createAddContentButton(){
         let objectToShow = this.state.element;
@@ -141,21 +154,10 @@ class SectionElementComponent extends Component {
                             }
                         }
                     }
-
-                    /*async (data) => {
-                    let a = await this.addContent(data.text);
-                    console.log('awaited ', a);
-                    if (a) {
-                        showModal(false);
-                    }
-                }*/
-
                 }
             />,
         })}>{objectToShow.content ? 'Modify' : 'Add'} content</button>
     }
-
-
     createNextChildSectionButton(elementName) {
         let nextElementName = lowerLevelComponentName[elementName];
         if(!nextElementName) return '';
@@ -182,7 +184,7 @@ class SectionElementComponent extends Component {
                 dataModel={titleModel({placeholder: elementName + ' title', label: 'Modify ' + elementName})}
                 onValidate={async data => {
                     console.log(data);
-                    let newTitle = data.title
+                    let newTitle = data.title;
                     if (newTitle) {
                         let result = await this.modifyTitleOnServer(newTitle);
                         if (result){
@@ -201,15 +203,14 @@ class SectionElementComponent extends Component {
     render() {
         let props = this.props;
         let state =  this.state;
-        console.log(props, state);
+       // console.log(props, state);
         let objectToShow = state.element;
         let elementName = props.elementName;
         let nextElementName = lowerLevelComponentName[props.elementName];
         return <div className='section-element-component'>
             <div>{objectToShow.title }  {this.generateButtons(elementName)}</div>
             <div className='ql-editor' dangerouslySetInnerHTML={{ __html: state.element.content }} />
-            {state.children.map((childSection,step) => <SectionElementComponent key={childSection._id} element={childSection} elementName={nextElementName}/>)}
-
+            {state.children.map((childSection,key) => <SectionElementComponent  key={key} key_id={childSection._id} element={childSection} elementName={nextElementName}/>)}
         </div>;
     }
 }

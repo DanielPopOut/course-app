@@ -46,15 +46,16 @@ module.exports = {
         // Insert some documents
         client.connect(async function (err) { //server connection
             assert.equal(null, err);
-            console.log('connected successfully to server');
-            console.log('update To make', updateToMake, {_id: ObjectID(documentToUpdate._id)});
-            let database=client.db(dbName);
+           /* console.log('update To make', updateToMake, {_id: ObjectID(documentToUpdate._id)});
+            console.log("replacement object ", Object.assign(documentToUpdate,{_id:ObjectID(documentToUpdate._id)},updateToMake));
+*/            let database=client.db(dbName);
             try {
                 let result = await database.collection(collection)
                     .replaceOne(
                         {_id: ObjectID(documentToUpdate._id)},
                         Object.assign(documentToUpdate,{_id:ObjectID(documentToUpdate._id)},updateToMake)
                     );
+                //console.log("replacement result ",result);
                 callback(result);
             }catch (e) {
                 callback({},e);
