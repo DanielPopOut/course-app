@@ -35,11 +35,11 @@ class App extends Component {
     }
 
     handleUserLogin(bool){
-        this.setState({loggedIn: bool})
+        this.setState({loggedIn: bool});
         if (bool){
             this.setDecodedToken();
         }else {
-            this.closeModal()
+            this.closeModal();
         }
     }
 
@@ -57,7 +57,6 @@ class App extends Component {
         });
     }
 
-
     openMenu() {
         this.setState({menuOpen: true});
     }
@@ -71,11 +70,11 @@ class App extends Component {
             messageToShow: '',
         })
     }
+    componentDidMount(){ if(getDecodedToken()){ this.setState({ loggedIn:true });}}
 
     render() {
         return (
             <div className="App" onClick={() => this.closeMenu()}>
-
                 <ModalComponent
                     visible={this.state.messageModalVisibility}
                     onClose={()=>this.closeModal()}
@@ -85,26 +84,19 @@ class App extends Component {
                 </ModalComponent>
                 <div>
                     <nav>
-                    <span className='sm-only  '
-                          onClick={e => {
-                              this.setState({menuOpen: !this.state.menuOpen});
-                              e.stopPropagation();
-                          }}>
+                        <span className='sm-only  '
+                              onClick={e => {
+                                  this.setState({menuOpen: !this.state.menuOpen});
+                                  e.stopPropagation();
+                              }}>
                         {/*<FontAwesomeIcon icon='list' style={{margin: '0 30px'}}/>*/}
-                    </span>
-                    <NavBar
+                        </span>
+                        <NavBar
                         /* className='lg-only'*/
                         loggedIn={this.state.loggedIn}
-                    />
-                </nav>
-
-
-
+                        />
+                    </nav>
                 </div>
-
-
-
-
                 <aside className={this.state.menuOpen ? 'menu-open' : 'menu-closed'}>
 
                 </aside>
@@ -112,7 +104,10 @@ class App extends Component {
 
                     <Route exact path='/' component = {Welcome}/>
                     <Route push path='/welcome' component = {Welcome}/>
-                    <Route path='/courses' component = {Courses}/>
+
+                    <Route path='/courses'  render={(props) => <Courses {...props} loggedIn={this.state.loggedIn}/>}/>
+
+
                     <Route path='/course/:id' component = {Course}/>
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>

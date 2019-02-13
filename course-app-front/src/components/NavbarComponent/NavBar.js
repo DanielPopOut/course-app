@@ -56,7 +56,7 @@ export default class NavBar extends Component {
                         }
                     </div>
                 <div className={'navbar-right-side'}>
-                    <Connexion />
+                    <Connexion  loggedIn={this.props.loggedIn}/>
                 </div>
             </div>
         );

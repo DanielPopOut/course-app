@@ -5,24 +5,21 @@ import ConnexionComponent from "./ConnexionComponent";
 import {getToken, removeToken, userLogged$, messageToShow$, getDecodedToken} from '../../server/axiosInstance';
 import {Redirect} from "react-router-dom";
 
-
 class Connexion extends Component {
     constructor(props) {
         super(props);
-        userLogged$.subscribe(bool => {this.handleLoginState(bool)});
         this.state = {
-            loggedIn:false,
             modalVisibility: false,
             modalChildren: ""
         }
     }
-    handleLoginState(bool){ this.setState({ loggedIn :bool });}
 
     deleteToken(){
         if (getToken() || getToken().length > 1) {
-            removeToken()
-            return(<Redirect to={'/welcome'}/>);
-        };
+            removeToken();
+            //  this.props.history.push('/welcome');
+            return (<Redirect to={'/welcome'}/>);
+        }
     }
 
     userInfosToDisplay(content) {
@@ -44,9 +41,8 @@ class Connexion extends Component {
         })
     }
 
-
     display() {
-        if (this.state.loggedIn) {
+        if (this.props.loggedIn) {
             let token=getDecodedToken();
             return (
                 <div key={'Deconnexion'} className={'navbar-item-div connexion-tooltip'}>

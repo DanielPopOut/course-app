@@ -5,6 +5,7 @@ import './courses.css';
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import RegisterForCourse from "./RegisterForCourse";
 import {getToken, removeToken, userLogged$, messageToShow$, getDecodedToken} from '../../server/axiosInstance';
+import {ServerService} from "../../server/ServerService";
 
 const courseslist = [
     {
@@ -50,8 +51,13 @@ let userConnected={
 
 
 class CoursesHeader extends Component{
+
+    handleChange(e){
+
+    }
+
     render(){
-        console.log("autre: ",this.props);
+       // console.log("autre: ",this.props);
 
         let buttonnewcourse={
             name:"newuserbutton",
@@ -64,6 +70,7 @@ class CoursesHeader extends Component{
             className : "search-input form-helper-input ",
             placeholder :'Search'
         };
+
         return(
             <React.Fragment>
                 <div className={"users-interface-header"}>
@@ -71,9 +78,7 @@ class CoursesHeader extends Component{
                 </div>
                 <div className={"user-search-new-div"}>
                     <div className={"div-user-search-block"}>
-                        <InputTextHelper {...inputsearchparams}
-                                         onChange={(e)=>this.handleChange(e)}
-                        />
+                        <InputTextHelper {...inputsearchparams} onChange={(e)=>this.handleChange(e)} />
                         <div className={"div-img-search"}>
                             <img src={"/images/search.png"}
                                  alt={"Search"}
@@ -92,43 +97,70 @@ class CoursesHeader extends Component{
 
 class CoursesList extends Component{
     constructor(props){
-        userLogged$.subscribe(bool => {this.handleUserLogin(bool)});
         //console.log("init: ",props);
         super(props);
         this.state={
             dataToShow:courseslist,
-            userLoggedIn:false,
         }
     }
+    componentDidMount(){
+        let courseList=[];
+        ServerService.getFromServer('courses/getAll').then((response)=>{
+            if(response.status===200){
+                console.log("courses list response ",response.data);
+                this.setState({ dataToShow:response.data });
+            }else {
 
-    handleUserLogin(bool){
-        this.setState({
-            userLoggedIn:bool
+            }
         });
     }
+
+
     registerforcourse(course){
-        if(userConnected.hasOwnProperty('student')){
-            userConnected.student.push(course._id);
-            console.log('userConnected',userConnected);
-        }else {
-            let student=[];
-            student.push(course._id);
-            userConnected.student=student;
-            console.log('userConnected',userConnected);
-        }
-        return (true);
+        ServerService.postToServer('courses/newRegistration',
+            {
+                token:getToken(),
+                course:course
+
+            }).then((response)=>{
+            if(response.status=== 200){
+                if(userConnected.hasOwnProperty('student')){
+                    userConnected.student.push(course._id);
+                    console.log('userConnected',userConnected);
+                }else {
+                    let student=[];
+                    student.push(course._id);
+                    userConnected.student=student;
+                    console.log('userConnected',userConnected);
+                }
+                return (true);
+            }else {
+                return false;
+            }
+        });
     }
     cancelregistration(course){
-        userConnected.student=userConnected.student.filter((value)=>{return(value!==course._id)});
-        console.log('userConnected',userConnected);
-        return (true);
+        ServerService.postToServer('courses/cancelRegistration',
+            {
+                token:getToken(),
+                course:course
+            }).then((response)=>{
+                if(response.status===200){
+                    userConnected.student = userConnected.student.filter((value)=>{return(value!==course._id)});
+                    console.log('userConnected',userConnected);
+                    return (true);
+                }else {
+                    return false;
+                }
+            });
+
     }
     handleClick(course){
         this.props.openCourse(course);
     }
 
-    showInscriptionOptions(course){
-       if(this.state.userLoggedIn){
+     showInscriptionOptions(course){
+       if(this.props.loggedIn){
             return(
                 <div className={"tooltip-content"} onClick={e=>e.stopPropagation()}>
                     <RegisterForCourse
@@ -141,12 +173,11 @@ class CoursesList extends Component{
             );
        }
     }
+
     render(){
         return(
             <div>
-                <div>Login state { this.state.userLoggedIn?"user connected " : "user logged out"}</div>
                 <div className={'courses-list-div'}>
-
                     {
                         this.state.dataToShow.map((course,key)=>{
                             return(
@@ -169,7 +200,6 @@ class CoursesList extends Component{
     }
 }
 
-
 class CoursesFooter extends Component{
     render(){
         return(
@@ -178,33 +208,27 @@ class CoursesFooter extends Component{
             </div>
         )
     }
-
 }
 
 class Courses extends Component {
     constructor(props){
         super(props);
         this.state={
-            userLoggedIn:false
 
         }
     }
 
-
     handleOpenCourse(course){
-        console.log("here");
         console.log(this.props);
         this.props.history.push('/course/'+course._id);
     }
     render() {
-        console.log("1 courses: ",this.props);
-
         return (
             <React.Fragment>
                 <CoursesHeader/>
                 <CoursesList
                     openCourse = {(course)=>this.handleOpenCourse(course)}
-                    userLoggedIn = {this.state.userLoggedIn}
+                    loggedIn = {this.props.loggedIn}
                 />
                 <CoursesFooter/>
             </React.Fragment>

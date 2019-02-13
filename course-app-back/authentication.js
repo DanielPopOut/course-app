@@ -1,7 +1,5 @@
-
 let CrudDBFunctions = require('./CrudDBFunctions');
 let MailingFunctions = require('./mail');
-
 let express = require('express');
 let router = express.Router();
 
@@ -11,12 +9,7 @@ const collectionName = 'users';
 const ObjectID = require('mongodb').ObjectID;
 
 const generateToken = function (user) {
-    let payload = {
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        admin: user.admin,
-    };
+    let payload = {...user};
     let secret = 'fakekey';
     let options = {
         expiresIn: 60 * 60,
@@ -25,6 +18,7 @@ const generateToken = function (user) {
     let token = jwt.sign(payload, secret, options);
     return token;
 };
+
 
 router.get('/validate/:id', (req, res) => {
     CrudDBFunctions.getOneDocument({
@@ -277,6 +271,5 @@ router.post('/login', function (req, res) {
         }
     });
 });
-
 
 module.exports = router;

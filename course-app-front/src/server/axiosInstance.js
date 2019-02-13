@@ -14,7 +14,7 @@ export function setLoggedIn(bool) {
     userLogged.next(bool)
 }
 
-function setToken(token) {
+export function setToken(token) {
     console.log('token set', token);
     localStorage.setItem('token', JSON.stringify(token));
 }

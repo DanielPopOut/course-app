@@ -4,13 +4,95 @@ let CrudDBFunctions = require('./CrudDBFunctions');
 const ObjectID = require('mongodb').ObjectID;
 
 
+const generateToken = function (user) {
+    let payload = {...user};
+    let secret = 'fakekey';
+    let options = {
+        expiresIn: 60 * 60,
+        //algorithm:'RS256'
+    };
+    let token = jwt.sign(payload, secret, options);
+    return token;
+};
 let lowerLevelCollectionName = {
     courses: 'chapters',
     chapters: 'sections',
     sections: 'subsections'
 };
 
+router.get('/getAll',(req,res)=>{
+    CrudDBFunctions.getAllDocument({
+        collection:'courses',
+        callback:(result,err="")=>{
+            if(err){
+                res.status(400).json({errorMessage:err.toString()});
+            }else {
+                res.status(200).send(result);
+            }
+        }
+    });
+});
+router.post('/newRegistration',(req,res)=>{
+    try {
+        let {user,course}={...req.body};
+        if(user.hasOwnProperty('student')){
+            user.student.push(course._id);
+            //console.log('userConnected',userConnected);
+        }else {
+            let student=[];
+            user.student=student;
+            //console.log('userConnected',userConnected);
+        }
+        CrudDBFunctions.updateOneDocumentById(
+            'users',
+            user,
+            {student:user.student},
+            (result,err="")=>{
+                if(err){
+                    res.status(403).json({errorMessage:JSON.stringify({'':"user update failed ",error:err.toString()})})
+                }else {
+                    let datareturned={
+                        returnedUSer:result,
+                        returnedToken:generateToken(result)
+                    };
+                    res.status(200).send(datareturned);
+                }
+            });
+    }catch (e) {
+        res.status(403).json({errorMessage:e.toString()});
+    }
+});
+router.post('/cancelRegistration',(req,res)=>{
+    try {
+        let {user,course}={...req.body};
 
+        if(user.hasOwnProperty('student')){
+            user.student=user['student'].filter((value)=>{return(value!==course._id)});
+        }else {
+            let student=[];
+            user['student']=student;
+            //console.log('userConnected',userConnected);
+        }
+        CrudDBFunctions.updateOneDocumentById(
+            'users',
+            user,
+            {student:user.student},
+            (result,err="")=>{
+                if(err){
+                    res.status(403).json({errorMessage:JSON.stringify({'':"user update failed ",error:err.toString()})})
+                }else {
+                    let datareturned={
+                        returnedUSer:result,
+                        returnedToken:generateToken(result)
+                    };
+                    res.status(200).send(datareturned);
+                }
+            });
+    }catch (e) {
+        res.status(403).json({errorMessage:e.toString()});
+    }
+
+});
 router.post('/newSubElement', (req, res) => {
     let {element,childelement}={...req.body};
     let {elementName, elementProperties}={...element};
