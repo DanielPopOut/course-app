@@ -35,7 +35,7 @@ module.exports = {
                     Object.assign(documentToUpdate,{_id:ObjectID(documentToUpdate._id)})
                     );
                 console.log("result",result);
-                callback(result);
+                callback(result.ops[0]);
             }catch (e) {
                 callback({},e);
             }

@@ -1,5 +1,4 @@
-let express = require('express');
-let router = express.Router();
+const jwt = require('jsonwebtoken');;
 
 module.exports = {
     generateToken : function (user) {
@@ -12,4 +11,9 @@ module.exports = {
         let token = jwt.sign(payload, secret, options);
         return token;
     },
+    verify(token,callback){
+        jwt.verify(JSON.parse(token),'fakekey',(err,decoded)=>{
+            callback(err,decoded);
+        });
+    }
 };

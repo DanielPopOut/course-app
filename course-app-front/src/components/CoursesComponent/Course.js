@@ -2,58 +2,37 @@ import React,{Component} from 'react';
 import './course.css';
 import {ButtonHelper} from "../HelperComponent/FormHelper";
 import NewTeacher from "./NewTeacher";
+import {ServerService} from "../../server/ServerService";
 
-const courseslist = [
-    {
-        '_id':1,
-        title:"course title 1 ",
-        description: "description description" +
-        " description description description " +
-        "description "
-    },
-    {
-        '_id':2,
-        title:"course title 2",
-        description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
-        "description "
-    },
-    {
-        '_id':3,
-        title:"course title 3",
-        description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
-        "description "
-    }, {
-        '_id':4,
-        title:"course titlecourse 4 titlecourse 4 title verugfery goygworgo 8g7o348 qo48gq 74go34879goq84g87g847goq4 87gq",
-        description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
-        "description "
-    },
-    {
-        '_id':5,
-        title:"course title 5",
-        description: "description description" +
-        " description description description " +
-        "description "
-    }
-];
+const fakeCourse = {
+    title:"No Content Available",
+    description:"",
+    content:""
+};
 
 class Course extends Component{
     constructor(props){
         super(props);
         this.state={
-            courseToDisplay:this.retrieveCourseToDisplay()
+            courseToDisplay:{}
         }
     }
-    retrieveCourseToDisplay(){
-        let course = courseslist[this.props.match.params.id-1]
-        return course;
+    componentDidMount(){
+        ServerService.postToServer('courses/getCourse',{_id:this.props.match.params.id})
+            .then((response)=>{
+                if(response.status===200){
+                    console.log("course to display result ",response);
+                    this.setState({courseToDisplay:response.data});
+                }else {
+                    this.setState({
+                        courseToDisplay:fakeCourse
+                    });
+                }
+            });
     }
+
+    //retrieveCourseToDisplay(){}
+
     render() {
         return (
             <div>

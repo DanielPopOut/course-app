@@ -4,51 +4,8 @@ import './courses.css';
 
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import RegisterForCourse from "./RegisterForCourse";
-import {getToken, removeToken, userLogged$, messageToShow$, getDecodedToken} from '../../server/axiosInstance';
+import {getToken, getDecodedToken, setToken} from '../../server/axiosInstance';
 import {ServerService} from "../../server/ServerService";
-
-const courseslist = [
-    {
-        '_id':1,
-        title:"course title ",
-        description: "description description" +
-        " description description description " +
-        "description "
-    },
-    {
-        '_id':2,
-        title:"course title",
-        description: "description description" +
-        "description "
-    }, {
-        '_id':3,
-        title:"course title",
-        description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
-        "description "
-    }, {
-        '_id':4,
-        title:"course titlecourse titlecourse title verugfery goygworgo 8g7o348 qo48gq 74go34879goq84g87g847goq4 87gq",
-        description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
-        "description "
-    },
-    {
-        '_id':5,
-        title:"course title",
-        description: "description description" +
-        " description description description " +
-        "description "
-    }
-];
-let userConnected={
-    _id:'diirgwr5g7rwerue9r8e8',
-    name:'a name',
-    surname:'a surname'
-};
-
 
 class CoursesHeader extends Component{
 
@@ -100,11 +57,11 @@ class CoursesList extends Component{
         //console.log("init: ",props);
         super(props);
         this.state={
-            dataToShow:courseslist,
+            dataToShow:[],
         }
     }
+
     componentDidMount(){
-        let courseList=[];
         ServerService.getFromServer('courses/getAll').then((response)=>{
             if(response.status===200){
                 console.log("courses list response ",response.data);
@@ -115,50 +72,42 @@ class CoursesList extends Component{
         });
     }
 
-
     registerforcourse(course){
-        ServerService.postToServer('courses/newRegistration',
+        return ServerService.postToServer('courses/newRegistration',
             {
                 token:getToken(),
                 course:course
 
             }).then((response)=>{
             if(response.status=== 200){
-                if(userConnected.hasOwnProperty('student')){
-                    userConnected.student.push(course._id);
-                    console.log('userConnected',userConnected);
-                }else {
-                    let student=[];
-                    student.push(course._id);
-                    userConnected.student=student;
-                    console.log('userConnected',userConnected);
-                }
+                console.log('Response',response);
+                setToken(response.data);
                 return (true);
             }else {
                 return false;
             }
         });
     }
+
     cancelregistration(course){
-        ServerService.postToServer('courses/cancelRegistration',
+        return ServerService.postToServer('courses/cancelRegistration',
             {
                 token:getToken(),
                 course:course
             }).then((response)=>{
                 if(response.status===200){
-                    userConnected.student = userConnected.student.filter((value)=>{return(value!==course._id)});
-                    console.log('userConnected',userConnected);
+                    console.log('Response',response);
+                    setToken(response.data);
                     return (true);
                 }else {
                     return false;
                 }
             });
-
     }
+
     handleClick(course){
         this.props.openCourse(course);
     }
-
      showInscriptionOptions(course){
        if(this.props.loggedIn){
             return(

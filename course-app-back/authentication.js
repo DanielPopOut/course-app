@@ -1,5 +1,6 @@
 let CrudDBFunctions = require('./CrudDBFunctions');
 let MailingFunctions = require('./mail');
+let TokenFunctions=require('./token');
 let express = require('express');
 let router = express.Router();
 
@@ -7,17 +8,6 @@ const jwt = require('jsonwebtoken');
 
 const collectionName = 'users';
 const ObjectID = require('mongodb').ObjectID;
-
-const generateToken = function (user) {
-    let payload = {...user};
-    let secret = 'fakekey';
-    let options = {
-        expiresIn: 60 * 60,
-        //algorithm:'RS256'
-    };
-    let token = jwt.sign(payload, secret, options);
-    return token;
-};
 
 
 router.get('/validate/:id', (req, res) => {
@@ -172,15 +162,7 @@ router.post('/passwordRecoveryCode', (req, res) => {
             }
         }
     });
-   /* BasicDBFunctions.findOneDocument('users', options, (err, doc) => {
-        console.log('document');
-        console.log(JSON.stringify(doc));
-        if (doc === null) {
-            res.send({success: 0, message: 'Code incorrect. Vérifiez et reéssayez SVP!.'});
-        } else {
-            res.send({success: 1, message: 'Code vérifié'});
-        }
-    });*/
+
 });
 
 router.post('/passwordReset', (req, res) => {
@@ -232,17 +214,6 @@ router.post('/passwordReset', (req, res) => {
         }
     });
 
-    /*BasicDBFunctions.updateOne('users', updateParams, (err, result) => {
-        let response = {};
-        if (err) {
-            response = {success: 0, message: 'Mise a jour non effectuee'};
-            throw err;
-        } else {
-            response = {success: 1, message: 'Mise a jour effectuee avec succes !'};
-            console.log(err);
-        }
-        res.send(response);
-    });*/
 });
 
 router.post('/login', function (req, res) {
@@ -262,7 +233,7 @@ router.post('/login', function (req, res) {
             }else {
                 console.log(result);
                 if(result){
-                    let token = generateToken(result);
+                    let token = TokenFunctions.generateToken(result);
                     res.status(200).json({token: token});
                 }else {
                     res.status(403).send({errorMessage:"Incorrect Login or Password !!"});

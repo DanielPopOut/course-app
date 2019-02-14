@@ -1,19 +1,11 @@
+const jwt = require('jsonwebtoken');
+
 let express = require('express');
 let router = express.Router();
 let CrudDBFunctions = require('./CrudDBFunctions');
+let TokenFunctions = require('./token');
 const ObjectID = require('mongodb').ObjectID;
 
-
-const generateToken = function (user) {
-    let payload = {...user};
-    let secret = 'fakekey';
-    let options = {
-        expiresIn: 60 * 60,
-        //algorithm:'RS256'
-    };
-    let token = jwt.sign(payload, secret, options);
-    return token;
-};
 let lowerLevelCollectionName = {
     courses: 'chapters',
     chapters: 'sections',
@@ -32,67 +24,110 @@ router.get('/getAll',(req,res)=>{
         }
     });
 });
+
 router.post('/newRegistration',(req,res)=>{
     try {
-        let {user,course}={...req.body};
-        if(user.hasOwnProperty('student')){
-            user.student.push(course._id);
-            //console.log('userConnected',userConnected);
-        }else {
-            let student=[];
-            user.student=student;
-            //console.log('userConnected',userConnected);
-        }
-        CrudDBFunctions.updateOneDocumentById(
-            'users',
-            user,
-            {student:user.student},
-            (result,err="")=>{
-                if(err){
-                    res.status(403).json({errorMessage:JSON.stringify({'':"user update failed ",error:err.toString()})})
+        console.log("rea body ",req.body);
+        let {token,course}={...req.body};
+        console.log("token",token);
+        TokenFunctions.verify(token, (err,decoded)=> {
+            if(err){
+                console.log("token verification",JSON.stringify(err));
+                res.status(403).json({errorMessage:" token Verification : "+JSON.stringify(err)});
+            }else {
+                let student=[];
+                let user = decoded;
+                delete  user['iat'];
+                delete  user['exp'];
+                console.log("user before : ",user);
+                console.log("course_id",course._id);
+                if(user.hasOwnProperty('student')){
+                    student=user.student;
+                    student.push(course._id);
                 }else {
-                    let datareturned={
-                        returnedUSer:result,
-                        returnedToken:generateToken(result)
-                    };
-                    res.status(200).send(datareturned);
+                    student.push(course._id);
                 }
-            });
+                CrudDBFunctions.updateOneDocumentById(
+                    'users',
+                    user,
+                    {student:student},
+                    (result,err="")=>{
+                        if(err){
+                            res.status(403).json({errorMessage:JSON.stringify({'':"user update failed ",error:err.toString()})})
+                        }else {
+                            user['student']=student;
+                            console.log('New User',user);
+                            let newtoken=TokenFunctions.generateToken(user);
+                            res.status(200).json(newtoken);
+                        }
+                    });
+            }
+        });
     }catch (e) {
         res.status(403).json({errorMessage:e.toString()});
     }
 });
+
 router.post('/cancelRegistration',(req,res)=>{
     try {
-        let {user,course}={...req.body};
-
-        if(user.hasOwnProperty('student')){
-            user.student=user['student'].filter((value)=>{return(value!==course._id)});
-        }else {
-            let student=[];
-            user['student']=student;
-            //console.log('userConnected',userConnected);
-        }
-        CrudDBFunctions.updateOneDocumentById(
-            'users',
-            user,
-            {student:user.student},
-            (result,err="")=>{
-                if(err){
-                    res.status(403).json({errorMessage:JSON.stringify({'':"user update failed ",error:err.toString()})})
-                }else {
-                    let datareturned={
-                        returnedUSer:result,
-                        returnedToken:generateToken(result)
-                    };
-                    res.status(200).send(datareturned);
+        console.log("rea body ",req.body);
+        let {token,course}={...req.body};
+        TokenFunctions.verify(token, (err,decoded)=> {
+            if(err){
+                console.log("token verification",JSON.stringify(err));
+                res.status(403).json({errorMessage:" token Verification : "+JSON.stringify(err)});
+            }else {
+                console.log("decoded Token ",decoded);
+                let user = decoded;
+                delete  user['iat'];
+                delete  user['exp'];
+                let student=[];
+                if(user.hasOwnProperty('student')){
+                    student=user['student'].filter((value)=>{return(value!==course._id)});
                 }
-            });
+                console.log("student after one removed ",student);
+                CrudDBFunctions.updateOneDocumentById(
+                    'users',
+                    user,
+                    {student:student},
+                    (result,err="")=>{
+                        if(err){
+                            res.status(403).json({errorMessage:JSON.stringify({'':"user update failed ",error:err.toString()})})
+                        }else {
+                            user['student']=student;
+                            console.log('New User',user);
+                            let newtoken=TokenFunctions.generateToken(user);
+                            res.status(200).json(newtoken);
+                        }
+                    });
+            }
+        });
     }catch (e) {
         res.status(403).json({errorMessage:e.toString()});
     }
-
 });
+
+router.post('/getCourse',(req,res)=>{
+    console.log("course required ",req.body);
+    CrudDBFunctions.getOneDocument({
+        collection:'courses',
+        options:{
+            queries:{
+                _id:ObjectID(req.body._id)
+            }
+        },
+        callback: (result,err="")=>{
+            if(err){
+                res.status(403).json({errorMessage:""+JSON.stringify(err)});
+            }else {
+                console.log("the course sended ",result);
+
+                res.status(200).json(result);
+            }
+        }
+    });
+});
+
 router.post('/newSubElement', (req, res) => {
     let {element,childelement}={...req.body};
     let {elementName, elementProperties}={...element};
@@ -145,12 +180,5 @@ router.post('/newSubElement', (req, res) => {
         });
 
 });
-router.post('/addTeacher',(req,res)=>{
-
-});
-router.post('removeTeacher',(res,req)=>{
-
-});
-
 
 module.exports = router;

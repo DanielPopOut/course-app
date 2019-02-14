@@ -1,11 +1,30 @@
 import React,{Component} from 'react';
 import './registerforcourse.css';
 import {ButtonHelper} from "../HelperComponent/FormHelper";
+import { getDecodedToken  } from '../../server/axiosInstance';
 
 class RegisterForCourse extends Component{
     constructor(props){
         super(props);
-        this.state={ registered:false }
+        this.state={ registered:this.registrationState() }
+    }
+
+    registrationState(){
+        let user=getDecodedToken();
+        console.log("here the decoded student  ",user.student);
+        console.log("the course  ",this.props.course);
+        let student=[];
+        if(user.hasOwnProperty('student')){
+            student=user.student;
+            if(student.indexOf(this.props.course._id) === -1){
+                return false ;
+            }else {
+               return true ;
+            }
+        }
+    }
+    componentDidMount(){
+
     }
     render(){
         return(
