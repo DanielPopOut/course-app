@@ -2,79 +2,12 @@ import React,{Component} from 'react';
 import './newteacher.css';
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
-import {USERS_FILTER_PATH} from "../../server/SERVER_CONST";
+import {validateEmail} from '../StaticFunctionsComponent/StaticFunctions';
 import {ServerService} from "../../server/ServerService";
-
-const courseslist = [
-    {
-        '_id':1,
-        title:"course title ",
-        description: "description description" +
-        " description description description " +
-        "description "
-    },
-    {
-        '_id':2,
-        title:"course title",
-        description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
-        "description "
-    }, {
-        '_id':3,
-        title:"course title",
-        description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
-        "description "
-    }, {
-        '_id':4,
-        title:"course titlecourse titlecourse title verugfery goygworgo 8g7o348 qo48gq 74go34879goq84g87g847goq4 87gq",
-        description: "description description" +
-        " description description description description" +
-        " description description ar8gpgipi description description description " +
-        "description "
-    },
-    {
-        '_id':5,
-        title:"course title",
-        description: "description description" +
-        " description description description " +
-        "description "
-    }
-];
-const userslist = [
-    {
-        '_id':1,
-        name:"a name ",
-        surname: "a surname"
-    },
- {
-        '_id':2,
-        name:"a name ",
-        surname: "a surname"
-    },
- {
-        '_id':3,
-        name:"a name ",
-        surname: "a surname"
-    },
- {
-        '_id':4,
-        name:"a name ",
-        surname: "a surname"
-    },
-
-];
+import {displayMessage} from "../../server/axiosInstance";
 
 
 class AccountView extends Component{
-    constructor(props){
-        super(props);
-    }
-    handleClick(){
-        this.props.validate(this.props.user);
-    }
     render(){
         return(
             <div className={"teacher-to-add-div"}>
@@ -87,12 +20,12 @@ class AccountView extends Component{
                         this.props.current?
                             <ButtonHelper {...
                                 {value:'-',className:"form-helper-button danger"}}
-                                          onClick={()=>this.handleClick()}
+                                          onClick={()=>this.props.handleValidation()}
                             />
                             :
                             <ButtonHelper {...
                                 {value:'+',className:"form-helper-button success"}}
-                                          onClick={()=>this.handleClick()}
+                                          onClick={()=>this.props.handleValidation()}
                             />
                     }
                 </div>
@@ -116,46 +49,80 @@ class Teachers extends Component{
     }
 
     handleValidateSearch(e){
-        ServerService.postToServer('finduserswithemails/',this.state.emails).then((response)=>{
-            if(response.status===200){
-                console.log('acc list',response.data.users);
-                this.setState({
-                    selectedAccounts:response.data.users
-                })
-            }
-        });
+        if(this.state.emails.length===0){
+            displayMessage("Veuillez Saisir un email valide SVP !!");
+        }else {
+            ServerService.postToServer('courses/getUsers/',{emails:this.state.emails}).then((response)=>{
+                if(response.status===200){
+                    console.log('acc list',response.data);
+                    let currentteachers=this.state.currentTeachers;
+                    let selectedaccounts =this.state.selectedAccounts;
+                    response.data.forEach((user)=>{
+                        console.log("a user ",user);
+
+                        if(user.hasOwnProperty('teacher') && user['teacher'].indexOf(this.props.course._id) >=0){
+                            currentteachers.push(user);
+                        }else {
+                            selectedaccounts.push(user);
+                        }
+                    });
+                    this.setState({
+                        currentTeachers:currentteachers,
+                        selectedAccounts:selectedaccounts
+                    });
+                    console.log("new state",this.state);
+                }
+            });
+        }
     }
 
     handleChange(e) {
         let emails=[];
         emails=e.target.value.split(';');
         emails = [...new Set(emails)];// remove duplicates
-        emails = emails.filter((value,index)=>{ return value.length>1 }); //remove empty address
+        emails = emails.filter((value,index)=>{
+            return  validateEmail(value);
+        }); //remove empty address
         this.setState({emails:emails});
     }
 
-    handleValidate(user,action){
-        console.log('you\'re about to ' + action + 'teacher');
-        let course=this.state.dataToSend.course;
+     handleValidation(user,action){
+        console.log("user",user);
+        let newdatatosend=this.state.dataToSend;
+        newdatatosend['user']=user;
+        this.setState({ dataToSend:newdatatosend });
+        let request_url="";
+        console.log("data to be sended ",this.state.dataToSend);
 
         if(action==='add'){
-            user.teacher=user.teacher ? user.teacher.push(course._id): [course._id];
-            course.teachers=course.teachers?course.teachers.push(user._id): [user._id];
+            request_url="courses/addTeacher";
         }else {
-            user.teacher=user.teacher ? user.teacher.filter((value,index)=>{return value!==course._id}): [];
-            course.teachers=course.teachers?course.teachers.filter((value,index)=>{return value !== user._id}): [];
-            //  console.log('user ',user,'course',course);
+            request_url="courses/removeTeacher";
         }
-        this.setState({
-            dataToSend:{
-                user:user,
-                course:course
-            }
-        });
-        ServerService.postToServer('cruds/update',{collection:'courses',data:this.state.dataToSend.course})
+
+        let currentteachers=this.state.currentTeachers;
+        let selectedaccounts =this.state.selectedAccounts;
+
+        ServerService.postToServer(request_url,this.state.dataToSend)
             .then((response)=>{
-                if(this.response.status===200){
-                    console.log('response',response.data)
+                console.log("teacher response ",response);
+                if(response.status===200){
+                    if(action==='add'){
+                        currentteachers.push(user);
+                        selectedaccounts = selectedaccounts.filter((value,index)=>{
+                            return value.email !== user.email;
+                        });
+                    }else {
+                        selectedaccounts.push(user);
+                        currentteachers = currentteachers.filter((value,index)=>{
+                            return value.email !== user.email;
+                        });
+                        console.log('response',response.data);
+                    }
+                    this.setState({
+                        currentTeachers:currentteachers,
+                        selectedAccounts:selectedaccounts
+                    });
                 }
             });
     }
@@ -170,10 +137,7 @@ class Teachers extends Component{
         return(
             <div>
                 <div className={"div-user-search-block"}>
-                    <InputTextHelper
-                        {...inputsearchparams}
-                        onChange={(e)=>this.handleChange(e)}
-                    />
+                    <InputTextHelper {...inputsearchparams} onChange={(e)=>this.handleChange(e)}/>
                     <div className={"div-img-search"}>
                         <img src={"/images/search.png"}
                              alt={"Search"}
@@ -184,14 +148,14 @@ class Teachers extends Component{
                 <div>
                     {
                         this.state.selectedAccounts.map((user,key)=>{
-                            return(<AccountView user={user} key={key} validate={(user)=>this.handleValidate(user,'add')}/>);
+                            return(<AccountView user={user} key={key} handleValidation={()=>this.handleValidation(user,'add')}/>);
                         })
                     }
                 </div>
                 <div>
                     {
                         this.state.currentTeachers.map((user,key)=>{
-                            return(<AccountView user={user} key={key} current validate={(user)=>this.handleValidate(user,'remove')} />);
+                            return(<AccountView user={user} key={key} current handleValidation={()=>this.handleValidation(user,'remove')} />);
                         })
                     }
                 </div>

@@ -8,10 +8,17 @@ export const userLogged$ = userLogged.asObservable();
 const messageToShow = new Subject();
 export const messageToShow$ = messageToShow.asObservable();
 export let isLoggedIn = true;
+const urlRedirection = new Subject();
+export const urlRedirection$ = urlRedirection.asObservable();
+
 
 export function setLoggedIn(bool) {
     isLoggedIn = bool;
     userLogged.next(bool)
+}
+
+export function redirectTo(url){
+    urlRedirection.next(url);
 }
 
 export function setToken(token) {
@@ -35,6 +42,10 @@ export function getDecodedToken() {
     if (!getToken() || getToken().length < 1) return false;
     console.log(JSON.parse(window.atob(token.split('.')[1])));
     return(JSON.parse(window.atob(token.split('.')[1])));
+}
+
+export function displayMessage(message='') {
+    messageToShow.next(message);
 }
 
 let axiosInstance = axios.create({

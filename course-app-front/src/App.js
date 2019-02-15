@@ -11,7 +11,7 @@ import ContactsComponent from './components/ContactsComponent/ContactsComponent'
 import Users from './components/UsersComponent/Users';
 import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
 import {usersModel} from './components/DataManagerComponent/DataModelsComponent';
-import {getToken, removeToken,getDecodedToken, userLogged$, messageToShow$} from './server/axiosInstance';
+import {getToken, removeToken,getDecodedToken, userLogged$,messageToShow$ ,urlRedirection$} from './server/axiosInstance';
 import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
 import Redirect from "react-router-dom/es/Redirect";
 import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
@@ -25,6 +25,7 @@ class App extends Component {
         super(props);
         userLogged$.subscribe(bool => {this.handleUserLogin(bool)});
         messageToShow$.subscribe(message => {this.handleMessageToShow(message)});
+        urlRedirection$.subscribe(url=>this.handleRedirection(url));
         this.state = {
             menuOpen: false,
             loggedIn: false,
@@ -41,6 +42,9 @@ class App extends Component {
         }else {
             this.closeModal();
         }
+    }
+    handleRedirection(url){
+        return (<Redirect to={url}/>);
     }
 
     handleMessageToShow(message){

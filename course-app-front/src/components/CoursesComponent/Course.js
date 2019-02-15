@@ -3,7 +3,11 @@ import './course.css';
 import {ButtonHelper} from "../HelperComponent/FormHelper";
 import NewTeacher from "./NewTeacher";
 import {ServerService} from "../../server/ServerService";
+import ReactQuill,{} from 'react-quill';
 
+const modules = {
+    toolbar: false,
+};
 const fakeCourse = {
     title:"No Content Available",
     description:"",
@@ -30,34 +34,37 @@ class Course extends Component{
                 }
             });
     }
+    displayContent(content){
+        return(
+            <ReactQuill value={content||""}
+                        modules={modules}
+                        readOnly={true}
 
-    //retrieveCourseToDisplay(){}
-
+            />
+        )
+    }
+    displayCourse(course){
+        return(
+            <React.Fragment>
+                <div>
+                    {this.displayContent(course.title)}
+                </div>
+                <div>
+                    {this.displayContent(course.content)}
+                </div>
+            </React.Fragment>
+        );
+    }
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <div style={{textAlign:'right'}}>
                     <NewTeacher course={this.state.courseToDisplay}/>
                 </div>
-                <h2>
-                    {this.state.courseToDisplay.title}
-                    </h2>
-                <div>
-                    {this.state.courseToDisplay.description}
-                    </div>
                 <div className={'course-content-div'}>
-                    <div style={{textAlign:'right'}}>
-                        <ButtonHelper
-                            {...{
-                                name: 'newsection',
-                                value: 'New Section',
-                                className: 'form-helper-button success'
-                            }} onClick={() => {
-                        }}
-                        />
-                    </div>
+                    {this.displayCourse(this.state.courseToDisplay)}
                 </div>
-            </div>
+            </React.Fragment>
         )
     }
 }

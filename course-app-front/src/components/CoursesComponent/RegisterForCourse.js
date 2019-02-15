@@ -11,8 +11,6 @@ class RegisterForCourse extends Component{
 
     registrationState(){
         let user=getDecodedToken();
-        console.log("here the decoded student  ",user.student);
-        console.log("the course  ",this.props.course);
         let student=[];
         if(user.hasOwnProperty('student')){
             student=user.student;
@@ -23,9 +21,7 @@ class RegisterForCourse extends Component{
             }
         }
     }
-    componentDidMount(){
 
-    }
     render(){
         return(
             <div>

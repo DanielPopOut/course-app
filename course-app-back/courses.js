@@ -107,6 +107,61 @@ router.post('/cancelRegistration',(req,res)=>{
     }
 });
 
+router.post('/addTeacher',(req,res)=>{
+    try {
+        console.log("rea body ",req.body);
+        let {user,course}={...req.body};
+        console.log("parameters ",{user,course});
+        let teacher=[];
+        if(user.hasOwnProperty('teacher')){
+            teacher=user.teacher;
+            teacher.push(course._id);
+        }else {
+            teacher.push(course._id);
+        }
+        CrudDBFunctions.updateOneDocumentById(
+            'users',
+            user,
+            {teacher:teacher},
+            (result,err="")=>{
+                if(err){
+                    res.status(403).json({errorMessage:JSON.stringify({'':"user update failed ",error:err.toString()})})
+                }else {
+                    if(result.result.nMatched===0){
+                        res.status(403).json({errorMessage:" user No Found on Server !!"});
+                    }
+                    res.status(200).json({message:"Teacher Added successfully"});
+                }
+            });
+    }catch (e) {
+        res.status(403).json({errorMessage:e.toString()});
+    }
+});
+router.post('/removeTeacher',(req,res)=>{
+    try {
+        console.log("rea body ",req.body);
+        let {user,course}={...req.body}
+        console.log("parameters ",{user,course});
+        let teacher=[];
+        if(user.hasOwnProperty('teacher')){
+            teacher=user['teacher'].filter((value)=>{return(value!==course._id)});
+        }
+        CrudDBFunctions.updateOneDocumentById(
+            'users',
+            user,
+            {teacher:teacher},
+            (result,err="")=>{
+                if(err){
+                    res.status(403).json({errorMessage:JSON.stringify({'':"user update failed ",error:err.toString()})})
+                }else {
+                    res.status(200).json({message: "Teacher removed succesfully"});
+                }
+            });
+    }catch (e) {
+        res.status(403).json({errorMessage:e.toString()});
+    }
+});
+
 router.post('/getCourse',(req,res)=>{
     console.log("course required ",req.body);
     CrudDBFunctions.getOneDocument({
@@ -178,6 +233,26 @@ router.post('/newSubElement', (req, res) => {
                 });
             }
         });
+
+});
+
+router.post('/getUsers',(req,res)=>{
+    console.log("request body ",req.body);
+    CrudDBFunctions.getAllDocument({
+       collection:'users',
+       options:{
+           queries:{
+               email:{$in : req.body.emails}
+           }
+       },
+        callback:(result,err='')=>{
+           if(err){
+               res.status(403).json({errorMessage:JSON.stringify(err)});
+           }else{
+               res.status(200).json(result);
+           }
+        }
+    });
 
 });
 

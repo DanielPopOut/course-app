@@ -4,13 +4,17 @@ import './courses.css';
 
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import RegisterForCourse from "./RegisterForCourse";
-import {getToken, getDecodedToken, setToken} from '../../server/axiosInstance';
+import {getToken,setToken, getDecodedToken, redirectTo} from '../../server/axiosInstance';
 import {ServerService} from "../../server/ServerService";
+
 
 class CoursesHeader extends Component{
 
     handleChange(e){
 
+    }
+    handleNewCourseCreation(){
+      redirectTo('/welcome');
     }
 
     render(){
@@ -19,7 +23,8 @@ class CoursesHeader extends Component{
         let buttonnewcourse={
             name:"newuserbutton",
             value:"Ajouter un cours",
-            className:"form-helper-button success"
+            className:"form-helper-button success",
+            onClick:()=>this.handleNewCourseCreation()
         };
         let inputsearchparams={
             type:'text',
@@ -72,8 +77,8 @@ class CoursesList extends Component{
         });
     }
 
-    registerforcourse(course){
-        return ServerService.postToServer('courses/newRegistration',
+    newregistration(course){
+        return  ServerService.postToServer('courses/newRegistration',
             {
                 token:getToken(),
                 course:course
@@ -114,8 +119,8 @@ class CoursesList extends Component{
                 <div className={"tooltip-content"} onClick={e=>e.stopPropagation()}>
                     <RegisterForCourse
                         course={course}
-                        newregistration={()=>this.registerforcourse(course)}
-                        cancelregistration={()=>this.cancelregistration(course)}                                                         register={()=>this.register(course)
+                        newregistration={async ()=> await this.newregistration(course)}
+                        cancelregistration={async ()=> await this.cancelregistration(course)}                                                         register={()=>this.register(course)
                     }
                     />
                 </div>
