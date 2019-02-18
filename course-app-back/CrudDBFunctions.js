@@ -5,6 +5,7 @@ const dbName = 'alpham';//'courseAppDB';
 const client = new MongoClient(DB_URL);
 
 const ObjectID = require('mongodb').ObjectID;
+const connect_options={useNewUrlParser: true };
 
 module.exports = {
     insertOneDocument: function (collection, documentToInsert, callback) {
@@ -107,6 +108,29 @@ module.exports = {
                     .findOne(options.queries || {}, options.fields || {});
                 callback(result)
             }catch (e) {
+                callback({},e);
+            }
+        });
+    },
+    getOneDocumentWithAggregation: function (collection,aggregation,callback){
+        client.connect( async function (err) { //server connection
+            assert.equal(null, err);
+            console.log('connected successfully to server');
+            let database=client.db(dbName);
+            try {
+               // console.log("agregation",aggregation);
+                let result = await database.collection(collection).aggregate(aggregation);
+                result.get(function (err,data) {
+                    if(err){
+                        console.log("an error ",err);
+                        return callback({},err);
+                    }else{
+                        return callback(data,err);
+                    }
+                });
+                   // callback(result);
+            }catch (e) {
+                console.log("the error inn agr : ",e);
                 callback({},e);
             }
         });

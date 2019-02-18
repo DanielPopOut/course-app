@@ -12,6 +12,79 @@ let lowerLevelCollectionName = {
     sections: 'subsections'
 };
 
+const retrieveSubelement=async function(element_id,collection) {
+    let subelements = await retrieveElement(element_id,collection,(result,err)=>{
+        return result;
+    });
+    return subelements;
+};
+
+const retrieveElement= async (element_id,collection='courses',callback)=>{
+
+    let group={
+        _id:"$_id",
+        title:{"$first":"$title"},
+        content:{"$first":"$content"},
+        //data : {"$first" : "$$ROOT"}
+    };
+    group[lowerLevelCollectionName[collection]]={ "$push": "$"+lowerLevelCollectionName[collection] };
+    let aggregation=[
+        {
+            $match: {
+                _id: ObjectID(element_id),
+            }
+        },
+        {
+            $unwind: {
+                path:"$"+lowerLevelCollectionName[collection],
+                preserveNullAndEmptyArrays:true
+            },
+        },
+        {
+            $lookup: {
+                from: lowerLevelCollectionName[collection],
+                localField: lowerLevelCollectionName[collection],
+                foreignField: "_id",
+                as: lowerLevelCollectionName[collection]
+            }
+        },
+        { $unwind: '$'+lowerLevelCollectionName[collection] },
+        // Group back to arrays
+        {
+            $group: group
+        }
+
+    ];
+    await CrudDBFunctions.getOneDocumentWithAggregation(collection,aggregation,(result,err="")=>{
+        //if(result.length>=1){
+       // console.log("here his the result ",result);
+        /*
+        let dataResult=result[0];
+        if(dataResult){
+            console.log("data result present");
+            let subElementsArray=dataResult[lowerLevelCollectionName[collection]];
+            console.log("this is subelement array()",subElementsArray);
+            if(subElementsArray.length>0){
+                for(let aSubElement of subElementsArray){
+
+                    retrieveElement(aSubElement._id,lowerLevelCollectionName[collection],(subresult,err='')=>{
+                        console.log("hereis the subelement : ",subresult);
+                        //newSubelementArray.push(subresult[0]);
+                    });
+                }
+            }
+
+        }else {
+            console.log("no present data result ",dataResult);
+        }
+
+      */
+        callback(result,err);
+    });
+};
+
+
+
 router.get('/getAll',(req,res)=>{
     CrudDBFunctions.getAllDocument({
         collection:'courses',
@@ -137,6 +210,7 @@ router.post('/addTeacher',(req,res)=>{
         res.status(403).json({errorMessage:e.toString()});
     }
 });
+
 router.post('/removeTeacher',(req,res)=>{
     try {
         console.log("rea body ",req.body);
@@ -164,21 +238,28 @@ router.post('/removeTeacher',(req,res)=>{
 
 router.post('/getCourse',(req,res)=>{
     console.log("course required ",req.body);
-    CrudDBFunctions.getOneDocument({
-        collection:'courses',
-        options:{
-            queries:{
-                _id:ObjectID(req.body._id)
-            }
-        },
-        callback: (result,err="")=>{
-            if(err){
-                res.status(403).json({errorMessage:""+JSON.stringify(err)});
-            }else {
-                console.log("the course sended ",result);
 
-                res.status(200).json(result);
+   /* db.travelers.aggregate( [
+        {
+            $graphLookup: {
+                from: "airports",
+                startWith: "$nearestAirport",
+                connectFromField: "connects",
+                connectToField: "airport",
+                maxDepth: 2,
+                depthField: "numConnections",
+                as: "destinations"
             }
+        }
+    ] )*/
+
+    retrieveElement(req.body._id,'courses', (result,err="")=>{
+        if(err){
+            console.log("aggregation error : ",err);
+            res.status(403).send({errorMessage:""});
+        }else {
+            //console.log("aggregated course result : ",result[0]);
+            res.status(200).json(result[0]);
         }
     });
 });
