@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './basics.css';
 import NavBar from './components/NavbarComponent/NavBar';
-import {Route} from 'react-router-dom';
+import { Route} from 'react-router-dom';
 import Welcome from './components/WelcomeComponent/Welcome';
 import Courses from './components/CoursesComponent/Courses';
 import Course from './components/CoursesComponent/Course';
@@ -13,10 +13,12 @@ import DataManagerPage from './components/DanielComponent/DataManagerPage/DataMa
 import {usersModel} from './components/DataManagerComponent/DataModelsComponent';
 import {getToken, removeToken,getDecodedToken, userLogged$,messageToShow$ ,urlRedirection$} from './server/axiosInstance';
 import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
-import Redirect from "react-router-dom/es/Redirect";
+import MCQsComponent from './components/MCQsComponent/MCQsComponent';
+
 import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
 import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
 import Connexion from "./components/ConnexionComponent/Connexion";
+import {Redirect} from "react-router";
 
 
 
@@ -44,7 +46,7 @@ class App extends Component {
         }
     }
     handleRedirection(url){
-        return (<Redirect to={url}/>);
+        return <Redirect to={url}/>;
     }
 
     handleMessageToShow(message){
@@ -74,7 +76,10 @@ class App extends Component {
             messageToShow: '',
         })
     }
-    componentDidMount(){ if(getDecodedToken()){ this.setState({ loggedIn:true });}}
+    componentDidMount(){
+        if(getDecodedToken()){ this.setState({ loggedIn:true });}
+    }
+
 
     render() {
         return (
@@ -107,11 +112,9 @@ class App extends Component {
                 <main className={' container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
 
                     <Route exact path='/' component = {Welcome}/>
-                    <Route push path='/welcome' component = {Welcome}/>
+                    <Route path='/welcome' component = {Welcome}/>
 
                     <Route path='/courses'  render={(props) => <Courses {...props} loggedIn={this.state.loggedIn}/>}/>
-
-
                     <Route path='/course/:id' component = {Course}/>
                     <Route path='/users' component = {Users}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
@@ -119,6 +122,7 @@ class App extends Component {
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
                     {/*<Route path='/quill' render={(props) => <QuillComponent/>}/>*/}
                     <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>
+                    <Route path='/mcqs' render={(props) => <MCQsComponent/>}/>
 
 
                     {/*<DataManagerPage {...coursesModel} />*/}

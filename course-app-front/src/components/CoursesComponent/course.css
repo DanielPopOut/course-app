@@ -1,11 +1,18 @@
 .course-content-div {
-
-
+    border: solid thin whitesmoke;
+    padding: 2px;
+    height: 100%;
 }
-.ql-editor{
+.sub-element-content{
+    margin-left: 2%;
+}
+.title-div,.content-div{
+    padding: 2px;
+}
+.course-content-div .ql-editor{
     padding: 0;
     margin: 0;
 }
-.ql-container.ql-snow{
+.course-content-div .ql-container.ql-snow{
     border:none;
 }

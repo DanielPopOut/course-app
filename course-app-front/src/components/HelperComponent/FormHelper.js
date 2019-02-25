@@ -17,7 +17,7 @@ let data = {
 };
 
 
-function LabelHelper(props) {
+export function LabelHelper(props) {
     if (props.label) {
         return (<label className={"form-helper-label"}> {props.label} </label>);
     }
@@ -28,8 +28,8 @@ export class CheckBoxHelper extends Component {
     render() {
         return (
             <div>
-                <input type={'checkbox'} name={this.props.name}/>
-                <LabelHelper label={this.props.name}/>
+                <input type={'checkbox'} checked={this.props.checked || false} onChange={(e)=>this.props.onChange(e)} name={this.props.name}/>
+                <LabelHelper label={this.props.label}/>
             </div>
         );
     }
@@ -72,7 +72,7 @@ export class RadioHelper extends Component {
         return (
             <div>
                 <input type={'radio'} onChange={(e)=>this.props.onChange(e)} name={this.props.name}/>
-                <LabelHelper label={this.props.value}/>
+
             </div>
         );
     }
@@ -109,6 +109,7 @@ export class InputTextHelper extends Component {
                        onChange={(e)=>this.props.onChange(e)}
                        value={this.props.value}
                        placeholder={this.props.placeholder || this.props.name}
+                       autoFocus={this.props.autoFocus}
                 />
             </div>
         );

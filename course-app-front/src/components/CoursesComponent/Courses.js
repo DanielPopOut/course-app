@@ -6,15 +6,13 @@ import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import RegisterForCourse from "./RegisterForCourse";
 import {getToken,setToken, getDecodedToken, redirectTo} from '../../server/axiosInstance';
 import {ServerService} from "../../server/ServerService";
+import Redirect from "react-router-dom/es/Redirect";
 
 
 class CoursesHeader extends Component{
 
     handleChange(e){
 
-    }
-    handleNewCourseCreation(){
-      redirectTo('/welcome');
     }
 
     render(){
@@ -24,13 +22,14 @@ class CoursesHeader extends Component{
             name:"newuserbutton",
             value:"Ajouter un cours",
             className:"form-helper-button success",
-            onClick:()=>this.handleNewCourseCreation()
+            onClick:()=>{this.props.handleRedirection('/createcourse')}
         };
         let inputsearchparams={
             type:'text',
             name : 'input-course-search',
             className : "search-input form-helper-input ",
-            placeholder :'Search'
+            placeholder :'Search',
+            autoFocus:true
         };
 
         return(
@@ -39,7 +38,7 @@ class CoursesHeader extends Component{
                     <h3>{"Courses Management Interface !!"} </h3>
                 </div>
                 <div className={"user-search-new-div"}>
-                    <div className={"div-user-search-block"}>
+                    <div className={"div-user-search-block  "}>
                         <InputTextHelper {...inputsearchparams} onChange={(e)=>this.handleChange(e)} />
                         <div className={"div-img-search"}>
                             <img src={"/images/search.png"}
@@ -172,6 +171,9 @@ class Courses extends Component {
         }
     }
 
+    handleRedirection(url){
+        this.props.history.push(url);
+    }
     handleOpenCourse(course){
         console.log(this.props);
         this.props.history.push('/course/'+course._id);
@@ -179,7 +181,7 @@ class Courses extends Component {
     render() {
         return (
             <React.Fragment>
-                <CoursesHeader/>
+                <CoursesHeader handleRedirection={(url)=>this.handleRedirection(url)}/>
                 <CoursesList
                     openCourse = {(course)=>this.handleOpenCourse(course)}
                     loggedIn = {this.props.loggedIn}

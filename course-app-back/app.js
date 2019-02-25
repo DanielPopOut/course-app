@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cruds = require('./cruds');
 const authentication = require('./authentication');
 const courses = require('./courses');
+const MCQuestions = require('./mcquestions');
 
 let CrudDBFunctions=require('./CrudDBFunctions');
 
@@ -57,5 +58,6 @@ app.post('/*', (req,res,next)=>{
 app.use('/authentication', authentication);
 app.use('/crudOperations', cruds);
 app.use('/courses', courses);
+app.use('/mcquestions', MCQuestions);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

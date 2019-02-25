@@ -50,7 +50,7 @@ class ConnexionComponent extends Component{
                 //console.log("status"+ response.status);
                 if(response.status===200){
                     this.props.handleCloseModal();
-                    //console.log(this.props);
+                    console.log(" The login props ",this.props);
                 }else{
                     alert(response.data.errorMessage);
                 }

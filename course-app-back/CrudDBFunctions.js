@@ -90,7 +90,8 @@ module.exports = {
             try {
                 let arrayElements = await database.collection(collection)
                     .find(options.queries || {}, options.fields || {}).toArray();
-                callback(arrayElements);
+                    callback(arrayElements);
+
             } catch (e) {
                 callback({},e);
             }
@@ -115,16 +116,15 @@ module.exports = {
     getOneDocumentWithAggregation: function (collection,aggregation,callback){
         client.connect( async function (err) { //server connection
             assert.equal(null, err);
-            console.log('connected successfully to server');
             let database=client.db(dbName);
             try {
-               // console.log("agregation",aggregation);
                 let result = await database.collection(collection).aggregate(aggregation);
                 result.get(function (err,data) {
                     if(err){
                         console.log("an error ",err);
                         return callback({},err);
                     }else{
+                        //console.log('data',data);
                         return callback(data,err);
                     }
                 });

@@ -135,8 +135,8 @@ class Teachers extends Component{
             placeholder :'Email, Name , Surname, pseudo (Username)'
         };
         return(
-            <div>
-                <div className={"div-user-search-block"}>
+            <div className={"search-and-list-accounts-block"}>
+                <div className={"div-user-search-block "}>
                     <InputTextHelper {...inputsearchparams} onChange={(e)=>this.handleChange(e)}/>
                     <div className={"div-img-search"}>
                         <img src={"/images/search.png"}

@@ -1,0 +1,23 @@
+.mcqFieldDiv{
+    padding: 2px;
+    margin: 4px 2px;
+}
+.mcqFieldDiv>label{
+    display: block;
+    margin: 2px 0px;
+    text-align: center;
+}
+.qcmFormTitle{
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 2px 0px;
+}
+.mcqAnswersDiv{
+    border: solid thin #4e0909;
+    border-style: inset;
+}
+.oneAnswerDiv{
+    display: flex;
+    align-items: center;
+}
