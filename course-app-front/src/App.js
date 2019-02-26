@@ -89,6 +89,7 @@ class App extends Component {
 
                 <ModalComponent
                     visible={this.state.messageModalVisibility}
+                    onClose={()=>this.setState({messageModalVisibility: false})}
                 >
                     <div style={{color: 'black'}}>{this.state.messageToShow}</div>
                 </ModalComponent>

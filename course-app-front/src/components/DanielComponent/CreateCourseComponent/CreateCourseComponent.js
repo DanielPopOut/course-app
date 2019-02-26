@@ -190,7 +190,7 @@ class SectionElementComponent extends Component {
         let objectToShow = state.element;
         let elementName = props.elementName;
         let nextElementName = lowerLevelComponentName[props.elementName];
-        return <div className='section-element-component'>
+        return <div className={'section-element-component ' + props.elementName}>
             <div>{objectToShow.title }  {this.generateButtons(elementName)}</div>
             <div className='ql-editor' dangerouslySetInnerHTML={{ __html: state.element.content }} />
             {state.children.map((childSection,step) => <SectionElementComponent key={childSection._id} element={childSection} elementName={nextElementName}/>)}

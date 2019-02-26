@@ -291,7 +291,7 @@ export class InputHelper extends Component {
         }
     }
     render() {
-        return ( this.renderfield(this.props.params) );
+        return ( this.renderfield(this.props) );
     }
 }
 

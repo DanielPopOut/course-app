@@ -1,3 +1,25 @@
 .section-element-component {
     margin: 0 20px;
+    padding: 10px;
+    border: #e6e6e6 1px solid;
+
+}
+
+.section-element-component.course {
+    font-size:30px;
+    font-weight: 900;
+}
+.section-element-component.chapter {
+    font-size:25px;
+    font-weight: 800;
+    border: #e6e6e6 1px solid;
+
+}
+.section-element-component.section {
+    font-size:20px;
+    font-weight: 700;
+}
+.section-element-component.subsection {
+    font-size:15px;
+    font-weight: 600;
 }
