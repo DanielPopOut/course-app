@@ -3,7 +3,6 @@ import './mcqscomponent.css';
 import {ButtonHelper, CheckBoxHelper, LabelHelper, RadioHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill'; // ES6
-import {QuillDeltaToHtmlConverter} from 'quill-delta-to-html';
 import {ServerService} from "../../server/ServerService";
 
 let formats = [
@@ -29,6 +28,8 @@ class OneMCQ extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            course_level:this.props.course_level,
+            reference:this.props.reference,
             question: '',
             answers: this.retunDefaultAnswerArray(this.props.numberOfAnswer || 5),
             rightAnswers: [],
@@ -127,6 +128,8 @@ class OneMCQ extends Component {
             }
             console.log("state before ",this.state);
             validation['dataToSend']={
+                course_level:this.state.course_level,
+                reference:this.state.reference,
                 question: question,
                 answers: answers,
                 rightAnswers: rightAnswers,
@@ -142,14 +145,6 @@ class OneMCQ extends Component {
      handleSaveNewMCQ() {
         let validation = this.validateMCQ();
         if (validation.valid) {
-            let dataToSend = {
-                question: this.state.question,
-                answers: this.state.answers,
-                rightAnswers: this.state.rightAnswers,
-                explanation: this.state.explanation
-            };
-
-            console.log("ready to send ", dataToSend);
             ServerService.postToServer("/mcquestions/new",validation['dataToSend']).then((response)=>{
                 if(response.status===200){
                     alert("M.C.Q Saved with Success");
@@ -227,8 +222,8 @@ class OneMCQ extends Component {
                                           value: "Valider",
                                           type: 'button',
                                           className: ' form-helper-button success'
-                                      }}
-                                  onClick={() => this.handleSaveNewMCQ()}
+                                      }
+                    } onClick={() => this.handleSaveNewMCQ()}
                     />
                     <ButtonHelper {
                                       ...{
@@ -258,7 +253,8 @@ class MCQsComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mcqs: [],
+            reference:this.props.reference||'',
+            course_level:this.props.course_level,
             modalVisibility: false,
             modalChildren: ""
         }
@@ -267,7 +263,7 @@ class MCQsComponent extends Component {
     handleNewMCQ() {
         this.setState({
             modalVisibility: true,
-            modalChildren: <OneMCQ numberOfAnswer={6}/>
+            modalChildren: <OneMCQ   reference={this.state.reference} course_level={this.state.course_level} />
         })
     }
 
@@ -291,7 +287,7 @@ class MCQsComponent extends Component {
                         ...{
                             name: 'newMCQ',
                             value: 'New M.C.Q',
-                            className: 'form-helper-button success'
+                            className: 'form-helper-button success new-mcq-button'
                         }
                     }
                     onClick={() => this.handleNewMCQ()}

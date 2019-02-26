@@ -33,9 +33,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.course-options{
-    visibility: hidden;
-}
+
 .tooltip .tooltip-content{
     visibility: hidden;
     position: absolute;

@@ -178,6 +178,7 @@ class Courses extends Component {
         console.log(this.props);
         this.props.history.push('/course/'+course._id);
     }
+
     render() {
         return (
             <React.Fragment>

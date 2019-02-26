@@ -4,6 +4,8 @@ import {ButtonHelper} from "../HelperComponent/FormHelper";
 import NewTeacher from "./NewTeacher";
 import {ServerService} from "../../server/ServerService";
 import ReactQuill, {} from 'react-quill';
+import MCQsComponent from "../MCQsComponent/MCQsComponent";
+import TestComponent from "../MCQsComponent/TestComponent";
 
 const fakeCourse = {
     title: "No Content Available",
@@ -44,10 +46,16 @@ class Course extends Component {
 
     displayElement(element, level = 'courses') {
         if (element) {
+            let element_id=element._id||element;
+            console.log("the element ",element, "and the id ",element_id);
             return (
                 <React.Fragment>
                     <div className={'title-div'}>
-                        {this.displayContent(element.title)}
+                        <div className={'new-mcq-option'}>
+                            <MCQsComponent course_level={level} reference={element_id}/>
+                        </div>
+
+                        <h1>{this.displayContent(element.title,level)}</h1>
                     </div>
 
                     <div className={'content-div'}>
@@ -58,17 +66,12 @@ class Course extends Component {
                     </div>
                 </React.Fragment>
             )
-        } else {
-            return ("");
         }
-
     }
 
     displaySubElements(element, level) {
         if (element.hasOwnProperty(lowerLevelCollectionName[level]) && element[lowerLevelCollectionName[level]].length > 0) {
-            console.log("children", element[lowerLevelCollectionName[level]]);
             let result = element[lowerLevelCollectionName[level]].map((subElement, key) => {
-                console.log("child exist", subElement);
                 return (
                     <React.Fragment key={key}>
                         {this.displayElement(subElement, lowerLevelCollectionName[level])}
@@ -76,17 +79,22 @@ class Course extends Component {
                 );
             });
             return (result);
-
         } else {
             return "";
         }
     }
 
+    openCourseCreationMode(){
+        let course=this.state.courseToDisplay;
+        this.props.history.push('/coursecreationmode/'+course._id);
+    }
     render() {
         return (
             <React.Fragment>
-                <div style={{textAlign: 'right'}}>
+                <div className={"course-options"}>
                     <NewTeacher course={this.state.courseToDisplay}/>
+
+                    <TestComponent reference={this.state.courseToDisplay._id}/>
                 </div>
                 <div className={'course-content-div'}>
                     {this.displayElement(this.state.courseToDisplay, 'courses')}

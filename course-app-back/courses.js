@@ -11,9 +11,10 @@ let lowerLevelCollectionName = {
     chapters: 'sections',
     sections: 'subsections'
 };
-let returnAggregation = function (element_id) {
+
+let returnAggregation = function (course_id) {
     let aggregation = [
-        {$match: {_id: ObjectID(element_id),}},
+        {$match: {_id: ObjectID(course_id),}},
         {
             $graphLookup: {
                 from: 'chapters',
@@ -36,12 +37,8 @@ let returnAggregation = function (element_id) {
                 as: 'chapters.sections'
             }
         },
-        {
-            $sort: {
-                chapters: 1
-            }},
-        {
-            $group: {
+
+        {    $group: {
                 _id: '$_id',
                 title: {$first: "$title"},
                 content: {$first: "$content"},
@@ -52,85 +49,35 @@ let returnAggregation = function (element_id) {
     return aggregation;
 };
 const retrieveElement = async (element_id, collection = 'courses', callback) => {
-
     let aggregation = returnAggregation(element_id, collection);
     await CrudDBFunctions.getOneDocumentWithAggregation(collection, aggregation, async (result, err = '') => {
         callback(result, err);
     });
 };
 
-let getSubSection =  (subsection_id) => {
-     CrudDBFunctions.getOneDocument({
-        collection: "subsections",
+router.post('/getCourseElements', (req, res) =>{
+    console.log("request body ",req.body);
+    let {elements_ids,elements_collection}={...req.body};
+    elements_ids=elements_ids.map((id)=>{
+       return ObjectID(id);
+    });
+    CrudDBFunctions.getAllDocument({
+        collection: 'courses',
         options: {
             queries: {
-                _id: ObjectID(subsection_id)
+                _id: {$in: elements_ids}
             }
         },
-        callback: (result, err) => {
+        callback: (result, err = '') => {
             if (err) {
-                //callback(result,err);
-            } else {
-                return(result);
+                res.status(403).json({errorMessage: JSON.stringify(err)});
+            } else{
+                console.log("result ",result);
+                res.status(200).json(result);
             }
         }
     });
-};
-let getSection =  (section_id, callback) => {
-     CrudDBFunctions.getOneDocument({
-        collection: "sections",
-        options: {
-            queries: {
-                _id: ObjectID(section_id)
-            }
-        },
-        callback: (result, err) => {
-            if (err) {
-                callback(result, err);
-            } else {
-
-                result['subsections'] = result['subsections'].map(
-                     (subsection_id) => {
-
-                         //let theresult={};
-                          return getSubSection(subsection_id/*, (sub_section_result, err = '') => {
-                            if (err) {
-                                console.log("error getting subsection ", err);
-                            } else {
-                                console.log("sub-section founded", sub_section_result);
-                                theresult = sub_section_result;
-                                //return sub_section_result;
-                            }
-                              console.log("the result", sub_section_result);
-                        }*/);
-                    });
-                callback(result);
-            }
-        }
-    });
-};
-
-async function getChapters(chapters_ids) {
-    return CrudDBFunctions.getAllDocument({
-        collection: "chapters",
-        options: {
-            queries: {
-                _id: {$in:chapters_ids}
-            }
-        },
-        callback: (chapters_result, err) => {
-            if (err) {
-                console.log("error getting chapters",err);
-            } else {
-                return(chapters_result);
-            }
-        }
-    });
-};
-async function getSections(sections_ids){
-    let final;
-
-}
+});
 
 router.get('/getAll', (req, res) => {
     CrudDBFunctions.getAllDocument({
@@ -307,25 +254,46 @@ router.post('/removeTeacher', (req, res) => {
     }
 });
 
-router.post('/getCourse', async (req, res) => {
+router.post('/getCourse', (req, res) => {
     let course_id=req.body._id;
-    await CrudDBFunctions.getOneDocument({
-        collection: "courses",
-        options: {
-            queries: {
-                _id: ObjectID(course_id)
-            }
-        },
-        callback:async  (course_result, err = '') => {
-            if (err) {
-                console.log("Error fetching Course", err);
-                //callback({},err);
-            } else {
-                let chapters_ids = course_result['chapters'];
-                 course_result['chapters']= await getChapters(chapters_ids);
-                console.log("course result ",course_result);
-                res.status(200).json(course_result);
-            }
+    retrieveElement(req.body._id,'courses',(course_result,err='')=>{
+        if(err){
+            console.log("Error fetching Course", err);
+            res.status(403).json({
+                errorMessage:"Error fetching Course "+JSON.stringify(err)
+            });
+        }else {
+            let course=course_result[0];
+            course['chapters'].forEach( (chapter,index)=>{
+               chapter['sections'] = chapter['sections'].reverse();
+               /* chapter['sections'].forEach(
+                   (section,index)=>{
+                       let subsection_ids = section['subsections'];
+                       let subsections=[];
+
+                        CrudDBFunctions.getAllDocument({
+                          collection:'subsections',
+                          options:{
+                              queries:{
+                                  _id:{$in:subsection_ids}
+                              }
+                          },
+                           callback: (result,err='')=>{
+                              if(err){
+                                  console.log("yes error",err);
+                              }else {
+                                  subsections=result;
+                                  section['subsections']=subsections;
+                              }
+                           }
+                       });
+                       console.log("SubSections ",subsections);
+               });*/
+               return chapter;
+            });
+            course['chapters'].reverse();
+            //=course['chapters'].reverse();
+            res.status(200).json(course);
         }
     });
 });
@@ -401,5 +369,6 @@ router.post('/getUsers', (req, res) => {
         }
     });
 });
+
 
 module.exports = router;

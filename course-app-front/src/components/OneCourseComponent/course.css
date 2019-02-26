@@ -10,9 +10,21 @@
     padding: 2px;
 }
 .course-content-div .ql-editor{
-    padding: 0;
+    padding: 0!important;
     margin: 0;
+
 }
 .course-content-div .ql-container.ql-snow{
     border:none;
+}
+.new-mcq-button{
+    padding: 4px;
+
+}
+.new-mcq-option{
+    float: right;
+}
+.course-options{
+    display: flex;
+    justify-content: space-evenly;
 }

@@ -5,7 +5,7 @@ import NavBar from './components/NavbarComponent/NavBar';
 import { Route} from 'react-router-dom';
 import Welcome from './components/WelcomeComponent/Welcome';
 import Courses from './components/CoursesComponent/Courses';
-import Course from './components/CoursesComponent/Course';
+import Course from './components/OneCourseComponent/Course';
 import ConnexionComponent from './components/ConnexionComponent/ConnexionComponent';
 import ContactsComponent from './components/ContactsComponent/ContactsComponent';
 import Users from './components/UsersComponent/Users';
@@ -123,12 +123,6 @@ class App extends Component {
                     {/*<Route path='/quill' render={(props) => <QuillComponent/>}/>*/}
                     <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>
                     <Route path='/mcqs' render={(props) => <MCQsComponent/>}/>
-
-
-                    {/*<DataManagerPage {...coursesModel} />*/}
-                    {/*<DataManagerPage {...chaptersModel}/>*/}
-                    {/*<DataManagerPage {...sectionsModel}/>*/}
-                    {/*<DataManagerPage {...levelsModel}/>*/}
 
                 </main>
                 <footer>

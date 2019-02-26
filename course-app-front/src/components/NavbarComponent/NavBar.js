@@ -18,7 +18,7 @@ export default class NavBar extends Component {
       //  {title: 'AlphaM', redirectionAddress: '/welcome'},
         {title: 'Departements', redirectionAddress: '/departments'},
         {title: 'Cours', redirectionAddress: '/courses'},
-        {title: 'MCQS', redirectionAddress: '/mcquestions.js'},
+        {title: 'MCQS', redirectionAddress: '/mcqs'},
         {title: 'Contacts', redirectionAddress: '/contacts'},
         {title: 'Users', redirectionAddress: '/users'},
     ];
