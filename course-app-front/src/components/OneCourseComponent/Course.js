@@ -8,9 +8,8 @@ import MCQsComponent from "../MCQsComponent/MCQsComponent";
 import TestComponent from "../MCQsComponent/TestComponent";
 
 const fakeCourse = {
-    title: "No Content Available",
-    description: "",
-    content: ""
+    title: "",
+    content: "<p> Sorry this course is not availaible !!</p>"
 };
 let lowerLevelCollectionName = {
     courses: 'chapters',
@@ -22,40 +21,62 @@ class Course extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            courseToDisplay: {}
+            courseToDisplay: {},
+            ready:false,
         }
     }
-
-    componentDidMount() {
+     componentWillMount() {
         ServerService.postToServer('courses/getCourse', {_id: this.props.match.params.id})
             .then((response) => {
                 if (response.status === 200) {
                     console.log("course to display result ", response);
-                    this.setState({courseToDisplay: response.data});
+                    let course=response.data;
+                    if(course.hasOwnProperty('chapters') && course['chapters'].length>0){
+                        ServerService.postToServer('courses/getCourseElements',{
+                            elements_ids:course['chapters'],
+                            elements_collection:'chapters'
+                        }).then((response)=>{
+                            if(response.status===200){
+                                console.log("getting chapters done!!",response.data);
+                                course['chapters']=response.data;
+                                this.setState({
+                                    courseToDisplay: course,
+                                    ready:true
+                                });
+                            }else {
+                                console.log("Error while getting chapters!!",response.data.errorMessage);
+                            }
+                        });
+                    }
+                    this.setState({
+                            courseToDisplay: course,
+                            ready:true
+                        });
                 } else {
                     this.setState({
-                        courseToDisplay: fakeCourse
+                        courseToDisplay: fakeCourse,
+                        ready:true
                     });
                 }
             });
     }
 
     displayContent(content) {
-        return (<ReactQuill value={content || ""} modules={{toolbar: false}} readOnly={true}/>);
+        return (<ReactQuill value={content || ""} modules={{toolbar: false}}  readOnly={true}/>);
     }
 
     displayElement(element, level = 'courses') {
-        if (element) {
-            let element_id=element._id||element;
-            console.log("the element ",element, "and the id ",element_id);
+        if (element && (element.content||element.title)) {
+            let element_id=element._id || element;
+            //console.log("the element:",element_id," level ",level," the id ",element_id);
             return (
                 <React.Fragment>
                     <div className={'title-div'}>
+                        <h1>{this.displayContent(element.title, level)}</h1>
                         <div className={'new-mcq-option'}>
                             <MCQsComponent course_level={level} reference={element_id}/>
+                            <TestComponent course_level={level} reference={element_id}/>
                         </div>
-
-                        <h1>{this.displayContent(element.title,level)}</h1>
                     </div>
 
                     <div className={'content-div'}>
@@ -65,7 +86,8 @@ class Course extends Component {
                         {this.displaySubElements(element, level)}
                     </div>
                 </React.Fragment>
-            )
+            );
+
         }
     }
 
@@ -83,21 +105,25 @@ class Course extends Component {
             return "";
         }
     }
-
-    openCourseCreationMode(){
-        let course=this.state.courseToDisplay;
-        this.props.history.push('/coursecreationmode/'+course._id);
+    displayCourse(){
+        //make sure the course has been loaded already
+        if(this.state.ready){
+            return this.displayElement(this.state.courseToDisplay);
+        }else{
+            return<div style={{textAlign:'center'}}><img src={'/images/al.gif'}/></div>
+        }
     }
     render() {
         return (
             <React.Fragment>
+
                 <div className={"course-options"}>
                     <NewTeacher course={this.state.courseToDisplay}/>
-
-                    <TestComponent reference={this.state.courseToDisplay._id}/>
                 </div>
                 <div className={'course-content-div'}>
-                    {this.displayElement(this.state.courseToDisplay, 'courses')}
+                    <div>
+                        {this.displayCourse()}
+                    </div>
                 </div>
             </React.Fragment>
         )

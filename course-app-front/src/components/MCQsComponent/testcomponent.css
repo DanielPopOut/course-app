@@ -1,0 +1,34 @@
+.one-test-div{
+    display: flex;
+    background-color: rgba(131, 155, 149, 0.56);
+    justify-content: space-between;
+    text-align: center;
+}
+.test-creation-header{
+    text-align: center;
+}
+.mcqs-list{
+
+}
+.one-mcq-test-div{
+    margin: 4px;
+    border: solid thin whitesmoke;
+    background-color: whitesmoke;
+    padding: 2px;
+
+}
+
+.one-test-div>div>.one-mcq-test-div:nth-of-type(odd){
+
+}
+.produce-test-button{
+    margin:1px;
+    padding: 2px;
+}
+.mcqs-list,.selected-mcqs-list{
+    width: 50%;
+    overflow:auto;
+}
+.test-title-input{
+    text-align: center;
+}

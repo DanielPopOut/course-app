@@ -13,7 +13,7 @@ import DataManagerPage from './components/DanielComponent/DataManagerPage/DataMa
 import {usersModel} from './components/DataManagerComponent/DataModelsComponent';
 import {getToken, removeToken,getDecodedToken, userLogged$,messageToShow$ ,urlRedirection$} from './server/axiosInstance';
 import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
-import MCQsComponent from './components/MCQsComponent/MCQsComponent';
+import MCQsManagerComponent from './components/MCQsComponent/MCQsManagerComponent';
 
 import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
 import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
@@ -122,7 +122,7 @@ class App extends Component {
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
                     {/*<Route path='/quill' render={(props) => <QuillComponent/>}/>*/}
                     <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>
-                    <Route path='/mcqs' render={(props) => <MCQsComponent/>}/>
+                    <Route path='/mcqs' render={(props) => <MCQsManagerComponent/>}/>
 
                 </main>
                 <footer>
