@@ -12,48 +12,51 @@ let lowerLevelCollectionName = {
     sections: 'subsections'
 };
 
-let returnAggregation = function (elements_ids,level='chapters') {
-    let aggregation=[];
-    elements_ids=elements_ids.map((id)=>{
+let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = false) {
+    let aggregation = [];
+    elements_ids = elements_ids.map((id) => {
         return ObjectID(id);
     });
-    if (level === 'chapters'){
+    if (level === 'chapters') {
         aggregation = [
-                {$match: {_id:{$in:elements_ids}}},
-                {
-                    $graphLookup: {
-                        from: 'sections',
-                        startWith: '$sections',
-                        connectFromField: 'sections',
-                        connectToField: "_id",
-                        as: 'sections',
-                    }
-                },
-                {
-                    $unwind: {
-                        path: '$sections', preserveNullAndEmptyArrays: true,
-                    }},
-                {
-                    $graphLookup: {
-                        from: 'subsections',
-                        startWith: '$sections.subsections',
-                        connectFromField: "sections.subsections",
-                        connectToField: "_id",
-                        as: 'sections.subsections'
-                    }
-                },
+            {$match: {_id: {$in: elements_ids}}},
 
-                {    $group: {
-                        _id: '$_id',
-                        title: {$first: "$title"},
-                        content: {$first: "$content"},
-                        sections: {$push: "$sections"}
-                    }
-                },
-            ];
-    }else if(level==='sections') {
+            {
+                $graphLookup: {
+                    from: 'sections',
+                    startWith: '$sections',
+                    connectFromField: 'sections',
+                    connectToField: "_id",
+                    as: 'sections',
+                }
+            },
+            {
+                $unwind: {
+                    path: '$sections', preserveNullAndEmptyArrays: true,
+                }
+            },
+            {
+                $graphLookup: {
+                    from: 'subsections',
+                    startWith: '$sections.subsections',
+                    connectFromField: "sections.subsections",
+                    connectToField: "_id",
+                    as: 'sections.subsections'
+                }
+            },
+
+            {
+                $group: {
+                    _id: '$_id',
+                    title: {$first: "$title"},
+                    content: {$first: "$content"},
+                    sections: {$push: "$sections"}
+                }
+            },
+        ];
+    } else if (level === 'sections') {
         aggregation = [
-            {$match: {_id:{$in:elements_ids}}},
+            {$match: {_id: {$in: elements_ids}}},
             {
                 $graphLookup: {
                     from: 'subsections',
@@ -63,7 +66,8 @@ let returnAggregation = function (elements_ids,level='chapters') {
                     as: 'subsections',
                 }
             },
-            {    $group: {
+            {
+                $group: {
                     _id: '$_id',
                     title: {$first: "$title"},
                     content: {$first: "$content"},
@@ -71,18 +75,32 @@ let returnAggregation = function (elements_ids,level='chapters') {
                 }
             },
         ];
-    }else {
-        aggregation = [ {$match: {_id:{$in:elements_ids}}},];
+    } else {
+        aggregation = [{$match: {_id: {$in: elements_ids}}},];
+    }
+    if (onlyTitle) {
+        aggregation.push({
+            $project:
+                {
+                    _id: 1,
+                    title: 1,
+                    "sections._id": 1,
+                    "sections.title": 1,
+                    "sections.subsections._id": 1,
+                    "sections.subsections.title": 1,
+                }
+        });
     }
     return aggregation;
 };
 
-const retrieveElements = async (elements_ids, collection = 'courses', callback) => {
-    let aggregation = returnAggregation(elements_ids, collection);
+const retrieveElements = async (elements_ids, collection = 'courses', callback, onlyTitle) => {
+    let aggregation = returnAggregation(elements_ids, collection, onlyTitle);
     await CrudDBFunctions.getOneDocumentWithAggregation(collection, aggregation, (result, err = '') => {
         callback(result, err);
     });
 };
+
 /**
  * section creation of a new course subelement (chapter, section , subsection)
  */
@@ -151,14 +169,25 @@ router.get('/getAll', (req, res) => {
         }
     });
 });
-router.get('/getAllWithIds', (req, res) => {
+
+router.post('/getAllWithIds', (req, res) => {
+    console.log("get all with ids body ",req.body);
+    let {collection, elements_ids, fields} = {...req.body};
+    elements_ids=elements_ids.map(
+        (id)=>{
+            return ObjectID(id);
+        });
     CrudDBFunctions.getAllDocument({
-        collection: 'courses',
-        options:{
-            queries:{_id:{$in:[]}}
+        collection: collection,
+        options: {
+            queries: {
+                _id: {$in: elements_ids}
+            },
+            fields: fields
         },
         callback: (result, err = "") => {
             if (err) {
+                console.log("error occured ",err);
                 res.status(400).json({errorMessage: err.toString()});
             } else {
                 res.status(200).send(result);
@@ -170,7 +199,6 @@ router.get('/getAllWithIds', (req, res) => {
 /**
  * section of registration of users as students
  */
-
 
 router.post('/newRegistration', (req, res) => {
     try {
@@ -362,100 +390,61 @@ router.post('/getUsers', (req, res) => {
  */
 
 router.post('/getCourse', (req, res) => {
-    let course_id=req.body._id;
-    retrieveElements([req.body._id],'courses',(course_result,err='')=>{
-        if(err){
+    let { course_id,onlyTitle} = {...req.body};
+    retrieveElements([course_id], 'courses', (course_result, err = '') => {
+        if (err) {
             console.log("Error fetching Course", err);
             res.status(403).json({
-                errorMessage:"Error fetching Course "+JSON.stringify(err)
+                errorMessage: "Error fetching Course " + JSON.stringify(err)
             });
-        }else {
-            let course=course_result[0];
+        } else {
+            let course = course_result[0];
             //=course['chapters'].reverse();
             res.status(200).json(course);
         }
-    });
+    },onlyTitle).then();
 });
 
-router.post('/getCourseElements', (req, res) =>{
-    console.log("request body ",req.body);
-    let {elements_ids,elements_collection}={...req.body};
-    elements_ids=elements_ids.map((id)=>{
+router.post('/getCourseElements', (req, res) => {
+    console.log("request body ", req.body);
+    let {elements_ids, elements_collection, onlyTitle} = {...req.body};
+    elements_ids = elements_ids.map((id) => {
         return ObjectID(id);
     });
 
-    retrieveElements(elements_ids,'chapters',(result,err='')=>{
-            if (err) {
-                console.log("error getting sub Elements ",err);
-                res.status(403).json({errorMessage: JSON.stringify(err)});
-            } else{
-                //reversing sub-elements that have been inverse due to aggregation
-                if(elements_collection==='chapters'){
-                    console.log("chapters result ",result);
-                    result.reverse();
-                    result.forEach((chapter)=>{
-                        if(chapter.hasOwnProperty('sections')){
-                            chapter['sections'].reverse();
-                            chapter['sections'].forEach((section)=>{
-                                console.log("section",section);
-                                if(section.hasOwnProperty('subsections')){
-                                    section['subsections'].reverse();
-                                }
-                            });
-                        }
-                    });
-                }else if(elements_collection==='sections'){
-                    result.forEach((section)=>{
-                        if(section.hasOwnProperty('subsections')){
-                            section['subsections'].reverse();
-                        }
-                    });
-                }
-                console.log("result ",result);
-                res.status(200).json(result);
+    retrieveElements(elements_ids, 'chapters', (result, err = '') => {
+        if (err) {
+            console.log("error getting sub Elements ", err);
+            res.status(403).json({errorMessage: JSON.stringify(err)});
+        } else {
+            //reversing sub-elements that have been inverse due to aggregation
+            if (elements_collection === 'chapters') {
+                console.log("chapters result ", result);
+                result.reverse();
+                result.forEach((chapter) => {
+                    if (chapter.hasOwnProperty('sections')) {
+                        chapter['sections'].reverse();
+                        chapter['sections'].forEach((section) => {
+                            console.log("section", section);
+                            if (section.hasOwnProperty('subsections')) {
+                                section['subsections'].reverse();
+                            }
+                        });
+                    }
+                });
+            } else if (elements_collection === 'sections') {
+                result.forEach((section) => {
+                    if (section.hasOwnProperty('subsections')) {
+                        section['subsections'].reverse();
+                    }
+                });
             }
-        }).then();
-
-
-   /* CrudDBFunctions.getAllDocument({
-        collection: elements_collection,
-        options: {
-            queries: {
-                _id: {$in: elements_ids}
-            }
-        },
-        callback: (result, err = '') => {
-            if (err) {
-                console.log("error getting sub Elements ",err);
-                res.status(403).json({errorMessage: JSON.stringify(err)});
-            } else{
-                //reversing sub-elements that have been inverse due to aggregation
-                if(elements_collection==='chapters'){
-                    result.forEach((chapter)=>{
-                       chapter['sections'].reverse();
-                       chapter['sections'].forEach((section)=>{
-                           console.log("section",section);
-                           if(section.hasOwnProperty('subsections')){
-                               section['subsections'].reverse();
-                           }
-                       });
-                    });
-                }else if(elements_collection==='sections'){
-                    result.forEach((section)=>{
-                        if(section.hasOwnProperty('subsections')){
-                            section['subsections'].reverse();
-                        }
-                    });
-                }
-                console.log("result ",result);
-                res.status(200).json(result);
-            }
+            console.log("result ", result);
+            res.status(200).json(result);
         }
-    });*/
+    }, onlyTitle);
+
 });
-
-
-
 
 
 module.exports = router;

@@ -37,6 +37,7 @@ export class OneMCQ extends Component {
         }
     }
 
+
     retunDefaultAnswerArray(number) {
         let arrOfAns = [];
         for (let i = 1; i <= number; i++) {
@@ -172,6 +173,10 @@ export class OneMCQ extends Component {
     oneMCQForm() {
         return (
             <form >
+                <div>
+                    level : {this.state.course_level}
+                    ref: {this.state.reference}
+                    </div>
                 <div className={"qcmFormTitle"}> Formulaire de Creation d'un QCM</div>
                 {
                     this.returnMCQField({
@@ -242,7 +247,11 @@ export class OneMCQ extends Component {
 
     render() {
         return (
-            <div> {this.oneMCQForm()} </div>
+
+            <div>
+                {this.state.reference} {this.state.course_level}
+                {this.oneMCQForm()}
+                </div>
         )
     }
 }

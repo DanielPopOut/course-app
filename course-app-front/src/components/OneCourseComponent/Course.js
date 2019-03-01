@@ -26,7 +26,7 @@ class Course extends Component {
         }
     }
      componentWillMount() {
-        ServerService.postToServer('courses/getCourse', {_id: this.props.match.params.id})
+        ServerService.postToServer('courses/getCourse', {course_id: this.props.match.params.id})
             .then((response) => {
                 if (response.status === 200) {
                     console.log("course to display result ", response);
