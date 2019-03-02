@@ -24,7 +24,7 @@ let modules = {
 
 let defaultArrayAnswer = ['', '', '', '', ''];
 
-class OneMCQ extends Component {
+export class OneMCQ extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,6 +36,7 @@ class OneMCQ extends Component {
             explanation: ""
         }
     }
+
 
     retunDefaultAnswerArray(number) {
         let arrOfAns = [];
@@ -142,7 +143,7 @@ class OneMCQ extends Component {
         }
     }
 
-     handleSaveNewMCQ() {
+    handleSaveNewMCQ() {
         let validation = this.validateMCQ();
         if (validation.valid) {
             ServerService.postToServer("/mcquestions/new",validation['dataToSend']).then((response)=>{
@@ -172,6 +173,10 @@ class OneMCQ extends Component {
     oneMCQForm() {
         return (
             <form >
+                <div>
+                    level : {this.state.course_level}
+                    ref: {this.state.reference}
+                    </div>
                 <div className={"qcmFormTitle"}> Formulaire de Creation d'un QCM</div>
                 {
                     this.returnMCQField({
@@ -242,9 +247,11 @@ class OneMCQ extends Component {
 
     render() {
         return (
+
             <div>
+                {this.state.reference} {this.state.course_level}
                 {this.oneMCQForm()}
-            </div>
+                </div>
         )
     }
 }
@@ -253,7 +260,7 @@ class MCQsComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reference:this.props.reference||'',
+            reference:this.props.reference,
             course_level:this.props.course_level,
             modalVisibility: false,
             modalChildren: ""
@@ -263,8 +270,8 @@ class MCQsComponent extends Component {
     handleNewMCQ() {
         this.setState({
             modalVisibility: true,
-            modalChildren: <OneMCQ   reference={this.state.reference} course_level={this.state.course_level} />
-        })
+            modalChildren: <OneMCQ  reference={this.state.reference} course_level={this.state.course_level} />
+        });
     }
 
     handleClose() {

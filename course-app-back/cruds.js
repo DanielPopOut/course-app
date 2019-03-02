@@ -13,10 +13,11 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/get', function (req, res) {
-    let {collection, data} = {...req.body};
-    console.log(collection, data);
+    let {collection, options} = {...req.body};
+    //console.log(collection, data);
     CrudDBFunctions.getAllDocument({
         collection:collection,
+        options:options||{},
         callback: (result,err='') => {
             if (err) {
                 console.log('error', err);

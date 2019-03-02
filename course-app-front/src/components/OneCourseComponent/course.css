@@ -6,8 +6,19 @@
 .sub-element-content{
     margin-left: 2%;
 }
+
+.title-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content-div{
+
+}
+
 .title-div,.content-div{
-    padding: 2px;
+    padding: 1px;
 }
 .course-content-div .ql-editor{
     padding: 0!important;
@@ -18,11 +29,13 @@
     border:none;
 }
 .new-mcq-button{
-    padding: 4px;
+    margin:1px;
+    padding: 2px;
 
 }
 .new-mcq-option{
     float: right;
+    display: flex;
 }
 .course-options{
     display: flex;

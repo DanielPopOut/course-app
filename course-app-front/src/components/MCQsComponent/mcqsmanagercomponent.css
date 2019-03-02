@@ -1,0 +1,29 @@
+.mcqs-manager-body{
+    display: flex;
+    justify-content: space-around;
+}
+.mcqs-manager-body>div{
+    max-width: 50%;
+    margin: 10px;
+}
+.element-div{
+    border: solid 2px #1b1b5230;
+    border-radius: 6px;
+    margin: 10px 1px;
+    padding: 1px;
+    text-align: center;
+    box-shadow: 1px 2px yellowgreen;
+    font-weight: 500;
+    text-transform: capitalize;
+    cursor: pointer;
+    min-width: 200px;
+}
+.element-div:hover{
+    transform: scale(1.005);
+    margin: 8px 0px;
+    color: #050058;
+    background-color: #b5e818ad;
+}
+.sub-elements-div{
+    margin: 2px 0px 2px 8px;
+}
