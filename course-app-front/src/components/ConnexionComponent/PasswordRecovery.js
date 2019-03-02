@@ -126,11 +126,11 @@ class FirstStep extends Component {
                 .then(
                     (response)=>{
                         console.log(response.data);
-                        if(response.data.success) {
+                        if(response.status===200) {
                             this.props.nextStep(this.state.dataToSend);
                             console.log(response.data.message);
                         }else {
-                            console.log(response.data.message);
+                            console.log(response.data.errorMessage);
                         }
                     });
         }
@@ -170,10 +170,10 @@ class SecondStep extends Component {
     handleClick(e){
         if(this.state.dataToSend.code.length>=4){
             ServerService.postToServer(PASSWORD_RECOVERY_CODE_PATH,this.state.dataToSend).then((response)=>{
-                if(response.data.success){
+                if(response.status===200){
                     this.props.nextStep(this.state.dataToSend);
                 }else {
-                    alert(response.data.message);
+                    alert(response.data.errorMessage);
                 }
             });
         }else {
@@ -227,7 +227,7 @@ class ThirdStep extends Component {
             let newdatatosend = Object.assign({},this.state.dataToSend,this.props.data[2]);
                 ServerService.postToServer(PASSWORD_RESET_PATH, newdatatosend).then((response)=>{
                     console.log(response.data);
-                    if(response.data.success){
+                    if(response.status === 200){
                         this.props.nextStep({status:1});
                     }else{
                         alert(response.data.message);
@@ -331,8 +331,8 @@ class PasswordRecovery extends Component{
     displayCurrentStep(){
         switch (this.state.currentStep){
             case 1: return(<FirstStep  nextStep={(e)=>this.nextStep(e)} />); break;
-            case 2: return(<SecondStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
-            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} />); break;
+            case 2: return(<SecondStep onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} previousStep={(e)=>this.previousStep(e)}/>); break;
+            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} previousStep={(e)=>this.previousStep(e)}/>); break;
             case 4: return(<FourthStep  onChange={(e)=>this.handleChange(e)}  nextStep={(e)=>this.nextStep(e)} />); break;
             default : break;
         }

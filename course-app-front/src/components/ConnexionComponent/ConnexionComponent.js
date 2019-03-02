@@ -33,7 +33,7 @@ class ConnexionComponent extends Component{
         });
     }
 
-    handleCloseModal(){
+    handleCloseModal(e){
         this.setState({
             modalVisibility :false,
             modalChildren:""
@@ -49,10 +49,10 @@ class ConnexionComponent extends Component{
             ServerService.postToServer(AUTHENTICATION,this.state.dataToSend).then((response)=>{
                 //console.log("status"+ response.status);
                 if(response.status===200){
-                    this.handleCloseModal();
-                    console.log(this.props);
+                    this.props.handleCloseModal();
+                    console.log(" The login props ",this.props);
                 }else{
-                    alert(response.data.text);
+                    alert(response.data.errorMessage);
                 }
             });
         }
@@ -65,10 +65,10 @@ class ConnexionComponent extends Component{
     }
 
     render(){
-    //    console.log("props 2 ",this.props);
+        console.log("props 2 ",this.props);
         return (
             <div className={"form-connexion-block"}>
-                <ModalComponent visible={this.state.modalVisibility}  onClose={()=>this.handleCloseModal()}>
+                <ModalComponent visible={this.state.modalVisibility}  onClose={(e)=>this.handleCloseModal(e)}>
                     {this.state.modalChildren}
                 </ModalComponent>
                 <form className={'form-connexion'} onKeyPress={(event)=>this.handleKeyPress(event)}>

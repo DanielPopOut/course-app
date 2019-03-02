@@ -11,7 +11,7 @@ class Welcome extends Component {
             <div className='welcome'>
                 <div className='welc_text'> {'Welcome to AlphaM'}</div>
                 <div className='welc_slogan'>
-                    {'Aprennez en Toute Simplicite !!'}
+                    {'Apprenez en Toute Simplicite !!'}
                 </div>
 
             </div>

@@ -36,6 +36,10 @@
     border-bottom: solid thin black;
 
 }
-.teacher-to-add-div>div:nth-child(2){
-    flex: 1;
+.teacher-to-add-div>div:nth-child(1){
+    width: 90%;
+    text-align: center;
+}
+.search-and-list-accounts-block{
+   min-width: 400px;
 }

@@ -2,6 +2,8 @@ import React,{Component} from "react";
 import './connexion.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ConnexionComponent from "./ConnexionComponent";
+import {getToken, removeToken, userLogged$, messageToShow$, getDecodedToken} from '../../server/axiosInstance';
+import {Redirect} from "react-router-dom";
 
 class Connexion extends Component {
     constructor(props) {
@@ -9,6 +11,14 @@ class Connexion extends Component {
         this.state = {
             modalVisibility: false,
             modalChildren: ""
+        }
+    }
+
+    deleteToken(){
+        if (getToken() || getToken().length > 1) {
+            removeToken();
+            //  this.props.history.push('/welcome');
+            return (<Redirect to={'/welcome'}/>);
         }
     }
 
@@ -25,29 +35,25 @@ class Connexion extends Component {
     openLoginModal(){
         this.setState({
             modalVisibility: true,
-            modalChildren: <ConnexionComponent/>
+            modalChildren: <ConnexionComponent
+                handleCloseModal={()=>this.closeModal()}
+            />
         })
     }
 
     display() {
-        /* console.log("loggedIn "+ this.state.loggedIn);
-         console.log("decoded token "+ this.state.decodedToken);*/
         if (this.props.loggedIn) {
+            let token=getDecodedToken();
             return (
-                <div key={'Deconnexion'} className={'navbar-item-div tooltip'}>
-                    <div
-                        className={'navbar-item-link '}
-                    >
+                <div key={'Deconnexion'} className={'navbar-item-div connexion-tooltip'}>
+                    <div  className={'navbar-item-link '} >
                         <div   className={'logout-div'}     >
-                            { this.props.decodedToken.surname? this.props.decodedToken.surname[0]:'U'}
+                            { token.surname? token.surname[0]:'U'}
                         </div>
                     </div>
                     <div className={"tooltip-content"}>
-                        {this.userInfosToDisplay(this.props.decodedToken)}
-                        <div
-                            className={"logout-button"}
-                            onClick={()=>this.props.logout()}
-                        >
+                        {this.userInfosToDisplay(token)}
+                        <div className={"logout-button"} onClick={()=>this.deleteToken()}>
                             Deconnexion
                         </div>
                     </div>
@@ -78,7 +84,7 @@ class Connexion extends Component {
                 <React.Fragment>
                     <ModalComponent
                         visible={this.state.modalVisibility}
-                        onClose={() => this.closeModal()}
+                        onClose={()=>this.closeModal()}
                     >
                         {this.state.modalChildren}
                         </ModalComponent>

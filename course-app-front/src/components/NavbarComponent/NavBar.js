@@ -18,6 +18,7 @@ export default class NavBar extends Component {
       //  {title: 'AlphaM', redirectionAddress: '/welcome'},
         {title: 'Departements', redirectionAddress: '/departments'},
         {title: 'Cours', redirectionAddress: '/courses'},
+        {title: 'MCQS', redirectionAddress: '/mcqs'},
         {title: 'Contacts', redirectionAddress: '/contacts'},
         {title: 'Users', redirectionAddress: '/users'},
     ];
@@ -56,11 +57,7 @@ export default class NavBar extends Component {
                         }
                     </div>
                 <div className={'navbar-right-side'}>
-                    <Connexion
-                        loggedIn={this.state.loggedIn}
-                        decodedToken={this.state.decodedToken}
-                        logout={() => this.deleteToken()}
-                    />
+                    <Connexion  loggedIn={this.props.loggedIn}/>
                 </div>
             </div>
         );

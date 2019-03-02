@@ -2,20 +2,26 @@ import axios from 'axios';
 import { AUTHENTICATION, TOKEN } from './SERVER_CONST';
 import { Subject } from "rxjs";
 
-
 // Add a request interceptor
 const userLogged = new Subject();
 export const userLogged$ = userLogged.asObservable();
 const messageToShow = new Subject();
 export const messageToShow$ = messageToShow.asObservable();
 export let isLoggedIn = true;
+const urlRedirection = new Subject();
+export const urlRedirection$ = urlRedirection.asObservable();
+
 
 export function setLoggedIn(bool) {
     isLoggedIn = bool;
     userLogged.next(bool)
 }
 
-function setToken(token) {
+export function redirectTo(url){
+    urlRedirection.next(url);
+}
+
+export function setToken(token) {
     console.log('token set', token);
     localStorage.setItem('token', JSON.stringify(token));
 }
@@ -30,6 +36,17 @@ export function getToken() {
     return localStorage.getItem(TOKEN);
 }
 
+export function getDecodedToken() {
+    let token = getToken();
+    console.log("here my token : "+token);
+    if (!getToken() || getToken().length < 1) return false;
+    console.log(JSON.parse(window.atob(token.split('.')[1])));
+    return(JSON.parse(window.atob(token.split('.')[1])));
+}
+
+export function displayMessage(message='') {
+    messageToShow.next(message);
+}
 
 let axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -53,8 +70,6 @@ axiosInstance.interceptors.request.use(function (config) {
     // Do something with request error
     return Promise.reject(error.response);
 });
-
-
 
 axiosInstance.interceptors.response.use(function (response) {
     // Do something with response data

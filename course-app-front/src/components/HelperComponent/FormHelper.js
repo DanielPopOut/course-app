@@ -17,7 +17,7 @@ let data = {
 };
 
 
-function LabelHelper(props) {
+export function LabelHelper(props) {
     if (props.label) {
         return (<label className={"form-helper-label"}> {props.label} </label>);
     }
@@ -28,8 +28,8 @@ export class CheckBoxHelper extends Component {
     render() {
         return (
             <div>
-                <input type={'checkbox'} name={this.props.name}/>
-                <LabelHelper label={this.props.name}/>
+                <input type={'checkbox'} checked={this.props.checked || false} onChange={(e)=>this.props.onChange(e)} name={this.props.name}/>
+                <LabelHelper label={this.props.label}/>
             </div>
         );
     }
@@ -72,7 +72,7 @@ export class RadioHelper extends Component {
         return (
             <div>
                 <input type={'radio'} onChange={(e)=>this.props.onChange(e)} name={this.props.name}/>
-                <LabelHelper label={this.props.value}/>
+
             </div>
         );
     }
@@ -109,6 +109,7 @@ export class InputTextHelper extends Component {
                        onChange={(e)=>this.props.onChange(e)}
                        value={this.props.value}
                        placeholder={this.props.placeholder || this.props.name}
+                       autoFocus={this.props.autoFocus}
                 />
             </div>
         );
@@ -204,9 +205,10 @@ export class FormHelper extends Component {
     handleClick(e){
         let registration_path = this.props.registration_path || REGISTRATIONS_PATH+this.state.collectionName;
         ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
-            alert("suiguiente !!");
             if(response.status!==200){
                 alert(response.data.text);
+            }else{
+
             }
         });
     }
@@ -218,8 +220,9 @@ export class FormHelper extends Component {
             <div>
             <form>
                 <section className={"form-helper-title"}> <h3>user registration form</h3></section>
-                {this.props.data.fields.map(function (elt, key) {
-                    switch (elt.type) {
+                {
+                    this.props.data.fields.map(function (elt, key) {
+                        switch (elt.type) {
                         case 'text':
                         case 'email':
                         case 'number':
@@ -244,7 +247,8 @@ export class FormHelper extends Component {
                         }
                             break;
                     }
-                })}
+                    })
+                }
                 <div className={'hr-button-block'}>
                     <ButtonHelper {...{type: 'reset', className:' form-helper-button danger', value:'Reset'}}/>
                     <ButtonHelper {...{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>

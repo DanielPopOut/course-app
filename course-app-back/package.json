@@ -16,7 +16,7 @@
     "mongodb": "^3.1.10",
     "nexmo": "^2.4.0",
     "nodemailer": "^5.1.0",
-    "nodemon": "^1.18.9",
+    "nodemon": "^1.18.10",
     "sendemail": "^3.4.0"
   },
   "devDependencies": {

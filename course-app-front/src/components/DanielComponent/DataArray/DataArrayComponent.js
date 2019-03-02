@@ -56,8 +56,6 @@ class DataArrayComponent extends Component {
         this.setModalVisibility(true);
     }
 
-
-
     setModalVisibility(bool) {
         this.setState({modalVisibility: bool});
         if (!bool) {
