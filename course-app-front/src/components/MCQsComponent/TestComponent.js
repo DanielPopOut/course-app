@@ -6,6 +6,57 @@ import ReactQuill from 'react-quill'; // ES6
 import {ServerService} from "../../server/ServerService";
 import {displayMessage} from "../../server/axiosInstance";
 
+class ListsTests extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            reference:this.props.reference,
+            course_level:this.props.course_level,
+            tests: this.props.tests || [],
+            currentTest:{}
+        }
+    }
+
+    showMcq(mcq){
+        return(<div>
+
+        </div>);
+    }
+
+    showCurrentTest(){
+        if(this.state.currentTest.length>0){
+            let currenttest=this.state.currentTest;
+            return (
+                <div>
+                    <div>{currenttest.title}</div>
+                    <div>
+                        {
+                            currenttest.mcqs.map((mcq,key)=>{
+                                return(
+                                    <div key={key}>
+
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+
+                </div>
+            );
+        }
+    }
+
+    render(){
+        return(
+            <div className={"show-test-div"}>
+               <div>  </div>
+               <div>{this.showCurrentTest()}</div>
+               <div></div>
+            </div>
+        );
+    }
+}
+
 class OneTest extends Component{
     constructor(props){
         super(props);
@@ -21,8 +72,9 @@ class OneTest extends Component{
     }
 
     displayOneMCQ(mcq){
-            return(<ReactQuill value={mcq.question || ""} modules={{toolbar: false}} readOnly={true}/>)
+        return(<ReactQuill value={mcq.question || ""} modules={{toolbar: false}} readOnly={true}/>)
     }
+
     handleAddMCQS(mcq){
         console.log("adding mcq ",mcq);
         let newselectedmcqs=this.state.selectedmcqs;
@@ -34,6 +86,7 @@ class OneTest extends Component{
             selecetedmcqs:newselectedmcqs
         });
     }
+
     handleRemoveMCQS(mcq){
         console.log("remove mcq ",mcq);
         let newselectedmcqs=this.state.selectedmcqs;
@@ -45,6 +98,7 @@ class OneTest extends Component{
             selecetedmcqs:newselectedmcqs
         });
     }
+
     createNewTest(){
         // check empty selected questions
         let selectedmcqs=this.state.selectedmcqs;
@@ -78,6 +132,7 @@ class OneTest extends Component{
             alert("Vous devez Selectionner au moins une question");
         }
     }
+
     modifyTest(){
         let selectedmcqs=this.state.selectedmcqs;
         if(selectedmcqs.length>0){
@@ -107,11 +162,13 @@ class OneTest extends Component{
             alert("Vous devez Selectionner au moins une question");
         }
     }
+
     handleTitleChange(elt) {
         this.setState({
             title:elt.target.value
         });
     }
+
     setNewTest(){
         let originalmcqs=this.state.originalmcqs;
         this.setState({
@@ -119,6 +176,7 @@ class OneTest extends Component{
             mcqs:originalmcqs
         });
     }
+
     displayTestButton(){
         if(this.state.test_id.length===0){
             return(
@@ -160,6 +218,7 @@ class OneTest extends Component{
             );
         }
     }
+
     render(){
         return(
             <React.Fragment>
@@ -209,7 +268,9 @@ class OneTest extends Component{
         )
     }
 }
+
 class TestComponent extends Component{
+
     constructor(props){
         super(props);
         this.state={
@@ -221,7 +282,6 @@ class TestComponent extends Component{
     }
 
     buildTest(){
-
         let dataObjet={
             reference:this.state.reference,
             course_level:this.state.course_level
@@ -241,14 +301,38 @@ class TestComponent extends Component{
                 alert(response.data.errorMessage);
             }
         });
-
     }
+
     handleClose(){
         this.setState({
             modalVisibility:false,
             modalChildren:""
         });
     }
+
+    listTests(){
+        let dataObjet={
+            reference:this.state.reference,
+            course_level:this.state.course_level
+        };
+        ServerService.postToServer('/mcquestions/getTestsOfLevel',dataObjet).then((response)=>{
+            if(response.status===200){
+                console.log("list of Tests Founded ",response.data);
+                this.setState({
+                    modalChildren:<ListsTests
+                        reference={this.state.reference}
+                        course_level={this.state.course_level}
+                        tests={response.data}
+                        currentTest={response.data[0]||{}}
+                    />,
+                    modalVisibility:true,
+                });
+            }else{
+                alert(response.data.errorMessage);
+            }
+        });
+    }
+
     render(){
         return(
             <div>
@@ -262,11 +346,19 @@ class TestComponent extends Component{
                         className:"form-helper-button warning produce-test-button"
                     }}
                     onClick={()=>this.buildTest()}
-                    onClose={()=>this.handleClose()}
+                />
+                <ButtonHelper
+                    {...{
+                        name:'testsViewButton',
+                        value:'List of Tests',
+                        className:"form-helper-button warning produce-test-button"
+                    }}
+                    onClick={()=>this.listTests()}
                 />
 
             </div>
         );
     }
 }
+
 export default TestComponent;

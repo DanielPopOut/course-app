@@ -19,6 +19,7 @@ export default class NavBar extends Component {
         {title: 'Departements', redirectionAddress: '/departments'},
         {title: 'Cours', redirectionAddress: '/courses'},
         {title: 'MCQS', redirectionAddress: '/mcqs'},
+        {title: 'TESTS', redirectionAddress: '/tests'},
         {title: 'Contacts', redirectionAddress: '/contacts'},
         {title: 'Users', redirectionAddress: '/users'},
     ];

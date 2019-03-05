@@ -32,18 +32,18 @@ let modules = {
     ],
 };
 
+
 class DisplayElement extends Component{
     constructor(props){
         super(props);
         this.state={
             element:this.props.element,
             level:this.props.level,
-            subElements:[]
+            subElements:[],
+            selected:this.props.selectionState
         }
     }
     handleElementClick(){
-        let newOneMCQ=<OneMCQ  course_level={this.state.course_level} reference={this.state.reference} />;
-        this.props.handleSelection(newOneMCQ);
         if(lowerCourseLevel[this.state.level]){
             this.setState({ subElements:[] });
             this.setState({ subElements:waitingElement });
@@ -64,20 +64,34 @@ class DisplayElement extends Component{
                 }
             });
         }
-
+        this.props.handleSelection(this.state.element._id,this.state.level);
+        this.props.handleUnSelectAll();
+        this.setState({
+            selected:true
+        })
+    }
+    selectionState(){
+        if(!this.state.selected){
+            return "element-div"
+        }else {
+            return "selected-element-div"
+        }
     }
     render(){
         return(
             <div>
-                <div className={'element-div'} onClick={()=>this.handleElementClick()}>
+                <div className={this.selectionState()} onClick={()=>this.handleElementClick()}>
                    {this.state.element.title}
                 </div>
                 <div className={'sub-elements-div'}>
                     {this.state.subElements.map((subElement,key)=>{
                         return<div key={key}>
-                                <DisplayElement element={subElement}
-                                               level= {lowerCourseLevel[this.state.level]}
-                                               handleSelection={this.props.handleSelection}
+                                <DisplayElement
+                                    element={subElement}
+                                    level= {lowerCourseLevel[this.state.level]}
+                                    handleSelection={this.props.handleSelection}
+                                    handleUnSelectAll={this.props.handleUnSelectAll}
+                                    selectionState={this.props.selectionState}
                                 />
                         </div>;
                     })}
@@ -90,7 +104,8 @@ class NewMCQLocation  extends Component{
     constructor(props){
         super(props);
         this.state={
-            courses:[]
+            courses:[],
+            selectionState:false
         }
     }
     componentWillMount(){
@@ -103,6 +118,15 @@ class NewMCQLocation  extends Component{
         });
     }
 
+    handleUnSelectAll(){
+        this.setState({
+            selectionState:true
+        });
+        this.setState({
+            selectionState:false
+        });
+    }
+
     displayElements(level='courses',elements){
         return elements.map((element,key)=>{
             return (
@@ -111,10 +135,10 @@ class NewMCQLocation  extends Component{
                         handleSelection={this.props.handleSelection}
                         element={element}
                         level={level}
+                        handleUnSelectAll={()=>this.handleUnSelectAll()}
+                        selectionState={this.state.selectionState}
                     />
                 </div>
-
-
             );
         });
     }
@@ -131,21 +155,29 @@ class MCQsManagerComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mcqForm:'',
+            reference:'fewewf',
+            level:'none',
             modalVisibility: false,
             modalChildren: ""
-        }
+        };
+        this.handleSelection=this.handleSelection.bind(this);
     }
 
     handleOpenModal() {
         this.setState({
             modalVisibility: true,
             modalChildren: ""
-        })
+        });
     }
 
-    handleSelection(newOneMCQ){
-        this.setState({mcqForm:newOneMCQ });
+    handleSelection(reference,level){
+        this.setState({
+            reference:reference,
+            level:level
+        },()=>{
+            console.log("Selection : reference ",reference, " level ",level);
+            this.forceUpdate();
+        });
     }
     handleClose() {
         this.setState({
@@ -154,19 +186,24 @@ class MCQsManagerComponent extends Component {
         });
     }
 
+    checkchanged(){
+        return this.state.level;
+    }
+
     render() {
         return (
             <React.Fragment>
+                {this.checkchanged()}
                 <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleClose()}>
                     {this.state.modalChildren}
                 </ModalComponent>
                 <div className={"mcqs-manager-body"}>
                     <div className={"location-div"}>
                         <h2>Level Location</h2>
-                        <NewMCQLocation handleSelection={(newOneMCQ)=>this.handleSelection(newOneMCQ)}/>
+                        <NewMCQLocation handleSelection={(reference,level)=>this.handleSelection(reference,level)}/>
                     </div>
                     <div>
-                        {this.state.mcqForm}
+                        <OneMCQ reference={this.state.reference} course_level={this.state.level}/>
                     </div>
                 </div>
             </React.Fragment>

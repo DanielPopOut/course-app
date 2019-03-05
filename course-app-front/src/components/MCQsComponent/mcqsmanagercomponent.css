@@ -6,7 +6,7 @@
     max-width: 50%;
     margin: 10px;
 }
-.element-div{
+.element-div,.selected-element-div{
     border: solid 2px #1b1b5230;
     border-radius: 6px;
     margin: 10px 1px;
@@ -18,6 +18,11 @@
     cursor: pointer;
     min-width: 200px;
 }
+
+.selected-element-div{
+    background-color: #c5c500;
+}
+
 .element-div:hover{
     transform: scale(1.005);
     margin: 8px 0px;

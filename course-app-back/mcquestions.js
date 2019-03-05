@@ -94,4 +94,36 @@ router.post('/modifyTest', (req, res) => {
     );
 });
 
+router.post('/getTestsOfLevel',(req,res)=>{
+    let {reference,course_level}={...req.body};
+    let   aggregation = [
+        {
+            $match: {
+                reference: reference,
+                course_level:course_level
+            }
+        },
+        {
+            $graphLookup: {
+                from: 'mcqs',
+                startWith: '$selectedmcqs_ids',
+                connectFromField: 'selectedmcqs_ids',
+                connectToField: "_id",
+                as: 'mcqs',
+            }
+        },
+    ];
+
+    CrudDBFunctions.getOneDocumentWithAggregation('tests',aggregation,(result,err='')=>{
+        if(err){
+            console.log("error while request for test ",err);
+            res.status(403).json({errorMessage: JSON.stringify(err)});
+        }else {
+            console.log("test returned",result);
+
+            res.status(200).json(result);
+        }
+    });
+});
+
 module.exports = router;

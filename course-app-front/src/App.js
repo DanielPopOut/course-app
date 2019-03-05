@@ -14,13 +14,12 @@ import {usersModel} from './components/DataManagerComponent/DataModelsComponent'
 import {getToken, removeToken,getDecodedToken, userLogged$,messageToShow$ ,urlRedirection$} from './server/axiosInstance';
 import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
 import MCQsManagerComponent from './components/MCQsComponent/MCQsManagerComponent';
+import TestsManagerComponent from './components/MCQsComponent/TestsMangerComponent';
 
 import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
 import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
 import Connexion from "./components/ConnexionComponent/Connexion";
 import {Redirect} from "react-router";
-
-
 
 class App extends Component {
     constructor(props) {
@@ -122,7 +121,8 @@ class App extends Component {
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
                     {/*<Route path='/quill' render={(props) => <QuillComponent/>}/>*/}
                     <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>
-                    <Route path='/mcqs' render={(props) => <MCQsManagerComponent/>}/>
+                    <Route path='/mcqs' component={MCQsManagerComponent}/>
+                    <Route path='/tests' component={TestsManagerComponent}/>
 
                 </main>
                 <footer>

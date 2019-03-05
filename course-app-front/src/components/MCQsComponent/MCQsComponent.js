@@ -37,6 +37,16 @@ export class OneMCQ extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.reference!==prevProps.reference){
+            console.log('state will change');
+            this.handleResetNewMCQ();
+            this.setState({
+                course_level:this.props.course_level,
+                reference:this.props.reference
+            });
+        }
+    }
 
     retunDefaultAnswerArray(number) {
         let arrOfAns = [];
@@ -44,7 +54,6 @@ export class OneMCQ extends Component {
             arrOfAns.push('');
         }
         return arrOfAns;
-
     }
 
     returnMCQField({content, defaultValue = "", handleChange, label = '', placeholder = ''}) {
@@ -173,10 +182,6 @@ export class OneMCQ extends Component {
     oneMCQForm() {
         return (
             <form >
-                <div>
-                    level : {this.state.course_level}
-                    ref: {this.state.reference}
-                    </div>
                 <div className={"qcmFormTitle"}> Formulaire de Creation d'un QCM</div>
                 {
                     this.returnMCQField({
@@ -247,9 +252,7 @@ export class OneMCQ extends Component {
 
     render() {
         return (
-
             <div>
-                {this.state.reference} {this.state.course_level}
                 {this.oneMCQForm()}
                 </div>
         )

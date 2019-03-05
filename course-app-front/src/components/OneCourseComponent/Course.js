@@ -116,7 +116,6 @@ class Course extends Component {
     render() {
         return (
             <React.Fragment>
-
                 <div className={"course-options"}>
                     <NewTeacher course={this.state.courseToDisplay}/>
                 </div>
