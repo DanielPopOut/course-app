@@ -28,6 +28,7 @@ export class OneMCQ extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            test:"test",
             course_level:this.props.course_level,
             reference:this.props.reference,
             question: '',
@@ -250,9 +251,21 @@ export class OneMCQ extends Component {
         );
     }
 
+   /* returnInfos(){
+        return(
+            <div>
+                <div>ref:<span>{this.state.reference}</span></div>
+                <div>level:<span>{this.state.course_level}</span></div>
+            </div>
+        );
+    }*/
+
     render() {
         return (
             <div>
+               {/* <div>
+                    {this.returnInfos()}
+                </div>*/}
                 {this.oneMCQForm()}
                 </div>
         )

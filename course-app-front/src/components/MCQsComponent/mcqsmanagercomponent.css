@@ -3,32 +3,27 @@
     justify-content: space-around;
 }
 .mcqs-manager-body>div{
-    max-width: 50%;
-    margin: 10px;
+    padding: 10px 15px;
 }
-.element-div,.selected-element-div{
-    border: solid 2px #1b1b5230;
-    border-radius: 6px;
-    margin: 10px 1px;
-    padding: 1px;
-    text-align: center;
-    box-shadow: 1px 2px yellowgreen;
-    font-weight: 500;
-    text-transform: capitalize;
-    cursor: pointer;
-    min-width: 200px;
+.mcqs-manager-body>div:first-child{
+    flex: 1;
+}
+.mcqs-manager-body>div:last-child{
+    flex: 5;
 }
 
-.selected-element-div{
-    background-color: #c5c500;
-}
 
-.element-div:hover{
-    transform: scale(1.005);
-    margin: 8px 0px;
-    color: #050058;
-    background-color: #b5e818ad;
+.selected-course-infos{
+    text-align: right;
 }
-.sub-elements-div{
-    margin: 2px 0px 2px 8px;
+.div-options{
+
+}
+.options-div{
+
+}
+.options-div>h3{
+    font-size: large;
+    padding-bottom: 4px;
+    border-bottom: solid 2px #102858d9;
 }

@@ -1,3 +1,31 @@
-.show-test-di{
+.nav-title{
+    text-shadow: 2px -1px #5a4231;
+    text-decoration: underline;
+    color: #253f4e8a;
+}
+.element-div,.selected-element-div{
+    border: solid 2px #1b1b5230;
+    border-radius: 6px;
+    margin: 10px 1px;
+    padding: 1px;
+    text-align: center;
+    box-shadow: 1px 2px yellowgreen;
+    font-weight: 500;
+    text-transform: capitalize;
+    cursor: pointer;
+    min-width: 200px;
+}
 
+.selected-element-div{
+    background-color: #c5c500;
+}
+
+.element-div:hover{
+    transform: scale(1.005);
+    margin: 8px 0px;
+    color: #050058;
+    background-color: #b5e818ad;
+}
+.sub-elements-div{
+    margin: 2px 0px 2px 8px;
 }
