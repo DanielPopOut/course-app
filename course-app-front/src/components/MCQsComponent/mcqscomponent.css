@@ -24,3 +24,66 @@
 .mcqFieldDiv{
 
 }
+.mcqs-list-div>h3{
+    text-align: center;
+}
+.mcqs-list-div>div:nth-of-type(odd){
+    background-color: whitesmoke;
+}
+.mcqs-list-one-div{
+     margin: 7px 0px;
+     cursor: pointer !important;
+    border: solid thin #cfd0de;
+ }
+.mcqs-list-one-div:hover{
+    transform: scale(1.01);
+}
+.mcq-list-div-option{
+    display: none;
+    background-color: white;
+    margin: 2px 0px;
+    border: solid thin whitesmoke;
+    background-color: white;
+}
+.mcqs-list-one-div:hover .mcq-list-div-option {
+    display: block;
+}
+.realisedMCQ-div-test{
+    min-width: 350px;
+    padding: 4px;
+    border: solid thin cadetblue;
+    border-radius: 5px;
+}
+.realisedMCQ-div-correctedAndWrong{
+    min-width: 350px;
+    padding: 4px;
+    border: solid thick darkred;
+    border-radius: 5px;
+    background-color: #f3ebeb;
+}
+.realisedMCQ-div-correctedAndRight{
+    min-width: 350px;
+    padding: 4px;
+    border: solid thick #619217eb;
+    border-radius: 5px;
+    background-color: #dee8dfbd;
+}
+.question-div{
+
+}
+.one-choice-div{
+    border: solid thin #c4c3ce;
+    margin: 5px 0px;
+}
+.one-choice-div:nth-of-type(odd){
+    background-color: whitesmoke;
+}
+.one-choice-div .ql-editor{
+    margin: 4px 2px;
+    padding: 2px;
+}
+.checkbox-div{
+    text-align: center;
+    background-color: inherit;
+    cursor: pointer;
+}

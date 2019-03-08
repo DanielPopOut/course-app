@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import './mcqscomponent.css';
-import {ButtonHelper, CheckBoxHelper, LabelHelper, RadioHelper} from "../HelperComponent/FormHelper";
+import {ButtonHelper, CheckBoxeHelper, CheckBoxHelper, LabelHelper, RadioHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill'; // ES6
 import {ServerService} from "../../server/ServerService";
+import MCQHelpComponent from "./MCQHelpComponent";
 
 let formats = [
     'header',
@@ -11,6 +12,7 @@ let formats = [
     'list', 'bullet', 'indent', 'align',
     'link', 'image', 'formula',
 ];
+
 let modules = {
     toolbar: [
         [{'header': [1, 2, false]}],
@@ -24,27 +26,273 @@ let modules = {
 
 let defaultArrayAnswer = ['', '', '', '', ''];
 
+export class RealiseMCQ extends Component{
+
+    constructor(props){
+        super(props);
+        this.state={
+            mcq:this.props.mcq,
+            selectedAnswers:[],
+            mode:'test',// between [test,correctedAndWrong,correctedAndRight]
+        }
+    }
+
+    handleSelectAnswer(elt,key){
+        let selectedAnswers=this.state.selectedAnswers;
+        console.log("previous selected Answers ",selectedAnswers);
+        if(elt.target.checked){
+            if(selectedAnswers.indexOf(key)===-1){
+                selectedAnswers.push(key);
+            }
+        }else {
+            if(selectedAnswers.indexOf(key)>-1){
+                selectedAnswers.splice(selectedAnswers.indexOf(key),1);
+            }
+        }
+        console.log("new selected Answers ",selectedAnswers);
+    }
+
+    displayChoice(answer,key){
+        return (
+            <div key={key} className={"one-choice-div"}>
+                <div>
+                    <ReactQuill
+                        value={answer}
+                        modules={{toolbar:false}}
+                        formats={formats}
+                        readOnly={true}
+                    />
+                </div>
+                <div>
+                    <CheckBoxeHelper
+                        {...{
+                            name:"answer"+key,
+                        }}
+                        onChange={(e)=>this.handleSelectAnswer(e,key)}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    correctMCQ(){
+        let selectedAnswers=this.state.selectedAnswers;
+        if(selectedAnswers.length===0){
+            alert("aucune reponse selectionnee");
+        }else {
+            let rightAnswers=this.state.mcq.rightAnswers;
+            console.log("right answers ",rightAnswers,"selected answers ",selectedAnswers);
+            let wrongAnswersSelected=selectedAnswers.filter((elt)=>{
+                return rightAnswers.indexOf(elt);
+            });
+            let goodAnswersNotSelected=rightAnswers.filter((elt)=>{
+                return selectedAnswers.indexOf(elt)
+            });
+
+            if(wrongAnswersSelected.length!==0 || goodAnswersNotSelected.length!==0 ){
+               // alert("faux");
+                this.setState({ mode:'correctedAndWrong' });
+            }else {
+              //  alert('juste');
+                this.setState({ mode:'correctedAndRight'});
+            }
+            console.log("wrong selected ",wrongAnswersSelected,"good not selected",goodAnswersNotSelected);
+        }
+    }
+
+    repeatMCQ(){
+        this.setState({
+            mode:"test"
+        })
+    }
+    displayButtons(){
+        if(this.state.mode==='test'){
+            return(
+                <ButtonHelper
+                    {
+                        ...{
+                            name:"correctMCQbutton",
+                            value:"Valider",
+                            className:"form-helper-button success"
+                        }
+                    }
+                    onClick={()=>this.correctMCQ()}
+                />
+            );
+        }else if(this.state.mode==="correctedAndWrong" || this.state.mode==="correctedAndRight"){
+            return(
+                <div>
+                    <ButtonHelper
+                        {
+                            ...{
+                                name:"repeatMCQbutton",
+                                value:"Reprendre",
+                                className:"form-helper-button warning"
+                            }
+                        }
+                        onClick={()=>this.repeatMCQ()}
+                    />
+                </div>
+            );
+        }
+    }
+    displayHelpOptions(){
+        if(this.state.mode==="correctedAndWrong"){
+            return(<MCQHelpComponent mcq={this.state.mcq}/>);
+        }
+    }
+    displayMCQ(){
+        let mcq=this.state.mcq;
+        return(
+            <React.Fragment>
+                <div className={"question-div"}>
+                    <h3> Question </h3>
+                    <ReactQuill
+                        value={mcq.question}
+                        modules={{toolbar:false}}
+                        formats={formats}
+                        readOnly={true}
+                    />
+                </div>
+                <div>
+                    <h3> Answers</h3>
+                    {
+                        mcq.answers.map((answer,key)=>{
+                            return this.displayChoice(answer,key);
+                        })
+                    }
+                </div>
+                <div className={'hr-button-block'}>
+                    {this.displayButtons()}
+                </div>
+            </React.Fragment>
+        );
+    }
+
+    render(){
+        return(
+            <div className={"realisedMCQ-div-"+this.state.mode}>
+                {this.displayHelpOptions()}
+                {this.displayMCQ()}
+            </div>
+        )
+    }
+}
+
+export class ListMCQS extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            reference:this.props.reference,
+            course_level:this.props.course_level,
+            mcqs:this.props.mcqs,
+            modalVisibility:false,
+            modalChildren:""
+        }
+    }
+    handleViewMCQ(mcq){
+
+    }
+    handleRealiseMCQ(mcq){
+        this.openModal(<RealiseMCQ mcq={mcq}/>)
+    }
+    displayMCQ(mcq,key){
+        return(
+            <div key={key} className={"mcqs-list-one-div"}>
+                <ReactQuill
+                    value={mcq.question}
+                    modules={{toolbar:false}}
+                    formats={formats}
+                    readOnly={true}
+                />
+               <div className={" mcq-list-div-option "}>
+                   <div className={"hr-button-block"}>
+                       <ButtonHelper
+                           {
+                               ...{
+                                   name:'viewqcm',
+                                   value:"View",
+                                   className:"form-helper-button success"
+                               }
+                           }
+                           onClick={()=>this.handleViewMCQ(mcq)}
+                       />
+                       <ButtonHelper
+                           {
+                               ...{
+                                   name:'realisemcq',
+                                   value:"Realise MCQ",
+                                   className:"form-helper-button success"
+                               }
+                           }
+                           onClick={()=>this.handleRealiseMCQ(mcq)}
+                       />
+                   </div>
+               </div>
+            </div>
+        );
+    }
+
+    openModal(content){
+        this.setState({
+            modalVisibility:true,
+            modalChildren:content,
+        });
+    }
+    closeModal(){
+        this.setState({
+            modalChildren:"",
+            modalVisibility:false
+        });
+    }
+    render(){
+        console.log("mcqs list",this.state.mcqs);
+        return(
+            <div>
+                <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.closeModal()}>
+                    {this.state.modalChildren}
+                </ModalComponent>
+                <h3> List of MCQS</h3>
+                <div className={"mcqs-list-div"}>
+                    {
+                        this.state.mcqs.map((mcq,key)=>{
+                            return this.displayMCQ(mcq,key);
+                        })
+                    }
+                </div>
+
+            </div>
+        );
+    }
+}
+
 export class OneMCQ extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            test:"test",
-            course_level:this.props.course_level,
-            reference:this.props.reference,
+            mcq_id:'',
+            course_level: this.props.course_level || "",
+            reference: this.props.reference || "",
             question: '',
             answers: this.retunDefaultAnswerArray(this.props.numberOfAnswer || 5),
             rightAnswers: [],
-            explanation: ""
+            explanation: "",
+            action_level: "creation"//this precise if the mcq is in creation or modification mode
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if(this.props.reference!==prevProps.reference){
-            console.log('state will change');
-            this.handleResetNewMCQ();
+    componentDidMount() {
+        if (this.props.action_level === "modification") {
+            let mcq = this.props.mcq;
             this.setState({
-                course_level:this.props.course_level,
-                reference:this.props.reference
+                mcq_id:mcq._id,
+                course_level: mcq.course_level,
+                reference: mcq.reference,
+                question: mcq.question,
+                answers: mcq.question,
+                rightAnswers: mcq.answers,
+                explanation: mcq.explanation,
+                action_level: 'modification'
             });
         }
     }
@@ -74,7 +322,9 @@ export class OneMCQ extends Component {
 
     handleChange(element, questionOrAnswer = 'answer', index = null) {
 
-        if(element==='<p><br></p>') {element="";}
+        if (element === '<p><br></p>') {
+            element = "";
+        }
 
         console.log("here", element);
 
@@ -108,7 +358,7 @@ export class OneMCQ extends Component {
         let answers = [];
         let rightAnswers = [];
         let explanation = this.state.explanation;
-        let validation = {valid: true, message: "",dataToSend:{}};
+        let validation = {valid: true, message: "", dataToSend: {}};
 
         //check question
         if (question.length === 0) {
@@ -137,17 +387,15 @@ export class OneMCQ extends Component {
                 validation.message = " Au moins une réponse juste est nécessaire !! ";
                 return validation;
             }
-            console.log("state before ",this.state);
-            validation['dataToSend']={
-                course_level:this.state.course_level,
-                reference:this.state.reference,
+            validation['dataToSend'] = {
+                course_level: this.state.course_level,
+                reference: this.state.reference,
                 question: question,
                 answers: answers,
                 rightAnswers: rightAnswers,
                 explanation: explanation,
             };
             this.setState({...validation['dataToSend']});
-            console.log("final state  ",this.state);
 
             return validation;
         }
@@ -156,33 +404,134 @@ export class OneMCQ extends Component {
     handleSaveNewMCQ() {
         let validation = this.validateMCQ();
         if (validation.valid) {
-            ServerService.postToServer("/mcquestions/new",validation['dataToSend']).then((response)=>{
-                if(response.status===200){
+            ServerService.postToServer("/mcquestions/new", validation['dataToSend']).then((response) => {
+                if (response.status === 200) {
+                    console.log("response data ",response.data);
+                    this.setState({
+                       mcq_id:response.data,
+                       action_level:"modification"
+                    });
                     alert("M.C.Q Saved with Success");
-                }else {
+                } else {
                     alert("Sorry M.C.Q has not been saved !! ");
-                    console.log("error Message",response.errorMessage);
+                    console.log("error Message", response.errorMessage);
                 }
             });
         } else {
             alert(validation.message);
         }
+    }
+
+    handleModifyMCQ(){
+        let validation = this.validateMCQ();
+        if (validation.valid) {
+            let dataToSend={
+                documentToUpdate:{_id:this.state.mcq_id},
+                updateToMake: validation['dataToSend']
+            };
+
+            ServerService.postToServer("/mcquestions/modifyMCQ",dataToSend).then((response) => {
+                if (response.status === 200) {
+                    alert("M.C.Q modified with Success");
+                } else {
+                    alert("Sorry M.C.Q has not been modified !! ");
+                    console.log("error Message", response.errorMessage);
+                }
+            });
+        } else {
+            alert(validation.message);
+        }
+    }
+
+    handleResetMCQ(param) {
+        if(param==="new"){
+            this.setState({
+                mcq_id:'',
+                question: '',
+                answers: this.retunDefaultAnswerArray(this.props.numberOfAnswer || 5),
+                rightAnswers: [],
+                explanation: "",
+                dataToSend: {},
+                action_level: 'creation'
+            });
+        }else if(param==="modify"){
+            this.setState({
+                question: '',
+                answers: this.retunDefaultAnswerArray(this.props.numberOfAnswer || 5),
+                rightAnswers: [],
+                explanation: "",
+                dataToSend: {}
+            });
+        }
 
     }
 
-    handleResetNewMCQ() {
-        this.setState({
-            question: '',
-            answers: this.retunDefaultAnswerArray(this.props.numberOfAnswer || 5),
-            rightAnswers: [],
-            explanation: "",
-            dataToSend: {}
-        })
+    mcqButtons() {
+        if (this.state.action_level === "creation") {
+            return (
+                <React.Fragment>
+                    <ButtonHelper
+                        {
+                            ...{
+                                name: 'mcqFormValidation',
+                                value: "Valider",
+                                type: 'button',
+                                className: ' form-helper-button success'
+                            }
+                        } onClick={() => this.handleSaveNewMCQ()}
+                    />
+                    <ButtonHelper {
+                                      ...{
+                                          name: 'mcqFormReset',
+                                          value: "Reset",
+                                          type: 'reset',
+                                          className: ' form-helper-button danger'
+                                      }}
+                                  onClick={(e) => this.handleResetNewMCQ(e)}
+                    />
+                </React.Fragment>
+            );
+        } else if (this.state.action_level === "modification") {
+            return (
+                <React.Fragment>
+                    <ButtonHelper
+                        {
+                            ...{
+                                name: 'mcqFormValidation',
+                                value: "Modifier",
+                                type: 'button',
+                                className: ' form-helper-button success'
+                            }
+                        } onClick={() => this.handleModifyMCQ()}
+                    />
+                    <ButtonHelper
+                        {
+                            ...{
+                                name: 'mcqFormReset',
+                                value: "Reset And New",
+                                type: 'reset',
+                                className: ' form-helper-button danger'
+                            }}
+                        onClick={() => this.handleResetMCQ('new')}
+                    />
+                    <ButtonHelper
+                        {
+                            ...{
+                                name: 'mcqFormReset',
+                                value: "Reset And Modify",
+                                type: 'reset',
+                                className: ' form-helper-button danger'
+                            }}
+                        onClick={() => this.handleResetMCQ('modify')}
+                    />
+                </React.Fragment>
+            );
+        }
     }
 
     oneMCQForm() {
         return (
-            <form >
+            <form>
                 <div className={"qcmFormTitle"}> Formulaire de Creation d'un QCM</div>
                 {
                     this.returnMCQField({
@@ -193,7 +542,6 @@ export class OneMCQ extends Component {
                     })
                 }
                 <div className={'mcqAnswersDiv'}>
-
                     {
                         this.state.answers.map((answerField, index) => {
                             let num = index + 1;
@@ -227,47 +575,29 @@ export class OneMCQ extends Component {
                     }
                 </div>
                 <div className={"hr-button-block"}>
-                    <ButtonHelper {
-                                      ...{
-                                          name: 'mcqFormValidation',
-                                          value: "Valider",
-                                          type: 'button',
-                                          className: ' form-helper-button success'
-                                      }
-                    } onClick={() => this.handleSaveNewMCQ()}
-                    />
-                    <ButtonHelper {
-                                      ...{
-                                          name: 'mcqFormReset',
-                                          value: "Reset",
-                                          type: 'reset',
-                                          className: ' form-helper-button danger'
-                                      }}
-                                  onClick={(e) => this.handleResetNewMCQ(e)}
-                    />
-
+                    {this.mcqButtons()}
                 </div>
             </form>
         );
     }
 
-   /* returnInfos(){
-        return(
+    returnInfos() {
+        return (
             <div>
                 <div>ref:<span>{this.state.reference}</span></div>
                 <div>level:<span>{this.state.course_level}</span></div>
             </div>
         );
-    }*/
+    }
 
     render() {
         return (
             <div>
-               {/* <div>
+                <div>
                     {this.returnInfos()}
-                </div>*/}
-                {this.oneMCQForm()}
                 </div>
+                {this.oneMCQForm()}
+            </div>
         )
     }
 }
@@ -276,8 +606,8 @@ class MCQsComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reference:this.props.reference,
-            course_level:this.props.course_level,
+            reference: this.props.reference,
+            course_level: this.props.course_level,
             modalVisibility: false,
             modalChildren: ""
         }
@@ -286,7 +616,7 @@ class MCQsComponent extends Component {
     handleNewMCQ() {
         this.setState({
             modalVisibility: true,
-            modalChildren: <OneMCQ  reference={this.state.reference} course_level={this.state.course_level} />
+            modalChildren: <OneMCQ reference={this.state.reference} course_level={this.state.course_level}/>
         });
     }
 

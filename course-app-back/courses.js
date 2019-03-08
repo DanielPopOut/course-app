@@ -20,7 +20,6 @@ let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = 
     if (level === 'chapters') {
         aggregation = [
             {$match: {_id: {$in: elements_ids}}},
-
             {
                 $graphLookup: {
                     from: 'sections',
@@ -337,12 +336,12 @@ router.post('/addTeacher', (req, res) => {
 router.post('/removeTeacher', (req, res) => {
     try {
         console.log("rea body ", req.body);
-        let {user, course} = {...req.body}
+        let {user, course} = {...req.body};
         console.log("parameters ", {user, course});
         let teacher = [];
         if (user.hasOwnProperty('teacher')) {
             teacher = user['teacher'].filter((value) => {
-                return (value !== course._id)
+                return (value !== course._id);
             });
         }
         CrudDBFunctions.updateOneDocumentById(
@@ -412,7 +411,7 @@ router.post('/getCourseElements', (req, res) => {
         return ObjectID(id);
     });
 
-    retrieveElements(elements_ids, 'chapters', (result, err = '') => {
+    retrieveElements(elements_ids, elements_collection, (result, err = '') => {
         if (err) {
             console.log("error getting sub Elements ", err);
             res.status(403).json({errorMessage: JSON.stringify(err)});
@@ -443,8 +442,6 @@ router.post('/getCourseElements', (req, res) => {
             res.status(200).json(result);
         }
     }, onlyTitle);
-
 });
-
 
 module.exports = router;

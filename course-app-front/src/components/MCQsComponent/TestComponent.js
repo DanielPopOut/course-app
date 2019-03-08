@@ -57,7 +57,7 @@ class ListsTests extends Component{
     }
 }
 
-class OneTest extends Component{
+export class OneTest extends Component{
     constructor(props){
         super(props);
         this.state={

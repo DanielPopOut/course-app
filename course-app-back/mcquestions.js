@@ -27,7 +27,7 @@ router.post('/new', (req, res) => {
                res.status(200).json({errorMessage: JSON.stringify(err)});
            }else {
                console.log("mcq Save result",result.result);
-               res.status(200).json(result);
+               res.status(200).json(result.insertedId);
            }
        });
     } catch (e) {
@@ -36,7 +36,18 @@ router.post('/new', (req, res) => {
 });
 
 router.post('/modifyMCQ', (req, res) => {
-   
+    console.log(req.body);
+    let {documentToUpdate,updateToMake}={...req.body};
+    CrudDBFunctions.updateOneDocumentById('mcqs',documentToUpdate,updateToMake,(result,err='')=>{
+        if(err){
+            console.log("error updating mcq",err);
+            res.status(403).json({errorMessage:"update Failed! "+JSON.stringify(err)});
+        }else {
+            console.log("result of updare process",result);
+            res.status(200).json(result);
+        }
+    })
+
 });
 
 router.post('/getMCQsOfLevel', (req, res) => {

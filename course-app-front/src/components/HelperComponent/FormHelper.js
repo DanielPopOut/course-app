@@ -28,12 +28,27 @@ export class CheckBoxHelper extends Component {
     render() {
         return (
             <div>
-                <input type={'checkbox'} checked={this.props.checked || false} onChange={(e)=>this.props.onChange(e)} name={this.props.name}/>
+                <input type={'checkbox'}
+                       className={this.props.className|| "form-helper-checkbox"}
+                       checked={this.props.checked || false} onChange={(e)=>this.props.onChange(e)} name={this.props.name}/>
                 <LabelHelper label={this.props.label}/>
             </div>
         );
     }
 }
+
+export class CheckBoxeHelper extends Component {
+    render() {
+        return (
+            <div>
+                <input type={'checkbox'} className={this.props.className|| "form-helper-checkbox"} onChange={(e)=>this.props.onChange(e)} name={this.props.name}/>
+                <LabelHelper label={this.props.label}/>
+            </div>
+        );
+    }
+}
+
+
 
 export class CheckBoxesHelper extends Component {
     render() {

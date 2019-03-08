@@ -1,0 +1,16 @@
+.mcq-help-option-div{
+    text-align: center;
+    margin: 2px;
+    padding: 2px;
+    background-color: transparent;
+    color: green;
+    text-shadow: 1px 1px lightgreen;
+    border-bottom: solid thin darkblue;
+    cursor: pointer;
+}
+.mcq-help-option-div:hover{
+    transform: scale(1.01)
+}
+.mcq-help-explanation-div{
+    min-width: 300px;
+}
