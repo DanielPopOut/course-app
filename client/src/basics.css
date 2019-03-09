@@ -109,7 +109,7 @@ section {
 }
 
 .lg-only {
-    display: none;
+    display: none !important;
 }
 
 @media only screen and (min-width: 600px) {
@@ -127,7 +127,7 @@ section {
     .col-s-11 {width: 91.66%;}
     .col-s-12 {width: 100%;}
     .sm-only {display: none}
-    .lg-only {display: inherit}
+    .lg-only {display: inherit!important;}
 }
 
 @media only screen and (min-width: 768px) {

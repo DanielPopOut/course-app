@@ -1,0 +1,26 @@
+.welc_text{
+    font-family:  "Comic Sans Ms","Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+    color: rgba(37, 1, 86, 0.80);
+    font-weight: bold;
+    font-size: 50px;
+    text-shadow: 2px 4px blanchedalmond;
+}
+
+.welc_slogan{
+    font-size: 39px;
+    color: #51420e;
+    letter-spacing: 13px;
+    font-weight: bold;
+    text-shadow: 2px 4px blanchedalmond;
+}
+
+.welcome{
+    background-image: url("img/photobg.png");
+    height: 75%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+
+}

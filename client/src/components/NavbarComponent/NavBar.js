@@ -33,7 +33,7 @@ export default class NavBar extends Component {
     render() {
         let tableauToUse = this.props.loggedIn ? this.loggedInTableauNavbar : this.tableauNavbar;
         return (
-            <div className={' navbar-component lg-only full-width'}>
+            <div className={' navbar-component full-width ' + this.props.className}>
                 <div className={'nav-brand'}>
                         <div key={'AlphaM'} className={'navbar-item-div '}>
                             <Link

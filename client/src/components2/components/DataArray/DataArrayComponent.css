@@ -1,0 +1,105 @@
+
+.data-array-table{
+    display: table;
+    width: 100%;
+}
+.data-array-table-header{
+    display: table-header-group;
+    background-color: #e1e2ec;
+    font-family: fantasy;
+    color: #276d0a;
+}
+.data-array-table-header-row,.data-array-table-body-row{
+    display: table-row;
+}
+.data-array-table-header-cell,.data-array-table-body-cell{
+    display: table-cell;
+    border-right: solid thin green;
+    min-width: 80px;
+}
+.data-array-table-header-cell{
+    border-bottom: solid thin brown;
+    padding-bottom: 4px;
+}
+
+.data-array-table-body{
+    display: table-row-group;
+}
+.data-array-table-body-row{
+    background-color: white;
+    border-bottom: solid thin lavender;
+}
+.data-array-table-body-row:hover{
+    border-bottom: solid thin blue;
+    box-shadow: 1px 1px 3px;
+    transform: scale(1.02);
+}
+.data-array-table-body-row:nth-of-type(even){
+    background-color: #e5e6d8;
+}
+.data-array-table-body-cell{
+    border: solid 0.5px lavender;
+    border-bottom: solid thin lightsteelblue;
+    color: #010419;
+
+}
+
+/*
+
+.data-array-table tr td:first-child, .data-array-table tr td:nth-child(2) {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5em;
+    left: 0;
+    top: auto;
+    border-top-width: 1px;
+    !*only relevant for first row*!
+    letter-spacing: normal;
+    border:none !important;
+
+}
+
+.data-array-table tr td:nth-child(2) {
+    left: 5em;
+}
+
+.data-array-table tr td:first-child :before {
+    content: 'Row ';
+}
+
+.long {
+    letter-spacing: 1em;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-right: 1px solid grey;
+}
+
+.data-array-table td, .data-array-table th {
+    margin: 0;
+    border: 1px solid grey !important;
+    white-space: nowrap;
+    !*border-top-width: 0px;*!
+    height: 40px;
+}
+
+.div-table-container {
+    overflow-x: scroll;
+    margin-left: 90px;
+    !*margin-left: 10em;*!
+    overflow-y: visible;
+    padding: 0;
+}
+.data-array-table thead td {
+    background-color: #DDEFEF;
+    border: none;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+    white-space: nowrap;
+}*/

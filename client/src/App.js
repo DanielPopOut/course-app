@@ -63,8 +63,8 @@ class App extends Component {
         });
     }
 
-    openMenu() {
-        this.setState({menuOpen: true});
+    toggleMenu() {
+        this.setState({menuOpen: !this.state.menuOpen});
     }
 
     closeMenu() {
@@ -95,13 +95,14 @@ class App extends Component {
                     <nav>
                         <span className='sm-only  '
                               onClick={e => {
-                                  this.setState({menuOpen: !this.state.menuOpen});
+                                  this.toggleMenu();
                                   e.stopPropagation();
                               }}>
+                            Menu
                         {/*<FontAwesomeIcon icon='list' style={{margin: '0 30px'}}/>*/}
                         </span>
                         <NavBar
-                        /* className='lg-only'*/
+                        className='lg-only'
                         loggedIn={this.state.loggedIn}
                         />
                     </nav>

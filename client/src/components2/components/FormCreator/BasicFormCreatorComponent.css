@@ -1,0 +1,15 @@
+
+.label-input-div {
+    display: flex;
+}
+
+.label-input-div > label {
+    flex: 1;
+}
+
+
+.label-input-div > input, .label-input-div > textarea, .label-input-div > select  {
+    flex: 2;
+}
+
+
