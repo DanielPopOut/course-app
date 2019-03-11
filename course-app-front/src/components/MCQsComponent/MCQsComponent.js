@@ -33,7 +33,7 @@ export class RealiseMCQ extends Component{
         this.state={
             mcq:this.props.mcq,
             selectedAnswers:[],
-            mode:'test',// between [test,correctedAndWrong,correctedAndRight]
+            mode:this.props.mode||'test',// between [test,correctedAndWrong,correctedAndRight]
         }
     }
 
@@ -94,28 +94,39 @@ export class RealiseMCQ extends Component{
         );
     }
 
-    correctMCQ(){
+    async correctMCQ(){
         let selectedAnswers=this.state.selectedAnswers;
         if(selectedAnswers.length===0){
             alert("aucune reponse selectionnee");
         }else {
             let rightAnswers=this.state.mcq.rightAnswers;
             console.log("right answers ",rightAnswers,"selected answers ",selectedAnswers);
+
             let wrongAnswersSelected=selectedAnswers.filter((elt)=>{
                 return rightAnswers.indexOf(elt);
             });
+
             let goodAnswersNotSelected=rightAnswers.filter((elt)=>{
                 return selectedAnswers.indexOf(elt)
             });
 
             if(wrongAnswersSelected.length!==0 || goodAnswersNotSelected.length!==0 ){
                // alert("faux");
-                this.setState({ mode:'correctedAndWrong' });
+                await this.setState({ mode:'correctedAndWrong' });
             }else {
               //  alert('juste');
-                this.setState({ mode:'correctedAndRight'});
+                await this.setState({ mode:'correctedAndRight'});
             }
-            console.log("wrong selected ",wrongAnswersSelected,"good not selected",goodAnswersNotSelected);
+
+            console.log("wrong selected ",wrongAnswersSelected,
+                "good not selected",goodAnswersNotSelected,
+                "current Mode ",this.state.mode);
+
+            if(this.props.getCorrectedMCQ){
+                console.log("state mode : ",this.state.mode);
+                console.log("final state : ",this.state);
+                this.props.getCorrectedMCQ(this.state);
+            }
         }
     }
 
@@ -124,6 +135,7 @@ export class RealiseMCQ extends Component{
             mode:"test"
         })
     }
+
     displayButtons(){
         if(this.state.mode==='test'){
             return(
@@ -155,11 +167,13 @@ export class RealiseMCQ extends Component{
             );
         }
     }
+
     displayHelpOptions(){
         if(this.state.mode==="correctedAndWrong"){
             return(<MCQHelpComponent mcq={this.state.mcq}/>);
         }
     }
+
     displayMCQ(){
         let mcq=this.state.mcq;
         return(

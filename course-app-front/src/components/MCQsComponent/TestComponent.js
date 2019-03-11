@@ -15,12 +15,19 @@ export class RunningTest extends Component{
             mcqs:[],
             totalNumberOfMcqs:this.props.test.mcqs.length,
             currentMcqIndex:0,
-            currentMCQ:""
+            currentMCQ:"",
         }
     }
+    async getCorrectedMCQ(mcqState,key){
+        console.log("corrected mcq state ",mcqState);
+        let mcq=<RealiseMCQ {...mcqState}/>;
+        let mcqs=this.state.mcqs;
+        mcqs[key]=mcq;
+        await this.setState({ mcqs:mcqs });
+    }
     componentWillMount(){
-        let mcqs = this.props.test.mcqs.map((mcq)=>{
-            return <RealiseMCQ mcq={mcq}/>;
+        let mcqs = this.props.test.mcqs.map((mcq,key)=>{
+            return <RealiseMCQ mcq={mcq} getCorrectedMCQ={(mcqState)=>this.getCorrectedMCQ(mcqState,key)}/>;
         });
 
         if(mcqs.length>0){
@@ -53,17 +60,12 @@ export class RunningTest extends Component{
         let currentMcqIndex = this.state.currentMcqIndex;
         let nextMcqIndex = currentMcqIndex-1;
 
-        let modifiedMCQ=this.state.currentMCQ;
-        let mcqs=this.state.mcqs;
-        mcqs[currentMcqIndex]=modifiedMCQ;
-        await  this.setState({ mcqs:mcqs });
-
         await this.setState({
             currentMCQ:""
         });
         await this.setState({
             currentMcqIndex:nextMcqIndex,
-            currentMCQ:this.state.mcqs[nextMcqIndex]
+            currentMCQ: this.state.mcqs[nextMcqIndex]
         });
         console.log("new Index ",this.state.currentMcqIndex);
     }
@@ -73,18 +75,14 @@ export class RunningTest extends Component{
         let currentMcqIndex = this.state.currentMcqIndex;
         let nextMcqIndex = currentMcqIndex+1;
 
-        let modifiedMCQ=this.state.currentMCQ;
-        let mcqs=this.state.mcqs;
-        mcqs[currentMcqIndex]=modifiedMCQ;
-        await  this.setState({ mcqs:mcqs });
-
-        await this.setState({ currentMCQ:""});
+        await this.setState({ currentMCQ: "" });
         await this.setState({
             currentMcqIndex:nextMcqIndex,
             currentMCQ:this.state.mcqs[nextMcqIndex]
         });
         console.log("new Index ",this.state.currentMcqIndex);
     }
+
 
     displayPrevNextButtons(){
         return(
