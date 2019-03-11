@@ -32,3 +32,24 @@
 .test-title-input{
     text-align: center;
 }
+.test-list-title{
+    border: solid thin #c7c8ea;
+    margin: 5px 0px;
+    padding: 2px;
+    font-family: "Century Gothic";
+}
+.test-list-title:hover{
+    transform: scale(1.02);
+}
+.test-list-title:nth-of-type(even){
+    background-color: lightgray;
+}
+.runtest-button-div{
+    text-align: center;
+    border-top: solid 1px #babae8d6;
+    margin-top: 7px;
+    display: none;
+}
+.test-list-title:hover .runtest-button-div{
+    display: block;
+}

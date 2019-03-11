@@ -5,24 +5,183 @@ import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill'; // ES6
 import {ServerService} from "../../server/ServerService";
 import {displayMessage} from "../../server/axiosInstance";
+import {RealiseMCQ} from "./MCQsComponent";
 
-class ListsTests extends Component{
+export class RunningTest extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            test:this.props.test,
+            mcqs:[],
+            totalNumberOfMcqs:this.props.test.mcqs.length,
+            currentMcqIndex:0,
+            currentMCQ:""
+        }
+    }
+    componentWillMount(){
+        let mcqs = this.props.test.mcqs.map((mcq)=>{
+            return <RealiseMCQ mcq={mcq}/>;
+        });
+
+        if(mcqs.length>0){
+            this.setState({
+                mcqs:mcqs,
+                totalNumberOfMcqs:mcqs.length,
+                currentMcqIndex:0,
+                currentMCQ:mcqs[0]
+            });
+        }else {
+            this.setState({
+                mcqs:[],
+                totalNumberOfMcqs:0,
+                currentMcqIndex:'',
+                currentMCQ:''
+            });
+        }
+
+    }
+    displayCurrentTestMCQ(){
+        if(this.state.currentMCQ===''){
+            return "";
+        }else {
+            return (this.state.currentMCQ );
+        }
+    }
+
+    async handlePreviousMCQ(){
+        console.log("current Index ",this.state.currentMcqIndex);
+        let currentMcqIndex = this.state.currentMcqIndex;
+        let nextMcqIndex = currentMcqIndex-1;
+
+        let modifiedMCQ=this.state.currentMCQ;
+        let mcqs=this.state.mcqs;
+        mcqs[currentMcqIndex]=modifiedMCQ;
+        await  this.setState({ mcqs:mcqs });
+
+        await this.setState({
+            currentMCQ:""
+        });
+        await this.setState({
+            currentMcqIndex:nextMcqIndex,
+            currentMCQ:this.state.mcqs[nextMcqIndex]
+        });
+        console.log("new Index ",this.state.currentMcqIndex);
+    }
+
+    async handleNextMCQ(){
+        console.log("current Index ",this.state.currentMcqIndex);
+        let currentMcqIndex = this.state.currentMcqIndex;
+        let nextMcqIndex = currentMcqIndex+1;
+
+        let modifiedMCQ=this.state.currentMCQ;
+        let mcqs=this.state.mcqs;
+        mcqs[currentMcqIndex]=modifiedMCQ;
+        await  this.setState({ mcqs:mcqs });
+
+        await this.setState({ currentMCQ:""});
+        await this.setState({
+            currentMcqIndex:nextMcqIndex,
+            currentMCQ:this.state.mcqs[nextMcqIndex]
+        });
+        console.log("new Index ",this.state.currentMcqIndex);
+    }
+
+    displayPrevNextButtons(){
+        return(
+            <React.Fragment>
+                {this.state.currentMcqIndex>0?
+                    <ButtonHelper
+                        {...{
+                            name:'previousMCQButton',
+                            value:"Previous",
+                            className:"form-helper-button success"
+                        }}
+                        onClick={()=>{this.handlePreviousMCQ()}}
+                    />:''
+
+                }
+                {
+                    this.state.currentMcqIndex<this.state.totalNumberOfMcqs-1?
+                        <ButtonHelper
+                            {...{
+                                name:'nextMCQButton',
+                                value:"Next",
+                                className:"form-helper-button success"
+                            }}
+                            onClick={()=>{this.handleNextMCQ()}}
+                        />:''
+                }
+            </React.Fragment>
+        );
+    }
+
+    validateTest(){
+        alert("test Validation in progress");
+    }
+
+    render(){
+        return(
+            <div className={"runningTest-div"}>
+                <div className={"hr-button-block"}>
+                    <ButtonHelper
+                        {
+                            ...{
+                                name:'testvalidationButton',
+                                value:"Valider",
+                                className:"form-helper-button success"
+                            }
+                        }
+                        onClick={()=>{this.validateTest()}}
+                    />
+                </div>
+                <div> {this.state.test.title|| "DeFault Title"} </div>
+                <div>
+                    {this.displayCurrentTestMCQ(this.state.currentMcqIndex)}
+                </div>
+                <div className={"hr-button-block"}>
+                    {this.displayPrevNextButtons()}
+                </div>
+            </div>
+        )
+    }
+
+}
+export class TestsList extends Component{
     constructor(props){
         super(props);
         this.state={
             reference:this.props.reference,
             course_level:this.props.course_level,
-            tests: this.props.tests || [],
-            currentTest:{}
+            tests: [],
+            modalChildren:"",
+            modalVisibility:false
         }
     }
 
-    showMcq(mcq){
-        return(<div>
-
-        </div>);
+    componentDidMount(){
+        let dataToSend={
+            reference: this.props.reference,
+            course_level:this.props.course_level
+        };
+        console.log("tests list params",dataToSend);
+        ServerService.postToServer('/mcquestions/getTestsOfLevel',dataToSend).then((response)=>{
+            if(response.status===200){
+                console.log("list of Tests Founded ",response.data);
+                this.setState({
+                    tests:response.data,
+                });
+            }else{
+                alert(response.data.errorMessage);
+            }
+        });
     }
 
+    handleCloseModal(){
+        this.setState({
+            modalChildren:"",
+            modalVisibility:false
+        })
+    }
     showCurrentTest(){
         if(this.state.currentTest.length>0){
             let currenttest=this.state.currentTest;
@@ -46,13 +205,55 @@ class ListsTests extends Component{
         }
     }
 
+    handleOpenModal(content){
+        this.setState({
+            modalChildren:content,
+            modalVisibility:true
+        });
+    }
+    runTest(test){
+        let runningTest=<RunningTest test={test}/>;
+        this.handleOpenModal(runningTest);
+
+    }
+
+    displayTest(test,key){
+        return(
+            <div key={key} className={"test-list-title"}>
+                {test.title|| "No Title "}
+                <div className={"runtest-button-div"}>
+                    <ButtonHelper
+                        {
+                            ...{
+                                name:"runTestButton",
+                                value:"Run A Test",
+                                className:"form-helper-button success"
+                            }
+                        }
+                        onClick={()=>{
+                            this.runTest(test)
+                        }}
+                    />
+                </div>
+            </div>
+        );
+    }
+
     render(){
         return(
-            <div className={"show-test-div"}>
-               <div>  </div>
-               <div>{this.showCurrentTest()}</div>
-               <div></div>
-            </div>
+            <React.Fragment>
+                <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleCloseModal()}>
+                    {this.state.modalChildren}
+                </ModalComponent>
+                <div className={"show-test-div"}>
+                    {
+                        this.state.tests.map((test,key)=>{
+                            return this.displayTest(test,key);
+                        })
+                    }
+                </div>
+            </React.Fragment>
+
         );
     }
 }
@@ -102,6 +303,10 @@ export class OneTest extends Component{
     createNewTest(){
         // check empty selected questions
         let selectedmcqs=this.state.selectedmcqs;
+        if(this.state.title.length===0){
+            alert("Le test doit avoir un titre");
+            return ;
+        }
         if(selectedmcqs.length>0){
             let selectedmcqs_ids=[];
             //gathering ids of  selected mcqs
@@ -112,9 +317,9 @@ export class OneTest extends Component{
                 title:this.state.title,
                 reference:this.state.reference,
                 course_level:this.state.course_level,
-                selectedmcqs_ids:selectedmcqs_ids
+                mcqs:selectedmcqs_ids
             };
-            console.log("Here");
+
             ServerService.postToServer('/mcquestions/newTest',dataTosend).then((response)=>{
                 console.log("here too");
                 if(response.status===200){
@@ -311,25 +516,12 @@ class TestComponent extends Component{
     }
 
     listTests(){
-        let dataObjet={
-            reference:this.state.reference,
-            course_level:this.state.course_level
-        };
-        ServerService.postToServer('/mcquestions/getTestsOfLevel',dataObjet).then((response)=>{
-            if(response.status===200){
-                console.log("list of Tests Founded ",response.data);
-                this.setState({
-                    modalChildren:<ListsTests
-                        reference={this.state.reference}
-                        course_level={this.state.course_level}
-                        tests={response.data}
-                        currentTest={response.data[0]||{}}
-                    />,
-                    modalVisibility:true,
-                });
-            }else{
-                alert(response.data.errorMessage);
-            }
+        this.setState({
+            modalChildren:<TestsList
+                reference={this.state.reference}
+                course_level={this.state.course_level}
+            />,
+            modalVisibility:true,
         });
     }
 

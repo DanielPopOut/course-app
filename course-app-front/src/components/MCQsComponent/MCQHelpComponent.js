@@ -33,9 +33,19 @@ class MCQHelpComponent extends Component{
         });
     }
     showCourse(){
-       /* let reference=this.state.mcq.reference;
-        ServerService.postToServer(/)*/
-
+        let reference=this.state.mcq.reference;
+        let course_level=this.state.mcq.course_level;
+        let dataToSend={
+            elements_ids:[reference],
+            elements_collection:course_level
+        };
+        ServerService.postToServer("/courses/getCourseElements",dataToSend).then((response)=>{
+            if(response.status===200){
+                console.log("course elements ",response.data);
+            }else {
+                console.log("error message ",response.data.errorMessage);
+            }
+        });
     }
     showExplanation(){
         let explanation=<div>
@@ -49,15 +59,29 @@ class MCQHelpComponent extends Component{
         </div>;
             this.handleOpenModal(<div className={"mcq-help-explanation-div"}> {explanation}</div>)
     }
+    displayOptions(){
+        if(this.state.mcq.explanation.length>0){
+            return(
+                <React.Fragment>
+                    <div className={"mcq-help-option-div"} onClick={()=>this.showCourse()}>Visiter Le Cours</div>
+                    <div className={"mcq-help-option-div"} onClick={()=>this.showExplanation()}>Explication</div>
+                </React.Fragment>
+            );
+        }else {
+            return(
+                <div className={"mcq-help-option-div"} onClick={()=>this.showCourse()}>
+                    Visiter Le Cours
+                </div>
+            );
+        }
+    }
     render(){
         return(
             <React.Fragment>
                     <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleCloseModal()}>
                         {this.state.modalChildren}
                         </ModalComponent>
-                <div className={"mcq-help-option-div"} onClick={()=>this.showCourse()}>Visiter Le Cours</div>
-                <div className={"mcq-help-option-div"} onClick={()=>this.showExplanation()}>Explication</div>
-
+                {this.displayOptions()}
             </React.Fragment>
         )
     }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './mcqscomponent.css';
-import {ButtonHelper, CheckBoxeHelper, CheckBoxHelper, LabelHelper, RadioHelper} from "../HelperComponent/FormHelper";
+import {ButtonHelper, CheckBoxHelper, LabelHelper, RadioHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill'; // ES6
 import {ServerService} from "../../server/ServerService";
@@ -52,26 +52,45 @@ export class RealiseMCQ extends Component{
         console.log("new selected Answers ",selectedAnswers);
     }
 
+    showCorrectAnswers(key){
+        if(this.state.mcq.rightAnswers.indexOf(key)>-1 && this.state.mode==='correctedAndWrong') {
+            return (
+                <div className={'mcq-right-answer-div'}>
+                    <CheckBoxHelper
+                        {...{
+                            name:"rigthanswer"+key,
+                            checked:true
+                        }}
+                    />
+                </div>
+            );
+        }
+    }
+
     displayChoice(answer,key){
         return (
-            <div key={key} className={"one-choice-div"}>
-                <div>
-                    <ReactQuill
-                        value={answer}
-                        modules={{toolbar:false}}
-                        formats={formats}
-                        readOnly={true}
-                    />
+            <div key={key}>
+                <div className={"one-choice-div"}>
+                    <div>
+                        <ReactQuill
+                            value={answer}
+                            modules={{toolbar:false}}
+                            formats={formats}
+                            readOnly={true}
+                        />
+                    </div>
+                    <div>
+                        <CheckBoxHelper
+                            {...{
+                                name:"answer"+key,
+                            }}
+                            onChange={(e)=>this.handleSelectAnswer(e,key)}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <CheckBoxeHelper
-                        {...{
-                            name:"answer"+key,
-                        }}
-                        onChange={(e)=>this.handleSelectAnswer(e,key)}
-                    />
+                {this.showCorrectAnswers(key)}
+
                 </div>
-            </div>
         );
     }
 

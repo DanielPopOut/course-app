@@ -71,6 +71,10 @@ router.post('/getMCQsOfLevel', (req, res) => {
 });
 
 router.post('/newTest', (req, res) => {
+    let dataToSave=req.body;
+    dataToSave['mcqs']=dataToSave.mcqs.map((mcq_id)=>{
+        return(ObjectID(mcq_id));
+    });
     CrudDBFunctions.insertOneDocument(
         'tests',
         req.body,
@@ -106,8 +110,10 @@ router.post('/modifyTest', (req, res) => {
 });
 
 router.post('/getTestsOfLevel',(req,res)=>{
+    console.log("req body ",req.body);
     let {reference,course_level}={...req.body};
-    let   aggregation = [
+    console.log("reference",reference,"level ",course_level);
+    let  aggregation = [
         {
             $match: {
                 reference: reference,
@@ -117,8 +123,8 @@ router.post('/getTestsOfLevel',(req,res)=>{
         {
             $graphLookup: {
                 from: 'mcqs',
-                startWith: '$selectedmcqs_ids',
-                connectFromField: 'selectedmcqs_ids',
+                startWith: '$mcqs',
+                connectFromField: 'mcqs',
                 connectToField: "_id",
                 as: 'mcqs',
             }
@@ -131,7 +137,9 @@ router.post('/getTestsOfLevel',(req,res)=>{
             res.status(403).json({errorMessage: JSON.stringify(err)});
         }else {
             console.log("test returned",result);
-
+            result.forEach((test)=>{
+               test.mcqs.reverse();
+            });
             res.status(200).json(result);
         }
     });

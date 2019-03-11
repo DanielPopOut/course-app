@@ -6,114 +6,120 @@ import ReactQuill from 'react-quill'; // ES6
 import CourseNavigator from './CourseNavigator';
 import {ServerService} from "../../server/ServerService";
 import {ListMCQS, OneMCQ} from "./MCQsComponent";
-import {OneTest} from "./TestComponent";
+import {OneTest, TestsList} from "./TestComponent";
 
 class MCQSManagerComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reference:'none',
-            level:'none',
-            selectedElement:{},
-            activityContent:''
+            reference: 'none',
+            level: 'none',
+            selectedElement: {},
+            activityContent: ''
         };
     }
+
     handleClose() {
         this.setState({
             modalVisibility: false,
             modalChildren: "",
         });
     }
-    setSelectedElement(element,level){
-        console.log("selected",element," level ",level);
+
+    setSelectedElement(element, level) {
+        console.log("selected", element, " level ", level);
         this.setState({
-            reference:element._id,
-            level:level,
-            selectedElement:element,
-            activityContent:""
+            reference: element._id,
+            level: level,
+            selectedElement: element,
+            activityContent: ""
         });
     }
 
-   returnInfos(){
-        return(
+    returnInfos() {
+        return (
             <div className={'selected-course-infos'}>
                 {/*<span>
                     <div>ref:<span>{this.state.reference}</span></div>
                     <div>level:<span>{this.state.level}</span></div>
                 </span>*/}
                 <span>
-                    {this.state.selectedElement.title||""}
+                    {this.state.selectedElement.title || ""}
                 </span>
             </div>
         );
-   }
-    newMCQ(){
+    }
+
+    newMCQ() {
         this.setState({
-            activityContent:<OneMCQ  reference={this.state.reference} course_level={this.state.level}/>
+            activityContent: <OneMCQ reference={this.state.reference} course_level={this.state.level}/>
         });
     }
-    listMCQS(){
-        let dataObjet={
-            reference:this.state.reference,
-            course_level:this.state.level
+
+    listMCQS() {
+        let dataObjet = {
+            reference: this.state.reference,
+            course_level: this.state.level
         };
-        ServerService.postToServer('/mcquestions/getMCQsOfLevel',dataObjet).then((response)=>{
-            if(response.status===200){
-                console.log("list of MCQs Founded ",response.data);
+        ServerService.postToServer('/mcquestions/getMCQsOfLevel', dataObjet).then((response) => {
+            if (response.status === 200) {
+                console.log("list of MCQs Founded ", response.data);
                 this.setState({
-                    activityContent:<ListMCQS
+                    activityContent: <ListMCQS
                         reference={this.state.reference}
                         course_level={this.state.course_level}
                         mcqs={response.data}
                     />,
                 });
-            }else{
+            } else {
                 alert(response.data.errorMessage);
             }
         });
     }
-    newTEST(){
-        let dataObjet={
-            reference:this.state.reference,
-            course_level:this.state.level
+
+    newTEST() {
+        let dataObjet = {
+            reference: this.state.reference,
+            course_level: this.state.level
         };
-        ServerService.postToServer('/mcquestions/getMCQsOfLevel',dataObjet).then((response)=>{
-            if(response.status===200){
-                console.log("list of MCQs Founded ",response.data);
+        ServerService.postToServer('/mcquestions/getMCQsOfLevel', dataObjet).then((response) => {
+            if (response.status === 200) {
+                console.log("list of MCQs Founded ", response.data);
                 this.setState({
-                    activityContent:<OneTest
+                    activityContent: <OneTest
                         reference={this.state.reference}
-                        course_level={this.state.course_level}
+                        course_level={this.state.level}
                         mcqs={response.data}
                     />,
                 });
-            }else{
+            } else {
                 alert(response.data.errorMessage);
             }
         });
     }
 
-    listTESTS(){
+    listTESTS() {
+        console.log("selected element ", this.state.selectedElement);
+        this.setState({
+            activityContent:<TestsList reference={this.state.reference} course_level={this.state.level} />
+        });
+    }
 
-    }
-    showActivityContent(){
-        return (this.state.activityContent);
-    }
+    showActivityContent() { return (this.state.activityContent); }
 
     render() {
         return (
             <React.Fragment>
-                <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleClose()}>
+                <ModalComponent visible={this.state.modalVisibility} onClose={() => this.handleClose()}>
                     {this.state.modalChildren}
                 </ModalComponent>
                 <div className={"mcqs-manager-body"}>
                     <div className={"location-div"}>
-                        <CourseNavigator setSelectedElement={(element,level)=>this.setSelectedElement(element,level)}/>
-                      {/*  <NewMCQLocation handleSelection={(reference,level)=>this.handleSelection(reference,level)}/>*/}
+                        <CourseNavigator setSelectedElement={(element, level) => this.setSelectedElement(element, level)}/>
                     </div>
                     <div className={"div-options"}>
                         <div className={"options-div"}>
-                            <h3>  MCQS Options</h3>
+                            <h3> MCQS Options</h3>
                             <div className={"hr-button-block"}>
                                 <ButtonHelper {...{
                                     name: 'newmcq',
@@ -131,22 +137,21 @@ class MCQSManagerComponent extends Component {
                         </div>
                         <div className={"options-div"}>
                             <h3>TESTS Options</h3>
-                            <div className={"hr-button-block"} >
+                            <div className={"hr-button-block"}>
                                 <ButtonHelper {...{
-                                    name:'newtest',
-                                    value:"New TEST",
-                                    className:"form-helper-button success"
-                                }} onClick={()=>this.newTEST()}
+                                    name: 'newtest',
+                                    value: "New TEST",
+                                    className: "form-helper-button success"
+                                }} onClick={() => this.newTEST()}
                                 />
                                 <ButtonHelper {...{
-                                    name:'listtests',
-                                    value:"List TESTS",
-                                    className:"form-helper-button success"
-                                }} onClick={()=>this.listTESTS()}
+                                    name: 'listtests',
+                                    value: "List TESTS",
+                                    className: "form-helper-button success"
+                                }} onClick={() => this.listTESTS()}
                                 />
                             </div>
                         </div>
-                        {/*<OneMCQ reference={this.state.reference} course_level={this.state.level}/>*/}
                     </div>
                 </div>
                 {this.returnInfos()}

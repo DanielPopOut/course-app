@@ -87,3 +87,6 @@
     background-color: inherit;
     cursor: pointer;
 }
+.mcq-right-answer-div{
+    background-color: greenyellow;
+}
