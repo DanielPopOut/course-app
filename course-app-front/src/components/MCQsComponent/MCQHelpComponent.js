@@ -3,6 +3,7 @@ import './mcqhelpcomponent.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill';
 import {ServerService} from "../../server/ServerService"; // ES6
+import {displayElement,displaySubElements} from "../OneCourseComponent/Course";
 
 let formats = [
     'header',
@@ -42,6 +43,11 @@ class MCQHelpComponent extends Component{
         ServerService.postToServer("/courses/getCourseElements",dataToSend).then((response)=>{
             if(response.status===200){
                 console.log("course elements ",response.data);
+                this.handleOpenModal(
+                    <div className={"mcq-help-explanation-div"}>
+                        {displayElement(response.data[0]||"",course_level)}
+                        </div>
+                );
             }else {
                 console.log("error message ",response.data.errorMessage);
             }

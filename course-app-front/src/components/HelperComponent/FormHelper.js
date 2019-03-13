@@ -3,7 +3,6 @@ import './formhelper.css';
 import { REGISTRATIONS_PATH } from '../../server/SERVER_CONST';
 import { ServerService } from '../../server/ServerService';
 
-
 let data = {
     options: {className:"text-centered"},
     elements: [
@@ -16,7 +15,6 @@ let data = {
     ]
 };
 
-
 export function LabelHelper(props) {
     if (props.label) {
         return (<label className={"form-helper-label"}> {props.label} </label>);
@@ -25,52 +23,35 @@ export function LabelHelper(props) {
 }
 
 export class CheckBoxHelper extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            checked:this.props.checked||false
+        }
+    }
     handleChange(e){
+        this.setState({checked:!this.state.checked});
         if(this.props.onChange){
             this.props.onChange(e)
         }
     }
+
     render() {
-        if(this.props.checked){
-            return(
-                <div>
-                    <input
-                        type={'checkbox'}
-                        className={this.props.className|| "form-helper-checkbox"}
-                        checked={this.props.checked||false}
-                        onChange={(e)=>this.handleChange(e)}
-                        name={this.props.name}
-                    />
-                    <LabelHelper label={this.props.label}/>
-                </div>
-            )
-        }
         return (
             <div>
                 <input
+                    id={this.props.checkbox_id || ''}
                     type={'checkbox'}
-                    className={this.props.className|| "form-helper-checkbox"}
-                    onChange={(e)=>this.handleChange(e)}
+                    checked={this.state.checked}
+                    className={this.props.className || "form-helper-checkbox"}
+                    onChange={(e) => this.handleChange(e)}
                     name={this.props.name}
                 />
                 <LabelHelper label={this.props.label}/>
             </div>
-        );
+        )
     }
 }
-
-export class CheckBoxeHelper extends Component {
-    render() {
-        return (
-            <div>
-                <input type={'checkbox'} className={this.props.className|| "form-helper-checkbox"} onChange={(e)=>this.props.onChange(e) || {}} name={this.props.name}/>
-                <LabelHelper label={this.props.label}/>
-            </div>
-        );
-    }
-}
-
-
 
 export class CheckBoxesHelper extends Component {
     render() {
@@ -83,6 +64,7 @@ export class CheckBoxesHelper extends Component {
         );
     }
 }
+
 export class RadiosHelper extends Component {
     render() {
         return (

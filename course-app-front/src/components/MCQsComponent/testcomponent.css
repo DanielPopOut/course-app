@@ -53,3 +53,76 @@
 .test-list-title:hover .runtest-button-div{
     display: block;
 }
+
+/**--------styles of test result ------------*/
+.test-score-div{
+    color: darkred;
+    font-weight: bold;
+    font-style: oblique;
+    padding: 2px;
+    text-align: center;
+    margin: 2px;
+    font-size: 18px;
+}
+.test-result-div{
+    display: flex;
+    align-items: flex-start;
+    justify-items: center;
+}
+
+.failed-mcq-number{
+    text-align: center;
+    font-size: 18px;
+    background-color: #5c5cbd;
+    margin: 4px;
+    font-style: italic;
+    color: #0e3419;
+    font-weight: bold;
+    color: whitesmoke;
+    cursor: pointer;
+
+}
+.failed-mcq-number>h4{
+
+}
+.failed-mcq-number>div:hover{
+    transform: scale(1.1);
+}
+.failed-mcq-number>div:nth-of-type(even){
+    background-color: whitesmoke;
+    margin: 4px 0px;
+    color: darkslateblue;
+}
+.failed-mcq-div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 400px;
+    min-height: 200px;
+    margin: 1px 10px;
+    border: solid thick #6a74861c;
+    border-radius: 5px;
+}
+.passed-test-div{
+    font-size: large;
+    font-family: serif;
+    font-style: italic;
+    font-weight: bold;
+    color: darkblue;
+    padding: 10px;
+
+}
+.title-failed-result{
+    color: darkblue;
+    font-family: "Arial Rounded MT Bold";
+    font-size: 18px;
+    font-style: italic;
+    margin: 0px 4px 10px;
+}
+.test-result-title{
+    text-align: center;
+    font-weight: bold;
+    font-style: oblique;
+    font-family: Georgia;
+    margin: 10px;
+}

@@ -32,14 +32,14 @@ export class RealiseMCQ extends Component{
         super(props);
         this.state={
             mcq:this.props.mcq,
-            selectedAnswers:[],
+            selectedAnswers:this.props.selectedAnswers||[],
             mode:this.props.mode||'test',// between [test,correctedAndWrong,correctedAndRight]
         }
     }
 
     handleSelectAnswer(elt,key){
         let selectedAnswers=this.state.selectedAnswers;
-        console.log("previous selected Answers ",selectedAnswers);
+       /* console.log("previous selected Answers ",selectedAnswers);*/
         if(elt.target.checked){
             if(selectedAnswers.indexOf(key)===-1){
                 selectedAnswers.push(key);
@@ -67,6 +67,14 @@ export class RealiseMCQ extends Component{
         }
     }
 
+    checkedStatus(key){
+        if(this.state.selectedAnswers.indexOf(key)>-1){
+            return true;
+        }else {
+            return false
+        }
+    }
+
     displayChoice(answer,key){
         return (
             <div key={key}>
@@ -83,13 +91,13 @@ export class RealiseMCQ extends Component{
                         <CheckBoxHelper
                             {...{
                                 name:"answer"+key,
+                                checked:this.checkedStatus(key)
                             }}
                             onChange={(e)=>this.handleSelectAnswer(e,key)}
                         />
                     </div>
                 </div>
                 {this.showCorrectAnswers(key)}
-
                 </div>
         );
     }
@@ -123,9 +131,12 @@ export class RealiseMCQ extends Component{
                 "current Mode ",this.state.mode);
 
             if(this.props.getCorrectedMCQ){
+                console.log("ou correct");
                 console.log("state mode : ",this.state.mode);
                 console.log("final state : ",this.state);
                 this.props.getCorrectedMCQ(this.state);
+            }else {
+                console.log("no ou correct");
             }
         }
     }
@@ -133,7 +144,7 @@ export class RealiseMCQ extends Component{
     repeatMCQ(){
         this.setState({
             mode:"test"
-        })
+        });
     }
 
     displayButtons(){
@@ -150,7 +161,9 @@ export class RealiseMCQ extends Component{
                     onClick={()=>this.correctMCQ()}
                 />
             );
-        }else if(this.state.mode==="correctedAndWrong" || this.state.mode==="correctedAndRight"){
+        }
+
+        /*else if(this.state.mode==="correctedAndWrong" || this.state.mode==="correctedAndRight"){
             return(
                 <div>
                     <ButtonHelper
@@ -165,7 +178,8 @@ export class RealiseMCQ extends Component{
                     />
                 </div>
             );
-        }
+        }*/
+
     }
 
     displayHelpOptions(){
@@ -176,6 +190,7 @@ export class RealiseMCQ extends Component{
 
     displayMCQ(){
         let mcq=this.state.mcq;
+       /* console.log("selected answers",this.state.selectedAnswers);*/
         return(
             <React.Fragment>
                 <div className={"question-div"}>
@@ -210,6 +225,7 @@ export class RealiseMCQ extends Component{
             </div>
         )
     }
+
 }
 
 export class ListMCQS extends Component{

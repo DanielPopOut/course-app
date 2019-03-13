@@ -11,13 +11,60 @@ const fakeCourse = {
     title: "",
     content: "<p> Sorry this course is not availaible !!</p>"
 };
+
 let lowerLevelCollectionName = {
     courses: 'chapters',
     chapters: 'sections',
     sections: 'subsections'
 };
 
+export function displayElement(element, level = 'courses') {
+    if (element && (element.content||element.title)) {
+        let element_id=element._id || element;
+        //console.log("the element:",element_id," level ",level," the id ",element_id);
+        return (
+            <React.Fragment>
+                <div className={'title-div'}>
+                    <h1>{displayContent(element.title, level)}</h1>
+                   {/* <div className={'new-mcq-option'}>
+                        <MCQsComponent course_level={level} reference={element_id}/>
+                        <TestComponent course_level={level} reference={element_id}/>
+                    </div>*/}
+                </div>
+
+                <div className={'content-div'}>
+                    {displayContent(element.content)}
+                </div>
+                <div className={"sub-element-content"}>
+                    {displaySubElements(element, level)}
+                </div>
+            </React.Fragment>
+        );
+
+    }
+}
+
+export function displaySubElements(element, level) {
+    if (element.hasOwnProperty(lowerLevelCollectionName[level]) && element[lowerLevelCollectionName[level]].length > 0) {
+        let result = element[lowerLevelCollectionName[level]].map((subElement, key) => {
+            return (
+                <React.Fragment key={key}>
+                    {displayElement(subElement, lowerLevelCollectionName[level])}
+                </React.Fragment>
+            );
+        });
+        return (result);
+    } else {
+        return "";
+    }
+}
+
+function displayContent(content) {
+    return (<ReactQuill value={content || ""} modules={{toolbar: false}}  readOnly={true}/>);
+}
+
 class Course extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -25,7 +72,8 @@ class Course extends Component {
             ready:false,
         }
     }
-     componentWillMount() {
+
+    componentWillMount() {
         ServerService.postToServer('courses/getCourse', {course_id: this.props.match.params.id})
             .then((response) => {
                 if (response.status === 200) {
@@ -61,58 +109,15 @@ class Course extends Component {
             });
     }
 
-    displayContent(content) {
-        return (<ReactQuill value={content || ""} modules={{toolbar: false}}  readOnly={true}/>);
-    }
-
-    displayElement(element, level = 'courses') {
-        if (element && (element.content||element.title)) {
-            let element_id=element._id || element;
-            //console.log("the element:",element_id," level ",level," the id ",element_id);
-            return (
-                <React.Fragment>
-                    <div className={'title-div'}>
-                        <h1>{this.displayContent(element.title, level)}</h1>
-                        <div className={'new-mcq-option'}>
-                            <MCQsComponent course_level={level} reference={element_id}/>
-                            <TestComponent course_level={level} reference={element_id}/>
-                        </div>
-                    </div>
-
-                    <div className={'content-div'}>
-                        {this.displayContent(element.content)}
-                    </div>
-                    <div className={"sub-element-content"}>
-                        {this.displaySubElements(element, level)}
-                    </div>
-                </React.Fragment>
-            );
-
-        }
-    }
-
-    displaySubElements(element, level) {
-        if (element.hasOwnProperty(lowerLevelCollectionName[level]) && element[lowerLevelCollectionName[level]].length > 0) {
-            let result = element[lowerLevelCollectionName[level]].map((subElement, key) => {
-                return (
-                    <React.Fragment key={key}>
-                        {this.displayElement(subElement, lowerLevelCollectionName[level])}
-                    </React.Fragment>
-                );
-            });
-            return (result);
-        } else {
-            return "";
-        }
-    }
     displayCourse(){
         //make sure the course has been loaded already
         if(this.state.ready){
-            return this.displayElement(this.state.courseToDisplay);
+            return displayElement(this.state.courseToDisplay);
         }else{
             return<div style={{textAlign:'center'}}><img src={'/images/al.gif'}/></div>
         }
     }
+
     render() {
         return (
             <React.Fragment>
