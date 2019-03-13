@@ -69,7 +69,9 @@
     background-color: #dee8dfbd;
 }
 .question-div{
-
+    text-align: center;
+    font-style: oblique;
+    font-family: georgia;
 }
 .one-choice-div{
     border: solid thin #c4c3ce;

@@ -240,6 +240,8 @@ export class ListMCQS extends Component{
         }
     }
     handleViewMCQ(mcq){
+        let content=<OneMCQ mcq={mcq} action_level={'modification'}/>;
+        this.openModal(content)
 
     }
     handleRealiseMCQ(mcq){
@@ -330,7 +332,7 @@ export class OneMCQ extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         if (this.props.action_level === "modification") {
             let mcq = this.props.mcq;
             this.setState({
@@ -338,8 +340,8 @@ export class OneMCQ extends Component {
                 course_level: mcq.course_level,
                 reference: mcq.reference,
                 question: mcq.question,
-                answers: mcq.question,
-                rightAnswers: mcq.answers,
+                answers: mcq.answers,
+                rightAnswers: mcq.rightAnswers,
                 explanation: mcq.explanation,
                 action_level: 'modification'
             });
@@ -592,6 +594,7 @@ export class OneMCQ extends Component {
                 }
                 <div className={'mcqAnswersDiv'}>
                     {
+                      /*  console.log("answers to map ",this.state.answers);*/
                         this.state.answers.map((answerField, index) => {
                             let num = index + 1;
                             let check = false;

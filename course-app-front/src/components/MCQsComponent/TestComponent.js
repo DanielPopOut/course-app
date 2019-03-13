@@ -14,6 +14,7 @@ export class TestResult extends Component{
     constructor(props){
         super(props);
         this.state={
+            testTitle:this.props.testTitle,
             correctedMcqs:this.props.correctedMcqs||[],
             failedMcqs:this.props.failedMcqs||[],
             current:'',
@@ -56,7 +57,6 @@ export class TestResult extends Component{
             });
         }
     }
-
 
     displayPrevNext(PrevOrNext){
         if(PrevOrNext==="prev"){
@@ -109,10 +109,11 @@ export class TestResult extends Component{
             return(<div className={"passed-test-div"}>You have succeed the Test !!</div>);
         }
     }
+
     render(){
         return(
             <div>
-                <div className={"test-result-title"}> {this.state.title||"No Title"}</div>
+                <div className={"test-result-title"}> {this.state.testTitle||"No Title"}</div>
                 <div className={"test-score-div"}> {this.displayTestScore()} </div>
                 <div className={'test-result-div'}>
                     <div>
@@ -303,6 +304,7 @@ export class RunningTest extends Component {
     validateTest() {
         this.props.handleOpenModal(
             <TestResult
+                testTitle={this.state.test.title}
                 correctedMcqs={this.state.correctedMCQS}
                 failedMcqs={this.state.failedMCQS}
             />
