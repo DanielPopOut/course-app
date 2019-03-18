@@ -8,7 +8,7 @@ import Connexion from "../ConnexionComponent/Connexion";
 export default class NavBar extends Component {
     tableauNavbar = [
         //{title: 'AlphaM', redirectionAddress: '/welcome'},
-      //  {title: 'Departements', redirectionAddress: '/departments'},
+        // {title: 'Departements', redirectionAddress: '/departments'},
         // {title: 'Cours', redirectionAddress: '/courses'},
         // {title: 'Contacts', redirectionAddress: '/contacts'},
         // {title: 'Users', redirectionAddress: '/users'},
@@ -16,9 +16,8 @@ export default class NavBar extends Component {
     ];
     loggedInTableauNavbar = [
       //  {title: 'AlphaM', redirectionAddress: '/welcome'},
-        {title: 'Departements', redirectionAddress: '/departments'},
         {title: 'Cours', redirectionAddress: '/courses'},
-        {title: 'MCQS', redirectionAddress: '/mcqs'},
+        {title: 'TESTS', redirectionAddress: '/mcqs'},
         {title: 'Contacts', redirectionAddress: '/contacts'},
         {title: 'Users', redirectionAddress: '/users'},
     ];
@@ -35,15 +34,15 @@ export default class NavBar extends Component {
         return (
             <div className={' navbar-component lg-only full-width'}>
                 <div className={'nav-brand'}>
-                        <div key={'AlphaM'} className={'navbar-item-div '}>
-                            <Link
+                    <div key={'AlphaM'} className={'navbar-item-div '}>
+                        <Link
                                 to={'/welcome'}
                                 className={'navbar-item-link login-button'}
                             >
                                 {'AlphaM'}
                             </Link>
-                        </div>
                     </div>
+                </div>
                 <div className={'navbar-items-block'}>
                         {tableauToUse.map(x =>
                             <div key={x.title} className={'navbar-item-div'}>
