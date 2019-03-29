@@ -2,8 +2,7 @@ import React,{Component} from "react";
 import './connexion.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ConnexionComponent from "./ConnexionComponent";
-import {getToken, removeToken, userLogged$, messageToShow$, getDecodedToken} from '../../server/axiosInstance';
-import {Redirect} from "react-router-dom";
+import {getToken, logOut, getDecodedToken} from '../../server/axiosInstance';
 
 class Connexion extends Component {
     constructor(props) {
@@ -14,18 +13,10 @@ class Connexion extends Component {
         }
     }
 
-    deleteToken(){
-        if (getToken() || getToken().length > 1) {
-            removeToken();
-            //  this.props.history.push('/welcome');
-            return (<Redirect to={'/welcome'}/>);
-        }
-    }
-
     userInfosToDisplay(content) {
         return (
             <div>
-                <div> Compte AlphaM</div>
+                <h3> Compte AlphaM</h3>
                 <div>{content.name+" "+content.surname}</div>
                 <div>{content.email} </div>
             </div>
@@ -41,6 +32,12 @@ class Connexion extends Component {
         })
     }
 
+    userProfile(){
+        console.log("about to redirect to user profile ",this.props);
+ /*       this.props.history.push("/userprofile");*/
+        /*return(<Redirect to={'/userprofile'}/>);*/
+    }
+
     display() {
         if (this.props.loggedIn) {
             let token=getDecodedToken();
@@ -53,7 +50,7 @@ class Connexion extends Component {
                     </div>
                     <div className={"tooltip-content"}>
                         {this.userInfosToDisplay(token)}
-                        <div className={"logout-button"} onClick={()=>this.deleteToken()}>
+                        <div className={"form-helper-button logout-button"} onClick={(e)=>{e.stopPropagation(); logOut()}}>
                             Deconnexion
                         </div>
                     </div>

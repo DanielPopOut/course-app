@@ -1,6 +1,9 @@
 let express = require('express');
 let router = express.Router();
+const ObjectID = require('mongodb').ObjectID;
 let CrudDBFunctions = require('./CrudDBFunctions');
+
+
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now());
@@ -15,6 +18,10 @@ router.get('/', function (req, res, next) {
 router.post('/get', function (req, res) {
     let {collection, options} = {...req.body};
     //console.log(collection, data);
+    if((options['queries']) &&  options['queries']['_id']){
+        options['queries']['_id']=ObjectID(options['queries']['_id']);
+    }
+    console.log("options ",options);
     CrudDBFunctions.getAllDocument({
         collection:collection,
         options:options||{},
@@ -25,7 +32,7 @@ router.post('/get', function (req, res) {
             } else {
                 console.log(collection, result.length, ' elements returned ');
                 //res.status(200).json(JSON.stringify(result));
-                res.status(200).send(JSON.stringify(result));
+                res.status(200).json(result);
             }
         }
     });
@@ -46,8 +53,7 @@ router.post('/insert', function (req, res) {
             res.status(200).send(result.insertedId);
         }
         //(result) => res.send(result.insertedId));
-});}
-);
+});});
 
 router.post('/delete', function (req, res) {
     let {collection, data} = {...req.body};
@@ -66,7 +72,6 @@ router.post('/delete', function (req, res) {
                 res.status(200).send(result);
             }
         }
-
     );
 });
 
@@ -89,6 +94,7 @@ router.post('/replace', function (req, res) {
         //(result) => res.send(result.insertedId));
 
 });
+
 router.post('/update', function (req, res) {
     let {collection, data, update} = {...req.body};
     console.log(collection, data, update);
@@ -104,7 +110,7 @@ router.post('/update', function (req, res) {
                 if(result.result.nModified===0){
                     console.log("collection : ",collection,"; data :",data,"; update : ",update);
                     console.log("update result", result.result);
-                    res.status(400).send({errorMessage:"update failed!! no modification"});
+                    res.status(403).send({errorMessage:"update failed!! no modification"});
                     console.log("failed");
                 }else {
                     console.log("successful");

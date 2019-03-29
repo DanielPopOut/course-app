@@ -1,5 +1,5 @@
 .welc_text{
-    font-family:  "Comic Sans Ms","Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+    /*font-family:  "Comic Sans Ms","Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;*/
     color: rgba(37, 1, 86, 0.80);
     font-weight: bold;
     font-size: 50px;
@@ -8,19 +8,23 @@
 
 .welc_slogan{
     font-size: 39px;
-    color: #51420e;
+    color: #050b52fa;
     letter-spacing: 13px;
     font-weight: bold;
     text-shadow: 2px 4px blanchedalmond;
 }
 
 .welcome{
-    background-image: url("img/photobg.png");
+    background-color: rgba(4,4,28,0.34);
     height: 75%;
     background-repeat: no-repeat;
     background-size: cover;
     position: fixed;
     left: 0;
     right: 0;
+    text-align: center;
 
+}
+.each-slide{
+    min-height: 300px;
 }

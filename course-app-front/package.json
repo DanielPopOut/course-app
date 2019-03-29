@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "history": "^4.9.0",
     "quill-delta-to-html": "^0.10.7",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
@@ -13,7 +14,8 @@
     "react-render-html": "^0.6.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "^2.1.8",
+    "react-slideshow-image": "^1.1.5",
     "redux": "^4.0.1",
     "rxjs": "^6.3.3"
   },

@@ -7,7 +7,6 @@ import { ServerService } from '../../server/ServerService';
 
 class Message extends Component{
     render(){
-
         return(
             <div className={'message-box message-box-'+ this.props.type || "success"}>
                 <div className='message-message'>

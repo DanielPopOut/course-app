@@ -6,6 +6,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background: url("/images/digitization-of-library-3068971__340.jpg") no-repeat center fixed;
+  /*background: url("/images/notes-macbook-study-conference.jpg") no-repeat center fixed;*/
+  background-size: cover;
+
 }
 
 code {

@@ -6,99 +6,7 @@ let CrudDBFunctions = require('./CrudDBFunctions');
 let TokenFunctions = require('./token');
 const ObjectID = require('mongodb').ObjectID;
 
-let lowerLevelCollectionName = {
-    courses: 'chapters',
-    chapters: 'sections',
-    sections: 'subsections'
-};
 
-let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = false) {
-    let aggregation = [];
-    elements_ids = elements_ids.map((id) => {
-        return ObjectID(id);
-    });
-    if (level === 'chapters') {
-        aggregation = [
-            {$match: {_id: {$in: elements_ids}}},
-            {
-                $graphLookup: {
-                    from: 'sections',
-                    startWith: '$sections',
-                    connectFromField: 'sections',
-                    connectToField: "_id",
-                    as: 'sections',
-                }
-            },
-            {
-                $unwind: {
-                    path: '$sections', preserveNullAndEmptyArrays: true,
-                }
-            },
-            {
-                $graphLookup: {
-                    from: 'subsections',
-                    startWith: '$sections.subsections',
-                    connectFromField: "sections.subsections",
-                    connectToField: "_id",
-                    as: 'sections.subsections'
-                }
-            },
-
-            {
-                $group: {
-                    _id: '$_id',
-                    title: {$first: "$title"},
-                    content: {$first: "$content"},
-                    sections: {$push: "$sections"}
-                }
-            },
-        ];
-    } else if (level === 'sections') {
-        aggregation = [
-            {$match: {_id: {$in: elements_ids}}},
-            {
-                $graphLookup: {
-                    from: 'subsections',
-                    startWith: '$subsections',
-                    connectFromField: 'subections',
-                    connectToField: "_id",
-                    as: 'subsections',
-                }
-            },
-            {
-                $group: {
-                    _id: '$_id',
-                    title: {$first: "$title"},
-                    content: {$first: "$content"},
-                    sections: {$push: "$subsections"}
-                }
-            },
-        ];
-    } else {
-        aggregation = [{$match: {_id: {$in: elements_ids}}},];
-    }
-    if (onlyTitle) {
-        aggregation.push({
-            $project:
-                {
-                    _id: 1,
-                    title: 1,
-                    "sections._id": 1,
-                    "sections.title": 1,
-                    "sections.subsections._id": 1,
-                    "sections.subsections.title": 1,
-                }
-        });
-    }
-    return aggregation;
-};
-
-const retrieveElements = async (elements_ids, collection = 'courses', callback, onlyTitle) => {
-    let aggregation = returnAggregation(elements_ids, collection, onlyTitle);
-    await CrudDBFunctions.getOneDocumentWithAggregation(collection, aggregation, (result, err = '') => {
-        callback(result, err);
-    });
-};
 
 /**
  * section creation of a new course subelement (chapter, section , subsection)
@@ -199,95 +107,28 @@ router.post('/getAllWithIds', (req, res) => {
  * section of registration of users as students
  */
 
-router.post('/newRegistration', (req, res) => {
+router.post('/newMessage', (req, res) => {
     try {
         console.log("rea body ", req.body);
-        let {token, course} = {...req.body};
-        console.log("token", token);
-        TokenFunctions.verify(token, (err, decoded) => {
-            if (err) {
-                console.log("token verification", JSON.stringify(err));
-                res.status(403).json({errorMessage: " token Verification : " + JSON.stringify(err)});
-            } else {
-                let student = [];
-                let user = decoded;
-                delete  user['iat'];
-                delete  user['exp'];
-                console.log("user before : ", user);
-                console.log("course_id", course._id);
-                if (user.hasOwnProperty('student')) {
-                    student = user.student;
-                    student.push(course._id);
-                } else {
-                    student.push(course._id);
-                }
-                CrudDBFunctions.updateOneDocumentById(
-                    'users',
-                    user,
-                    {student: student},
-                    (result, err = "") => {
-                        if (err) {
-                            res.status(403).json({
-                                errorMessage: JSON.stringify({
-                                    '': "user update failed ",
-                                    error: err.toString()
-                                })
-                            })
-                        } else {
-                            user['student'] = student;
-                            console.log('New User', user);
-                            let newtoken = TokenFunctions.generateToken(user);
-                            res.status(200).json(newtoken);
-                        }
-                    });
+        CrudDBFunctions.insertOneDocument(
+          'contactsmessages',
+          req.body,
+            (result,err="")=>{
+              if(err){
+
+              }else {
+
+              }
             }
-        });
+        );
     } catch (e) {
         res.status(403).json({errorMessage: e.toString()});
     }
 });
 
-router.post('/cancelRegistration', (req, res) => {
+router.post('/answerToMessage', (req, res) => {
     try {
-        console.log("rea body ", req.body);
-        let {token, course} = {...req.body};
-        TokenFunctions.verify(token, (err, decoded) => {
-            if (err) {
-                console.log("token verification", JSON.stringify(err));
-                res.status(403).json({errorMessage: " token Verification : " + JSON.stringify(err)});
-            } else {
-                console.log("decoded Token ", decoded);
-                let user = decoded;
-                delete  user['iat'];
-                delete  user['exp'];
-                let student = [];
-                if (user.hasOwnProperty('student')) {
-                    student = user['student'].filter((value) => {
-                        return (value !== course._id)
-                    });
-                }
-                console.log("student after one removed ", student);
-                CrudDBFunctions.updateOneDocumentById(
-                    'users',
-                    user,
-                    {student: student},
-                    (result, err = "") => {
-                        if (err) {
-                            res.status(403).json({
-                                errorMessage: JSON.stringify({
-                                    '': "user update failed ",
-                                    error: err.toString()
-                                })
-                            })
-                        } else {
-                            user['student'] = student;
-                            console.log('New User', user);
-                            let newtoken = TokenFunctions.generateToken(user);
-                            res.status(200).json(newtoken);
-                        }
-                    });
-            }
-        });
+
     } catch (e) {
         res.status(403).json({errorMessage: e.toString()});
     }

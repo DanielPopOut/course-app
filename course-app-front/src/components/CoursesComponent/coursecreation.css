@@ -1,0 +1,37 @@
+.course-creation-main{
+    display: flex;
+    border: solid thin blue;
+    height: 100%;
+}
+
+.navigation-panel{
+    width: 5%;
+    border: solid thin dodgerblue;
+    margin: 1px;
+}
+
+.course-creation-panel{
+    width: 92%;
+    border: solid thin whitesmoke;
+    margin: 1px;
+}
+
+.create-course-options-div{
+    text-align: right;
+    border-bottom: solid 2px #0b7d09e8;
+    padding-bottom: 2px;
+}
+
+.content-from-quill .ql-editor{
+    padding: 0!important;
+    margin: 0;
+}
+
+.content-from-quill .ql-container.ql-snow{
+    border:none;
+}
+
+.sub-element-div{
+    background-color:blue;
+    cursor: pointer;
+}

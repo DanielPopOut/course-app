@@ -1,6 +1,10 @@
+.mcqs-manager-container{
+    background-color: white;
+}
 .mcqs-manager-body{
     display: flex;
     justify-content: space-around;
+
 }
 .mcqs-manager-body>div{
     padding: 10px 15px;
@@ -15,6 +19,9 @@
 
 .selected-course-infos{
     text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    border-bottom: solid thin #c4c4da;
 }
 .div-options{
 

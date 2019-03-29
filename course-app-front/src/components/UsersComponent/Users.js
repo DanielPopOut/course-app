@@ -79,6 +79,7 @@ class UserInterfaceHeader extends Component{
        );
     }
 }
+
 class UserInterfaceFooter extends Component{
     render(){
         return(
@@ -88,7 +89,8 @@ class UserInterfaceFooter extends Component{
         );
     }
 }
-export default class Users extends Component{
+
+class Users extends Component{
     constructor(props){
         super(props);
         this.state={
@@ -149,3 +151,5 @@ export default class Users extends Component{
         )
     }
 }
+
+export default Users;

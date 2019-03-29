@@ -14,11 +14,11 @@
 
 .connexion-tooltip .tooltip-content{
     visibility: hidden;
-    background-color: #39336382;
-    color: #f1f1f1;
+    background-color: #f8f7fd;
+    color: #040223;
     text-align: left;
-    border-radius: 6px;
-    padding: 5px 1px;
+    border-radius: 2px;
+    padding: 7px 6px;
     position: absolute;
     z-index: 1;
     top: 100%;
@@ -41,10 +41,9 @@
 .logout-button{
     text-align: center;
     margin: 2px;
-    background: #3e5d9a;
+    background: #151386;
+    font-weight: bold;
     color: white;
-    font-weight: 400;
     padding: 2px;
-    border-radius: 20px;
-    cursor: pointer;
+    border-radius: 2px;
 }

@@ -64,7 +64,6 @@ function displayContent(content) {
 }
 
 class Course extends Component {
-
     constructor(props) {
         super(props);
         this.state = {

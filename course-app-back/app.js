@@ -7,9 +7,11 @@ const bodyParser = require('body-parser');
 const cruds = require('./cruds');
 const authentication = require('./authentication');
 const courses = require('./courses');
+const contacts = require('./contacts');
 const MCQuestions = require('./mcquestions');
 
 let CrudDBFunctions=require('./CrudDBFunctions');
+let TokenFunctions = require('./token');
 
 
 app.use(cors());
@@ -51,6 +53,7 @@ app.post('/finduserswithemails',(req,res)=>{
 });
 
 app.post('/*', (req,res,next)=>{
+
     // console.log(req);
     // console.log('voiciiiiii');
     next()

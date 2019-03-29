@@ -645,9 +645,7 @@ export class OneMCQ extends Component {
     render() {
         return (
             <div>
-                <div>
-                    {this.returnInfos()}
-                </div>
+                <div> {this.returnInfos()} </div>
                 {this.oneMCQForm()}
             </div>
         )

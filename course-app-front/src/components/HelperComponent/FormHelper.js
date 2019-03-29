@@ -117,6 +117,18 @@ export class TextareaHelper extends Component {
 }
 
 export class InputTextHelper extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            value:this.props.value||""
+        }
+    }
+    handleChange(e){
+        this.setState({value:e.target.value});
+        if(this.props.onChange){
+            this.props.onChange(e)
+        }
+    }
     render() {
         return (
             <div className={'form-helper-div-input'}>
@@ -125,8 +137,8 @@ export class InputTextHelper extends Component {
                        required={'required'}
                        className={this.props.className || "form-helper-input"}
                        name={this.props.name}
-                       onChange={(e)=>this.props.onChange(e)}
-                       value={this.props.value}
+                       onChange={(e)=>this.handleChange(e)}
+                       value={this.state.value}
                        placeholder={this.props.placeholder || this.props.name}
                        autoFocus={this.props.autoFocus}
                 />
@@ -223,13 +235,18 @@ export class FormHelper extends Component {
     }
     handleClick(e){
         let registration_path = this.props.registration_path || REGISTRATIONS_PATH+this.state.collectionName;
-        ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
-            if(response.status!==200){
-                alert(response.data.text);
-            }else{
-
-            }
-        });
+        if(this.props.handleValidation){
+            this.props.handleValidation(this.state.dataToSend);
+        }else{
+            ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
+                if(response.status!==200){
+                    alert("Enregistrement Effectué avec succès");
+                }else{
+                    console.log("error Message ",response.data.errorMessage);
+                    alert("Enregistrement non effectué");
+                }
+            });
+        }
     }
     render() {
         let onChangeCallBack=(e)=>{this.handleChange(e)};
@@ -237,7 +254,7 @@ export class FormHelper extends Component {
         let options = this.props.options|| {};
         return (
             <div>
-            <form>
+                <form>
                 <section className={"form-helper-title"}> <h3>user registration form</h3></section>
                 {
                     this.props.data.fields.map(function (elt, key) {
@@ -270,7 +287,12 @@ export class FormHelper extends Component {
                 }
                 <div className={'hr-button-block'}>
                     <ButtonHelper {...{type: 'reset', className:' form-helper-button danger', value:'Reset'}}/>
-                    <ButtonHelper {...{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>
+                    {this.props.modificationForm?
+                        <ButtonHelper {...{type: 'button',className:'form-helper-button success', value:'Modifier'}} onClick={onClickCallBack}/>
+                        :
+                        <ButtonHelper {...{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>
+                    }
+
                 </div>
             </form>
             </div>

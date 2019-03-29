@@ -12,6 +12,7 @@ const urlRedirection = new Subject();
 export const urlRedirection$ = urlRedirection.asObservable();
 
 
+
 export function setLoggedIn(bool) {
     isLoggedIn = bool;
     userLogged.next(bool)
@@ -26,8 +27,7 @@ export function setToken(token) {
     localStorage.setItem('token', JSON.stringify(token));
 }
 
-export function removeToken() {
-    console.log('token removed');
+export function logOut() {
     localStorage.removeItem('token');
     setLoggedIn(false);
 }

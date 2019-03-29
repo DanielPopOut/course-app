@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-
 import './NavBar.css';
-import {Link} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 import Connexion from "../ConnexionComponent/Connexion";
+
+import history from '../../history';
+
 
 
 export default class NavBar extends Component {
@@ -10,7 +12,7 @@ export default class NavBar extends Component {
         //{title: 'AlphaM', redirectionAddress: '/welcome'},
         // {title: 'Departements', redirectionAddress: '/departments'},
         // {title: 'Cours', redirectionAddress: '/courses'},
-        // {title: 'Contacts', redirectionAddress: '/contacts'},
+        {title: 'Contacts', redirectionAddress: '/contacts'},
         // {title: 'Users', redirectionAddress: '/users'},
         //{title: 'Connexion', redirectionAddress: '/connexion'},
     ];
@@ -29,6 +31,18 @@ export default class NavBar extends Component {
         };
     }
 
+    handleRedirect(url){
+        return (<Redirect to={url}/>);
+    }
+
+    checkActive(address){
+        let location = history.location.pathname || " ";
+        if(!location.search(address)){
+            return "active-menu";
+        }else {
+            return "non-active-menu";
+        }
+    };
     render() {
         let tableauToUse = this.props.loggedIn ? this.loggedInTableauNavbar : this.tableauNavbar;
         return (
@@ -37,9 +51,9 @@ export default class NavBar extends Component {
                     <div key={'AlphaM'} className={'navbar-item-div '}>
                         <Link
                                 to={'/welcome'}
-                                className={'navbar-item-link login-button'}
+                                className={'navbar-item-link login-button '+this.checkActive('/welcome')}
                             >
-                                {'AlphaM'}
+                                Home
                             </Link>
                     </div>
                 </div>
@@ -48,7 +62,7 @@ export default class NavBar extends Component {
                             <div key={x.title} className={'navbar-item-div'}>
                                 <Link
                                     to={x.redirectionAddress}
-                                    className={'navbar-item-link'}
+                                    className={'navbar-item-link '+this.checkActive(x.redirectionAddress)}
                                 >
                                     {x.title + (x.content ? JSON.stringify(this.props[x.content]) : '')}
                                 </Link>
@@ -56,7 +70,7 @@ export default class NavBar extends Component {
                         }
                     </div>
                 <div className={'navbar-right-side'}>
-                    <Connexion  loggedIn={this.props.loggedIn}/>
+                    <Connexion  loggedIn={this.props.loggedIn} handleRedirect={(url)=>this.handleRedirect(url)}/>
                 </div>
             </div>
         );

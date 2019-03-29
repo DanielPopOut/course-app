@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill'; // ES6
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import BasicFormCreatorComponent from '../FormCreator/BasicFormCreatorComponent';
 import { subsectionsModel } from '../../DataManagerComponent/DataModelsComponent';
+import {ButtonHelper} from "../../HelperComponent/FormHelper";
 
 
 class QuillComponent extends Component {
@@ -37,8 +38,20 @@ class QuillComponent extends Component {
         }
     }
 
-    buttons(){
-        return this.props.onValidate ? <button onClick={()=>this.props.onValidate({text : this.state.text, delta : this.state.delta})}>Validate</button> : '';
+    buttons() {
+        return <div className={"hr-button-block"}>
+            {this.props.onValidate ?
+                <ButtonHelper {
+                                  ...{
+                                      name: 'valider',
+                                      value: 'Validate',
+                                      className: "form-helper-button success"
+                                  }
+                              }
+                              onClick={() => this.props.onValidate({text: this.state.text, delta: this.state.delta})}
+                /> : ""
+            }
+        </div>
     }
     // test = '<p><span class="ql-formula" data-value="sqvz ">﻿<span contenteditable="false"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>q</mi><mi>v</mi><mi>z</mi></mrow><annotation encoding="application/x-tex">sqvz </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right: 0.03588em;">q</span><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span><span class="mord mathdefault" style="margin-right: 0.04398em;">z</span></span></span></span></span>﻿</span> </p>';
 

@@ -2,22 +2,23 @@ import React, { Component } from 'react';
 import './App.css';
 import './basics.css';
 import NavBar from './components/NavbarComponent/NavBar';
-import { Route} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import Welcome from './components/WelcomeComponent/Welcome';
 import Courses from './components/CoursesComponent/Courses';
 import Course from './components/OneCourseComponent/Course';
 import ConnexionComponent from './components/ConnexionComponent/ConnexionComponent';
 import ContactsComponent from './components/ContactsComponent/ContactsComponent';
 import Users from './components/UsersComponent/Users';
+import UserProfile from './components/UsersComponent/UserProfile';
 import DataManagerPage from './components/DanielComponent/DataManagerPage/DataManagerPage';
 import {usersModel} from './components/DataManagerComponent/DataModelsComponent';
-import {getToken, removeToken,getDecodedToken, userLogged$,messageToShow$ ,urlRedirection$} from './server/axiosInstance';
+import {getDecodedToken, userLogged$,messageToShow$ ,urlRedirection$} from './server/axiosInstance';
 import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
 import MCQSManagerComponent from './components/MCQsComponent/MCQSManagerComponent';
-import QuillComponent from './components/DanielComponent/QuillComponent/QuillComponent';
 import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
-import Connexion from "./components/ConnexionComponent/Connexion";
-import {Redirect} from "react-router";
+import CourseCreation from './components/CoursesComponent/CourseCreation';
+
+import history from './history';
 
 
 class App extends Component {
@@ -29,7 +30,6 @@ class App extends Component {
         this.state = {
             menuOpen: false,
             loggedIn: false,
-            decodedToken: '',
             messageModalVisibility: false,
             messageToShow: '',
         };
@@ -37,14 +37,16 @@ class App extends Component {
 
     handleUserLogin(bool){
         this.setState({loggedIn: bool});
-        if (bool){
-            this.setDecodedToken();
-        }else {
-            this.closeModal();
+        if(bool===false){
+            this.handleRedirection("/welcome");
         }
     }
-    handleRedirection(url){
-        return <Redirect to={url}/>;
+
+
+    handleRedirection(url=null){
+        if(url){
+           history.push(url);
+        }
     }
 
     handleMessageToShow(message){
@@ -53,12 +55,6 @@ class App extends Component {
             messageToShow: message,
         });
         setTimeout(()=>this.closeModal(),2000);
-    }
-
-    setDecodedToken() {
-        this.setState({
-            decodedToken: getDecodedToken() || "",
-        });
     }
 
     openMenu() {
@@ -75,10 +71,13 @@ class App extends Component {
         })
     }
     componentDidMount(){
-        if(getDecodedToken()){ this.setState({ loggedIn:true });}
+        if(getDecodedToken()){
+            this.setState({ loggedIn:true });
+        }else {
+            console.log("current history ", history ," and props ", this.props);
+            this.handleRedirection('/welcome');
+        }
     }
-
-
     render() {
         return (
             <div className="App" onClick={() => this.closeMenu()}>
@@ -89,46 +88,37 @@ class App extends Component {
                 >
                     <div style={{color: 'black'}}>{this.state.messageToShow}</div>
                 </ModalComponent>
-                <div>
-                    <nav>
-                        <span className='sm-only  '
+                <nav>
+                    <span className='sm-only  '
                               onClick={e => {
                                   this.setState({menuOpen: !this.state.menuOpen});
                                   e.stopPropagation();
                               }}>
                         {/*<FontAwesomeIcon icon='list' style={{margin: '0 30px'}}/>*/}
                         </span>
-                        <NavBar
-                        /* className='lg-only'*/
-                        loggedIn={this.state.loggedIn}
-                        />
-                    </nav>
-                </div>
+                    <NavBar loggedIn={this.state.loggedIn}/>
+                </nav>
                 <aside className={this.state.menuOpen ? 'menu-open' : 'menu-closed'}>
 
                 </aside>
                 <main className={' container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
-
                     <Route exact path='/' component = {Welcome}/>
                     <Route path='/welcome' component = {Welcome}/>
-
                     <Route path='/courses'  render={(props) => <Courses {...props} loggedIn={this.state.loggedIn}/>}/>
                     <Route path='/course/:id' component = {Course}/>
-                    <Route path='/users' component = {Users}/>
+
+                    <Route path='/users' component = {UserProfile}/>
+
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
-                    {/*<Route path='/quill' render={(props) => <QuillComponent/>}/>*/}
-                    <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>
+                   {/* <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>*/}
+                    <Route path='/createcourse' component ={CourseCreation}/>
                     <Route path='/mcqs' component={MCQSManagerComponent}/>
-
-
-
                 </main>
                 <footer>
                 </footer>
                 <ModalComponent2/>
-
             </div>
         );
     }

@@ -109,7 +109,7 @@ class MCQSManagerComponent extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <div className={"mcqs-manager-container"}>
                 <ModalComponent visible={this.state.modalVisibility} onClose={() => this.handleClose()}>
                     {this.state.modalChildren}
                 </ModalComponent>
@@ -158,7 +158,7 @@ class MCQSManagerComponent extends Component {
                 <div className={"activity-div"}>
                     {this.showActivityContent()}
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 }

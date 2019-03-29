@@ -66,6 +66,7 @@
     align-content: space-around;
     justify-content: space-around;
     margin: 2px;
+    width: 100%;
 }
 .primary{
     background-color: whitesmoke;

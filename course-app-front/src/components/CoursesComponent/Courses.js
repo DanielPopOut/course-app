@@ -10,9 +10,27 @@ import Redirect from "react-router-dom/es/Redirect";
 
 
 class CoursesHeader extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            searchedElement:""
+        }
+    }
 
     handleChange(e){
+        this.setState({
+            searchedElement:e.target.value
+        });
 
+        console.log("search params ",this.state);
+        this.props.handleValidateSearch(this.state.searchedElement);
+    }
+
+    handleKeyPressOnSearch(event){
+        if(event.key==="Enter"){
+            this.props.handleValidateSearch(this.state.searchedElement);
+        }
+        console.log("after state ",this.state);
     }
 
     render(){
@@ -28,7 +46,7 @@ class CoursesHeader extends Component{
             type:'text',
             name : 'input-course-search',
             className : "search-input form-helper-input ",
-            placeholder :'Search',
+            placeholder :'Course Title',
             autoFocus:true
         };
 
@@ -38,14 +56,19 @@ class CoursesHeader extends Component{
                     <h3>{"Courses Management Interface !!"} </h3>
                 </div>
                 <div className={"user-search-new-div"}>
-                    <div className={"div-user-search-block  "}>
+
+                    <div className={"div-user-search-block  "}
+                         onKeyPress={(event)=>{this.handleKeyPressOnSearch(event)}}
+                    >
                         <InputTextHelper {...inputsearchparams} onChange={(e)=>this.handleChange(e)} />
+
                         <div className={"div-img-search"}>
                             <img src={"/images/search.png"}
                                  alt={"Search"}
-                                 onClick={(e)=>this.handleValidateSearch(e)}
+                                 onClick={()=>this.props.handleValidateSearch(this.state.searchedElement)}
                                  className={"button-image-user-search"}/>
                         </div>
+
                     </div>
                     <div className={'new-user-button'}>
                         <ButtonHelper {...buttonnewcourse} />
@@ -56,26 +79,11 @@ class CoursesHeader extends Component{
     }
 }
 
-class CoursesList extends Component{
+export class CoursesList extends Component{
     constructor(props){
         //console.log("init: ",props);
         super(props);
-        this.state={
-            dataToShow:[],
-        }
     }
-
-    componentDidMount(){
-        ServerService.getFromServer('courses/getAll').then((response)=>{
-            if(response.status===200){
-                console.log("courses list response ",response.data);
-                this.setState({ dataToShow:response.data });
-            }else {
-
-            }
-        });
-    }
-
     newregistration(course){
         return  ServerService.postToServer('courses/newRegistration',
             {
@@ -126,13 +134,17 @@ class CoursesList extends Component{
             );
        }
     }
-
+    displayCourses(){
+        if(this.props.courses.length===0){
+            return <div>  No Record  to Show !!!   </div>
+        }
+    }
     render(){
         return(
             <div>
                 <div className={'courses-list-div'}>
                     {
-                        this.state.dataToShow.map((course,key)=>{
+                        this.props.courses.map((course,key)=>{
                             return(
                                 <div key={key} onClick={(e)=>this.handleClick(course)} className={'course-item col-3 tooltip'}>
                                     <div>
@@ -146,6 +158,9 @@ class CoursesList extends Component{
                                 </div>
                             );
                         })
+                    }
+                    {
+                      this.displayCourses()
                     }
                 </div>
             </div>
@@ -167,23 +182,59 @@ class Courses extends Component {
     constructor(props){
         super(props);
         this.state={
-
+            courses:[]
         }
     }
 
+    componentDidMount(){
+        ServerService.getFromServer('courses/getAll').then((response)=>{
+            if(response.status===200){
+                console.log("courses list response ",response.data);
+                this.setState({courses:response.data });
+            }
+        });
+    }
     handleRedirection(url){
-        this.props.history.push(url);
+        this.props.history.push(url,{pushWith:"treasure"});
     }
     handleOpenCourse(course){
         console.log(this.props);
         this.props.history.push('/course/'+course._id);
     }
+    handleValidateSearch(data){
+        console.log("data sended ",data);
+        if(!data){
+            this.componentDidMount();
+        }else {
 
+            let findParams={
+                collection:"courses",
+                options:{
+                    queries:{
+                        title:{$regex:".*"+data+".*"}
+                    }
+                }
+            };
+            ServerService.postToServer('/crudOperations/get', findParams).then((response) => {
+                if(response.status===200){
+                    console.log("find results ",response.data);
+                    this.setState({courses:response.data});
+                }else {
+                    console.log('find error ',response.data.errorMessage);
+                }
+            });
+        }
+
+    }
     render() {
         return (
             <React.Fragment>
-                <CoursesHeader handleRedirection={(url)=>this.handleRedirection(url)}/>
+                <CoursesHeader
+                    handleRedirection={(url)=>this.handleRedirection(url)}
+                    handleValidateSearch={(data)=>this.handleValidateSearch(data)}
+                />
                 <CoursesList
+                    courses={this.state.courses}
                     openCourse = {(course)=>this.handleOpenCourse(course)}
                     loggedIn = {this.props.loggedIn}
                 />

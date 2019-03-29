@@ -13,6 +13,7 @@ export const validatePhoneNumber = function (phonenumber) {
         return false;
     }
 };
+
 export const loadDataIntoModel=(datamodel,data)=>{
     let fields=[];
     console.log(datamodel);
@@ -25,8 +26,7 @@ export const loadDataIntoModel=(datamodel,data)=>{
 };
 
 export const validatePassword = (password)=>{
-   /*
-
+    console.log("password sended ",password);
     var passw=  /^[A-Za-z]\w{7,14}$/;
     if(password.match(passw))
     {
@@ -38,8 +38,6 @@ export const validatePassword = (password)=>{
         //alert('Wrong...!')
         return false;
     }
-
-    */
 
    return true;
 };
