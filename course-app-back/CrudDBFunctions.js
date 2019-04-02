@@ -35,7 +35,7 @@ module.exports = {
                         {_id: ObjectID(documentToUpdate._id)},
                     Object.assign(documentToUpdate,{_id:ObjectID(documentToUpdate._id)})
                     );
-                console.log("result",result);
+               // console.log("result",result);
                 callback(result.ops[0]);
             }catch (e) {
                 callback({},e);
@@ -44,19 +44,12 @@ module.exports = {
     },
 
     updateOneDocumentById: function (collection, documentToUpdate, updateToMake, callback) {
-        // Insert some documents
-        client.connect(async function (err) { //server connection
+        client.connect(async function (err) {
             assert.equal(null, err);
-           /* console.log('update To make', updateToMake, {_id: ObjectID(documentToUpdate._id)});
-            console.log("replacement object ", Object.assign(documentToUpdate,{_id:ObjectID(documentToUpdate._id)},updateToMake));
-*/            let database=client.db(dbName);
+            let database=client.db(dbName);
             try {
                 let result = await database.collection(collection)
-                    .replaceOne(
-                        {_id: ObjectID(documentToUpdate._id)},
-                        Object.assign(documentToUpdate,{_id:ObjectID(documentToUpdate._id)},updateToMake)
-                    );
-                //console.log("replacement result ",result);
+                    .updateOne({_id: ObjectID(documentToUpdate._id)},{$set: updateToMake});
                 callback(result);
             }catch (e) {
                 callback({},e);

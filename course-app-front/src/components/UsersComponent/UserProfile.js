@@ -7,6 +7,7 @@ import {ButtonHelper, InputHelper} from "../HelperComponent/FormHelper";
 import {CoursesList} from "../CoursesComponent/Courses";
 import FormHelper from "../HelperComponent/FormHelper";
 import {validateEmail, validatePassword} from "../StaticFunctionsComponent/StaticFunctions";
+import {Image} from "cloudinary-react";
 
 class ModifyConnexionParams extends Component {
     constructor(props) {
@@ -374,7 +375,8 @@ class UserProfile extends Component {
                 <div className={"user-profile-avatar"}>
                     <div>
                         <figure className={"user-profile-avatar"}>
-                            <img src={this.state.user.avatar || "/images/user3_thom2.png"}/>
+                            <Image cloudName="demo" publicId="sample" width="200" crop="scale"/>
+                           {/* <img src={this.state.user.avatar || "/images/user3_thom2.png"}/>*/}
                         </figure>
                     </div>
                 </div>

@@ -3,12 +3,12 @@ let router = express.Router();
 const ObjectID = require('mongodb').ObjectID;
 let CrudDBFunctions = require('./CrudDBFunctions');
 
-
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now());
     next();
 });
+
 // define the home page route
 router.get('/', function (req, res, next) {
     console.log('router works');
@@ -16,12 +16,17 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/get', function (req, res) {
+
     let {collection, options} = {...req.body};
+
     //console.log(collection, data);
+
     if((options['queries']) &&  options['queries']['_id']){
         options['queries']['_id']=ObjectID(options['queries']['_id']);
     }
-    console.log("options ",options);
+
+    ///console.log("options ",options);
+
     CrudDBFunctions.getAllDocument({
         collection:collection,
         options:options||{},
@@ -96,6 +101,7 @@ router.post('/replace', function (req, res) {
 });
 
 router.post('/update', function (req, res) {
+    console.log("request body",req.body);
     let {collection, data, update} = {...req.body};
     console.log(collection, data, update);
     CrudDBFunctions.updateOneDocumentById(

@@ -747,7 +747,8 @@ class TestComponent extends Component {
     render() {
         return (
             <div>
-                <ModalComponent visible={this.state.modalVisibility} onClose={() => this.handleClose()}>
+                <ModalComponent visible={this.state.modalVisibility}
+                                onClose={() => this.handleClose()}>
                     {this.state.modalChildren}
                 </ModalComponent>
                 <ButtonHelper

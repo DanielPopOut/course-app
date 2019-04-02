@@ -6,7 +6,6 @@ import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import RegisterForCourse from "./RegisterForCourse";
 import {getToken,setToken, getDecodedToken, redirectTo} from '../../server/axiosInstance';
 import {ServerService} from "../../server/ServerService";
-import Redirect from "react-router-dom/es/Redirect";
 
 
 class CoursesHeader extends Component{
@@ -179,6 +178,7 @@ class CoursesFooter extends Component{
 }
 
 class Courses extends Component {
+
     constructor(props){
         super(props);
         this.state={
@@ -194,19 +194,27 @@ class Courses extends Component {
             }
         });
     }
+
     handleRedirection(url){
         this.props.history.push(url,{pushWith:"treasure"});
     }
+
     handleOpenCourse(course){
         console.log(this.props);
         this.props.history.push('/course/'+course._id);
+       /* this.props.history.push({
+            pathname:'/createcourse',
+            course:course,
+            mode:"modification",
+            state:{test:"success"}
+        });*/
     }
+
     handleValidateSearch(data){
         console.log("data sended ",data);
         if(!data){
             this.componentDidMount();
         }else {
-
             let findParams={
                 collection:"courses",
                 options:{
@@ -226,6 +234,7 @@ class Courses extends Component {
         }
 
     }
+
     render() {
         return (
             <React.Fragment>

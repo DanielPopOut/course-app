@@ -4,8 +4,9 @@ import {ButtonHelper} from "../HelperComponent/FormHelper";
 import NewTeacher from "./NewTeacher";
 import {ServerService} from "../../server/ServerService";
 import ReactQuill, {} from 'react-quill';
-import MCQsComponent from "../MCQsComponent/MCQsComponent";
-import TestComponent from "../MCQsComponent/TestComponent";
+
+import ModalComponent from "../DanielComponent/Modal/ModalComponent";
+import CourseCreation from "../CoursesComponent/CourseCreation";
 
 const fakeCourse = {
     title: "",
@@ -69,6 +70,8 @@ class Course extends Component {
         this.state = {
             courseToDisplay: {},
             ready:false,
+            modalChildren:"",
+            modalVisibility:false
         }
     }
 
@@ -117,10 +120,40 @@ class Course extends Component {
         }
     }
 
+    openMocal(content){
+        this.setState({
+            modalChildren:content,
+            modalVisibility:true
+        });
+    }
+    closeModal(){
+        this.setState({
+            modalChildren:"",
+            modalVisibility:false
+        });
+    }
+
+    modifyCourse(){
+        console.log("here");
+        console.log("history ",this.props.history);
+        let content=<CourseCreation course={this.state.courseToDisplay} mode={"update"}/>;
+        this.openMocal(content);
+    }
     render() {
         return (
             <React.Fragment>
-                <div className={"course-options"}>
+                <ModalComponent visible={this.state.modalVisibility}
+                                onClose={()=>this.closeModal()}>
+                    {this.state.modalChildren}
+                </ModalComponent>
+                <div className={"hr-button-block course-options"}>
+                    <ButtonHelper {...{
+                        name:"modifycoursebutton",
+                        value:"Modify Course",
+                        className:"form-helper-button success"
+                    }}
+                    onClick={()=>this.modifyCourse()}
+                    />
                     <NewTeacher course={this.state.courseToDisplay}/>
                 </div>
                 <div className={'course-content-div'}>

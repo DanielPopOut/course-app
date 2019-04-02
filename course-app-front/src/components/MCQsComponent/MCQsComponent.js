@@ -680,7 +680,8 @@ class MCQsComponent extends Component {
     render() {
         return (
             <div>
-                <ModalComponent visible={this.state.modalVisibility} onClose={() => {
+                <ModalComponent visible={this.state.modalVisibility}
+                                onClose={() => {
                     this.handleClose()
                 }}>
                     {this.state.modalChildren}

@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import './coursenavigator.css';
 import {ServerService} from "../../server/ServerService";
+import ReactQuill from "react-quill";
 
 let lowerCourseLevel={
     courses:'chapters',
@@ -8,45 +9,44 @@ let lowerCourseLevel={
     sections:'subsections'
 };
 
-let waitingElement=[{
-    title:<img src={"images/al.gif"}/>
-}];
+let waitingElement=[{title:<img src={"images/al.gif"}/>}];
 
 class DisplayElement extends Component{
+
     constructor(props){
         super(props);
         this.state={
             element:this.props.element,
             level:this.props.level,
             subElements:[],
+            selected:this.props.selectionState,
         }
     }
-    handleElementClick(){
+
+    async handleElementClick(){
         this.props.setSelectedElement(this.props.element,this.props.level);
         if(lowerCourseLevel[this.state.level]){
             this.setState({ subElements:[] });
             this.setState({ subElements:waitingElement });
-            ServerService.postToServer('/courses/getAllWithIds',{
+            await ServerService.postToServer('/courses/getAllWithIds',{
                 collection:lowerCourseLevel[this.state.level],
                 elements_ids:this.state.element[lowerCourseLevel[this.state.level]],
                 fields:['_id','title',lowerCourseLevel[lowerCourseLevel[this.state.level]]]
             }).then((response)=>{
                 if(response.status===200){
-                    this.setState({
-                        subElements:[]
-                    });
-                    this.setState({
-                        subElements:response.data
-                    });
-                }else {
+                    this.setState({ subElements:[]});
+                    this.setState({subElements:response.data});
+                } else {
                     alert(response.data.errorMessage);
                 }
             });
         }
-        this.setState({
-            selected:true
-        })
+       await this.props.handleUnSelectAll();
+       // await this.setState({selected: true});
+        console.log("selected state props ",this.props.selectionState);
+        console.log("selected state ",this.state.selected);
     }
+
     selectionState(){
         if(!this.state.selected){
             return "element-div"
@@ -54,6 +54,7 @@ class DisplayElement extends Component{
             return "selected-element-div"
         }
     }
+
     render(){
         return(
             <div>
@@ -69,8 +70,9 @@ class DisplayElement extends Component{
                             <DisplayElement
                                 element={subElement}
                                 level= {lowerCourseLevel[this.state.level]}
-                                handleSelection={this.props.handleSelection}
+                                selectionState={this.props.selectionState}
                                 setSelectedElement={this.props.setSelectedElement}
+                                handleUnSelectAll={()=>this.props.handleUnSelectAll()}
                             />
                         </div>;
                     })}
@@ -78,8 +80,11 @@ class DisplayElement extends Component{
             </div>
         );
     }
+
 }
+
 class CourseNavigator  extends Component{
+
     constructor(props){
         super(props);
         this.state={
@@ -87,6 +92,7 @@ class CourseNavigator  extends Component{
             selectionState:false
         }
     }
+
     componentDidMount(){
         ServerService.getFromServer('/courses/getAll').then((response)=>{
             if(response.status===200){
@@ -98,12 +104,7 @@ class CourseNavigator  extends Component{
     }
 
     handleUnSelectAll(){
-        this.setState({
-            selectionState:true
-        });
-        this.setState({
-            selectionState:false
-        });
+        this.setState({selectionState:false});
     }
 
     displayElements(level='courses',elements){
@@ -114,11 +115,14 @@ class CourseNavigator  extends Component{
                         element={element}
                         level={level}
                         setSelectedElement={this.props.setSelectedElement}
+                        selectionState={this.state.selectionState}
+                        handleUnSelectAll={()=>this.handleUnSelectAll()}
                     />
                 </div>
             );
         });
     }
+
     render(){
         return(
             <div>
@@ -127,6 +131,7 @@ class CourseNavigator  extends Component{
             </div>
         );
     }
+
 }
 
 export default CourseNavigator;

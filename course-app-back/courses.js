@@ -104,11 +104,12 @@ const retrieveElements = async (elements_ids, collection = 'courses', callback, 
  * section creation of a new course subelement (chapter, section , subsection)
  */
 router.post('/newSubElement', (req, res) => {
+    console.log("subelement req Body", req.body);
     let {element, childelement} = {...req.body};
     let {elementName, elementProperties} = {...element};
     childelement[elementName] = elementProperties._id;//assign the parent node id
     elementName = elementName + 's';
-    console.log("element is this ", element);
+    //console.log("element is this ", element);
     CrudDBFunctions.insertOneDocument(
         lowerLevelCollectionName[elementName],
         childelement,
@@ -125,26 +126,24 @@ router.post('/newSubElement', (req, res) => {
                     },
                     callback: (result, err = "") => {
                         if (err) {
+                           console.log("Adding Error", err);
                             res.status(400).json({errorMessage: "Error Fetching Sub Elements"});
                         } else {
-                            console.log("elementInserted id", subInsertedElementId);
-                            console.log("element returned ", result);
-                            //return (result);
                             let changes = [];
-                            let newChildren = result[lowerLevelCollectionName[elementName]];//.push(result.insertedId);
-                            console.log("new children before push ", newChildren);
+                            let newChildren = result[lowerLevelCollectionName[elementName]] || [];//.push(result.insertedId);
                             newChildren.push(ObjectID(subInsertedElementId));
-                            console.log("children after push ", newChildren);
                             changes[lowerLevelCollectionName[elementName]] = newChildren;
-                            CrudDBFunctions.updateOneDocumentById(
+                            console.log("changes ",changes);
+                            CrudDBFunctions.replaceOneDocumentById(
                                 elementName,
-                                elementProperties,
-                                changes,
+                                Object.assign({},elementProperties,changes),
                                 (result, err = "") => {
                                     if (err) {
+                                        console.log("replacement error",err);
                                         res.status(400).json({errorMessage: "Element " + elementName + " updated Failed"});
                                     } else {
-                                        console.log("update result", result.result);
+                                       console.log("result", result);
+                                       console.log("child element", childelement);
                                         res.status(200).json(childelement);
                                     }
                                 });
@@ -170,10 +169,10 @@ router.get('/getAll', (req, res) => {
 });
 
 router.post('/getAllWithIds', (req, res) => {
-    console.log("get all with ids body ",req.body);
+    console.log("get all with ids body ", req.body);
     let {collection, elements_ids, fields} = {...req.body};
-    elements_ids=elements_ids.map(
-        (id)=>{
+    elements_ids = elements_ids.map(
+        (id) => {
             return ObjectID(id);
         });
     CrudDBFunctions.getAllDocument({
@@ -182,11 +181,11 @@ router.post('/getAllWithIds', (req, res) => {
             queries: {
                 _id: {$in: elements_ids}
             },
-            fields: fields||{}
+            fields: fields || {}
         },
         callback: (result, err = "") => {
             if (err) {
-                console.log("error occured ",err);
+                console.log("error occured ", err);
                 res.status(400).json({errorMessage: err.toString()});
             } else {
                 res.status(200).send(result);
@@ -389,7 +388,7 @@ router.post('/getUsers', (req, res) => {
  */
 
 router.post('/getCourse', (req, res) => {
-    let { course_id,onlyTitle} = {...req.body};
+    let {course_id, onlyTitle} = {...req.body};
     retrieveElements([course_id], 'courses', (course_result, err = '') => {
         if (err) {
             console.log("Error fetching Course", err);
@@ -401,7 +400,7 @@ router.post('/getCourse', (req, res) => {
             //=course['chapters'].reverse();
             res.status(200).json(course);
         }
-    },onlyTitle).then();
+    }, onlyTitle).then();
 });
 
 router.post('/getCourseElements', (req, res) => {
