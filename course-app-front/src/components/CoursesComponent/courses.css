@@ -1,7 +1,19 @@
 .courses-list-div{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: whitesmoke;
 }
+
+.courses-search-new-div{
+    display: flex;
+    padding: 10px 0px;
+    position: sticky;
+    z-index: 5;
+    top: 40px;
+    background-color: #06061fd1;
+}
+
 .course-item{
     margin: 10px;
     border: solid thin #dcdce6;
@@ -46,3 +58,4 @@
 .tooltip:hover .tooltip-content{
     visibility: visible;
 }
+

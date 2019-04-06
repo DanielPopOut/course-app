@@ -610,8 +610,12 @@ export class OneMCQ extends Component {
                                         handleChange: (e) => this.handleChange(e, 'answer', index)
                                     })
                                 }
-                                <CheckBoxHelper name={'rightAnswer'} checked={check}
-                                                onChange={(e) => this.handleChange(e, 'rightAnswer', index)}/>
+
+                                <CheckBoxHelper
+                                    name={'rightAnswer'} checked={check}
+                                    className={"none"}
+                                    onChange={(e) => this.handleChange(e, 'rightAnswer', index)}
+                                />
                             </div>
                         })
                     }

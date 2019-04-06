@@ -360,7 +360,8 @@ class UserProfile extends Component {
                 <ModalComponent visible={this.state.modalVisibility} onClose={() => this.handleModalClose()}>
                     {this.state.modalChildren}
                 </ModalComponent>
-                <h2>Profile Utilisateur</h2>
+                <h2 className={"user-profile-title"}>Profile Utilisateur</h2>
+
                 <h3 className={"session-title"}>
                     Avatar
                     <ButtonHelper

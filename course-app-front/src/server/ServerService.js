@@ -27,7 +27,6 @@ export class ServerService {
         return axiosInstance.get(URL_PATH);
     }
 
-
     static getFromServer2132(URL_PATH, {projection = null, sort = null, limit = 0, collection = '', ...filter} = {}) {
         console.log(filter, URL_PATH);
         if (filter || projection || sort || limit || collection) {

@@ -23,6 +23,7 @@ export class UsersCreationForm extends Component{
 }
 
 class UserInterfaceHeader extends Component{
+
     constructor(props){
         super(props);
         this.state={
@@ -30,6 +31,7 @@ class UserInterfaceHeader extends Component{
             dataToSend:[]
         }
     }
+
     handleValidateSearch(e){
         let options={valueToSearch: this.state.valueToSearch};
 
@@ -39,9 +41,11 @@ class UserInterfaceHeader extends Component{
             this.props.handleFilter(response.data.users);
         });
     }
+
     handleChange(e){
         this.setState({valueToSearch:e.target.value});
     }
+
     handleClick(e){
         let visibility=true;
         let children=<UsersCreationForm/>;
@@ -62,7 +66,7 @@ class UserInterfaceHeader extends Component{
                    <h3>{"Welcome to Users Management Interface !!"} </h3>
                </div>
                <div className={"user-search-new-div"}>
-                   <div className={"div-user-search-block"}>
+                   <div className={"div-search-block"}>
                        <InputTextHelper {...inputsearchparams}
                               onChange={(e)=>this.handleChange(e)}
                        />
@@ -91,6 +95,7 @@ class UserInterfaceFooter extends Component{
 }
 
 class Users extends Component{
+
     constructor(props){
         super(props);
         this.state={
@@ -99,31 +104,33 @@ class Users extends Component{
             modalChildren:""
         }
     }
+
     getListToShow(){
-        let collection="users/";
-        let options = {};
-        ServerService.postToServer('/crudOperations/get', {collection: 'users'}).then((res)=>{
+        ServerService.postToServer('/crudOperations/get', {collection: 'users'}).then((response)=>{
           //console.log(res.data);
-            this.setState({ListToShow:res.data});
+            if(response.status===200){
+                this.setState({ListToShow:response.data});
+            }else{
+                alert(response.data.errorMessage);
+            }
         });
     }
-    componentDidMount(){
-        this.getListToShow();
-    }
+
+    componentDidMount(){ this.getListToShow(); }
 
     handleModalClose(){
         this.setState({modalChildren:""});
         this.setState({modalVisibility:false});
     }
+
     handleModal(visibility,children){
         this.setState({
             modalVisibility:visibility,
             modalChildren:children
         });
     }
-    handleFilter(users){
-        this.setState({ ListToShow:users});
-    }
+
+    handleFilter(users){this.setState({ ListToShow:users});}
 
     render(){
         return(
@@ -147,9 +154,9 @@ class Users extends Component{
                     </div>
                 </div>
             </React.Fragment>
-
         )
     }
+
 }
 
 export default Users;

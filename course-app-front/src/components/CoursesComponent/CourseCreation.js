@@ -92,6 +92,7 @@ class CourseCreationForm extends Component{
                         value:this.state.title,
                         placeholder:"Title",
                         label:"Title",
+
                     }}
                                  onChange={(e)=>this.handleChangeTitle(e)}
                 />
@@ -105,8 +106,8 @@ class CourseCreationForm extends Component{
                     })
                 }
                 <div className={"hr-button-block"}>
-                    <ButtonHelper {...{name:"validate",value:"Validate"}} onClick={()=>this.handleValidation()}/>
-                    <ButtonHelper {...{name:"annuler",value:"Annuler"}} onClick={()=>this.handleCancel()}/>
+                    <ButtonHelper {...{name:"validate",value:"Validate",className:"form-helper-button success"}} onClick={()=>this.handleValidation()}/>
+                    <ButtonHelper {...{name:"annuler",value:"Annuler",className:"form-helper-button danger"}} onClick={()=>this.handleCancel()}/>
                 </div>
             </div>
         );
@@ -533,7 +534,6 @@ class Course extends Component{
     async saveNewCourse(data){
         let courseInserted = await ServerService.insertElementInDataBase('courses',data);
         this.setState(Object.assign({},data,{mode:"update"}));
-        console.log("new state",this.state);
         this.props.closeModal();
      }
 
@@ -643,7 +643,7 @@ class Course extends Component{
                             onClick={()=>this.openChapter(chapter)}
                             className={"sub-element-div"}
                         >
-                            {displayField(chapter.title)}
+                            <h3>{chapter.title}</h3>
                         </div>
                     );
                 })

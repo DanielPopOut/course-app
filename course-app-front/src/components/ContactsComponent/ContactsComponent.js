@@ -53,7 +53,7 @@ class ContactForm extends Component{
                 <div>
                     Pour toute suggestion ou préoccupation concernant cette plate-forme,
                     vous pouvez nous envoyer un email via l’interface suivante,
-                    nous vous répondrons dans un délai de 48h00
+                    et nous vous répondrons.
                 </div>
                 <div className={"contacts-message-form"}>
                     <InputHelper {...{type:'text',name:"name",label:"Nom"}} onChange={(e)=>this.handleChange(e)}/>
@@ -79,7 +79,7 @@ class ContactsComponent extends Component{
                 <h2 className={"contacts-session-title"}>Qui Nous Sommes ?</h2>
                 <div className={"contacts-about-us"}>
                     Palais de la micro.
-                    Services informatiques. creation de logiciel pour entreprises
+                    Services informatiques. creation de logiciels pour entreprises
                 </div>
                 <h2 className={"contacts-session-title"}>Nos Travaux</h2>
                 <ContactForm/>

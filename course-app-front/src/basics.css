@@ -16,7 +16,6 @@
 }
 html, body, #root, .App {
     color: var(--text-color);
-    height: 100%;
 }
 .container{
     max-width: 1000px;
@@ -33,13 +32,13 @@ html, body, #root, .App {
 main {
     color: var(--text-color);
    /* height: 100%;*/
-    padding: 2px 0px 32px 0px;
+    padding: 0px 0px 32px 0px;
     position: relative;
     box-sizing: border-box;
     width: 100%;
+    height: 100%;
     transition: .5s cubic-bezier(.4,0,.2,1);
     transition-property: padding;
-    background-color: #fdfeffd9;
 }
 footer {
     position: fixed;
@@ -60,7 +59,7 @@ aside.menu-closed {
 }
 
 main.menu-closed {
-    padding: 2px 0px 32px 0px;
+    padding: 0px 0px 32px 0px;
 }
 
 section {

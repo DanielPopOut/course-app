@@ -14,15 +14,17 @@
 
 .connexion-tooltip .tooltip-content{
     visibility: hidden;
-    background-color: #f8f7fd;
+    background-color: #fdfdfd;
     color: #040223;
     text-align: left;
-    border-radius: 2px;
     padding: 7px 6px;
     position: absolute;
     z-index: 1;
-    top: 100%;
-    right: 0%;
+    top: 102%;
+    right: 1%;
+    border: solid thin #0b1b0b40;
+    border-radius: 0px 0px 8px 8px;
+    box-shadow: 0px 0px 3px #bfc0cc;
 
 }
 .connexion-tooltip:hover .tooltip-content{
@@ -46,4 +48,35 @@
     color: white;
     padding: 2px;
     border-radius: 2px;
+}
+
+.user-connected-infos-div{
+    font-size: medium;
+    font-style: oblique;
+    font-family: arial;
+    font-weight: 600;
+    color:#05223c;
+}
+.user-connected-infos-div>.name{
+  margin:7px 0px;
+}
+.user-connected-infos-div>.email{
+    margin:7px 0px;
+}
+.user-profile-link{
+      font-size: small;
+    font-weight: bold;
+    text-align: center;
+    margin: 13px 0px;
+    color: darkblue;
+    border: solid thin darkslateblue;
+    border-radius: 11px;
+    font-family: serif;
+}
+.user-profile-link:hover{
+    transform: scale(1.01);
+    background-color: darkblue;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }

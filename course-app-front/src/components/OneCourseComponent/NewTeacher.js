@@ -86,7 +86,7 @@ class Teachers extends Component{
         this.setState({emails:emails});
     }
 
-     handleValidation(user,action){
+    handleValidation(user,action){
         console.log("user",user);
         let newdatatosend=this.state.dataToSend;
         newdatatosend['user']=user;
@@ -136,7 +136,7 @@ class Teachers extends Component{
         };
         return(
             <div className={"search-and-list-accounts-block"}>
-                <div className={"div-user-search-block "}>
+                <div className={"div-search-block "}>
                     <InputTextHelper {...inputsearchparams} onChange={(e)=>this.handleChange(e)}/>
                     <div className={"div-img-search"}>
                         <img src={"/images/search.png"}
@@ -158,6 +158,9 @@ class Teachers extends Component{
                             return(<AccountView user={user} key={key} current handleValidation={()=>this.handleValidation(user,'remove')} />);
                         })
                     }
+                </div>
+                <div>
+                    {this.state.selectedAccounts.length===0?"No Result For the Moment!":""}
                 </div>
             </div>
         )

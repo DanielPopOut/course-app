@@ -37,15 +37,12 @@ class App extends Component {
 
     handleUserLogin(bool){
         this.setState({loggedIn: bool});
-        if(bool===false){
-            this.handleRedirection("/welcome");
-        }
     }
 
 
     handleRedirection(url=null){
         if(url){
-           history.push(url);
+            history.push(url);
         }
     }
 
@@ -106,9 +103,8 @@ class App extends Component {
                     <Route path='/welcome' component = {Welcome}/>
                     <Route path='/courses'  render={(props) => <Courses {...props} loggedIn={this.state.loggedIn}/>}/>
                     <Route path='/course/:id' component = {Course}/>
-
-                    <Route path='/users' component = {UserProfile}/>
-
+                    <Route path='/users' component = {Users}/>
+                    <Route path={"/profile"} component={UserProfile}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>

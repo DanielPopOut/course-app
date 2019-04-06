@@ -37,7 +37,6 @@ router.get('/validate/:id', (req, res) => {
             }
         }
     });
-
 });
 
 router.post('/newuser', (req, res) => {
@@ -60,7 +59,7 @@ router.post('/newuser', (req, res) => {
             callback:(result,err='')=>{
                 if(err){
                     console.log('error',err);
-                    res.status(403).send('error while checking if user exist');
+                    res.status(403).json({errorMessage:"Could Not Create New User "});
                 }else {
                     if(!result){
                         CrudDBFunctions.insertOneDocument(
@@ -136,7 +135,6 @@ router.post('/passwordRecovery', (req, res) => {
                             res.status(200).send({message: "un code vous a ete envoye !'"})
                         }
                     });
-                //res.status(200).send(JSON.stringify(result));
             }
         }
     });
@@ -217,30 +215,33 @@ router.post('/passwordReset', (req, res) => {
 });
 
 router.post('/login', function (req, res) {
+
     let options = {
         queries: {
             pseudo: req.body.pseudo,
             password: req.body.password,
         },
     };
+
     CrudDBFunctions.getOneDocument({
         collection:'users',
         options:options,
         callback:(result,err='')=>{
             if(err){
-                console.log('login error ',err);
-                res.status(403).send({errorMessage:"Incorrect Login or Password !!"});
+                console.log('Login error ',err);
+                res.status(403).json({errorMessage:"Incorrect Login or Password !!"});
             }else {
                 console.log(result);
                 if(result){
                     let token = TokenFunctions.generateToken(result);
                     res.status(200).json({token: token});
                 }else {
-                    res.status(403).send({errorMessage:"Incorrect Login or Password !!"});
+                    res.status(403).json({errorMessage:"Incorrect Login or Password !!"});
                 }
             }
         }
     });
 });
+
 
 module.exports = router;

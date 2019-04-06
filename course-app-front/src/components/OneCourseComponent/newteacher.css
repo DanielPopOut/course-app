@@ -23,7 +23,7 @@
 .button-image-user-search{
     height: 100%;
 }
-.div-user-search-block{
+.div-search-block{
     display: flex;
     flex: 2;
     border: solid 1px #19042d70;

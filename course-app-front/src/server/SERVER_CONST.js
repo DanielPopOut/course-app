@@ -7,7 +7,7 @@ export const PASSWORD_RECOVERY_PATH= 'authentication/passwordRecovery/';
 export const PASSWORD_RECOVERY_CODE_PATH= 'authentication/passwordRecoveryCode/';
 export const PASSWORD_RESET_PATH= 'authentication/passwordReset/';
 export const NEW_USER_PATH= 'newuser/';
-export const USERS_FILTER_PATH='findusers/'
+export const USERS_FILTER_PATH='findusers/';
 
 
 

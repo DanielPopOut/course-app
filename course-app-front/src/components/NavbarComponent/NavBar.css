@@ -49,9 +49,10 @@ nav {
     height: 100%;
     align-items: center;
     justify-content: center;
+    transition: color 0.5s,background-color 0.5s;
 }
 .navbar-item-div:hover{
-    background-color: #343775;
+    background-color: #6e74ec;;
     color: #fdfff2;
 }
 .navbar-item-link{
@@ -73,8 +74,9 @@ nav {
 }
 
 .active-menu{
-    background-color: #030220;
+    background-color: #6e74ec;;
     color: white;
+    font-weight: 600;
 }
 
 

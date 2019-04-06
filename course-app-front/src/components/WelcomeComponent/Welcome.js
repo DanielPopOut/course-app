@@ -17,7 +17,7 @@ class Welcome extends Component {
                     </div>
                 </div>
                 <div>
-                    <Image cloudName="demo" publicId="sample" width="300" crop="scale"/>
+                  {/*  <Image cloudName="demo" publicId="sample" width="300" crop="scale"/>*/}
                 </div>
             </React.Fragment>
         );

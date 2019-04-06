@@ -76,6 +76,7 @@ axiosInstance.interceptors.response.use(function (response) {
     // if (response.data['message']){
     //     messageToShow.next(response.data['message']);
     // }
+    console.log("response status axios instance ",response.status);
     switch (response.status) {
         case 200:
             if (response.request.responseURL.indexOf(AUTHENTICATION) > 0) {
@@ -93,7 +94,9 @@ axiosInstance.interceptors.response.use(function (response) {
             console.log('unknwon error');
             return response
     }
-}, function (error) {
+    },
+
+    function (error) {
     // Do something with response error
     // console.log(error.response, error.response);
     if (error.response) {
@@ -115,9 +118,9 @@ axiosInstance.interceptors.response.use(function (response) {
     //     setLoggedIn(false);
     //     return Promise.reject(error);
     // }
-    console.log(error.response,error);
-    // return error.response;
-    return Promise.reject(error);
+    //console.log(error.response,error);
+    return error.response;
+    //return Promise.reject(error);
 });
 
 

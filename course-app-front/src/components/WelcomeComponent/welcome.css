@@ -15,12 +15,11 @@
 }
 
 .welcome{
-    background-color: rgba(4,4,28,0.34);
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: fixed;
-    left: 0;
-    right: 0;
+    background-color: rgba(235, 235, 243, 0.34);
+    position: relative;
+    left: -21%;
+
+    width: 143%;
     text-align: center;
 
 }

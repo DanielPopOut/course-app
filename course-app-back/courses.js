@@ -370,7 +370,12 @@ router.post('/getUsers', (req, res) => {
         collection: 'users',
         options: {
             queries: {
-                email: {$in: req.body.emails}
+                $or:[
+                    {email:{$regex:"/"+req.body.emails+"/"}},
+                    {name:{$regex:"/"+req.body.emails+"/"}},
+                    {surname:{$regex:"/"+req.body.emails+"/"}},
+                    {pseudo:{$regex:"/"+req.body.emails+"/"}}
+                    ]
             }
         },
         callback: (result, err = '') => {
@@ -442,5 +447,7 @@ router.post('/getCourseElements', (req, res) => {
         }
     }, onlyTitle);
 });
+
+
 
 module.exports = router;

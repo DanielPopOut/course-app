@@ -1,7 +1,15 @@
 .user-profile-main-div{
     background-color: #ffffff38;
 }
-
+.user-profile-title{
+    position: sticky;
+    margin: 0px;
+    top: 40px;
+    font-family: Poor Richard;
+    background-color: white;
+    padding: 10px 5px;
+    font-size: xx-large;
+}
 .session-title{
     border-bottom: solid thick darkslateblue;
     display: flex;

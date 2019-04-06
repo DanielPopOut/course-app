@@ -21,7 +21,7 @@ router.post('/get', function (req, res) {
 
     //console.log(collection, data);
 
-    if((options['queries']) &&  options['queries']['_id']){
+    if(options && options['queries'] &&  options['queries']['_id']){
         options['queries']['_id']=ObjectID(options['queries']['_id']);
     }
 

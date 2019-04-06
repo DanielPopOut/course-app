@@ -11,6 +11,7 @@ class RegisterForCourse extends Component{
 
     registrationState(){
         let user=getDecodedToken();
+        console.log("logged user ",user);
         let student=[];
         if(user.hasOwnProperty('student')){
             student=user.student;

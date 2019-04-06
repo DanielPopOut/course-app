@@ -1,8 +1,9 @@
-import React,{Component} from "react";
+import React, {Component} from "react";
 import './connexion.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ConnexionComponent from "./ConnexionComponent";
 import {getToken, logOut, getDecodedToken} from '../../server/axiosInstance';
+import history from '../../history';
 
 class Connexion extends Component {
     constructor(props) {
@@ -15,43 +16,46 @@ class Connexion extends Component {
 
     userInfosToDisplay(content) {
         return (
-            <div>
+            <div className={"user-connected-infos-div"}>
                 <h3> Compte AlphaM</h3>
-                <div>{content.name+" "+content.surname}</div>
-                <div>{content.email} </div>
+                <div className={"name"}>{content.name + " " + content.surname}</div>
+                <div className={"email"}>{content.email} </div>
             </div>
         )
     }
 
-    openLoginModal(){
+    openLoginModal() {
         this.setState({
             modalVisibility: true,
-            modalChildren: <ConnexionComponent
-                handleCloseModal={()=>this.closeModal()}
-            />
+            modalChildren: <ConnexionComponent closeModal={() => this.closeModal()}/>
         })
     }
 
-    userProfile(){
-        console.log("about to redirect to user profile ",this.props);
- /*       this.props.history.push("/userprofile");*/
-        /*return(<Redirect to={'/userprofile'}/>);*/
+    openProfile() {
+        console.log("current props", this.props);
+        history.push("/profile");
     }
 
     display() {
         if (this.props.loggedIn) {
-            let token=getDecodedToken();
+            let token = getDecodedToken();
             return (
                 <div key={'Deconnexion'} className={'navbar-item-div connexion-tooltip'}>
-                    <div  className={'navbar-item-link '} >
-                        <div   className={'logout-div'}     >
-                            { token.surname? token.surname[0]:'U'}
+                    <div className={'navbar-item-link '}>
+                        <div className={'logout-div'}>
+                            {token.surname ? token.surname[0] : 'U'}
                         </div>
                     </div>
                     <div className={"tooltip-content"}>
                         {this.userInfosToDisplay(token)}
-                        <div className={"form-helper-button logout-button"} onClick={(e)=>{e.stopPropagation(); logOut()}}>
+                        <div className={"form-helper-button logout-button"} onClick={(e) => {
+                            e.stopPropagation();
+                            logOut()
+                        }}>
                             Deconnexion
+                        </div>
+                        <div className={"user-profile-link"} onClick={() => this.openProfile()}>
+                            {"Acceder au Profile"}
                         </div>
                     </div>
                 </div>
@@ -70,23 +74,25 @@ class Connexion extends Component {
             )
         }
     }
-    closeModal(){
+
+    closeModal() {
         this.setState({
             modalVisibility: false,
             modalChildren: ""
         })
     }
+
     render() {
         return (
-                <React.Fragment>
-                    <ModalComponent
-                        visible={this.state.modalVisibility}
-                        onClose={()=>this.closeModal()}
-                    >
-                        {this.state.modalChildren}
-                        </ModalComponent>
-                    {this.display()}
-                </React.Fragment>
+            <React.Fragment>
+                <ModalComponent
+                    visible={this.state.modalVisibility}
+                    onClose={() => this.closeModal()}
+                >
+                    {this.state.modalChildren}
+                </ModalComponent>
+                {this.display()}
+            </React.Fragment>
         )
     }
 

@@ -11,16 +11,11 @@ import {ServerService} from "../../server/ServerService";
 class CoursesHeader extends Component{
     constructor(props){
         super(props);
-        this.state={
-            searchedElement:""
-        }
+        this.state={searchedElement:""}
     }
 
     handleChange(e){
-        this.setState({
-            searchedElement:e.target.value
-        });
-
+        this.setState({ searchedElement:e.target.value });
         console.log("search params ",this.state);
         this.props.handleValidateSearch(this.state.searchedElement);
     }
@@ -51,12 +46,8 @@ class CoursesHeader extends Component{
 
         return(
             <React.Fragment>
-                <div className={"users-interface-header"}>
-                    <h3>{"Courses Management Interface !!"} </h3>
-                </div>
-                <div className={"user-search-new-div"}>
-
-                    <div className={"div-user-search-block  "}
+                <div className={"courses-search-new-div"}>
+                    <div className={"div-search-block  "}
                          onKeyPress={(event)=>{this.handleKeyPressOnSearch(event)}}
                     >
                         <InputTextHelper {...inputsearchparams} onChange={(e)=>this.handleChange(e)} />
@@ -167,15 +158,6 @@ export class CoursesList extends Component{
     }
 }
 
-class CoursesFooter extends Component{
-    render(){
-        return(
-            <div>
-
-            </div>
-        )
-    }
-}
 
 class Courses extends Component {
 
@@ -196,18 +178,12 @@ class Courses extends Component {
     }
 
     handleRedirection(url){
-        this.props.history.push(url,{pushWith:"treasure"});
+        this.props.history.push(url);
     }
 
     handleOpenCourse(course){
         console.log(this.props);
         this.props.history.push('/course/'+course._id);
-       /* this.props.history.push({
-            pathname:'/createcourse',
-            course:course,
-            mode:"modification",
-            state:{test:"success"}
-        });*/
     }
 
     handleValidateSearch(data){
@@ -232,7 +208,6 @@ class Courses extends Component {
                 }
             });
         }
-
     }
 
     render() {
@@ -247,7 +222,6 @@ class Courses extends Component {
                     openCourse = {(course)=>this.handleOpenCourse(course)}
                     loggedIn = {this.props.loggedIn}
                 />
-                <CoursesFooter/>
             </React.Fragment>
         );
     }
