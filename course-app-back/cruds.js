@@ -63,18 +63,53 @@ router.post('/insert', function (req, res) {
 router.post('/delete', function (req, res) {
     let {collection, data} = {...req.body};
     console.log(collection, data);
-    CrudDBFunctions.deleteOneDocumentById(
+   /* CrudDBFunctions.deleteOneDocumentById(
         collection,
         data,
        // (result) => res.send(result),
         (result,err='') => {
             if(err) {
                 console.log('error',err);
-                res.status(400).send({message:"Deletion failed!!"});
+                res.status(403).json({message:"Deletion failed!!"});
             }else {
-                console.log(collection, result.length, ' elements returned ');
+                console.log(collection, result.length, ' elements returned');
                 //res.status(200).json(JSON.stringify(result));
-                res.status(200).send(result);
+                res.status(200).json({message:"course Delete with success"});
+            }
+        }
+    );*/
+   CrudDBFunctions.updateOneDocumentById(
+        collection,
+        data,
+       {deleted:1},
+       // (result) => res.send(result),
+        (result,err='') => {
+            if(err) {
+                console.log('error',err);
+                res.status(403).json({message:"Deletion failed!!"});
+            }else {
+                console.log(collection, result.length, ' elements returned');
+                //res.status(200).json(JSON.stringify(result));
+                res.status(200).json({message:"course Delete with success"});
+            }
+        }
+    );
+});
+
+router.post('/deleteForReal', function (req, res) {
+    let {collection, data} = {...req.body};
+    console.log(collection, data);
+    CrudDBFunctions.deleteOneDocumentById(
+        collection,
+        data,
+        (result,err='') => {
+            if(err) {
+                console.log('error',err);
+                res.status(403).json({message:"Deletion failed!!"});
+            }else {
+                console.log(collection, result.length, ' elements returned');
+
+                res.status(200).json({message:"course Delete with success"});
             }
         }
     );

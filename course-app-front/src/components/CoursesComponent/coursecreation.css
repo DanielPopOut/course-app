@@ -34,7 +34,60 @@
 }
 
 .sub-element-div{
-    background-color: #e8e8f5;
+    background-color: white;
+    font-family: Arial;
     margin: 10px;
+    padding: 5px 9px;
+    box-shadow: 0px 1px 1px #dcd3d3;
+    color: #030342;
+    font-weight: 700;
     cursor: pointer;
+    border: solid thin #d4d1e0;
+}
+
+.chapter-upper-nav{
+    display: flex;
+    justify-items: center;
+}
+
+.nav-link-div{
+    color: darkblue;font-weight: bold;
+}
+
+.options-tooltip{
+    position: relative;
+}
+
+.options-tooltip .options-tooltip-text{
+
+    visibility: hidden;
+    min-width: 120px;
+    background-color: white;
+    color: #fff;
+    text-align: center;
+    border: solid thin #198426;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    bottom: 125%;
+    z-index: 1;
+    left: 40%;
+}
+.options-tooltip .options-tooltip-text::after{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.options-tooltip:hover .options-tooltip-text{
+    visibility: visible;
+}
+.chapter-title{
+
 }

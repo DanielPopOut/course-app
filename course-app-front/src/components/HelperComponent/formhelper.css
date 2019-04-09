@@ -80,6 +80,10 @@
     background-color: #4CAF50;
     color: white;
 }
+.white-on-blue{
+    background-color: #224489;
+    color: white;
+}
 .form-helper-checkbox{
     width: 100%;
     margin: 0px;

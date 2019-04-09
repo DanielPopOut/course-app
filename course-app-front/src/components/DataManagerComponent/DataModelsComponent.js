@@ -28,11 +28,11 @@ export const usersModel={
     ]
 };
 
-export const functionnalitiesModel={
-    collection:"functionnalities",
+export const departmentsModel={
+    collection:"departments",
     fields:[
         { name:"label",type:'text',placeholder:'Label',label:'Label'},
-        { name:"path",type:'text',placeholder:'Path',label:'Path'},
+        { name:"description",type:'text',placeholder:'Path',label:'Path'},
     ]
 };
 export const syllabusesModel={

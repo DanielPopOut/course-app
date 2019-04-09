@@ -14,7 +14,7 @@ const fakeCourse = {
     title: "",
     content: "<p> Sorry this course is not availaible !!</p>"
 };
-
+let references=[];
 let lowerLevelCollectionName = {
     courses: 'chapters',
     chapters: 'sections',
@@ -27,8 +27,8 @@ export function displayElement(element, level = 'courses') {
         //console.log("the element:",element_id," level ",level," the id ",element_id);
         return (
             <React.Fragment>
-                <div className={'title-div'}>
-                    <h1>{displayContent(element.title, level)}</h1>
+                <div className={'title-div'} id={element_id}>
+                    <h2>{element.title}</h2>
                    {/* <div className={'new-mcq-option'}>
                         <MCQsComponent course_level={level} reference={element_id}/>
                         <TestComponent course_level={level} reference={element_id}/>
@@ -68,24 +68,26 @@ function displayContent(content) {
 
 
 class Course extends Component {
+
     constructor(props) {
+        let references=[];
         super(props);
         this.state = {
             courseToDisplay: {},
             ready:false,
             modalChildren:"",
-            modalVisibility:false
+            modalVisibility:false,
         }
     }
 
-    componentWillMount() {
-        ServerService.postToServer('courses/getCourse', {course_id: this.props.match.params.id})
-            .then((response) => {
+     componentWillMount() {
+         ServerService.postToServer('courses/getCourse', {course_id: this.props.match.params.id})
+            .then(async (response) => {
                 if (response.status === 200) {
                     console.log("course to display result ", response);
                     let course=response.data;
                     if(course.hasOwnProperty('chapters') && course['chapters'].length>0){
-                        ServerService.postToServer('courses/getCourseElements',{
+                        await ServerService.postToServer('courses/getCourseElements',{
                             elements_ids:course['chapters'],
                             elements_collection:'chapters'
                         }).then((response)=>{
@@ -117,10 +119,18 @@ class Course extends Component {
     displayCourse(){
         //make sure the course has been loaded already
         if(this.state.ready){
-            return displayElement(this.state.courseToDisplay);
+            return displayElement(this.state.courseToDisplay,"courses",this.addRef);
+
         }else{
             return<div style={{textAlign:'center'}}><img src={'/images/al.gif'}/></div>
         }
+    }
+
+    addRef(key,ref){
+       /* let refs = this.state.refs;
+        refs[key] = ref;
+        this.setState({refs:refs});    */
+        console.log("references ");
     }
 
     openModal(content){
@@ -141,33 +151,68 @@ class Course extends Component {
         console.log("here");
         console.log("history ",this.props.history);
         let content=<CourseCreation course={this.state.courseToDisplay} mode={"update"}/>;
-        this.openMocal(content);
+        this.openModal(content);
+    }
+    deleteCourse(){
+        let dataToSend={
+          collection:"courses",
+          data:this.state.courseToDisplay
+        };
+        ServerService.postToServer("crudOperations//delete",dataToSend).then(response=>{
+           if(response.status===200){
+               console.log("deletion result ",response);
+               alert("Course Delete !!");
+           }else {
+               console.log("deletion error ",response.data.errorMessage||response);
+               alert("deletion error");
+           }
+        });
+    }
+    displayOptions(){
+        if(this.state.ready){
+            return(
+                <React.Fragment>
+                    <NewTeacher course={this.state.courseToDisplay}/>
+                    <ButtonHelper {...{
+                        name:"modifycoursebutton",
+                        value:"Modify Course",
+                        className:"form-helper-button success"
+                    }} onClick={()=>this.modifyCourse()}
+                    />
+                    <ButtonHelper {...{
+                        name:"deletecourse",
+                        value:"Delete Course",
+                        className:"form-helper-button danger"
+                    }} onClick={()=>this.deleteCourse()}
+                    />
+                </React.Fragment>
+            );
+        }
+        return(
+            <div>
+
+            </div>
+        )
     }
 
-    handleNavClick(element,level){
-
-
+   /* handleNavClick(id){
+        console.log("ref ",ref);
+        window.scrollTo(0, document.getElementById(id));
     }
-
+*/
     render() {
         return (
             <React.Fragment>
-                <NavCourse handleClick={
-                    (element,level)=>this.handleNavClick(element,level)}
-                           course={this.state.courseToDisplay}/>
+                <NavCourse
+                   // handleClick={(ref)=>this.handleNavClick(ref)}
+                    course={this.state.courseToDisplay}
+                />
                 <ModalComponent visible={this.state.modalVisibility}
                                 onClose={()=>this.closeModal()}>
                     {this.state.modalChildren}
                 </ModalComponent>
                 <div className={"hr-button-block course-options"}>
-                    <ButtonHelper {...{
-                        name:"modifycoursebutton",
-                        value:"Modify Course",
-                        className:"form-helper-button success"
-                    }}
-                    onClick={()=>this.modifyCourse()}
-                    />
-                    <NewTeacher course={this.state.courseToDisplay}/>
+                    { this.displayOptions()}
                 </div>
                 <div className={'course-content-div'}>
                     <div>

@@ -17,7 +17,7 @@ import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Mo
 import MCQSManagerComponent from './components/MCQsComponent/MCQSManagerComponent';
 import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
 import CourseCreation from './components/CoursesComponent/CourseCreation';
-import CoursesAdministration from "./components/CoursesComponent/CoursesAdministration";
+import CoursesAdministration from "./components/CoursesAdministrationComponent/CoursesAdministration";
 
 import history from './history';
 

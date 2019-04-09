@@ -53,7 +53,22 @@ function displayField(content="") {
     }else {
         return("");
     }
+}
 
+function deleteElement(collection,data,callback){
+
+    ServerService.postToServer("/crudsOperations/delete",{collection:collection,data:data})
+        .then((response)=>{
+            if(response.status===200){
+                alert("deleted with success !!");
+                if(callback){
+                    callback();
+                }
+            }else {
+                alert(response.data["errorMessage"]);
+                console.log("deletion error",response);
+            }
+        });
 }
 
 class CourseCreationForm extends Component{
@@ -116,6 +131,7 @@ class CourseCreationForm extends Component{
 }
 
 
+
 /**
  *
  * CourseCreation Class for creation an update of courses
@@ -170,14 +186,27 @@ class SubSection extends Component{
          this.props.openModal(content);
     }
 
+    handleDeleteSubSection(){
+       deleteElement("subsections",this.state,()=>{
+          alert("second confirmation ");
+       });
+    }
+
     displayOptions(){
          if(this.state.mode==="update" ){
              return(
                  <div className={"create-course-options-div"}>
                      <ButtonHelper {...{
                          name:"modifySubSection",
-                         value:'Modify Sub Section'
+                         value:'Modify Sub Section',
+                         className:"form-helper-button"
                      }} onClick={()=>{this.handleModifySubSection()}}
+                     />
+                     <ButtonHelper {...{
+                         name:"deleteSubSection",
+                         value:'Delete Sub Section',
+                         className:"form-helper-button danger"
+                     }} onClick={()=>{this.handleDeleteSubSection()}}
                      />
                  </div>
              );
@@ -252,14 +281,24 @@ class Section extends Component{
          this.props.openModal(content);
     }
 
+    handleDeleteSection(){
+        deleteElement("sections",this.state);
+    }
     displayOptions(){
         if(this.state.mode==="update" ){
             return(
                 <div className={"create-course-options-div"}>
                     <ButtonHelper {...{
                         name:"modifySection",
-                        value:'Modify Section'
+                        value:'Modify Section',
+                        className:"form-helper-button"
                     }} onClick={()=>{this.handleModifySection()}}
+                    />
+                    <ButtonHelper {...{
+                        name:"deleteSubSection",
+                        value:'Delete Section',
+                        className:"form-helper-button danger"
+                    }} onClick={()=>{this.handleDeleteSection()}}
                     />
                 </div>
             );
@@ -410,7 +449,8 @@ class Chapter extends Component{
                  <div className={"create-course-options-div"}>
                      <ButtonHelper {...{
                          name:"modifyChapter",
-                         value:'Modify Chapter'
+                         value:'Modify Chapter',
+                         className:"form-helper-button"
                      }} onClick={()=>{this.handleModifyChapter("modify")}}
                      />
                  </div>
@@ -493,6 +533,10 @@ class Chapter extends Component{
     render(){
          return(
              <div className={"content-div"}>
+                 <div className={"chapter-upper-nav"}>
+                     <div onClick={()=>this.props.reopenCourse()} className={"nav-link-div"}>return to course</div>
+
+                 </div>
                  {this.displayOptions()}
                  <div className={"content-from-quill"}> {this.displayContent()} </div>
                   {this.newSectionOptions()}
@@ -513,7 +557,7 @@ class Course extends Component{
              chapters:[],
              mode:this.props.mode || "creation"
          }
-     }
+    }
 
     componentDidMount(){
          if(this.props.course){
@@ -562,7 +606,8 @@ class Course extends Component{
                  <div className={"create-course-options-div"}>
                      <ButtonHelper {...{
                          name:"modifyCourse",
-                         value:'Modify Course'
+                         value:'Modify Course',
+                         className:"form-helper-button"
                      }} onClick={()=>{this.handleModifyCourse("modify")}}
                      />
                  </div>
@@ -574,7 +619,8 @@ class Course extends Component{
                  <div className={"create-course-options-div"}>
                      <ButtonHelper {...{
                          name:"modifyCourse",
-                         value:'New Course'
+                         value:'New Course',
+                         className:"form-helper-button"
                      }} onClick={()=>{this.handleModifyCourse()}}
                      />
                  </div>
@@ -624,16 +670,30 @@ class Course extends Component{
          );
     }
 
+    reopenCourse(){
+        console.log("return to course");
+        this.props.reopenCourse();
+    }
     openChapter(chapter){
-        console.log("chapter click",chapter);
         let element=<Chapter chapter={chapter}
                              openModal={(content)=>this.props.openModal(content)}
                              closeModal={()=>this.props.closeModal()}
                              mode={"update"}
+                             reopenCourse={()=>this.reopenCourse()}
         />;
         this.props.displayElement(element);
     }
 
+    handleDeleteChapter(chapter){deleteElement("chapters",chapter);}
+
+    deleteChapterOptions(chapter){
+        return(  <ButtonHelper {...{
+            name:"deletechapter",
+            value:'Delete Chapter',
+            className:"form-helper-button danger"
+        }} onClick={()=>{this.handleDeleteChapter(chapter)}}
+        />)
+    }
     showChapters(){
         return <div className={"sub-elements-list"}>
             {
@@ -642,9 +702,12 @@ class Course extends Component{
                         <div
                             key={key}
                             onClick={()=>this.openChapter(chapter)}
-                            className={"sub-element-div"}
+                            className={"sub-element-div options-tooltip"}
                         >
-                            <h3>{chapter.title}</h3>
+                            <div className={"chapter-title"}>{chapter.title}</div>
+                            <div className="options-tooltip-text">
+                                {this.deleteChapterOptions(chapter)}
+                            </div>
                         </div>
                     );
                 })
@@ -700,6 +763,7 @@ class CourseCreation extends Component{
                         closeModal={()=>this.handleModalClose()}
                         course={this.state.course}
                         displayElement={(data)=>this.displayElement(data)}
+                        reopenCourse={()=>this.reopenCourse()}
                 />;
                 this.setState({elementToDisplay:elementtodisplay});
     }
@@ -717,6 +781,9 @@ class CourseCreation extends Component{
             modalVisibility:false
         });
     }
+    reopenCourse(){
+        this.componentDidMount();
+    }
 
     displayElement(element){
         this.setState({elementToDisplay:element});
@@ -725,14 +792,11 @@ class CourseCreation extends Component{
     render(){
         return(
             <div className={"course-creation-main"}>
-                <NavCourse course={this.state.elementToDisplay}/>
-                <div>
-                    <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleModalClose()}>
+                <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleModalClose()}>
                     {this.state.modalChildren}
-                    </ModalComponent>
-                    <div className={'course-creation-panel'}>
-                        {this.state.elementToDisplay}
-                    </div>
+                </ModalComponent>
+                <div className={'course-creation-panel'}>
+                    {this.state.elementToDisplay}
                 </div>
 
             </div>

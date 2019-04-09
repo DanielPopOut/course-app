@@ -7,27 +7,23 @@ let lowerLevelCollectionName = {
     sections: 'subsections'
 };
 
-
-
 class NavCourse extends Component{
     constructor(props){
         super(props);
         this.state={
             selected:""
         }
-
     }
 
-    handleClick(e,element,level){
-        console.log("e",e);
-        if(this.props.handleClick){
-            this.props.handleClick(element,level);
-        }
+    handleClick(id){
+        window.scrollTo(0,document.getElementById(id).offsetTop);
+
     }
     displayTitle(element,level="courses"){
+        let ref=React.createRef();
         return(
             <div className={"course-title-div"}>
-                <div className={"nav-course-title "+this.state.selected} onClick={(e)=>this.handleClick(e,element,level)}>
+                <div className={"nav-course-title "+this.state.selected} onClick={()=>this.handleClick(element._id)}>
                     {element.title}
                     </div>
                     {
@@ -38,23 +34,21 @@ class NavCourse extends Component{
                             <div className={"course-nav-sub-titles-div"}>
                                 {
                                     element[lowerLevelCollectionName[level]]
-                                        .map(item=> this.displayTitle(item,lowerLevelCollectionName[level]))
+                                        .map((item,key)=> <React.Fragment key={key}>
+                                            {this.displayTitle(item,lowerLevelCollectionName[level])}
+                                            </React.Fragment>)
                                 }
                             </div>
-                            :
-                            ""
+                        : ""
                     }
             </div>
         );
-    }
-    displaySubtitle(){
-
     }
 
     render(){
         return(
             <div className={"course-navigator-main-div"}>
-                <h3>Navigation</h3>
+                <h3 className={"course-nav-title"}>Navigation Panel</h3>
                 {this.displayTitle(this.props.course)}
             </div>
         )
