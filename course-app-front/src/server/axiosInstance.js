@@ -66,16 +66,16 @@ axiosInstance.interceptors.request.use(function (config) {
     }
     return config;
 }, function (error) {
+
     // Do something with request error
     return Promise.reject(error.response);
 });
 
 axiosInstance.interceptors.response.use(function (response) {
     // Do something with response data
-    console.log(response);
-    // if (response.data['message']){
-    //     messageToShow.next(response.data['message']);
-    // }
+        if (response.data['message']){
+            messageToShow.next(response.data['message']);
+        }
     console.log("response status axios instance ",response.status);
     switch (response.status) {
         case 200:
@@ -94,12 +94,14 @@ axiosInstance.interceptors.response.use(function (response) {
             console.log('unknwon error');
             return response
     }
+
     },
 
     function (error) {
     // Do something with response error
     // console.log(error.response, error.response);
     if (error.response) {
+       // console.log("axios error ",error);
         if (error.response.data['errorMessage']) {
             messageToShow.next(error.response.data['errorMessage']);
         }

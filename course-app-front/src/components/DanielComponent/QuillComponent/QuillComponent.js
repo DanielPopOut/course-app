@@ -61,7 +61,7 @@ class QuillComponent extends Component {
         //     theme: 'snow'
         // });
         let quillShow = new QuillDeltaToHtmlConverter(this.state.delta.ops, {});
-        console.log(quillShow, quillShow.convert(), this.state.delta, this.state.delta.ops);
+        //console.log(quillShow, quillShow.convert(), this.state.delta, this.state.delta.ops);
         return (
             <div>
                 <ReactQuill value={this.state.text}

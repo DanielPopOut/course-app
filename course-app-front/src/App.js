@@ -5,7 +5,7 @@ import NavBar from './components/NavbarComponent/NavBar';
 import {Route} from 'react-router-dom';
 import Welcome from './components/WelcomeComponent/Welcome';
 import Courses from './components/CoursesComponent/Courses';
-import Course from './components/OneCourseComponent/Course';
+import Course from './components/CoursesComponent/Course';
 import ConnexionComponent from './components/ConnexionComponent/ConnexionComponent';
 import ContactsComponent from './components/ContactsComponent/ContactsComponent';
 import Users from './components/UsersComponent/Users';
@@ -17,6 +17,7 @@ import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Mo
 import MCQSManagerComponent from './components/MCQsComponent/MCQSManagerComponent';
 import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
 import CourseCreation from './components/CoursesComponent/CourseCreation';
+import CoursesAdministration from "./components/CoursesComponent/CoursesAdministration";
 
 import history from './history';
 
@@ -37,6 +38,9 @@ class App extends Component {
 
     handleUserLogin(bool){
         this.setState({loggedIn: bool});
+        if(bool===false){
+            //this.handleRedirection("/welcome");
+        }
     }
 
 
@@ -101,16 +105,19 @@ class App extends Component {
                 <main className={' container ' + (this.state.menuOpen ? 'menu-open' : 'menu-closed')}>
                     <Route exact path='/' component = {Welcome}/>
                     <Route path='/welcome' component = {Welcome}/>
-                    <Route path='/courses'  render={(props) => <Courses {...props} loggedIn={this.state.loggedIn}/>}/>
+                    <Route exact path='/courses'  render={(props) => <Courses {...props} loggedIn={this.state.loggedIn}/>}/>
                     <Route path='/course/:id' component = {Course}/>
+                    <Route exact path='/courses/administration' component={CoursesAdministration}/>
                     <Route path='/users' component = {Users}/>
                     <Route path={"/profile"} component={UserProfile}/>
                     <Route path='/contacts' component = {ContactsComponent}/>
+                    <Route path='/contacts/administration' component = {ContactsComponent}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
                    {/* <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>*/}
                     <Route path='/createcourse' component ={CourseCreation}/>
                     <Route path='/mcqs' component={MCQSManagerComponent}/>
+
                 </main>
                 <footer>
                 </footer>

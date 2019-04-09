@@ -6,9 +6,38 @@ import {ServerService} from "../../server/ServerService";
 import {LISTS_PATH, USERS_FILTER_PATH} from "../../server/SERVER_CONST";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
+import {validateEmail, validatePassword} from "../StaticFunctionsComponent/StaticFunctions";
+
 import {loadDataIntoModel} from "../StaticFunctionsComponent/StaticFunctions";
 
 export class UsersCreationForm extends Component{
+    constructor(props){
+        super(props);
+    }
+    handleValidation(dataToSend){
+        if(!validateEmail(dataToSend['email'])){
+            alert("Veuillez saisir une adresse mail valide SVP !! ");
+            return ;
+        }
+
+        if(!validatePassword(dataToSend['password'])){
+            alert("Votre mot de passe n'est pas valide !!");
+            return ;
+        }
+        if(dataToSend['password'] !== dataToSend['passwordverification']){
+            alert("Veuillez saisir des mots de passe identiques !!");
+            return ;
+        }
+        delete(dataToSend["passwordverification"]);
+        ServerService.postToServer("authentication/newuser",dataToSend).then((response)=>{
+            if(response.status===200){
+                alert("Enregistrement Effectué avec succès");
+            }else{
+                console.log("error Message ",response.data.errorMessage);
+                alert("Enregistrement non effectué");
+            }
+        });
+    }
     render(){
         let options={label:''};
         return(
@@ -17,6 +46,7 @@ export class UsersCreationForm extends Component{
                 registration_path={'authentication/newuser'}
                 title={"Nouvel Utilisateur"}
                 options={options}
+                handleValidation={(dataToSend)=>this.handleValidation(dataToSend)}
             />
         );
     }

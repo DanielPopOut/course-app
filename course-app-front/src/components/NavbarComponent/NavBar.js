@@ -18,9 +18,18 @@ export default class NavBar extends Component {
     ];
     loggedInTableauNavbar = [
       //  {title: 'AlphaM', redirectionAddress: '/welcome'},
-        {title: 'Cours', redirectionAddress: '/courses'},
+        {
+            title: 'Cours', redirectionAddress: '/courses',
+            subItems:[
+                {title: 'Administration', redirectionAddress: '/courses/administration'},
+                ]
+        },
         {title: 'TESTS', redirectionAddress: '/mcqs'},
-        {title: 'Contacts', redirectionAddress: '/contacts'},
+        {title: 'Contacts', redirectionAddress: '/contacts',
+            subItems:[
+                {title: 'Administration', redirectionAddress: '/contacts/adminstration'},
+            ]
+        },
         {title: 'Users', redirectionAddress: '/users'},
     ];
 
@@ -66,8 +75,27 @@ export default class NavBar extends Component {
                                 >
                                     {x.title + (x.content ? JSON.stringify(this.props[x.content]) : '')}
                                 </Link>
-                            </div>)
-                        }
+                                {
+                                    x.subItems?
+                                        <div className={"sub-menus-div"}>
+                                            {x.subItems.map(subitem=>
+                                                <div key={subitem.title} className={'navbar-item-div'}>
+                                                    <Link
+                                                        to={subitem.redirectionAddress}
+                                                        className={'navbar-item-link '}
+                                                    >
+                                                        {subitem.title + (subitem.content ? JSON.stringify(this.props[x.content]) : '')}
+                                                    </Link>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        :""
+                                }
+
+                            </div>
+
+                        )}
                     </div>
                 <div className={'navbar-right-side'}>
                     <Connexion  loggedIn={this.props.loggedIn} handleRedirect={(url)=>this.handleRedirect(url)}/>

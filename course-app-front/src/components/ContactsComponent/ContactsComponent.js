@@ -83,12 +83,7 @@ class ContactsComponent extends Component{
                 </div>
                 <h2 className={"contacts-session-title"}>Nos Travaux</h2>
                 <ContactForm/>
-                <div>
-                    <h3> Messages </h3>
-                    <div>
 
-                    </div>
-                </div>
             </div>
         );
     }

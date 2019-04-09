@@ -27,7 +27,7 @@ export const loadDataIntoModel=(datamodel,data)=>{
 
 export const validatePassword = (password)=>{
     console.log("password sended ",password);
-    var passw=  /^[A-Za-z]\w{7,14}$/;
+    var passw=  /^[A-Za-z]\w{6,14}$/;
     if(password.match(passw))
     {
         //alert('Correct, try another...')

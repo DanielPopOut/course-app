@@ -1,0 +1,32 @@
+.course-navigator-main-div{
+    position: fixed;
+    left: 0%;
+    width: 15%;
+    border: solid thin antiquewhite;
+    border-right: solid 2px black;
+    height: 100%;
+    background-color: #ffffffbf;
+    overflow-y: scroll;
+}
+.nav-course-title{
+    border: solid 1px #5a5777;
+    margin: 2px 0px;
+    padding: 2px 0px 2px 2px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: serif;
+    font-style: oblique;
+    font-weight: 700;
+    overflow-x: hidden;
+    overflow-anchor: auto;
+}
+.nav-course-title:hover{
+    background-color: #f5fbfa80;
+    color: #0f103a;
+    border-color: #0a7517;
+     transform: scale(1.01);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.course-nav-sub-titles-div{
+    margin: 2px 0px 2px 4px;
+}

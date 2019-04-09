@@ -39,5 +39,12 @@
 }
 .course-options{
     display: flex;
+    top: 30px;
+    background-color: #42484687;
+    position: sticky;
+    z-index: 2;
     justify-content: space-evenly;
+}
+.course-nav-sub-title{
+    padding: 0px 0px 0px 4px;
 }

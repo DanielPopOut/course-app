@@ -17,7 +17,6 @@ class Connexion extends Component {
     userInfosToDisplay(content) {
         return (
             <div className={"user-connected-infos-div"}>
-                <h3> Compte AlphaM</h3>
                 <div className={"name"}>{content.name + " " + content.surname}</div>
                 <div className={"email"}>{content.email} </div>
             </div>
@@ -28,7 +27,7 @@ class Connexion extends Component {
         this.setState({
             modalVisibility: true,
             modalChildren: <ConnexionComponent closeModal={() => this.closeModal()}/>
-        })
+        });
     }
 
     openProfile() {
@@ -36,21 +35,24 @@ class Connexion extends Component {
         history.push("/profile");
     }
 
+    logOut(){
+        logOut();
+        history.push("/welcome");
+    }
+
     display() {
         if (this.props.loggedIn) {
             let token = getDecodedToken();
             return (
                 <div key={'Deconnexion'} className={'navbar-item-div connexion-tooltip'}>
-                    <div className={'navbar-item-link '}>
-                        <div className={'logout-div'}>
-                            {token.surname ? token.surname[0] : 'U'}
-                        </div>
+                    <div className={'navbar-item-link loggin-button'}>
+                        {token.surname ? token.surname : ''}
                     </div>
                     <div className={"tooltip-content"}>
                         {this.userInfosToDisplay(token)}
                         <div className={"form-helper-button logout-button"} onClick={(e) => {
                             e.stopPropagation();
-                            logOut()
+                            this.logOut()
                         }}>
                             Deconnexion
                         </div>
@@ -77,9 +79,9 @@ class Connexion extends Component {
 
     closeModal() {
         this.setState({
-            modalVisibility: false,
-            modalChildren: ""
-        })
+                modalVisibility: false,
+                modalChildren: ""
+            });
     }
 
     render() {

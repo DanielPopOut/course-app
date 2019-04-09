@@ -5,6 +5,7 @@ import ReactQuill from 'react-quill'; // ES6
 import QuillComponent from "../DanielComponent/QuillComponent/QuillComponent";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import {ServerService} from "../../server/ServerService";
+import NavCourse from "./NavCourse";
 
 let levelsArray={
     courses:"chapters",
@@ -724,12 +725,16 @@ class CourseCreation extends Component{
     render(){
         return(
             <div className={"course-creation-main"}>
-                <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleModalClose()}>
+                <NavCourse course={this.state.elementToDisplay}/>
+                <div>
+                    <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleModalClose()}>
                     {this.state.modalChildren}
                     </ModalComponent>
-                <div className={'course-creation-panel'}>
-                    {this.state.elementToDisplay}
+                    <div className={'course-creation-panel'}>
+                        {this.state.elementToDisplay}
+                    </div>
                 </div>
+
             </div>
         );
     }

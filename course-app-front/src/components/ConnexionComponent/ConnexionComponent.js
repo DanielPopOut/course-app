@@ -48,13 +48,14 @@ class ConnexionComponent extends Component{
         if(this.state.dataToSend.pseudo!=='' &&  this.state.dataToSend.password!=='' ){
             this.setState({cursor:"cursor-progress"});
             await ServerService.postToServer(AUTHENTICATION,this.state.dataToSend).then((response)=>{
-                //console.log("status"+ response.status);
                 if(response.status===200){
                     console.log(" The login props ",this.props);
                     this.setState({cursor:""});
                     this.props.closeModal();
                 }
                 this.setState({cursor:""});
+            }).catch(error=>{
+                console.log("connexion request failed ",error);
             });
         }
     }

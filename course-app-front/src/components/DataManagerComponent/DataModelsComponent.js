@@ -14,15 +14,17 @@ export function titleModel({name= 'title', type='text', placeholder= 'course tit
 
 export const usersModel={
     collection:"users",
-    title: 'users',
     fields:[
+        {name: "matricule", type: 'text', placeholder: 'Matricule', label: 'Matricule'},
         {name: "name", type: 'text', placeholder: 'Name', label: 'Nom'},
         {name: "surname", type: 'text', placeholder: 'SurName', label: 'Prenom'},
         {name: "address", type: 'text', placeholder: 'Address', label: 'Adresse'},
         {name: "contact", type: 'number', placeholder: 'Tel1/Tel2 ', label: 'Telephone'},
         {name: "email", type: 'email', placeholder: 'Email', label: 'Email'},
         {name: "pseudo", type: 'text', placeholder: 'UserName', label: 'Pseudo'},
-        {name: "password", type: 'password', placeholder: 'Password', label: 'Mot de Passe'}
+        {name: "password", type: 'password', placeholder: 'Password', label: 'Mot de Passe'},
+        {name: "passwordverification", type: 'password', placeholder: 'Password Verification', label: 'Vérifiez le Mot de Passe'}
+
     ]
 };
 
@@ -46,7 +48,6 @@ export const modulesModel={
     fields:[
         { name:"label",type:'text',placeholder:'Appelation',label:'Appelation'},
         { name:"description",type:'textarea',placeholder:'Description',label:'Description'},
-
     ]
 };
 

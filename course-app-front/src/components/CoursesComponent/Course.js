@@ -7,6 +7,8 @@ import ReactQuill, {} from 'react-quill';
 
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import CourseCreation from "../CoursesComponent/CourseCreation";
+import CourseNavigator from "../MCQsComponent/CourseNavigator";
+import NavCourse from "./NavCourse";
 
 const fakeCourse = {
     title: "",
@@ -41,7 +43,6 @@ export function displayElement(element, level = 'courses') {
                 </div>
             </React.Fragment>
         );
-
     }
 }
 
@@ -63,6 +64,8 @@ export function displaySubElements(element, level) {
 function displayContent(content) {
     return (<ReactQuill value={content || ""} modules={{toolbar: false}}  readOnly={true}/>);
 }
+
+
 
 class Course extends Component {
     constructor(props) {
@@ -120,12 +123,13 @@ class Course extends Component {
         }
     }
 
-    openMocal(content){
+    openModal(content){
         this.setState({
             modalChildren:content,
             modalVisibility:true
         });
     }
+
     closeModal(){
         this.setState({
             modalChildren:"",
@@ -139,9 +143,18 @@ class Course extends Component {
         let content=<CourseCreation course={this.state.courseToDisplay} mode={"update"}/>;
         this.openMocal(content);
     }
+
+    handleNavClick(element,level){
+
+
+    }
+
     render() {
         return (
             <React.Fragment>
+                <NavCourse handleClick={
+                    (element,level)=>this.handleNavClick(element,level)}
+                           course={this.state.courseToDisplay}/>
                 <ModalComponent visible={this.state.modalVisibility}
                                 onClose={()=>this.closeModal()}>
                     {this.state.modalChildren}

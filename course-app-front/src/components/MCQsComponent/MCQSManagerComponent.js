@@ -117,47 +117,51 @@ class MCQSManagerComponent extends Component {
                     <div className={"location-div"}>
                         <CourseNavigator setSelectedElement={(element, level) => this.setSelectedElement(element, level)}/>
                     </div>
-                    <div className={"div-options"}>
-                        <div className={"options-div"}>
-                            <h3> MCQS Options</h3>
-                            <div className={"hr-button-block"}>
-                                <ButtonHelper {...{
-                                    name: 'newmcq',
-                                    value: "New MCQ",
-                                    className: "form-helper-button success"
-                                }} onClick={() => this.newMCQ()}
-                                />
-                                <ButtonHelper {...{
-                                    name: 'listmcqs',
-                                    value: "List MCQs",
-                                    className: "form-helper-button success"
-                                }} onClick={() => this.listMCQS()}
-                                />
+                    <div>
+                        <div className={"div-options"}>
+                            <div className={"options-div"}>
+                                <h3> MCQS Options</h3>
+                                <div className={"hr-button-block"}>
+                                    <ButtonHelper {...{
+                                        name: 'newmcq',
+                                        value: "New MCQ",
+                                        className: "form-helper-button success"
+                                    }} onClick={() => this.newMCQ()}
+                                    />
+                                    <ButtonHelper {...{
+                                        name: 'listmcqs',
+                                        value: "List MCQs",
+                                        className: "form-helper-button success"
+                                    }} onClick={() => this.listMCQS()}
+                                    />
+                                </div>
+                            </div>
+                            <div className={"options-div"}>
+                                <h3>TESTS Options</h3>
+                                <div className={"hr-button-block"}>
+                                    <ButtonHelper {...{
+                                        name: 'newtest',
+                                        value: "New TEST",
+                                        className: "form-helper-button success"
+                                    }} onClick={() => this.newTEST()}
+                                    />
+                                    <ButtonHelper {...{
+                                        name: 'listtests',
+                                        value: "List TESTS",
+                                        className: "form-helper-button success"
+                                    }} onClick={() => this.listTESTS()}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className={"options-div"}>
-                            <h3>TESTS Options</h3>
-                            <div className={"hr-button-block"}>
-                                <ButtonHelper {...{
-                                    name: 'newtest',
-                                    value: "New TEST",
-                                    className: "form-helper-button success"
-                                }} onClick={() => this.newTEST()}
-                                />
-                                <ButtonHelper {...{
-                                    name: 'listtests',
-                                    value: "List TESTS",
-                                    className: "form-helper-button success"
-                                }} onClick={() => this.listTESTS()}
-                                />
-                            </div>
+                        {this.returnInfos()}
+                        <div className={"activity-div"}>
+                            {this.showActivityContent()}
                         </div>
                     </div>
+
                 </div>
-                {this.returnInfos()}
-                <div className={"activity-div"}>
-                    {this.showActivityContent()}
-                </div>
+
             </div>
         );
     }

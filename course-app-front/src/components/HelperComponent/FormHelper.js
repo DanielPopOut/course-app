@@ -239,7 +239,7 @@ export class FormHelper extends Component {
             this.props.handleValidation(this.state.dataToSend);
         }else{
             ServerService.postToServer(registration_path,this.state.dataToSend).then((response)=>{
-                if(response.status!==200){
+                if(response.status===200){
                     alert("Enregistrement Effectué avec succès");
                 }else{
                     console.log("error Message ",response.data.errorMessage);
