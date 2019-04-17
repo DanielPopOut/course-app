@@ -1,7 +1,5 @@
 import React,{Component} from "react";
 import "./coursesadministration.css";
-import Levels from "./Levels";
-import Specialities from "./Specialities";
 import Departments from "./Departments";
 
 
@@ -14,12 +12,9 @@ class CoursesAdministration extends Component{
     }
     render(){
         return(
-            <div>
-                <h2>Courses Administration</h2>
+            <div className={"courses-administration-main-div"}>
+                <div> <h3>Courses Administration</h3></div>
                 <Departments/>
-                <Specialities/>
-                <Levels/>
-
             </div>
         );
     }

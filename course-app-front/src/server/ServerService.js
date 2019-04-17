@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance, {displayMessage} from './axiosInstance';
 import { AUTHENTICATION, FILTER } from './SERVER_CONST';
 
 
@@ -49,13 +49,14 @@ export class ServerService {
 
     static async insertElementInDataBase(collection, element) {
         let response = await axiosInstance.post('crudOperations/insert', {collection: collection, data: element});
-        // .then(response => {
         if (response.status === 200) {
+            displayMessage("Insertion done With Success !!");
             return (Object.assign(element, {_id: response.data}));
         } else {
+            displayMessage("Insertion Failed !!");
             return false;
         }
-        // });
+
     };
 
     static replaceElementInDataBase(collection, element) {

@@ -7,7 +7,7 @@
 
 }
 .users-interface-content{
-
+    overflow-x: auto;
 }
 .figure-avatar{
     margin: 2px;

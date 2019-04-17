@@ -24,17 +24,17 @@ export const usersModel={
         {name: "pseudo", type: 'text', placeholder: 'UserName', label: 'Pseudo'},
         {name: "password", type: 'password', placeholder: 'Password', label: 'Mot de Passe'},
         {name: "passwordverification", type: 'password', placeholder: 'Password Verification', label: 'Vérifiez le Mot de Passe'}
-
     ]
 };
 
 export const departmentsModel={
     collection:"departments",
     fields:[
-        { name:"label",type:'text',placeholder:'Label',label:'Label'},
-        { name:"description",type:'text',placeholder:'Path',label:'Path'},
+        { name:"label",type:'text',placeholder:'Label',label:'Label',required:true},
+        { name:"description",type:'textarea',placeholder:'Description',label:'Description'},
     ]
 };
+
 export const syllabusesModel={
     collection:"syllabuses",
     fields:[
@@ -43,21 +43,15 @@ export const syllabusesModel={
     ]
 };
 
-export const modulesModel={
-    collection:"departments",
+export const specialitiesModel={
+    collection:"specialities",
     fields:[
         { name:"label",type:'text',placeholder:'Appelation',label:'Appelation'},
         { name:"description",type:'textarea',placeholder:'Description',label:'Description'},
     ]
 };
 
-export const levelsModel={
-    collection:"levels",
-    fields:[
-        { name:"label",type:'text',placeholder:'Label',label:'Label'},
-        { name:"code",type:'number',placeholder:'Code',label:'Code'},
-    ]
-};
+export const levels=["Year I","Year II","Year III","Year IV","Year V"];
 
 
 export const coursesModel={

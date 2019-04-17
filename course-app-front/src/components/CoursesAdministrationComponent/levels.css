@@ -1,0 +1,17 @@
+.levels-list{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #fffefefc;
+    padding: 2px;
+    margin: 4px 0px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.unabled-level{
+
+
+}
+.disabled-level{
+    color: #c5b5b5;;
+}

@@ -17,10 +17,10 @@ class NavCourse extends Component{
 
     handleClick(id){
         window.scrollTo(0,document.getElementById(id).offsetTop);
-
     }
+
     displayTitle(element,level="courses"){
-        let ref=React.createRef();
+
         return(
             <div className={"course-title-div"}>
                 <div className={"nav-course-title "+this.state.selected} onClick={()=>this.handleClick(element._id)}>

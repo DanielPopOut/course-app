@@ -17,9 +17,10 @@ let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = 
     elements_ids = elements_ids.map((id) => {
         return ObjectID(id);
     });
+
     if (level === 'chapters') {
         aggregation = [
-            {$match: {_id: {$in: elements_ids}}},
+            {$match: {_id: {$in: elements_ids},deleted:{$exists:false}}},
             {
                 $graphLookup: {
                     from: 'sections',
@@ -55,7 +56,7 @@ let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = 
         ];
     } else if (level === 'sections') {
         aggregation = [
-            {$match: {_id: {$in: elements_ids}}},
+            {$match: {_id: {$in: elements_ids},deleted:{$exists:false}}},
             {
                 $graphLookup: {
                     from: 'subsections',
@@ -75,7 +76,7 @@ let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = 
             },
         ];
     } else {
-        aggregation = [{$match: {_id: {$in: elements_ids}}},];
+        aggregation = [{$match: {_id: {$in: elements_ids},deleted:{$exists:false}}},];
     }
     if (onlyTitle) {
         aggregation.push({
@@ -103,6 +104,7 @@ const retrieveElements = async (elements_ids, collection = 'courses', callback, 
 /**
  * section creation of a new course subelement (chapter, section , subsection)
  */
+
 router.post('/newSubElement', (req, res) => {
     console.log("subelement req Body", req.body);
     let {element, childelement} = {...req.body};
@@ -402,7 +404,6 @@ router.post('/getCourse', (req, res) => {
             });
         } else {
             let course = course_result[0];
-            //=course['chapters'].reverse();
             res.status(200).json(course);
         }
     }, onlyTitle).then();
@@ -446,6 +447,31 @@ router.post('/getCourseElements', (req, res) => {
             res.status(200).json(result);
         }
     }, onlyTitle);
+});
+
+/**
+ * findCourse function
+ * return courses which title like parameter
+ * @type {Router|router|*}
+ */
+
+router.post("/findCourses",(req,res)=>{
+
+    console.log("req body",req.body);
+    CrudDBFunctions.findAllDocument({
+        collection: "courses",
+        options: {title:{$regex:".*"+req.body.data+"*.",$options:'i'}},
+        callback: (result, err = '') => {
+            if (err) {
+                console.log('error', err);
+                res.status(400).send({message: "error"});
+            } else {
+                console.log(result.length, ' elements returned ');
+                //res.status(200).json(JSON.stringify(result));
+                res.status(200).json(result);
+            }
+        }
+    });
 });
 
 

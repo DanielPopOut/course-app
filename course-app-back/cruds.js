@@ -18,19 +18,15 @@ router.get('/', function (req, res, next) {
 router.post('/get', function (req, res) {
 
     let {collection, options} = {...req.body};
-
-    //console.log(collection, data);
-
-    if(options && options['queries'] &&  options['queries']['_id']){
-        options['queries']['_id']=ObjectID(options['queries']['_id']);
+    if (options && options['queries'] && options['queries']['_id']) {
+        options['queries']['_id'] = ObjectID(options['queries']['_id']);
     }
 
-    ///console.log("options ",options);
-
+    console.log(" options ",options);
     CrudDBFunctions.getAllDocument({
-        collection:collection,
-        options:options||{},
-        callback: (result,err='') => {
+        collection: collection,
+        options: options || {},
+        callback: (result, err = '') => {
             if (err) {
                 console.log('error', err);
                 res.status(400).send({message: "error"});
@@ -47,69 +43,33 @@ router.post('/insert', function (req, res) {
     let {collection, data} = {...req.body};
     console.log(collection, data);
     CrudDBFunctions.insertOneDocument(collection, data,
-        (result,err='') => {
-        if(err) {
+        (result, err = '') => {
+            if (err) {
 
-            console.log('error',err);
-            res.status(400).send({message:"Insertion failed !!"});
-        }else {
-            console.log(collection, result.length, ' elements returned ');
-            //res.status(200).json(JSON.stringify(result));
-            res.status(200).send(result.insertedId);
-        }
-        //(result) => res.send(result.insertedId));
-});});
-
-router.post('/delete', function (req, res) {
-    let {collection, data} = {...req.body};
-    console.log(collection, data);
-   /* CrudDBFunctions.deleteOneDocumentById(
-        collection,
-        data,
-       // (result) => res.send(result),
-        (result,err='') => {
-            if(err) {
-                console.log('error',err);
-                res.status(403).json({message:"Deletion failed!!"});
-            }else {
-                console.log(collection, result.length, ' elements returned');
+                console.log('error', err);
+                res.status(400).send({message: "Insertion failed !!"});
+            } else {
+                console.log(collection, result.length, ' elements returned ');
                 //res.status(200).json(JSON.stringify(result));
-                res.status(200).json({message:"course Delete with success"});
+                res.status(200).send(result.insertedId);
             }
-        }
-    );*/
-   CrudDBFunctions.updateOneDocumentById(
-        collection,
-        data,
-       {deleted:1},
-       // (result) => res.send(result),
-        (result,err='') => {
-            if(err) {
-                console.log('error',err);
-                res.status(403).json({message:"Deletion failed!!"});
-            }else {
-                console.log(collection, result.length, ' elements returned');
-                //res.status(200).json(JSON.stringify(result));
-                res.status(200).json({message:"course Delete with success"});
-            }
-        }
-    );
+        });
 });
 
-router.post('/deleteForReal', function (req, res) {
+router.post('/delete', function (req, res) {
     let {collection, data} = {...req.body};
     console.log(collection, data);
     CrudDBFunctions.deleteOneDocumentById(
         collection,
         data,
-        (result,err='') => {
-            if(err) {
-                console.log('error',err);
-                res.status(403).json({message:"Deletion failed!!"});
-            }else {
+        (result, err = '') => {
+            if (err) {
+                console.log('error', err);
+                res.status(403).json({message: "Did not delete !! process Failed!!"});
+            } else {
                 console.log(collection, result.length, ' elements returned');
 
-                res.status(200).json({message:"course Delete with success"});
+                res.status(200).json({message: " Deleted with success"});
             }
         }
     );
@@ -121,39 +81,39 @@ router.post('/replace', function (req, res) {
     CrudDBFunctions.replaceOneDocumentById(
         collection,
         data,
-        (result,err='') => {
-            if(err) {
-                console.log('error',err);
-                res.status(400).send({message:"replace failed!!"});
-            }else {
-               // console.log(collection, result, ' elements returned ');
+        (result, err = '') => {
+            if (err) {
+                console.log('error', err);
+                res.status(400).send({message: "replace failed!!"});
+            } else {
+                // console.log(collection, result, ' elements returned ');
                 //res.status(200).json(JSON.stringify(result));
                 res.status(200).send(result);
             }
         });
-        //(result) => res.send(result.insertedId));
+    //(result) => res.send(result.insertedId));
 
 });
 
 router.post('/update', function (req, res) {
-    console.log("request body",req.body);
+    console.log("request body", req.body);
     let {collection, data, update} = {...req.body};
     console.log(collection, data, update);
     CrudDBFunctions.updateOneDocumentById(
         collection,
         data,
         update,
-        (result,err='') => {
-            if(err) {
-                console.log('update error',err);
-                res.status(400).send({errorMessage:"update failed!!"});
-            }else {
-                if(result.result.nModified===0){
-                    console.log("collection : ",collection,"; data :",data,"; update : ",update);
+        (result, err = '') => {
+            if (err) {
+                console.log('update error', err);
+                res.status(400).send({errorMessage: "update failed!!"});
+            } else {
+                if (result.result.nModified === 0) {
+                    console.log("collection : ", collection, "; data :", data, "; update : ", update);
                     console.log("update result", result.result);
-                    res.status(403).send({errorMessage:"update failed!! no modification"});
-                    console.log("failed");
-                }else {
+                    res.status(403).send({errorMessage: "update failed!! no modification"});
+                    console.log("failed",err);
+                } else {
                     console.log("successful");
                     console.log("update result", result.result);
                     //res.status(200).json(JSON.stringify(result));
@@ -162,7 +122,7 @@ router.post('/update', function (req, res) {
             }
         }
     );
-        //(result) => res.send(result));
+    //(result) => res.send(result));
 });
 
 module.exports = router;

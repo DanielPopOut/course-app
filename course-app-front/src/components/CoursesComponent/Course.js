@@ -7,7 +7,6 @@ import ReactQuill, {} from 'react-quill';
 
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import CourseCreation from "../CoursesComponent/CourseCreation";
-import CourseNavigator from "../MCQsComponent/CourseNavigator";
 import NavCourse from "./NavCourse";
 
 const fakeCourse = {

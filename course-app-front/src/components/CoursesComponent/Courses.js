@@ -17,7 +17,7 @@ class CoursesHeader extends Component{
     handleChange(e){
         this.setState({ searchedElement:e.target.value });
         console.log("search params ",this.state);
-        this.props.handleValidateSearch(this.state.searchedElement);
+        //this.props.handleValidateSearch(this.state.searchedElement);
     }
 
     handleKeyPressOnSearch(event){
@@ -28,7 +28,6 @@ class CoursesHeader extends Component{
     }
 
     render(){
-       // console.log("autre: ",this.props);
 
         let buttonnewcourse={
             name:"newuserbutton",
@@ -191,21 +190,13 @@ class Courses extends Component {
         if(!data){
             this.componentDidMount();
         }else {
-            let findParams={
-                collection:"courses",
-                options:{
-                    queries:{
-                        title:{$regex:".*"+data+".*"}
-                    }
-                }
-            };
-            ServerService.postToServer('/crudOperations/get', findParams).then((response) => {
-                if(response.status===200){
+            ServerService.postToServer('/courses/findCourses', {data:data}).then((response) => {
+               /* if(response.status===200){
                     console.log("find results ",response.data);
                     this.setState({courses:response.data});
                 }else {
                     console.log('find error ',response.data.errorMessage);
-                }
+                }*/
             });
         }
     }

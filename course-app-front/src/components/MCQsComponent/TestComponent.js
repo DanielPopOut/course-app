@@ -6,8 +6,7 @@ import ReactQuill from 'react-quill'; // ES6
 import {ServerService} from "../../server/ServerService";
 import {displayMessage} from "../../server/axiosInstance";
 import {RealiseMCQ} from "./MCQsComponent";
-import MCQHelpComponent from "./MCQHelpComponent";
-import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
+
 
 export class TestResult extends Component{
 

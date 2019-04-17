@@ -81,10 +81,26 @@ module.exports = {
             console.log('connected successfully to server');
             let database=client.db(dbName);
             try {
+                console.log("options",options);
                 let arrayElements = await database.collection(collection)
-                    .find(options.queries || {}, options.fields || {}).toArray();
+                    .find(options.queries, options.fields || {}).toArray();
                     callback(arrayElements);
 
+            } catch (e) {
+                callback({},e);
+            }
+        });
+    },
+    findAllDocument: function ({collection, options = {}, callback}) {
+        // Retrieve all documents
+        client.connect(async function (err) { //server connection
+            assert.equal(null, err);
+            console.log('connected successfully to server');
+            let database=client.db(dbName);
+            try {
+                console.log("options",options);
+                let arrayElements = await database.collection(collection).find(options|| {}).toArray();
+                    callback(arrayElements);
             } catch (e) {
                 callback({},e);
             }
@@ -99,7 +115,7 @@ module.exports = {
             try {
                 let result = await database
                     .collection(collection)
-                    .findOne(options.queries || {}, options.fields || {});
+                    .findOne(options.queries, options.fields || {});
                 callback(result)
             }catch (e) {
                 callback({},e);

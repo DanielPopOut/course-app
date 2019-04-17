@@ -98,17 +98,29 @@ export class RadioHelper extends Component {
 }
 
 export class TextareaHelper extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            value:this.props.value||""
+        }
+    }
+    handleChange(e){
+        this.setState({value:e.target.value});
+        if(this.props.onChange){
+            this.props.onChange(e)
+        }
+    }
 
     render() {
         return (
             <div className={'form-helper-div-input'}>
-                <LabelHelper label={this.props.label}/>
+                <LabelHelper label={this.props.label || this.props.name||""}/>
                 <textarea
                     required={'required'}
                     className={"form-helper-textarea"}
-                    name={this.props.name}
-                    onChange={this.props.onChange}
-                    value={this.props.value}
+                    name={this.props.name || ""}
+                    onChange={(e)=>this.handleChange(e)}
+                    value={this.state.value}
                 >
                 </textarea>
             </div>
@@ -150,9 +162,12 @@ export class SelectHelper extends Component {
     render() {
         return (
             <div>
-                <select name={this.props.name}>
-                    {this.options.map(function (key,elt) {
-                        return (<option value={elt.avalue}> {elt.ashownvalue}  </option>);
+                <select name={this.props.name}
+                        className={this.props.className || "form-helper-select"}
+                        onChange={(e)=>this.props.onChange(e)}
+                >
+                    {this.props.options.map((elt,key)=> {
+                        return (<option value={elt[this.props.value]}> {elt[this.props.display]}  </option>);
                     })}
                 </select>
             </div>
@@ -255,7 +270,7 @@ export class FormHelper extends Component {
         return (
             <div>
                 <form>
-                <section className={"form-helper-title"}> <h3>user registration form</h3></section>
+                <section className={"form-helper-title"}> <h3>{this.props.title||""}</h3></section>
                 {
                     this.props.data.fields.map(function (elt, key) {
                         switch (elt.type) {
@@ -292,7 +307,6 @@ export class FormHelper extends Component {
                         :
                         <ButtonHelper {...{type: 'button',className:'form-helper-button success', value:'Valider'}} onClick={onClickCallBack}/>
                     }
-
                 </div>
             </form>
             </div>

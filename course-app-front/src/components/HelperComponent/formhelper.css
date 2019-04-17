@@ -40,8 +40,10 @@
 }
 
 .form-helper-select{
-
+    padding: 5px;
+    width: 100%;
 }
+
 .form-helper-select>option{
 
 }

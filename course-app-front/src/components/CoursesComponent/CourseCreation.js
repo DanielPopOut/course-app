@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import './coursecreation.css';
-import {ButtonHelper, InputTextHelper, LabelHelper} from "../HelperComponent/FormHelper";
+import {ButtonHelper, InputHelper, InputTextHelper, LabelHelper} from "../HelperComponent/FormHelper";
 import ReactQuill from 'react-quill'; // ES6
 import QuillComponent from "../DanielComponent/QuillComponent/QuillComponent";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
@@ -56,7 +56,6 @@ function displayField(content="") {
 }
 
 function deleteElement(collection,data,callback){
-
     ServerService.postToServer("/crudsOperations/delete",{collection:collection,data:data})
         .then((response)=>{
             if(response.status===200){
@@ -751,11 +750,17 @@ class CourseCreation extends Component{
             elementToDisplay:"",
             mode:this.props.mode||"creation", //{"creation","update"}
             modalChildren:"",
-            modalVisibility:false
+            modalVisibility:false,
+            departments:[],
+            department:"",
+            specialities:[],
+            speciality:"",
+            levels:"",
+            level:""
         }
     }
 
-    componentDidMount(){
+   async componentDidMount(){
         let elementtodisplay="";
             elementtodisplay=this.props.element||
                 <Course mode={this.state.mode}
@@ -765,6 +770,14 @@ class CourseCreation extends Component{
                         displayElement={(data)=>this.displayElement(data)}
                         reopenCourse={()=>this.reopenCourse()}
                 />;
+               await ServerService.postToServer("crudOperations/get",{collection:"departments"}).then(response=>{
+                   if(response.status===200){
+                       console.log("departments",response.data);
+                       this.setState({departments:response.data});
+                   } else {
+                       console.log("errpr getting departments",response.data);
+                   }
+                });
                 this.setState({elementToDisplay:elementtodisplay});
     }
 
@@ -781,6 +794,7 @@ class CourseCreation extends Component{
             modalVisibility:false
         });
     }
+
     reopenCourse(){
         this.componentDidMount();
     }
@@ -789,12 +803,73 @@ class CourseCreation extends Component{
         this.setState({elementToDisplay:element});
     }
 
+    handleDepartmentChange(e){
+        console.log("new dep selected",e.target.value);
+        this.setState({department:e.target.value});
+
+
+
+    }
+
+    showDepartments(){
+        let params={
+            name:"department",
+            type:"select",
+            options:this.state.departments,
+            value:"_id",
+            display:"label"
+        };
+
+        return(
+            <InputHelper {...params} onChange={(e)=>this.handleDepartmentChange(e)}/>
+        )
+    }
+   showSpecialities(){
+        if(this.state.department){
+            ServerService.postToServer("crudOperations/get",
+                {
+                    collection:"specialities",
+                    options:{
+                        queries:{department:this.state.department}
+                    }
+                }).then(response=>{
+                    if(response.status===200){
+                        let params={
+                            name:"speciality",
+                            type:"select",
+                            options:response.data,
+                            value:"_id",
+                            display:"label"
+                        };
+                        return(
+                            <InputHelper {...params} onChange={(e)=>this.handleDepartmentChange(e)}/>
+                        )
+                    }else{
+
+                    }
+            });
+
+        }
+    }
+
     render(){
         return(
             <div className={"course-creation-main"}>
                 <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleModalClose()}>
                     {this.state.modalChildren}
                 </ModalComponent>
+                <div>
+                    <h3>départements</h3>
+                    {this.showDepartments()}
+                </div>
+                <div>
+                    <h3>Spécialité</h3>
+                    {this.showSpecialities()}
+                </div>
+                <div>
+                    <h3>niveaux</h3>
+
+                </div>
                 <div className={'course-creation-panel'}>
                     {this.state.elementToDisplay}
                 </div>
