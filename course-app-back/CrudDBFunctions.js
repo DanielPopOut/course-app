@@ -66,7 +66,6 @@ module.exports = {
             try {
                 let result = await database.collection(collection)
                     .deleteOne({_id: ObjectID(documentToDelete._id)});
-                console.log('deletion happened', result);
                 callback(result);
             }catch (e) {
                 callback({},e);
@@ -83,7 +82,7 @@ module.exports = {
             try {
                 console.log("options",options);
                 let arrayElements = await database.collection(collection)
-                    .find(options.queries, options.fields || {}).toArray();
+                    .find(options.queries||{}, options.fields || {}).toArray();
                     callback(arrayElements);
 
             } catch (e) {

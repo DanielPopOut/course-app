@@ -56,16 +56,15 @@ function displayField(content="") {
 }
 
 function deleteElement(collection,data,callback){
-    ServerService.postToServer("/crudsOperations/delete",{collection:collection,data:data})
+    console.log(" you're about to delete");
+    console.log(" collection",collection,"data",data);
+
+    ServerService.postToServer("/crudOperations/delete",{collection:collection,data:data})
         .then((response)=>{
             if(response.status===200){
-                alert("deleted with success !!");
-                if(callback){
-                    callback();
-                }
+                if(callback){ callback();}
             }else {
-                alert(response.data["errorMessage"]);
-                console.log("deletion error",response);
+                console.log("deletion error",response.data["errorMessage"]);
             }
         });
 }
@@ -187,7 +186,7 @@ class SubSection extends Component{
 
     handleDeleteSubSection(){
        deleteElement("subsections",this.state,()=>{
-          alert("second confirmation ");
+           this.props.handleUpdateSubSections(this.state,"delete");
        });
     }
 
@@ -281,7 +280,9 @@ class Section extends Component{
     }
 
     handleDeleteSection(){
-        deleteElement("sections",this.state);
+        deleteElement("sections",this.state,()=>{
+            this.props.handleUpdateSections(this.state,"delete");
+        });
     }
     displayOptions(){
         if(this.state.mode==="update" ){
@@ -348,6 +349,19 @@ class Section extends Component{
          );
     }
 
+    handleUpdateSubSections(subsection,action=""){
+        if(action==="update"){
+
+        }else if(action==="delete"){
+            let newsubsections=this.state.subsections;
+            newsubsections=newsubsections.filter((value,index)=>{
+                return(value._id!==subsection._id)
+            });
+            this.setState({subsections:newsubsections});
+        }
+
+    }
+
     showSubSections(){
         return <div className={"sub-element-content"}>
             {
@@ -359,6 +373,9 @@ class Section extends Component{
                                 mode={this.state.mode}
                                 openModal={(content)=>this.props.openModal(content)}
                                 closeModal={()=>this.props.closeModal()}
+                                handleUpdateSubSections={
+                                    (subsection,action)=>this.handleUpdateSubSections(subsection,action)
+                                }
                             />
                         </div>
                     );
@@ -505,9 +522,10 @@ class Chapter extends Component{
                 this.state.sections.map((section,key)=>{
                     return(
                         <Section section={section} key={key}
-                                     mode={this.state.mode}
-                                     openModal={(content)=>this.props.openModal(content)}
-                                     closeModal={()=>this.props.closeModal()}
+                                 mode={this.state.mode}
+                                 openModal={(content)=>this.props.openModal(content)}
+                                 closeModal={()=>this.props.closeModal()}
+                                 handleUpdateSections={(section,action)=>this.handleUpdateSections(section,action)}
                             />
                     );
                 })
@@ -529,6 +547,17 @@ class Chapter extends Component{
         }
     }
 
+    handleUpdateSections(section,action=""){
+        if(action==="update"){
+
+        }else if(action==="delete"){
+            let newsections=this.state.sections;
+            newsections=newsections.filter((value,index)=>{
+                return(value._id!==section._id)
+            });
+            this.setState({sections:newsections});
+        }
+    }
     render(){
          return(
              <div className={"content-div"}>
@@ -683,14 +712,31 @@ class Course extends Component{
         this.props.displayElement(element);
     }
 
-    handleDeleteChapter(chapter){deleteElement("chapters",chapter);}
+    handleUpdateChapters(chapter,action){
+        if(action==="update"){
+
+        }else if(action==="delete"){
+            let newchapters=this.state.chapters;
+            newchapters=newchapters.filter((value,index)=>{
+                return(value._id!==chapter._id)
+            });
+            this.setState({chapters:newchapters});
+        }
+    }
+
+    handleDeleteChapter(e,chapter){
+        e.stopPropagation();
+        deleteElement("chapters",chapter,()=>{
+            this.handleUpdateChapters(chapter,"delete");
+        });
+    }
 
     deleteChapterOptions(chapter){
         return(  <ButtonHelper {...{
             name:"deletechapter",
             value:'Delete Chapter',
             className:"form-helper-button danger"
-        }} onClick={()=>{this.handleDeleteChapter(chapter)}}
+        }} onClick={(e)=>{this.handleDeleteChapter(e,chapter)}}
         />)
     }
     showChapters(){

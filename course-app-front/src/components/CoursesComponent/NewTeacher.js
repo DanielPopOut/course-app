@@ -59,7 +59,6 @@ class Teachers extends Component{
                     let selectedaccounts =this.state.selectedAccounts;
                     response.data.forEach((user)=>{
                         console.log("a user ",user);
-
                         if(user.hasOwnProperty('teacher') && user['teacher'].indexOf(this.props.course._id) >=0){
                             currentteachers.push(user);
                         }else {
@@ -80,9 +79,9 @@ class Teachers extends Component{
         let emails=[];
         emails=e.target.value.split(';');
         emails = [...new Set(emails)];// remove duplicates
-        emails = emails.filter((value,index)=>{
+      /*  emails = emails.filter((value,index)=>{
             return  validateEmail(value);
-        }); //remove empty address
+        }); //remove empty address*/
         this.setState({emails:emails});
     }
 

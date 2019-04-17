@@ -191,12 +191,12 @@ class Courses extends Component {
             this.componentDidMount();
         }else {
             ServerService.postToServer('/courses/findCourses', {data:data}).then((response) => {
-               /* if(response.status===200){
+                if(response.status===200){
                     console.log("find results ",response.data);
                     this.setState({courses:response.data});
                 }else {
                     console.log('find error ',response.data.errorMessage);
-                }*/
+                }
             });
         }
     }

@@ -25,7 +25,10 @@ class DisplayElement extends Component{
 
     async handleElementClick(){
         this.props.setSelectedElement(this.props.element,this.props.level);
-        if(lowerCourseLevel[this.state.level]){
+        if(lowerCourseLevel[this.state.level] &&
+            this.props.element.hasOwnProperty(lowerCourseLevel[this.state.level]) &&
+            this.props.element[lowerCourseLevel[this.state.level]].length>0
+        ){
             this.setState({ subElements:[] });
             this.setState({ subElements:waitingElement });
             await ServerService.postToServer('/courses/getAllWithIds',{
@@ -41,7 +44,7 @@ class DisplayElement extends Component{
                 }
             });
         }
-       await this.props.handleUnSelectAll();
+       //await this.props.handleUnSelectAll();
        // await this.setState({selected: true});
         console.log("selected state props ",this.props.selectionState);
         console.log("selected state ",this.state.selected);

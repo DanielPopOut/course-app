@@ -368,22 +368,21 @@ router.post('/removeTeacher', (req, res) => {
 
 router.post('/getUsers', (req, res) => {
     console.log("request body ", req.body);
-    CrudDBFunctions.getAllDocument({
+    CrudDBFunctions.findAllDocument({
         collection: 'users',
         options: {
-            queries: {
-                $or:[
-                    {email:{$regex:"/"+req.body.emails+"/"}},
-                    {name:{$regex:"/"+req.body.emails+"/"}},
-                    {surname:{$regex:"/"+req.body.emails+"/"}},
-                    {pseudo:{$regex:"/"+req.body.emails+"/"}}
-                    ]
-            }
+            $or: [
+                {email: {$regex: ".*" + req.body.emails + ".*", $options: "i"}},
+                {name: {$regex: ".*" + req.body.emails + ".*", $options: "i"}},
+                {surname: {$regex: ".*" + req.body.emails + ".*", $options: "i"}},
+                {pseudo: {$regex: ".*" + req.body.emails + ".*", $options: "i"}},
+            ]
         },
         callback: (result, err = '') => {
             if (err) {
                 res.status(403).json({errorMessage: JSON.stringify(err)});
             } else {
+                console.log("result ",result);
                 res.status(200).json(result);
             }
         }

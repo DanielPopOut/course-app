@@ -157,7 +157,7 @@ class Course extends Component {
           collection:"courses",
           data:this.state.courseToDisplay
         };
-        ServerService.postToServer("crudOperations//delete",dataToSend).then(response=>{
+        ServerService.postToServer("/crudOperations/delete",dataToSend).then(response=>{
            if(response.status===200){
                console.log("deletion result ",response);
                alert("Course Delete !!");
@@ -194,11 +194,6 @@ class Course extends Component {
         )
     }
 
-   /* handleNavClick(id){
-        console.log("ref ",ref);
-        window.scrollTo(0, document.getElementById(id));
-    }
-*/
     render() {
         return (
             <React.Fragment>
