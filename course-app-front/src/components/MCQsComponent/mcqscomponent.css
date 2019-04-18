@@ -58,9 +58,9 @@
 .realisedMCQ-div-correctedAndWrong{
     min-width: 350px;
     padding: 4px;
-    border: solid thick darkred;
+    border: solid thick #f51212;
     border-radius: 5px;
-    background-color: #f3ebeb;
+    background-color: #e6cece;
 }
 .realisedMCQ-div-correctedAndRight{
     min-width: 350px;

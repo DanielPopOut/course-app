@@ -18,6 +18,8 @@ import MCQSManagerComponent from './components/MCQsComponent/MCQSManagerComponen
 import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
 import CourseCreation from './components/CoursesComponent/CourseCreation';
 import CoursesAdministration from "./components/CoursesAdministrationComponent/CoursesAdministration";
+import ContactsAdministration from "./components/ContactsComponent/ContactsAdministration";
+
 
 import history from './history';
 
@@ -110,8 +112,8 @@ class App extends Component {
                     <Route exact path='/courses/administration' component={CoursesAdministration}/>
                     <Route path='/users' component = {Users}/>
                     <Route path={"/profile"} component={UserProfile}/>
-                    <Route path='/contacts' component = {ContactsComponent}/>
-                    <Route path='/contacts/administration' component = {ContactsComponent}/>
+                    <Route exact path='/contacts' component = {ContactsComponent}/>
+                    <Route exact path='/contacts/administration' component = {ContactsAdministration}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
                    {/* <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>*/}

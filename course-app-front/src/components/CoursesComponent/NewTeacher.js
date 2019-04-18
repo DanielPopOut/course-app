@@ -198,7 +198,7 @@ class NewTeacher extends Component{
                 <ButtonHelper
                     {...{
                         name: 'newteacher',
-                        value: 'New Teacher',
+                        value: 'Assign a Teacher',
                         className: 'form-helper-button hr-button-block success'
                     }} onClick={(e) => this.handleNewTeacherClick(e) }
                 />

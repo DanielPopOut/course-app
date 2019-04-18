@@ -30,10 +30,13 @@ export class CheckBoxHelper extends Component {
         }
     }
     handleChange(e){
-        this.setState({checked:!this.state.checked});
-        if(this.props.onChange){
-            this.props.onChange(e)
+        if(!this.props.readOnly){
+            this.setState({checked:!this.state.checked});
+            if(this.props.onChange){
+                this.props.onChange(e)
+            }
         }
+
     }
 
     render() {

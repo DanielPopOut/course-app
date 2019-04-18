@@ -59,7 +59,8 @@ export class RealiseMCQ extends Component{
                     <CheckBoxHelper
                         {...{
                             name:"rigthanswer"+key,
-                            checked:true
+                            checked:true,
+                            readOnly:this.state.mode==="correctedAndWrong" || this.state.mode==="correctedAndRight"
                         }}
                     />
                 </div>
@@ -91,7 +92,8 @@ export class RealiseMCQ extends Component{
                         <CheckBoxHelper
                             {...{
                                 name:"answer"+key,
-                                checked:this.checkedStatus(key)
+                                checked:this.checkedStatus(key),
+                                readOnly:this.state.mode==="correctedAndWrong" || this.state.mode==="correctedAndRight"
                             }}
                             onChange={(e)=>this.handleSelectAnswer(e,key)}
                         />
@@ -110,17 +112,18 @@ export class RealiseMCQ extends Component{
             let rightAnswers=this.state.mcq.rightAnswers;
             console.log("right answers ",rightAnswers,"selected answers ",selectedAnswers);
 
-            let wrongAnswersSelected=selectedAnswers.filter((elt)=>{
-                return rightAnswers.indexOf(elt);
+            let wrongAnswersSelected=selectedAnswers.filter((elt,index)=>{
+                return !rightAnswers.includes(elt);
             });
 
-            let goodAnswersNotSelected=rightAnswers.filter((elt)=>{
-                return selectedAnswers.indexOf(elt)
+            let goodAnswersNotSelected=rightAnswers.filter((elt,index)=>{
+                return !selectedAnswers.includes(elt);
             });
 
             if(wrongAnswersSelected.length!==0 || goodAnswersNotSelected.length!==0 ){
                // alert("faux");
                 await this.setState({ mode:'correctedAndWrong' });
+                console.log("RANS",rightAnswers,"WS",wrongAnswersSelected,"RNS",goodAnswersNotSelected);
             }else {
               //  alert('juste');
                 await this.setState({ mode:'correctedAndRight'});
@@ -240,13 +243,20 @@ export class ListMCQS extends Component{
         }
     }
     handleViewMCQ(mcq){
-        let content=<OneMCQ mcq={mcq} action_level={'modification'}/>;
+        let content=<OneMCQ mcq={mcq} action_level={'update'}/>;
         this.openModal(content)
+    }
 
+    handleRealiseMCQ(mcq){this.openModal(<RealiseMCQ mcq={mcq}/>)}
+
+    handleDeleteMCQ(mcq){
+        ServerService.postToServer("/crudOperations/delete",{
+            collection:"mcqs",
+            data:mcq
+        }).then((response)=>{
+        });
     }
-    handleRealiseMCQ(mcq){
-        this.openModal(<RealiseMCQ mcq={mcq}/>)
-    }
+
     displayMCQ(mcq,key){
         return(
             <div key={key} className={"mcqs-list-one-div"}>
@@ -277,6 +287,17 @@ export class ListMCQS extends Component{
                                }
                            }
                            onClick={()=>this.handleRealiseMCQ(mcq)}
+                       />
+
+                       <ButtonHelper
+                           {
+                               ...{
+                                   name:'deleteqcm',
+                                   value:"Delete",
+                                   className:"form-helper-button danger"
+                               }
+                           }
+                           onClick={()=>this.handleDeleteMCQ(mcq)}
                        />
                    </div>
                </div>
@@ -328,12 +349,12 @@ export class OneMCQ extends Component {
             answers: this.retunDefaultAnswerArray(this.props.numberOfAnswer || 5),
             rightAnswers: [],
             explanation: "",
-            action_level: "creation"//this precise if the mcq is in creation or modification mode
+            action_level: "creation"//this precise if the mcq is in creation or update mode
         }
     }
 
     componentWillMount() {
-        if (this.props.action_level === "modification") {
+        if (this.props.action_level === "update") {
             let mcq = this.props.mcq;
             this.setState({
                 mcq_id:mcq._id,
@@ -343,7 +364,7 @@ export class OneMCQ extends Component {
                 answers: mcq.answers,
                 rightAnswers: mcq.rightAnswers,
                 explanation: mcq.explanation,
-                action_level: 'modification'
+                action_level: 'update'
             });
         }
     }
@@ -460,7 +481,7 @@ export class OneMCQ extends Component {
                     console.log("response data ",response.data);
                     this.setState({
                        mcq_id:response.data,
-                       action_level:"modification"
+                       action_level:"update"
                     });
                     alert("M.C.Q Saved with Success");
                 } else {
@@ -511,10 +532,21 @@ export class OneMCQ extends Component {
                 answers: this.retunDefaultAnswerArray(this.props.numberOfAnswer || 5),
                 rightAnswers: [],
                 explanation: "",
-                dataToSend: {}
+                dataToSend: {},
+                action_level: 'update'
             });
         }
+    }
 
+    handleDeleteMCQ(){
+        ServerService.postToServer("/crudOperations/delete",{
+            collection:"mcqs",
+            data:{_id:this.state.mcq_id}
+        }).then((response)=>{
+            if(response.status===200){
+                this.handleResetMCQ("new");
+            }
+        });
     }
 
     mcqButtons() {
@@ -531,18 +563,10 @@ export class OneMCQ extends Component {
                             }
                         } onClick={() => this.handleSaveNewMCQ()}
                     />
-                    <ButtonHelper {
-                                      ...{
-                                          name: 'mcqFormReset',
-                                          value: "Reset",
-                                          type: 'reset',
-                                          className: ' form-helper-button danger'
-                                      }}
-                                  onClick={(e) => this.handleResetNewMCQ(e)}
-                    />
+
                 </React.Fragment>
             );
-        } else if (this.state.action_level === "modification") {
+        } else if (this.state.action_level === "update") {
             return (
                 <React.Fragment>
                     <ButtonHelper
@@ -574,6 +598,16 @@ export class OneMCQ extends Component {
                                 className: ' form-helper-button danger'
                             }}
                         onClick={() => this.handleResetMCQ('modify')}
+                    />
+                    <ButtonHelper
+                        {
+                            ...{
+                                name: 'mcqFormdelete',
+                                value: "delete",
+                                type: 'reset',
+                                className: ' form-helper-button danger'
+                            }}
+                        onClick={() => this.handleDeleteMCQ()}
                     />
                 </React.Fragment>
             );

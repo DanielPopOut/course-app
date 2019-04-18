@@ -14,3 +14,15 @@
 .mcq-help-explanation-div{
     min-width: 300px;
 }
+
+.mcq-help-explanation-div .content-div{
+    padding: 1px;
+}
+.mcq-help-explanation-div .ql-editor{
+    padding: 0!important;
+    margin: 0;
+}
+
+.mcq-help-explanation-div .ql-container.ql-snow{
+    border:none;
+}

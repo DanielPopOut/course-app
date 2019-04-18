@@ -61,19 +61,11 @@ let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = 
                 $graphLookup: {
                     from: 'subsections',
                     startWith: '$subsections',
-                    connectFromField: 'subections',
+                    connectFromField: 'subsections',
                     connectToField: "_id",
                     as: 'subsections',
                 }
-            },
-            {
-                $group: {
-                    _id: '$_id',
-                    title: {$first: "$title"},
-                    content: {$first: "$content"},
-                    sections: {$push: "$subsections"}
-                }
-            },
+            }
         ];
     } else {
         aggregation = [{$match: {_id: {$in: elements_ids},deleted:{$exists:false}}},];
@@ -447,6 +439,56 @@ router.post('/getCourseElements', (req, res) => {
         }
     }, onlyTitle);
 });
+
+router.post('/getHoleCourse', (req, res) => {
+    CrudDBFunctions.getOneDocument({
+       collection:"courses",
+       options:{
+           queries:{
+               _id:ObjectID(req.body.course)
+           }
+       },
+        callback:(course,err="")=>{
+           if(err){
+               console.log("Error fetching Course", err);
+               res.status(403).json({
+                   errorMessage: "Error getting Course "
+               });
+           }else {
+               if(course.hasOwnProperty("chapters") && course["chapters"].length>0){
+                   retrieveElements(course["chapters"],"chapters", (result, err = '') => {
+                       if (err) {
+                           console.log("error getting sub Elements ", err);
+                           res.status(403).json({errorMessage: JSON.stringify(err)});
+                       } else {
+                           console.log("chapters result ", result);
+                           result.reverse();
+                           result.forEach((chapter) => {
+                               if (chapter.hasOwnProperty('sections')) {
+                                   chapter['sections'].reverse();
+                                   chapter['sections'].forEach((section) => {
+                                       console.log("section", section);
+                                       if (section.hasOwnProperty('subsections')) {
+                                           section['subsections'].reverse();
+                                       }
+                                   });
+                               }
+                           });
+                           console.log("result ", result);
+                           course["chapters"]=result;
+                           res.status(200).json(course);
+                       }
+                   });
+
+               }else {
+                   res.status(200).json(course);
+               }
+           }
+        }
+    });
+
+});
+
 
 /**
  * findCourse function

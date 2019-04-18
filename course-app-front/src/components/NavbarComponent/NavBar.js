@@ -27,7 +27,7 @@ export default class NavBar extends Component {
         {title: 'TESTS', redirectionAddress: '/mcqs'},
         {title: 'Contacts', redirectionAddress: '/contacts',
             subItems:[
-                {title: 'Administration', redirectionAddress: '/contacts/adminstration'},
+                {title: 'Administration', redirectionAddress: '/contacts/administration'},
             ]
         },
         {title: 'Users', redirectionAddress: '/users'},

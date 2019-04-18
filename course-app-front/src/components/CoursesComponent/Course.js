@@ -91,7 +91,6 @@ class Course extends Component {
                             elements_collection:'chapters'
                         }).then((response)=>{
                             if(response.status===200){
-                                console.log("getting chapters done!!",response.data);
                                 course['chapters']=response.data;
                                 this.setState({
                                     courseToDisplay: course,

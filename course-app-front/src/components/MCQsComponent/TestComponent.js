@@ -108,6 +108,13 @@ export class TestResult extends Component{
             return(<div className={"passed-test-div"}>You have succeed the Test !!</div>);
         }
     }
+    checkFailedMcqSelected(index){
+        if(this.state.current===index){
+            return "selected-failed-mcq-div"
+        }else {
+            return "";
+        }
+    }
 
     render(){
         return(
@@ -116,7 +123,7 @@ export class TestResult extends Component{
                 <div className={"test-score-div"}> {this.displayTestScore()} </div>
                 <div className={'test-result-div'}>
                     <div>
-                        <h4 className={"title-failed-result"}> Failed Result </h4>
+                        <h4 className={"title-failed-result"}> Failed Questions</h4>
                         <div className={"failed-mcq-number"}>
                             {
                                 this.state.failedMcqs.map((index,key)=>{
@@ -124,8 +131,9 @@ export class TestResult extends Component{
                                         <div
                                             key={key}
                                             onClick={()=>this.handleFailedMcqClick(index)}
+                                            className={""+this.checkFailedMcqSelected(index)}
                                         >
-                                            {index}
+                                            {index+1}
                                         </div>
                                     )
                                 })
@@ -430,6 +438,17 @@ export class TestsList extends Component {
             />;
         this.handleOpenModal(runningTest);
     }
+    deleteTest(test){
+        ServerService.postToServer("/crudOperations/delete",{
+            collection:"tests",
+            data:test
+        }).then((response)=>{
+        });
+    }
+
+    viewTest(test){
+        this.handleOpenModal(<OneTest test={ test}/>);
+    }
 
     displayTest(test, key) {
         return (
@@ -441,12 +460,30 @@ export class TestsList extends Component {
                             ...{
                                 name: "runTestButton",
                                 value: "Run A Test",
+                                className: "form-helper-button white-on-blue"
+                            }
+                        }
+                        onClick={() => {this.runTest(test)}}
+                    />
+                    <ButtonHelper
+                        {
+                            ...{
+                                name: "viewTestButton",
+                                value: "View",
                                 className: "form-helper-button success"
                             }
                         }
-                        onClick={() => {
-                            this.runTest(test)
-                        }}
+                        onClick={() => {this.viewTest(test)}}
+                    />
+                    <ButtonHelper
+                        {
+                            ...{
+                                name: "deletetestbutton",
+                                value: "Delete Test",
+                                className: "form-helper-button danger"
+                            }
+                        }
+                        onClick={() => {this.deleteTest(test)}}
                     />
                 </div>
             </div>
@@ -477,12 +514,43 @@ export class OneTest extends Component {
         super(props);
         this.state = {
             test_id: this.props.test_id || '',
-            title: "",
-            reference: this.props.reference,
-            course_level: this.props.course_level,
-            originalmcqs: this.props.mcqs,
-            mcqs: this.props.mcqs,
+            title: this.props.title||"",
+            reference: this.props.reference || "",
+            course_level: this.props.course_level ||'',
+            originalmcqs: this.props.mcqs || [],
+            mcqs: this.props.mcqs || [],
             selectedmcqs: this.props.selectedmcqs || []
+        }
+    }
+
+    async componentDidMount(){
+        if(this.props.test){
+            console.log("test selected ",this.props.test);
+            let aMccq=this.props.test.mcqs[0];
+            let dataObject={
+                course_level:aMccq.course_level,
+                reference:aMccq.reference
+            };
+            await ServerService.postToServer('/mcquestions/getMCQsOfLevel', dataObject).then((response) => {
+                if (response.status === 200) {
+                    console.log("list of MCQs Founded ", response.data);
+                    let selectedMcqsIndexes=[];
+                    this.props.test.mcqs.forEach((value,index)=>{selectedMcqsIndexes.push(value._id);});
+
+                    let restofmcqs=response.data.filter((mcq,index)=>{return !selectedMcqsIndexes.includes(mcq._id);});
+                    this.setState({
+                        test_id: this.props.test._id,
+                        title: this.props.test.title||"",
+                        reference: this.props.test.reference,
+                        course_level:  this.props.test.course_level,
+                        originalmcqs:response.data,
+                        mcqs:restofmcqs,
+                        selectedmcqs:this.props.test.mcqs
+                    });
+                } else {
+                    alert(response.data.errorMessage);
+                }
+            });
         }
     }
 
@@ -517,10 +585,10 @@ export class OneTest extends Component {
     createNewTest() {
         // check empty selected questions
         let selectedmcqs = this.state.selectedmcqs;
-        if (this.state.title.length === 0) {
+       /* if (this.state.title.length === 0) {
             alert("Le test doit avoir un titre");
             return;
-        }
+        }*/
         if (selectedmcqs.length > 0) {
             let selectedmcqs_ids = [];
             //gathering ids of  selected mcqs
@@ -596,6 +664,13 @@ export class OneTest extends Component {
         });
     }
 
+    deleteTest(){
+        ServerService.postToServer("/crudOperations/delete",{
+            collection:"tests",
+            data:{_id:this.state.test_id}
+        }).then((response)=>{
+        });
+    }
     displayTestButton() {
         if (this.state.test_id.length === 0) {
             return (
@@ -618,7 +693,7 @@ export class OneTest extends Component {
                             ...{
                                 name: 'modifyTestButton',
                                 value: 'Modify',
-                                className: "form-helper-button success",
+                                className: "form-helper-button warning",
                             }
                         }
                         onClick={() => this.modifyTest()}
@@ -632,6 +707,16 @@ export class OneTest extends Component {
                             }
                         }
                         onClick={() => this.setNewTest()}
+                    />
+                    <ButtonHelper
+                        {
+                            ...{
+                                name: 'deleteTestButton',
+                                value: 'Delete',
+                                className: "form-helper-button danger",
+                            }
+                        }
+                        onClick={() => this.deleteTest()}
                     />
                 </React.Fragment>
             );

@@ -1,9 +1,9 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import './mcqhelpcomponent.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill';
 import {ServerService} from "../../server/ServerService"; // ES6
-import {displayElement,displaySubElements} from "../CoursesComponent/Course";
+import {displayElement, displaySubElements} from "../CoursesComponent/Course";
 
 let formats = [
     'header',
@@ -12,85 +12,108 @@ let formats = [
     'link', 'image', 'formula',
 ];
 
-class MCQHelpComponent extends Component{
-    constructor(props){
+class MCQHelpComponent extends Component {
+    constructor(props) {
         super(props);
-        this.state={
-            mcq:this.props.mcq,
-            modalVisibility:false,
-            modalChildren:""
+        this.state = {
+            mcq: this.props.mcq,
+            modalVisibility: false,
+            modalChildren: ""
         }
     }
-    handleCloseModal(){
+
+    handleCloseModal() {
         this.setState({
-           modalChildren:"",
-           modalVisibility:false
+            modalChildren: "",
+            modalVisibility: false
         });
     }
-    handleOpenModal(content){
+
+    handleOpenModal(content) {
         this.setState({
-            modalChildren:content,
-            modalVisibility:true
+            modalChildren: content,
+            modalVisibility: true
         });
     }
-    showCourse(){
-        let reference=this.state.mcq.reference;
-        let course_level=this.state.mcq.course_level;
-        let dataToSend={
-            elements_ids:[reference],
-            elements_collection:course_level
+
+    showCourse() {
+        let reference = this.state.mcq.reference;
+        let course_level = this.state.mcq.course_level;
+        let dataToSend = {
+            elements_ids: [reference],
+            elements_collection: course_level
         };
-        ServerService.postToServer("/courses/getCourseElements",dataToSend).then((response)=>{
-            if(response.status===200){
-                console.log("course elements ",response.data);
-                this.handleOpenModal(
-                    <div className={"mcq-help-explanation-div"}>
-                        {displayElement(response.data[0]||"",course_level)}
+
+        console.log("dataTo send ",dataToSend);
+        if (course_level === "courses") {
+            ServerService.postToServer("/courses/getHoleCourse", {course: reference}).then((response) => {
+                if (response.status === 200) {
+                    console.log("hole course result", response.data);
+                    this.handleOpenModal(
+                        <div className={"mcq-help-explanation-div"}>
+                            {displayElement(response.data || "", "courses")}
+                        </div>);
+                } else {
+                    console.log("Error getting hole course", response.data['errorMessage']);
+                }
+            });
+        } else {
+            ServerService.postToServer("/courses/getCourseElements", dataToSend).then((response) => {
+                if (response.status === 200) {
+                    console.log("element result",response.data);
+                    this.handleOpenModal(
+                        <div className={"mcq-help-explanation-div"}>
+                            {displayElement(response.data[0] || "", course_level)}
                         </div>
-                );
-            }else {
-                console.log("error message ",response.data.errorMessage);
-            }
-        });
+                    );
+                } else {
+                    console.log("error message ", response.data.errorMessage);
+                }
+            });
+        }
     }
-    showExplanation(){
-        let explanation=<div>
+
+    showExplanation() {
+        let explanation = <div>
             <h3>Explanation</h3>
             <ReactQuill
                 value={this.state.mcq.explanation}
-                modules={{toolbar:false}}
+                modules={{toolbar: false}}
                 formats={formats}
                 readOnly={true}
             />
         </div>;
-            this.handleOpenModal(<div className={"mcq-help-explanation-div"}> {explanation}</div>)
+        this.handleOpenModal(<div className={"mcq-help-explanation-div"}> {explanation}</div>)
     }
-    displayOptions(){
-        if(this.state.mcq.explanation.length>0){
-            return(
+
+    displayOptions() {
+        if (this.state.mcq.explanation.length > 0) {
+            return (
                 <React.Fragment>
-                    <div className={"mcq-help-option-div"} onClick={()=>this.showCourse()}>Visiter Le Cours</div>
-                    <div className={"mcq-help-option-div"} onClick={()=>this.showExplanation()}>Explication</div>
+                    <div className={"mcq-help-option-div"} onClick={() => this.showCourse()}>Visiter Le Cours</div>
+                    <div className={"mcq-help-option-div"} onClick={() => this.showExplanation()}>Explication</div>
                 </React.Fragment>
             );
-        }else {
-            return(
-                <div className={"mcq-help-option-div"} onClick={()=>this.showCourse()}>
+        } else {
+            return (
+                <div className={"mcq-help-option-div"} onClick={() => this.showCourse()}>
                     Visiter Le Cours
                 </div>
             );
         }
     }
-    render(){
-        return(
+
+    render() {
+        return (
             <React.Fragment>
-                    <ModalComponent visible={this.state.modalVisibility} onClose={()=>this.handleCloseModal()}>
-                        {this.state.modalChildren}
-                        </ModalComponent>
+                <ModalComponent visible={this.state.modalVisibility} onClose={() => this.handleCloseModal()}>
+                    {this.state.modalChildren}
+                </ModalComponent>
                 {this.displayOptions()}
             </React.Fragment>
         )
     }
 
 }
+
 export default MCQHelpComponent;

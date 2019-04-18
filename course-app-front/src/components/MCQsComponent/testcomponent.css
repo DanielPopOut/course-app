@@ -73,12 +73,12 @@
 .failed-mcq-number{
     text-align: center;
     font-size: 18px;
-    background-color: #5c5cbd;
+    background-color: whitesmoke;
     margin: 4px;
     font-style: italic;
-    color: #0e3419;
     font-weight: bold;
-    color: whitesmoke;
+    color: darkslateblue;
+
     cursor: pointer;
 
 }
@@ -88,10 +88,10 @@
 .failed-mcq-number>div:hover{
     transform: scale(1.1);
 }
-.failed-mcq-number>div:nth-of-type(even){
-    background-color: whitesmoke;
+.failed-mcq-number>div{
+    border-bottom: solid thick darkblue;
     margin: 4px 0px;
-    color: darkslateblue;
+
 }
 .failed-mcq-div{
     display: flex;
@@ -125,4 +125,9 @@
     font-style: oblique;
     font-family: Georgia;
     margin: 10px;
+}
+.selected-failed-mcq-div{
+    background-color: #5c5cbd !important;
+    color: whitesmoke !important;
+
 }
