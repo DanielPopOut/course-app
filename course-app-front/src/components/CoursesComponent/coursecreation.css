@@ -89,3 +89,27 @@
 .chapter-title{
 
 }
+
+.course-administration-section{
+    border: solid thick #abe4a033;
+    border-radius: 20px;
+    margin: 4px;
+    padding: 10px 10px;
+    font-style: oblique;
+    font-family: arial;
+    color: #181735;
+
+}
+.course-administration-block{
+
+}
+.course-administration-block>h4{
+    margin: 10px;
+}
+.course-administration-values{
+    padding: 4px;
+    font-size: 16px;
+    font-style: oblique;
+    font-weight: bold;
+    text-align: center;
+}

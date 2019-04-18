@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cruds = require('./cruds');
 const authentication = require('./authentication');
 const courses = require('./courses');
+const departments = require('./departments');
 const contacts = require('./contacts');
 const MCQuestions = require('./mcquestions');
 
@@ -62,6 +63,7 @@ app.post('/*', (req,res,next)=>{
 });
 app.use('/authentication', authentication);
 app.use('/crudOperations', cruds);
+app.use('/departments', departments);
 app.use('/courses', courses);
 app.use('/mcquestions', MCQuestions);
 

@@ -21,7 +21,6 @@ router.post('/get', function (req, res) {
     if (options && options['queries'] && options['queries']['_id']) {
         options['queries']['_id'] = ObjectID(options['queries']['_id']);
     }
-
     console.log(" options ",options);
     CrudDBFunctions.getAllDocument({
         collection: collection,

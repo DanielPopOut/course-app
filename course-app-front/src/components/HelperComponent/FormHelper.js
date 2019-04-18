@@ -166,8 +166,9 @@ export class SelectHelper extends Component {
                         className={this.props.className || "form-helper-select"}
                         onChange={(e)=>this.props.onChange(e)}
                 >
+                    <option value='-1' defaultValue> {this.props.empty||" --- make a choice ---"} </option>
                     {this.props.options.map((elt,key)=> {
-                        return (<option value={elt[this.props.value]}> {elt[this.props.display]}  </option>);
+                        return (<option key={key} value={elt[this.props.value]||key}> {elt[this.props.display]||elt}  </option>);
                     })}
                 </select>
             </div>
@@ -354,5 +355,5 @@ export class InputHelper extends Component {
     }
 }
 
-//export class TextareaHelper;
+
 export default FormHelper;

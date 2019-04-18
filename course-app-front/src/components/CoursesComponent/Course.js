@@ -147,9 +147,7 @@ class Course extends Component {
     }
 
     modifyCourse(){
-        console.log("here");
-        console.log("history ",this.props.history);
-        let content=<CourseCreation course={this.state.courseToDisplay} mode={"update"}/>;
+        let content=<CourseCreation course={this.state.courseToDisplay} mode="update"/>;
         this.openModal(content);
     }
     deleteCourse(){
@@ -197,10 +195,8 @@ class Course extends Component {
     render() {
         return (
             <React.Fragment>
-                <NavCourse
-                   // handleClick={(ref)=>this.handleNavClick(ref)}
-                    course={this.state.courseToDisplay}
-                />
+                <NavCourse course={this.state.courseToDisplay}/>
+
                 <ModalComponent visible={this.state.modalVisibility}
                                 onClose={()=>this.closeModal()}>
                     {this.state.modalChildren}
@@ -209,9 +205,7 @@ class Course extends Component {
                     { this.displayOptions()}
                 </div>
                 <div className={'course-content-div'}>
-                    <div>
-                        {this.displayCourse()}
-                    </div>
+                    <div>{this.displayCourse()}</div>
                 </div>
             </React.Fragment>
         )
