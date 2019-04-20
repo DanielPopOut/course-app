@@ -66,5 +66,6 @@ app.use('/crudOperations', cruds);
 app.use('/departments', departments);
 app.use('/courses', courses);
 app.use('/mcquestions', MCQuestions);
+app.use('/contacts', contacts);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

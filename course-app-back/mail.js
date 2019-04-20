@@ -14,7 +14,7 @@ let transporter = nodemailer.createTransport({
 });
 
 module.exports = {
-    sendEmail : function (receiver, subject, content) {
+    sendEmail : function (receiver, subject, content,callback="") {
         console.log('email ready to be sent');
 
         let mailOptions = {
@@ -25,13 +25,17 @@ module.exports = {
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-                return error;
-            } else {
-                console.log('Email sent: ' + info.response);
-                console.log('info', info);
-                return info.response;
+            if(callback){
+                callback(error,info);
+            }else{
+                if (error) {
+                    console.log(error);
+                    return error;
+                } else {
+                    console.log('Email sent: ' + info.response);
+                    console.log('Info', info);
+                    return info.response;
+                }
             }
         });
     },

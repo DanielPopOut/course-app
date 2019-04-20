@@ -79,39 +79,22 @@ class Course extends Component {
         }
     }
 
-     componentWillMount() {
-         ServerService.postToServer('courses/getCourse', {course_id: this.props.match.params.id})
-            .then(async (response) => {
-                if (response.status === 200) {
-                    console.log("course to display result ", response);
-                    let course=response.data;
-                    if(course.hasOwnProperty('chapters') && course['chapters'].length>0){
-                        await ServerService.postToServer('courses/getCourseElements',{
-                            elements_ids:course['chapters'],
-                            elements_collection:'chapters'
-                        }).then((response)=>{
-                            if(response.status===200){
-                                course['chapters']=response.data;
-                                this.setState({
-                                    courseToDisplay: course,
-                                    ready:true
-                                });
-                            }else {
-                                console.log("Error while getting chapters!!",response.data.errorMessage);
-                            }
-                        });
-                    }
-                    this.setState({
-                            courseToDisplay: course,
-                            ready:true
-                        });
-                } else {
-                    this.setState({
-                        courseToDisplay: fakeCourse,
-                        ready:true
-                    });
-                }
-            });
+    componentWillMount() {
+         ServerService.postToServer("/courses/getHoleCourse", {course: this.props.match.params.id}).then((response) => {
+             if (response.status === 200) {
+                 console.log("hole course result", response.data);
+                 this.setState({
+                     courseToDisplay: response.data,
+                     ready:true
+                 });
+             } else {
+                 this.setState({
+                     courseToDisplay: fakeCourse,
+                     ready:true
+                 });
+                 console.log("Error getting hole course", response.data['errorMessage']);
+             }
+         });
     }
 
     displayCourse(){
@@ -184,11 +167,7 @@ class Course extends Component {
                 </React.Fragment>
             );
         }
-        return(
-            <div>
-
-            </div>
-        )
+        return"";
     }
 
     render() {

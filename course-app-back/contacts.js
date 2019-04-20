@@ -5,65 +5,41 @@ let router = express.Router();
 let CrudDBFunctions = require('./CrudDBFunctions');
 let TokenFunctions = require('./token');
 const ObjectID = require('mongodb').ObjectID;
-
+let MailingFunctions = require('./mail');
 
 
 /**
  * reply to a user
  */
-router.post('/sendReply', (req, res) => {
-    let {element, childelement} = {...req.body};
-    let {elementName, elementProperties} = {...element};
-    childelement[elementName] = elementProperties._id;//assign the parent node id
-    elementName = elementName + 's';
-    console.log("element is this ", element);
-    CrudDBFunctions.insertOneDocument(
-        lowerLevelCollectionName[elementName],
-        childelement,
-        (result, err = '') => {
-            if (err) {
-                res.status(400).json({errorMessage: lowerLevelCollectionName[elementName] + " Creation failed"})
-            } else {
-                let subInsertedElementId = result.insertedId;
-                CrudDBFunctions.getOneDocument({
-                    collection: elementName,
-                    options: {
-                        queries: {_id: ObjectID(elementProperties._id)},
-                        fields: {elementName}
-                    },
-                    callback: (result, err = "") => {
-                        if (err) {
-                            res.status(400).json({errorMessage: "Error Fetching Sub Elements"});
-                        } else {
-                            console.log("elementInserted id", subInsertedElementId);
-                            console.log("element returned ", result);
-                            //return (result);
-                            let changes = [];
-                            let newChildren = result[lowerLevelCollectionName[elementName]];//.push(result.insertedId);
-                            console.log("new children before push ", newChildren);
-                            newChildren.push(ObjectID(subInsertedElementId));
-                            console.log("children after push ", newChildren);
-                            changes[lowerLevelCollectionName[elementName]] = newChildren;
-                            CrudDBFunctions.updateOneDocumentById(
-                                elementName,
-                                elementProperties,
-                                changes,
-                                (result, err = "") => {
-                                    if (err) {
-                                        res.status(400).json({errorMessage: "Element " + elementName + " updated Failed"});
-                                    } else {
-                                        console.log("update result", result.result);
-                                        res.status(200).json(childelement);
-                                    }
-                                });
-                        }
+router.post('/reply', (req, res) => {
+    let {message,reply} = {...req.body};
+
+    let subject = "Online Course Reply !! !noReply";
+    MailingFunctions.sendEmail(message.email,subject,reply,(error,info)=>{
+        if(error){
+            console.log("Email  not Sended ",error);
+            res.status(403).json({errorMessage:"Sorry, couldn't send the message"});
+        }else {
+            console.log("Email Sended ",info);
+            let replies=message.replies||[];
+            replies.push(reply);
+            console.log("message ",message,"reply ",reply);
+            CrudDBFunctions.updateOneDocumentById(
+                "messages",
+                message,
+                {replies: replies},
+                (result, err = "") => {
+                    if (err) {
+                        console.log("update error", err);
+                        res.status(403).json({errorMessage: "email Sended !!"})
+                    } else {
+                        res.status(200).json({message: "message sended with success !!"});
                     }
-                });
-            }
-        });
+                }
+            );
+        }
+    });
 
 });
-
-
 
 module.exports = router;

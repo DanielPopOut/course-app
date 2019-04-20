@@ -145,4 +145,67 @@ router.post('/getTestsOfLevel',(req,res)=>{
     });
 });
 
+router.post('/saveTestResult',(req,res)=>{
+    console.log("req body ",req.body);
+    let {userEmail,testResult}={...req.body};
+    CrudDBFunctions.getOneDocument({
+        collection:"users",
+        options:{
+            queries:{email:userEmail}
+        },
+        callback:(user,err="")=>{
+            if(err){
+                console.log("saving test error,user not found : ",err);
+                res.status(403).json({errorMessage:"user Not Found !!"})
+            }else {
+                CrudDBFunctions.insertOneDocument(
+                  "usertests",{
+                      user:user._id,
+                        testResult:testResult
+                    }  ,
+                    (result,err="")=>{
+                      if(err){
+                          console.log("saving test error : ",err);
+                          res.status(403).json({errorMessage:"Test not saved !!"})
+                      }else {
+                          res.status(200).json({messages:"test saved !!"});
+                      }
+                    }
+                );
+            }
+        }
+    });
+
+});
+
+router.post('/getPassedTests',(req,res)=>{
+
+    CrudDBFunctions.getOneDocument({
+        collection:"users",
+        options:{queries:{email:req.body.user.email}},
+        callback:(user,err="")=>{
+            if(err){
+                console.log("gettind saved test error,user not found : ",err);
+                res.status(403).json({errorMessage:"user Not Found !!"})
+            }else {
+                console.log("user found ",user);
+                CrudDBFunctions.getAllDocument({
+                    collection:"usertests",
+                    options:{queries:{user:user._id}},
+                    callback:(result,err="")=>{
+                        if(err){
+                            console.log("saving test error : ",err);
+                            res.status(403).json({errorMessage:"Test not saved !!"})
+                        }else {
+                            console.log("passed tests Results",result);
+                            res.status(200).json(result);
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+});
+
 module.exports = router;

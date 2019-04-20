@@ -4,7 +4,7 @@ import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill'; // ES6
 import {ServerService} from "../../server/ServerService";
-import {displayMessage} from "../../server/axiosInstance";
+import {displayMessage, getDecodedToken, getToken} from "../../server/axiosInstance";
 import {RealiseMCQ} from "./MCQsComponent";
 
 
@@ -13,15 +13,16 @@ export class TestResult extends Component{
     constructor(props){
         super(props);
         this.state={
-            testTitle:this.props.testTitle,
-            correctedMcqs:this.props.correctedMcqs||[],
-            failedMcqs:this.props.failedMcqs||[],
+            testTitle:this.props.testTitle||this.props.test.title||"",
+            correctedMCQS:this.props.correctedMCQS||[],
+            failedMCQS:this.props.failedMCQS||[],
             current:'',
         }
     }
 
     componentWillMount(){
-        if(this.props.failedMcqs.length>0){
+        console.log("test result props ",this.props);
+        if(this.props.failedMCQS.length>0){
             this.setState({
                 current:0
             });
@@ -32,27 +33,27 @@ export class TestResult extends Component{
         return(
             <div>
                 Score :
-                {this.state.correctedMcqs.length-this.state.failedMcqs.length}
+                {this.state.correctedMCQS.length-this.state.failedMCQS.length}
                     /
-                {this.state.correctedMcqs.length}
+                {this.state.correctedMCQS.length}
             </div>
         );
     }
 
     handleNext(){
-        let currentindex=this.state.failedMcqs.indexOf(this.state.current);
-        if(currentindex<this.state.failedMcqs.length -1){
+        let currentindex=this.state.failedMCQS.indexOf(this.state.current);
+        if(currentindex<this.state.failedMCQS.length -1){
             this.setState({
-                current:this.state.failedMcqs[currentindex+1],
+                current:this.state.failedMCQS[currentindex+1],
             });
         }
     }
 
     handlePrevious(){
-        let currentindex=this.state.failedMcqs.indexOf(this.state.current);
+        let currentindex=this.state.failedMCQS.indexOf(this.state.current);
         if(currentindex>0){
             this.setState({
-                current:this.state.failedMcqs[currentindex-1],
+                current:this.state.failedMCQS[currentindex-1],
             });
         }
     }
@@ -98,8 +99,8 @@ export class TestResult extends Component{
     }
 
     displayResult(){
-        if(this.state.failedMcqs.length>0){
-            return this.state.correctedMcqs.map((mcq,key)=>{
+        if(this.state.failedMCQS.length>0){
+            return this.state.correctedMCQS.map((mcq,key)=>{
                 if(key===this.state.current){
                     return(<div key={key}><RealiseMCQ {...mcq}/></div>)
                 }
@@ -126,7 +127,7 @@ export class TestResult extends Component{
                         <h4 className={"title-failed-result"}> Failed Questions</h4>
                         <div className={"failed-mcq-number"}>
                             {
-                                this.state.failedMcqs.map((index,key)=>{
+                                this.state.failedMCQS.map((index,key)=>{
                                     return(
                                         <div
                                             key={key}
@@ -158,7 +159,7 @@ export class RunningTest extends Component {
         this.state = {
             test: this.props.test,
             mcqs: [],
-            totalNumberOfMcqs: this.props.test.mcqs.length,
+            totalNumberOfMCQS: this.props.test.mcqs.length,
             currentMcqIndex: 0,
             currentMCQ: "",
             correctedMCQS:[],
@@ -189,14 +190,14 @@ export class RunningTest extends Component {
         if (mcqs.length > 0) {
             this.setState({
                 mcqs: mcqs,
-                totalNumberOfMcqs: mcqs.length,
+                totalNumberOfMCQS: mcqs.length,
                 currentMcqIndex: 0,
                 currentMCQ: mcqs[0]
             });
         } else {
             this.setState({
                 mcqs: [],
-                totalNumberOfMcqs: 0,
+                totalNumberOfMCQS: 0,
                 currentMcqIndex: '',
                 currentMCQ: ''
             });
@@ -237,7 +238,7 @@ export class RunningTest extends Component {
             currentMcqIndex: nextMcqIndex,
             currentMCQ: ""
         });
-        if(nextMcqIndex<=this.state.totalNumberOfMcqs-1){
+        if(nextMcqIndex<=this.state.totalNumberOfMCQS-1){
             await this.setState({
                 currentMcqIndex: nextMcqIndex,
                 currentMCQ: this.state.mcqs[nextMcqIndex]
@@ -263,7 +264,7 @@ export class RunningTest extends Component {
                     /> : ''
                 }
                 {
-                    this.state.currentMcqIndex < this.state.totalNumberOfMcqs - 1 ?
+                    this.state.currentMcqIndex < this.state.totalNumberOfMCQS - 1 ?
                         <ButtonHelper
                             {...{
                                 name: 'nextMCQButton',
@@ -276,7 +277,7 @@ export class RunningTest extends Component {
                         /> : ''
                 }*/}
                 {
-                    this.state.currentMcqIndex===this.state.totalNumberOfMcqs?
+                    this.state.currentMcqIndex===this.state.totalNumberOfMCQS?
                         <React.Fragment>
                             <ButtonHelper
                                 {
@@ -309,15 +310,33 @@ export class RunningTest extends Component {
     }
 
     validateTest() {
+        this.saveTestResult();
         this.props.handleOpenModal(
             <TestResult
                 testTitle={this.state.test.title}
-                correctedMcqs={this.state.correctedMCQS}
-                failedMcqs={this.state.failedMCQS}
+                correctedMCQS={this.state.correctedMCQS}
+                failedMCQS={this.state.failedMCQS}
             />
         );
     }
 
+    saveTestResult(){
+        let dataToSend={
+            userEmail:getDecodedToken().email,
+            testResult:{
+                test:this.state.test,
+                correctedMCQS:this.state.correctedMCQS,
+                failedMCQS:this.state.failedMCQS,
+            }
+        };
+        ServerService.postToServer("/mcquestions/saveTestResult",dataToSend).then((response)=>{
+            if(response.status===200){
+                console.log("test saved with success ");
+            }else {
+                console.log("test saved with success ");
+            }
+        });
+    }
     repeatTest(){
         this.setState({
             currentMcqIndex: 0,
@@ -534,10 +553,10 @@ export class OneTest extends Component {
             await ServerService.postToServer('/mcquestions/getMCQsOfLevel', dataObject).then((response) => {
                 if (response.status === 200) {
                     console.log("list of MCQs Founded ", response.data);
-                    let selectedMcqsIndexes=[];
-                    this.props.test.mcqs.forEach((value,index)=>{selectedMcqsIndexes.push(value._id);});
+                    let selectedMCQSIndexes=[];
+                    this.props.test.mcqs.forEach((value,index)=>{selectedMCQSIndexes.push(value._id);});
 
-                    let restofmcqs=response.data.filter((mcq,index)=>{return !selectedMcqsIndexes.includes(mcq._id);});
+                    let restofmcqs=response.data.filter((mcq,index)=>{return !selectedMCQSIndexes.includes(mcq._id);});
                     this.setState({
                         test_id: this.props.test._id,
                         title: this.props.test.title||"",
@@ -851,7 +870,6 @@ class TestComponent extends Component {
                     }}
                     onClick={() => this.listTests()}
                 />
-
             </div>
         );
     }

@@ -6,7 +6,86 @@ import ReactQuill from 'react-quill'; // ES6
 import CourseNavigator from './CourseNavigator';
 import {ServerService} from "../../server/ServerService";
 import {ListMCQS, OneMCQ} from "./MCQsComponent";
-import {OneTest, TestsList} from "./TestComponent";
+import {OneTest, TestResult, TestsList} from "./TestComponent";
+import {displayMessage, getDecodedToken} from "../../server/axiosInstance";
+
+
+class PassedTests extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            tests:this.props.tests||[],
+            currentIndex:-1,
+            currentTest:""
+        }
+    }
+
+    componentDidMount(){
+        if(this.props.tests.length>0){
+            let currentTest=this.state.tests[0].testResult;
+            let content=<TestResult {...currentTest} />;
+            this.setState({
+                currentIndex:0,
+                currentTest:content
+            });
+        }
+    }
+
+    async setCurrentTestNav(key){
+        let currentTest=this.state.tests[key].testResult;
+        let content=<TestResult {...currentTest} />;
+        await this.setState({
+            currentIndex:-1,
+            currentTest:""
+        });
+        await this.setState({
+            currentIndex:key,
+            currentTest:content
+        });
+    }
+
+    passedTestsNav(){
+        let n=this.state.tests.length;
+        if(n>0){
+            return(
+                <div className={"passed-tests-nav"}>
+                    {
+                        this.state.tests.map((test,key)=>{
+                            if( this.state.currentIndex===key){
+                                return(
+                                    <div key={key} className={"form-helper-button white-on-blue current-passed-test-nav"}
+                                         onClick={()=>this.setCurrentTestNav(key)}
+                                    >
+                                        {key+1}
+                                    </div>
+                                );
+                            }else {
+                                return(
+                                    <div key={key} className={"form-helper-button white-on-blue"}
+                                         onClick={()=>this.setCurrentTestNav(key)}
+                                    >
+                                        {key+1}
+                                    </div>
+                                );
+                            }
+                        })
+                    }
+                </div>
+            );
+        }
+    }
+
+
+    render(){
+        return(
+            <div className={"passed-tests-div"}>
+                <h5>List of passed tests</h5>
+                {this.passedTestsNav()}
+                {this.state.currentTest}
+                </div>
+        );
+    }
+}
 
 class MCQSManagerComponent extends Component {
     constructor(props) {
@@ -107,12 +186,40 @@ class MCQSManagerComponent extends Component {
 
     showActivityContent() { return (this.state.activityContent); }
 
+    showPassedTests(){
+        ServerService.postToServer("/mcquestions/getPassedTests",{user:getDecodedToken()}).
+        then((response)=>{
+            if(response.status===200){
+                console.log("passed tests",response.data);
+                if(response.data.length>0){
+                    this.setState({
+                        modalChildren:<PassedTests tests={response.data}/>,
+                        modalVisibility:true
+                    });
+                }else {
+                    displayMessage("No registered test !! ");
+                }
+            } else {
+                console.log("listing passed tests error ",response.data);
+            }
+        });
+
+    }
     render() {
         return (
             <div className={"mcqs-manager-container"}>
                 <ModalComponent visible={this.state.modalVisibility} onClose={() => this.handleClose()}>
                     {this.state.modalChildren}
                 </ModalComponent>
+                <div className={"right-nav-options hr-button-block "}>
+                    <ButtonHelper {...{
+                        name:"passedtests",
+                        value:"Realized tests",
+                        className:"form-helper-button white-on-blue"
+                    }}onClick={()=>{this.showPassedTests()}}
+                    />
+                </div>
+
                 <div className={"mcqs-manager-body"}>
                     <div className={"location-div"}>
                         <CourseNavigator setSelectedElement={(element, level) => this.setSelectedElement(element, level)}/>

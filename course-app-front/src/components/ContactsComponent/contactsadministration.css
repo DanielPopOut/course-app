@@ -1,4 +1,61 @@
 .contacts-administration-main-div{
-    height: 500px;
+    min-height: 300px;
     background-color: white;
+    padding: 8px;
+    text-align: center;
+}
+
+
+.messages-list-div .ql-editor{
+    padding: 0!important;
+    margin: 0;
+}
+
+.messages-list-div .ql-container.ql-snow{
+    border:none;
+}
+
+.messages-list-div{
+
+}
+
+.messages-list-title{
+    border: solid thin whitesmoke;
+    border-bottom: solid 9px #111182ab;
+    text-align: center;
+    font-size: 18px;
+    font-family: arial black;
+    padding: 2px 0px;
+    background-color: #30c514d9;
+    color: white;
+    position: sticky;
+    top: 40px;
+    margin-bottom: 15px;
+}
+
+.contact-message-item{
+    padding: 2px;
+    border: solid thin #2d1ead38;
+    border-radius: 5px;
+    min-height: 40px;
+}
+.contact-message-item>.options{
+    display: none;
+}
+.contact-message-item:hover>.options{
+    display: block;
+}
+.message-replies{
+    border: solid thin whitesmoke;
+    padding: 10px;
+}
+.message-reply-div{
+    padding: 5px 2px;
+    margin: 5px 0px;
+    border: solid thin #1e11e052;
+    border-radius: 3px;
+}
+.message-reply-div:hover{
+    transform: scale(1.02);
+    border-color: rgba(30, 17, 224, 0.62);
 }
