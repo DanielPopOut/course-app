@@ -13,12 +13,8 @@
     align-items: center;
 }
 
-.content-div{
-
-}
-
 .title-div,.content-div{
-    padding: 1px;
+    padding: 10px;
 }
 .course-content-div .ql-editor{
     padding: 0!important;
@@ -49,4 +45,15 @@
 }
 .course-nav-sub-title{
     padding: 0px 0px 0px 4px;
+}
+
+
+.department-level-div{
+
+}
+.department-title{
+
+}
+.department-courses-div{
+
 }

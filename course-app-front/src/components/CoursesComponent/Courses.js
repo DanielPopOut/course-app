@@ -96,21 +96,21 @@ export class CoursesList extends Component{
                 token:getToken(),
                 course:course
             }).then((response)=>{
-                if(response.status===200){
-                    console.log('Response',response);
-                    setToken(response.data);
-                    return (true);
-                }else {
-                    return false;
-                }
-            });
+            if(response.status===200){
+                console.log('Response',response);
+                setToken(response.data);
+                return (true);
+            }else {
+                return false;
+            }
+        });
     }
 
     handleClick(course){
         this.props.openCourse(course);
     }
-     showInscriptionOptions(course){
-       if(this.props.loggedIn){
+    showInscriptionOptions(course){
+        if(this.props.loggedIn){
             return(
                 <div className={"tooltip-content"} onClick={e=>e.stopPropagation()}>
                     <RegisterForCourse
@@ -121,13 +121,9 @@ export class CoursesList extends Component{
                     />
                 </div>
             );
-       }
-    }
-    displayCourses(){
-        if(this.props.courses.length===0){
-            return <div>  No Record  to Show !!!   </div>
         }
     }
+
     render(){
         return(
             <div>
@@ -148,15 +144,113 @@ export class CoursesList extends Component{
                             );
                         })
                     }
-                    {
-                      this.displayCourses()
-                    }
                 </div>
             </div>
         );
     }
 }
 
+export class CoursesListByDepartment extends Component{
+    constructor(props){
+        //console.log("init: ",props);
+        super(props);
+    }
+    newregistration(course){
+        return  ServerService.postToServer('courses/newRegistration',
+            {
+                token:getToken(),
+                course:course
+
+            }).then((response)=>{
+            if(response.status=== 200){
+                console.log('Response',response);
+                setToken(response.data);
+                return (true);
+            }else {
+                return false;
+            }
+        });
+    }
+
+    cancelregistration(course){
+        return ServerService.postToServer('courses/cancelRegistration',
+            {
+                token:getToken(),
+                course:course
+            }).then((response)=>{
+                if(response.status===200){
+                    console.log('Response',response);
+                    setToken(response.data);
+                    return (true);
+                }else {
+                    return false;
+                }
+            });
+    }
+
+    handleClick(course){this.props.openCourse(course);}
+
+     showInscriptionOptions(course){
+       if(this.props.loggedIn){
+            return(
+                <div className={"tooltip-content"} onClick={e=>e.stopPropagation()}>
+                    <RegisterForCourse
+                        course={course}
+                        newregistration={async ()=> await this.newregistration(course)}
+                        cancelregistration={async ()=> await this.cancelregistration(course)}                                                         register={()=>this.register(course)
+                    }
+                    />
+                </div>
+            );
+       }
+    }
+
+    displayCourses(){
+        return(
+            this.props.courses.map((department,key)=>{
+                return(
+                    <div key={key} className={"department-level-div"}>
+                        <h5 className={"department-title"}> {department.department.label}</h5>
+                        <div className={"department-courses-div"}>
+                            {
+                                department.specialities.map((speciality,key)=>{
+                                    return(
+                                        <div key={key}>
+                                            <h5 className={"speciality-title"}> {speciality.speciality.label}</h5>
+                                            <div className={"speciality-content-div"}>
+                                                {
+                                                    speciality.courses.map((course,key)=>{
+                                                        return(
+                                                            <div key={key} className={"course-title"}>
+                                                                {course.title}
+                                                            </div>
+                                                        );
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                    </div>
+                );
+            })
+        );
+    }
+
+    render(){
+        return(
+            <div>
+                <div className={'courses-list-div'}>
+                    {
+                        this.displayCourses()
+                    }
+                </div>
+            </div>
+        );
+    }
+}
 
 class Courses extends Component {
 
@@ -168,7 +262,7 @@ class Courses extends Component {
     }
 
     componentDidMount(){
-        ServerService.getFromServer('courses/getAll').then((response)=>{
+        ServerService.getFromServer('courses/getCoursesByDepartment').then((response)=>{
             if(response.status===200){
                 console.log("courses list response ",response.data);
                 this.setState({courses:response.data });
@@ -208,7 +302,7 @@ class Courses extends Component {
                     handleRedirection={(url)=>this.handleRedirection(url)}
                     handleValidateSearch={(data)=>this.handleValidateSearch(data)}
                 />
-                <CoursesList
+                <CoursesListByDepartment
                     courses={this.state.courses}
                     openCourse = {(course)=>this.handleOpenCourse(course)}
                     loggedIn = {this.props.loggedIn}

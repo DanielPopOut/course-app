@@ -122,7 +122,7 @@ module.exports = {
         });
     },
 
-    getOneDocumentWithAggregation: function (collection,aggregation,callback){
+    getDocumentsWithAggregation: function (collection,aggregation,callback){
         client.connect( async function (err) { //server connection
             assert.equal(null, err);
             let database=client.db(dbName);

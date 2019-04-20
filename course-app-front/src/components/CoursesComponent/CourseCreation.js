@@ -942,19 +942,18 @@ class Course extends Component {
                         speciality={this.state.speciality}
                         level={this.state.level}
                     />
-                 {/*   <CoursesAdministration
-
-
-
-                    />*/}
-                  {/*  <ButtonHelper {...{
-                        name:"updatecourseadmin",
-                        value:"Modify",
-                        className:"form-helper-button success"
-                    }} onClick={()=>this.modifyCourseAdministration()}
-                    />*/}
                 </div>
-
+            )
+        }
+        else{
+            return(
+                <div>
+                    <CourseAdministration
+                        mode={this.state.mode}
+                        setCourseAdminValues={(newValues)=>this.setCourseAdminValues(newValues) }
+                        modifyCourseAdministration={(newValues)=>this.modifyCourseAdministration(newValues)}
+                    />
+                </div>
             )
         }
     }

@@ -95,6 +95,38 @@ class Course extends Component {
                  console.log("Error getting hole course", response.data['errorMessage']);
              }
          });
+     /*   ServerService.postToServer('courses/getCourse', {course_id: this.props.match.params.id})
+            .then(async (response) => {
+                if (response.status === 200) {
+                    console.log("course to display result ", response);
+                    let course=response.data;
+                    if(course.hasOwnProperty('chapters') && course['chapters'].length>0){
+                        await ServerService.postToServer('courses/getCourseElements',{
+                            elements_ids:course['chapters'],
+                            elements_collection:'chapters'
+                        }).then((response)=>{
+                            if(response.status===200){
+                                course['chapters']=response.data;
+                                this.setState({
+                                    courseToDisplay: course,
+                                    ready:true
+                                });
+                            }else {
+                                console.log("Error while getting chapters!!",response.data.errorMessage);
+                            }
+                        });
+                    }
+                    this.setState({
+                        courseToDisplay: course,
+                        ready:true
+                    });
+                } else {
+                    this.setState({
+                        courseToDisplay: fakeCourse,
+                        ready:true
+                    });
+                }
+            });*/
     }
 
     displayCourse(){

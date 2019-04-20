@@ -44,7 +44,6 @@ let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = 
                     as: 'sections.subsections'
                 }
             },
-
             {
                 $group: {
                     _id: '$_id',
@@ -88,7 +87,7 @@ let returnAggregation = function (elements_ids, level = 'chapters', onlyTitle = 
 
 const retrieveElements = async (elements_ids, collection = 'courses', callback, onlyTitle) => {
     let aggregation = returnAggregation(elements_ids, collection, onlyTitle);
-    await CrudDBFunctions.getOneDocumentWithAggregation(collection, aggregation, (result, err = '') => {
+    await CrudDBFunctions.getDocumentsWithAggregation(collection, aggregation, (result, err = '') => {
         callback(result, err);
     });
 };
@@ -160,6 +159,47 @@ router.get('/getAll', (req, res) => {
             }
         }
     });
+});
+
+router.get('/getCoursesByDepartment', (req, res) => {
+    CrudDBFunctions.getDocumentsWithAggregation(
+        "courses",
+        [
+            {
+                $group:{
+                    _id: "$speciality._id",
+                    speciality:{$first:"$speciality"},
+                    department:{$first:"$department"},
+                    courses:{$push:{
+                            _id:"$_id",
+                            title: "$title",
+                            level:"$level"
+                        }}
+                }
+            },
+            {
+                $group:{
+                    _id: "$department._id",
+                    department: {  $first: "$department"},
+                    specialities:{
+                        $push:{
+                            speciality:"$speciality",
+                            courses:"$courses"
+                        }
+                    }
+                }
+            }
+
+        ],
+        (result,err="")=>{
+            if(err){
+                console.log("couldn't find documents",err);
+                res.status(200).json({errorMessage:"Sorry, couldn't find documents !!"});
+            }else {
+                console.log("docoments returned",result);
+                res.status(200).json(result);
+            }
+        });
 });
 
 router.post('/getAllWithIds', (req, res) => {
@@ -489,7 +529,6 @@ router.post('/getHoleCourse', (req, res) => {
 
 });
 
-
 /**
  * findCourse function
  * return courses which title like parameter
@@ -497,7 +536,6 @@ router.post('/getHoleCourse', (req, res) => {
  */
 
 router.post("/findCourses",(req,res)=>{
-
     console.log("req body",req.body);
     CrudDBFunctions.findAllDocument({
         collection: "courses",
