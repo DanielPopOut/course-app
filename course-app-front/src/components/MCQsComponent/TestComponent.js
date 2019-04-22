@@ -4,7 +4,7 @@ import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill'; // ES6
 import {ServerService} from "../../server/ServerService";
-import {displayMessage, getDecodedToken, getToken} from "../../server/axiosInstance";
+import {displayMessage, getDecodedToken} from "../../server/axiosInstance";
 import {RealiseMCQ} from "./MCQsComponent";
 
 
@@ -103,12 +103,15 @@ export class TestResult extends Component{
             return this.state.correctedMCQS.map((mcq,key)=>{
                 if(key===this.state.current){
                     return(<div key={key}><RealiseMCQ {...mcq}/></div>)
+                }else {
+                    return"";
                 }
             });
         }else {
             return(<div className={"passed-test-div"}>You have succeed the Test !!</div>);
         }
     }
+
     checkFailedMcqSelected(index){
         if(this.state.current===index){
             return "selected-failed-mcq-div"
@@ -170,7 +173,6 @@ export class RunningTest extends Component {
     }
 
     async getCorrectedMCQ(correctedMcqState, key) {
-        /*let correctedmcq = <RealiseMCQ {...correctedMcqState} />;*/
         let correctedMCQS = this.state.correctedMCQS;
         if(correctedMcqState.mode==="correctedAndWrong"){
             let failedMCQS=this.state.failedMCQS;
@@ -214,68 +216,9 @@ export class RunningTest extends Component {
         }
     }
 
-    async handlePreviousMCQ() {
-        console.log("current Index ", this.state.currentMcqIndex);
-        let currentMcqIndex = this.state.currentMcqIndex;
-        let nextMcqIndex = currentMcqIndex - 1;
-
-        await this.setState({
-            currentMCQ: ""
-        });
-        await this.setState({
-            currentMcqIndex: nextMcqIndex,
-            currentMCQ: this.state.mcqs[nextMcqIndex]
-        });
-        console.log("new Index ", this.state.currentMcqIndex);
-    }
-
-    async handleNextMCQ() {
-        console.log("current Index ", this.state.currentMcqIndex);
-        let currentMcqIndex = this.state.currentMcqIndex;
-        let nextMcqIndex = currentMcqIndex + 1;
-
-        await this.setState({
-            currentMcqIndex: nextMcqIndex,
-            currentMCQ: ""
-        });
-        if(nextMcqIndex<=this.state.totalNumberOfMCQS-1){
-            await this.setState({
-                currentMcqIndex: nextMcqIndex,
-                currentMCQ: this.state.mcqs[nextMcqIndex]
-            });
-        }
-        console.log("new Index ", this.state.currentMcqIndex);
-    }
-
     displayPrevNextButtons() {
         return (
             <React.Fragment>
-                {/*{
-                    this.state.currentMcqIndex > 0 ?
-                    <ButtonHelper
-                        {...{
-                            name: 'previousMCQButton',
-                            value: "Previous",
-                            className: "form-helper-button success"
-                        }}
-                        onClick={() => {
-                            this.handlePreviousMCQ()
-                        }}
-                    /> : ''
-                }
-                {
-                    this.state.currentMcqIndex < this.state.totalNumberOfMCQS - 1 ?
-                        <ButtonHelper
-                            {...{
-                                name: 'nextMCQButton',
-                                value: "Next",
-                                className: "form-helper-button success"
-                            }}
-                            onClick={() => {
-                                this.handleNextMCQ()
-                            }}
-                        /> : ''
-                }*/}
                 {
                     this.state.currentMcqIndex===this.state.totalNumberOfMCQS?
                         <React.Fragment>
@@ -337,6 +280,7 @@ export class RunningTest extends Component {
             }
         });
     }
+
     repeatTest(){
         this.setState({
             currentMcqIndex: 0,
@@ -417,29 +361,6 @@ export class TestsList extends Component {
             modalChildren: "",
             modalVisibility: false
         })
-    }
-
-    showCurrentTest() {
-        if (this.state.currentTest.length > 0) {
-            let currenttest = this.state.currentTest;
-            return (
-                <div>
-                    <div>{currenttest.title}</div>
-                    <div>
-                        {
-                            currenttest.mcqs.map((mcq, key) => {
-                                return (
-                                    <div key={key}>
-
-                                    </div>
-                                );
-                            })
-                        }
-                    </div>
-
-                </div>
-            );
-        }
     }
 
     handleOpenModal(content) {

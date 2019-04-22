@@ -47,7 +47,7 @@ class ModifyConnexionParams extends Component {
             }
             if(arrayKeys.indexOf('currentpassword') > -1){
                 if(currentDataTosend['currentpassword'] !== this.state.user.password){
-                    return setResponse(false,"Passwords doesn\'t Match");
+                    return setResponse(false,"Passwords doesn't Match");
                 }
                 currentDataTosend['password']=currentDataTosend['currentpassword'];
                 delete (currentDataTosend['currentpassword']);
@@ -57,7 +57,7 @@ class ModifyConnexionParams extends Component {
                 arrayKeys.indexOf('confirmedpassword') > -1
             ){
                 if(currentDataTosend['newpassword'] !== currentDataTosend['confirmedpassword']){
-                    return setResponse(false,"Passwords doesn\'t Match");
+                    return setResponse(false,"Passwords doesn't Match");
                 }
                 if(!validatePassword(currentDataTosend['newpassword']||"")){
                     return setResponse(false,"New password not valide");
@@ -294,10 +294,6 @@ class UserProfile extends Component {
                     }
                 }
             });
-            let dataTosend = {
-                user_id: this.state.user._id,
-                data: data
-            };
 
         } else {
             alert(" Aucune modification effectuée !!");

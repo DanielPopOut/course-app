@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import './newteacher.css';
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
-import {validateEmail} from '../StaticFunctionsComponent/StaticFunctions';
 import {ServerService} from "../../server/ServerService";
 import {displayMessage} from "../../server/axiosInstance";
 

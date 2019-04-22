@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import './coursenavigator.css';
 import {ServerService} from "../../server/ServerService";
-import ReactQuill from "react-quill";
 
 let lowerCourseLevel={
     courses:'chapters',
@@ -9,7 +8,7 @@ let lowerCourseLevel={
     sections:'subsections'
 };
 
-let waitingElement=[{title:<img src={"images/al.gif"}/>}];
+let waitingElement=[{title:<img alt="" src={"images/al.gif"}/>}];
 
 class DisplayElement extends Component{
 
@@ -44,10 +43,6 @@ class DisplayElement extends Component{
                 }
             });
         }
-       //await this.props.handleUnSelectAll();
-       // await this.setState({selected: true});
-        console.log("selected state props ",this.props.selectionState);
-        console.log("selected state ",this.state.selected);
     }
 
     selectionState(){

@@ -9,12 +9,7 @@ import history from '../../history';
 
 export default class NavBar extends Component {
     tableauNavbar = [
-        //{title: 'AlphaM', redirectionAddress: '/welcome'},
-        // {title: 'Departements', redirectionAddress: '/departments'},
-        // {title: 'Cours', redirectionAddress: '/courses'},
         {title: 'Contacts', redirectionAddress: '/contacts'},
-        // {title: 'Users', redirectionAddress: '/users'},
-        //{title: 'Connexion', redirectionAddress: '/connexion'},
     ];
     loggedInTableauNavbar = [
       //  {title: 'AlphaM', redirectionAddress: '/welcome'},

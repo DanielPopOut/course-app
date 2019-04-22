@@ -13,7 +13,7 @@ const fakeCourse = {
     title: "",
     content: "<p> Sorry this course is not availaible !!</p>"
 };
-let references=[];
+
 let lowerLevelCollectionName = {
     courses: 'chapters',
     chapters: 'sections',
@@ -28,10 +28,6 @@ export function displayElement(element, level = 'courses') {
             <React.Fragment>
                 <div className={'title-div'} id={element_id}>
                     <h2>{element.title}</h2>
-                   {/* <div className={'new-mcq-option'}>
-                        <MCQsComponent course_level={level} reference={element_id}/>
-                        <TestComponent course_level={level} reference={element_id}/>
-                    </div>*/}
                 </div>
 
                 <div className={'content-div'}>
@@ -69,7 +65,6 @@ function displayContent(content) {
 class Course extends Component {
 
     constructor(props) {
-        let references=[];
         super(props);
         this.state = {
             courseToDisplay: {},
@@ -95,56 +90,17 @@ class Course extends Component {
                  console.log("Error getting hole course", response.data['errorMessage']);
              }
          });
-     /*   ServerService.postToServer('courses/getCourse', {course_id: this.props.match.params.id})
-            .then(async (response) => {
-                if (response.status === 200) {
-                    console.log("course to display result ", response);
-                    let course=response.data;
-                    if(course.hasOwnProperty('chapters') && course['chapters'].length>0){
-                        await ServerService.postToServer('courses/getCourseElements',{
-                            elements_ids:course['chapters'],
-                            elements_collection:'chapters'
-                        }).then((response)=>{
-                            if(response.status===200){
-                                course['chapters']=response.data;
-                                this.setState({
-                                    courseToDisplay: course,
-                                    ready:true
-                                });
-                            }else {
-                                console.log("Error while getting chapters!!",response.data.errorMessage);
-                            }
-                        });
-                    }
-                    this.setState({
-                        courseToDisplay: course,
-                        ready:true
-                    });
-                } else {
-                    this.setState({
-                        courseToDisplay: fakeCourse,
-                        ready:true
-                    });
-                }
-            });*/
     }
 
     displayCourse(){
-        //make sure the course has been loaded already
         if(this.state.ready){
             return displayElement(this.state.courseToDisplay,"courses",this.addRef);
 
         }else{
-            return<div style={{textAlign:'center'}}><img src={'/images/al.gif'}/></div>
+            return<div style={{textAlign:'center'}}><img alt="" src={'/images/al.gif'}/></div>
         }
     }
 
-    addRef(key,ref){
-       /* let refs = this.state.refs;
-        refs[key] = ref;
-        this.setState({refs:refs});    */
-        console.log("references ");
-    }
 
     openModal(content){
         this.setState({

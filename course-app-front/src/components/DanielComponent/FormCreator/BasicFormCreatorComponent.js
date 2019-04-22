@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './BasicFormCreatorComponent.css'
-import {ButtonHelper, FormFieldsHelper, InputHelper, InputTextHelper} from "../../HelperComponent/FormHelper";
-import FormHelper from "../../HelperComponent/FormHelper";
+import {ButtonHelper, InputHelper} from "../../HelperComponent/FormHelper";
+
 
 class BasicFormCreatorComponent extends Component {
     //Prend un objet dataModel qui représente le formulaire à créer

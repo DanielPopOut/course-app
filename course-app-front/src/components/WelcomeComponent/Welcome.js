@@ -3,7 +3,6 @@
  */
 import React, { Component } from 'react';
 import './welcome.css';
-import {Image} from "cloudinary-react";
 
 class Welcome extends Component {
     render() {
@@ -16,9 +15,7 @@ class Welcome extends Component {
                         {'Apprenez en Toute Simplicité !!'}
                     </div>
                 </div>
-                <div>
-                  {/*  <Image cloudName="demo" publicId="sample" width="300" crop="scale"/>*/}
-                </div>
+
             </React.Fragment>
         );
     }

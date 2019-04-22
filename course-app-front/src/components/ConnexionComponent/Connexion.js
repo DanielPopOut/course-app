@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import './connexion.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ConnexionComponent from "./ConnexionComponent";
-import {getToken, logOut, getDecodedToken} from '../../server/axiosInstance';
+import {logOut, getDecodedToken} from '../../server/axiosInstance';
 import history from '../../history';
 
 class Connexion extends Component {

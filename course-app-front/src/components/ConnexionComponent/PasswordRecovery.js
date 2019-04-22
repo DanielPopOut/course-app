@@ -70,15 +70,9 @@ class FirstStep extends Component {
     contactoremail(){
         switch (this.state.contactoremail) {
             case "email":
-                return (
-                    <InputTextHelper {...this.state.inputEmailparams} onChange={(e) => this.handleChange(e)}/>
-                );
-                break;
+                return <InputTextHelper {...this.state.inputEmailparams} onChange={(e) => this.handleChange(e)}/>;
             case "contact":
-                return (
-                    <InputTextHelper {...this.state.inputcontactparams} onChange={(e) => this.handleChange(e)}/>
-                );
-                break;
+                return <InputTextHelper {...this.state.inputcontactparams} onChange={(e) => this.handleChange(e)}/>;
             default : break;
         }
     }
@@ -94,7 +88,6 @@ class FirstStep extends Component {
                             email:this.state.email
                         }
                     });
-                    console.log(this.state.dataToSend);
 
                 }else{
                     err=1;
@@ -329,17 +322,13 @@ class PasswordRecovery extends Component{
     }
     displayCurrentStep(){
         switch (this.state.currentStep){
-            case 1: return(<FirstStep  nextStep={(e)=>this.nextStep(e)} />); break;
-            case 2: return(<SecondStep onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} previousStep={(e)=>this.previousStep(e)}/>); break;
-            case 3: return(<ThirdStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} previousStep={(e)=>this.previousStep(e)}/>); break;
-            case 4: return(<FourthStep  onChange={(e)=>this.handleChange(e)}  nextStep={(e)=>this.nextStep(e)} />); break;
+            case 1: return <FirstStep  nextStep={(e)=>this.nextStep(e)} />;
+            case 2: return <SecondStep onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} previousStep={(e)=>this.previousStep(e)}/>;
+            case 3: return <ThirdStep  onChange={(e)=>this.handleChange(e)} data={this.state.currentData} nextStep={(e)=>this.nextStep(e)} previousStep={(e)=>this.previousStep(e)}/>;
+            case 4: return <FourthStep  onChange={(e)=>this.handleChange(e)}  nextStep={(e)=>this.nextStep(e)} />;
             default : break;
         }
     }
-
-
-
-
 
     render(){
         return(
@@ -352,7 +341,6 @@ class PasswordRecovery extends Component{
                 <div>{this.processWorking()}</div>
                  {this.displayCurrentStep()}
                 <div className={"password-recovery-footer"}>
-                {/*    {this.displayOptions()}*/}
                 </div>
             </div>
         );

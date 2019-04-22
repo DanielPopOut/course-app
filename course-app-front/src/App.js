@@ -15,7 +15,6 @@ import {usersModel} from './components/DataManagerComponent/DataModelsComponent'
 import {getDecodedToken, userLogged$,messageToShow$ ,urlRedirection$} from './server/axiosInstance';
 import ModalComponent, { ModalComponent2 } from './components/DanielComponent/Modal/ModalComponent';
 import MCQSManagerComponent from './components/MCQsComponent/MCQSManagerComponent';
-import CreateCourseComponent from './components/DanielComponent/CreateCourseComponent/CreateCourseComponent';
 import CourseCreation from './components/CoursesComponent/CourseCreation';
 import CoursesAdministration from "./components/CoursesAdministrationComponent/CoursesAdministration";
 import ContactsAdministration from "./components/ContactsComponent/ContactsAdministration";
@@ -41,7 +40,7 @@ class App extends Component {
     handleUserLogin(bool){
         this.setState({loggedIn: bool});
         if(bool===false){
-            //this.handleRedirection("/welcome");
+
         }
     }
 
@@ -97,7 +96,6 @@ class App extends Component {
                                   this.setState({menuOpen: !this.state.menuOpen});
                                   e.stopPropagation();
                               }}>
-                        {/*<FontAwesomeIcon icon='list' style={{margin: '0 30px'}}/>*/}
                         </span>
                     <NavBar loggedIn={this.state.loggedIn}/>
                 </nav>
@@ -116,7 +114,6 @@ class App extends Component {
                     <Route exact path='/contacts/administration' component = {ContactsAdministration}/>
                     <Route path='/connexion' component = {ConnexionComponent}/>
                     <Route path='/daniel' render={(props) => <DataManagerPage {...props} {...usersModel} collection='users'/>}/>
-                   {/* <Route path='/createcourse' render={(props) => <CreateCourseComponent/>}/>*/}
                     <Route path='/createcourse' component ={CourseCreation}/>
                     <Route path='/mcqs' component={MCQSManagerComponent}/>
 

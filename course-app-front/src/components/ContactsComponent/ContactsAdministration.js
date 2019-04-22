@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import './contactsadministration.css';
 import {ServerService} from "../../server/ServerService";
-import {ButtonHelper, LabelHelper} from "../HelperComponent/FormHelper";
+import {ButtonHelper} from "../HelperComponent/FormHelper";
 import QuillComponent from "../DanielComponent/QuillComponent/QuillComponent";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill';
@@ -10,7 +10,7 @@ function displayContent(content) {
     return (<ReactQuill value={content || ""} modules={{toolbar: false}}  readOnly={true}/>);
 }
 
-let replyForm={};
+
 
 class ContactsAdministration extends Component{
     constructor(props){

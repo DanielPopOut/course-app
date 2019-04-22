@@ -35,10 +35,7 @@ export class ModalComponent2 extends Component {
             }
             this.setState({modalComponentProps: modalComponentProps, modalVisibility: true})
         });
-        // modalToShow$.subscribe((componentToShow)=>{
-        //     console.log('new component insertion ', componentToShow);
-        //     this.setState({componentToShow: componentToShow, modalVisibility: true})
-        // });
+
     }
 
     hideModal() {

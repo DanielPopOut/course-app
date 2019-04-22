@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './mcqsmanagercomponent.css';
 import {ButtonHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
-import ReactQuill from 'react-quill'; // ES6
 import CourseNavigator from './CourseNavigator';
 import {ServerService} from "../../server/ServerService";
 import {ListMCQS, OneMCQ} from "./MCQsComponent";
@@ -187,8 +186,7 @@ class MCQSManagerComponent extends Component {
     showActivityContent() { return (this.state.activityContent); }
 
     showPassedTests(){
-        ServerService.postToServer("/mcquestions/getPassedTests",{user:getDecodedToken()}).
-        then((response)=>{
+        ServerService.postToServer("/mcquestions/getPassedTests",{user:getDecodedToken()}).then((response)=>{
             if(response.status===200){
                 console.log("passed tests",response.data);
                 if(response.data.length>0){

@@ -1,19 +1,15 @@
 import React,{Component} from 'react';
 import './users.css';
 import {usersModel} from '../DataManagerComponent/DataModelsComponent'
-import FormHelper, {ButtonHelper, InputTextHelper} from '../HelperComponent/FormHelper';
+import FormHelper, { InputTextHelper} from '../HelperComponent/FormHelper';
 import {ServerService} from "../../server/ServerService";
-import {LISTS_PATH, USERS_FILTER_PATH} from "../../server/SERVER_CONST";
+import { USERS_FILTER_PATH} from "../../server/SERVER_CONST";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import DataManagerPage from "../DanielComponent/DataManagerPage/DataManagerPage";
 import {validateEmail, validatePassword} from "../StaticFunctionsComponent/StaticFunctions";
 
-import {loadDataIntoModel} from "../StaticFunctionsComponent/StaticFunctions";
-
 export class UsersCreationForm extends Component{
-    constructor(props){
-        super(props);
-    }
+
     handleValidation(dataToSend){
         if(!validateEmail(dataToSend['email'])){
             alert("Veuillez saisir une adresse mail valide SVP !! ");
@@ -74,12 +70,6 @@ class UserInterfaceHeader extends Component{
 
     handleChange(e){
         this.setState({valueToSearch:e.target.value});
-    }
-
-    handleClick(e){
-        let visibility=true;
-        let children=<UsersCreationForm/>;
-        this.props.handleModal(visibility,children);
     }
 
     render(){

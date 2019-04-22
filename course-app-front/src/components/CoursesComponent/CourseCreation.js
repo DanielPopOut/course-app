@@ -2,18 +2,9 @@ import React, {Component} from 'react';
 import './coursecreation.css';
 import {ButtonHelper, InputHelper, InputTextHelper, LabelHelper} from "../HelperComponent/FormHelper";
 import ReactQuill from 'react-quill'; // ES6
-import QuillComponent from "../DanielComponent/QuillComponent/QuillComponent";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import {ServerService} from "../../server/ServerService";
-import NavCourse from "./NavCourse";
 import {displayMessage} from "../../server/axiosInstance";
-import CoursesAdministration from "../CoursesAdministrationComponent/CoursesAdministration";
-
-let levelsArray = {
-    courses: "chapters",
-    chapters: "sections",
-    sections: "subsections"
-};
 
 let formats = [
     'header',
@@ -654,7 +645,6 @@ class CourseAdministration extends Component {
                     }
                 });
                 break;
-
             case "specialities":
                 let speciality = "";
                 await this.setState({levels:[]});
@@ -669,9 +659,9 @@ class CourseAdministration extends Component {
                 });
                 break;
             case "levels":
-
                 await this.setState({level: this.state.levels[selectedValue]});
                 break;
+            default:break;
         }
 
         await this.props.setCourseAdminValues({
@@ -684,7 +674,7 @@ class CourseAdministration extends Component {
 
     showElements(designation = "") {
         let params="";
-        if (designation && designation != "levels") {
+        if (designation && designation !== "levels") {
              params = {
                 name: designation,
                 type: "select",
@@ -790,7 +780,7 @@ class Course extends Component {
 
     async saveNewCourse(data) {
         if(!this.state.department || !this.state.speciality || !this.state.level){
-            {displayMessage("Make Sure, You have specified Department, Speciality and the Level !!")}
+            displayMessage("Make Sure, You have specified Department, Speciality and the Level !!");
         }else{
             let dataToSend=Object.assign({}, {
                     department: this.state.department,

@@ -1,7 +1,6 @@
 import React,{Component} from "react";
 import "./levels.css";
 import {levels} from "../DataManagerComponent/DataModelsComponent";
-import FormHelper from "../HelperComponent/FormHelper";
 
 class Levels extends Component{
     constructor(props){

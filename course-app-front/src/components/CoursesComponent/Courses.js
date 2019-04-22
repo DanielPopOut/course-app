@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {Route, Link} from 'react-router-dom';
 import './courses.css';
 
 import {ButtonHelper, InputTextHelper} from "../HelperComponent/FormHelper";
 import RegisterForCourse from "./RegisterForCourse";
-import {getToken,setToken, getDecodedToken, redirectTo} from '../../server/axiosInstance';
+import {getToken,setToken} from '../../server/axiosInstance';
 import {ServerService} from "../../server/ServerService";
 
 
@@ -72,10 +71,7 @@ class CoursesHeader extends Component{
 }
 
 export class CoursesList extends Component{
-    constructor(props){
-        //console.log("init: ",props);
-        super(props);
-    }
+
     newregistration(course){
         return  ServerService.postToServer('courses/newRegistration',
             {
@@ -154,10 +150,7 @@ export class CoursesList extends Component{
 }
 
 export class CoursesListByDepartment extends Component{
-    constructor(props){
-        //console.log("init: ",props);
-        super(props);
-    }
+
     newregistration(course){
         return  ServerService.postToServer('courses/newRegistration',
             {
@@ -224,7 +217,7 @@ export class CoursesListByDepartment extends Component{
                                                 {
                                                     speciality.courses.map((course,key)=>{
                                                         return(
-                                                            <div key={key} className={"course-title"}>
+                                                            <div key={key} onClick={(e)=>this.handleClick(course)} className={"course-title"}>
                                                                 {course.title}
                                                             </div>
                                                         );

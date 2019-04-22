@@ -3,7 +3,7 @@ import './mcqhelpcomponent.css';
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill';
 import {ServerService} from "../../server/ServerService"; // ES6
-import {displayElement, displaySubElements} from "../CoursesComponent/Course";
+import {displayElement} from "../CoursesComponent/Course";
 
 let formats = [
     'header',

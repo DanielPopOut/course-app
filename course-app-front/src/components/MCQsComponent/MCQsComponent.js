@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './mcqscomponent.css';
-import {ButtonHelper, CheckBoxHelper, LabelHelper, RadioHelper} from "../HelperComponent/FormHelper";
+import {ButtonHelper, CheckBoxHelper, LabelHelper} from "../HelperComponent/FormHelper";
 import ModalComponent from "../DanielComponent/Modal/ModalComponent";
 import ReactQuill from 'react-quill'; // ES6
 import {ServerService} from "../../server/ServerService";
@@ -23,8 +23,6 @@ let modules = {
         ['clean'],
     ],
 };
-
-let defaultArrayAnswer = ['', '', '', '', ''];
 
 export class RealiseMCQ extends Component{
 
@@ -422,6 +420,7 @@ export class OneMCQ extends Component {
             case 'explanation' :
                 this.setState({explanation: element});
                 break;
+            default:break;
         }
     }
 

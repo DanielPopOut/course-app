@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
 import './contactscomponent.css'
-import {ButtonHelper, InputHelper, LabelHelper} from "../HelperComponent/FormHelper";
-import {displayMessage, getDecodedToken} from "../../server/axiosInstance";
+import {InputHelper} from "../HelperComponent/FormHelper";
+import {getDecodedToken} from "../../server/axiosInstance";
 import QuillComponent from "../DanielComponent/QuillComponent/QuillComponent";
 import {ServerService} from "../../server/ServerService";
-/*import {FormHelper} from "../HelperComponent/FormHelper";*/
+
 
 
 class ContactForm extends Component{
