@@ -202,6 +202,55 @@ router.get('/getCoursesByDepartment', (req, res) => {
         });
 });
 
+router.post("/findCoursesFromTitle",(req,res)=>{
+    console.log("request body ",req.body);
+    CrudDBFunctions.getDocumentsWithAggregation(
+        "courses",
+        [
+            {
+                $match: {
+                    title:{
+                        $regex:".*"+req.body.title+"*.",$options:"i"
+                    }
+                }
+            },
+            {
+                $group:{
+                    _id: "$speciality._id",
+                    speciality:{$first:"$speciality"},
+                    department:{$first:"$department"},
+                    courses:{$push:{
+                            _id:"$_id",
+                            title: "$title",
+                            level:"$level"
+                        }}
+                }
+            },
+            {
+                $group:{
+                    _id: "$department._id",
+                    department: {  $first: "$department"},
+                    specialities:{
+                        $push:{
+                            speciality:"$speciality",
+                            courses:"$courses"
+                        }
+                    }
+                }
+            }
+
+        ],
+        (result,err="")=>{
+            if(err){
+                console.log("couldn't find documents",err);
+                res.status(200).json({errorMessage:"Sorry, couldn't find documents !!"});
+            }else {
+                console.log("docoments returned",result);
+                res.status(200).json(result);
+            }
+        });
+});
+
 router.post('/getAllWithIds', (req, res) => {
     console.log("get all with ids body ", req.body);
     let {collection, elements_ids, fields} = {...req.body};
