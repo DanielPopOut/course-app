@@ -68,4 +68,8 @@ app.use('/courses', courses);
 app.use('/mcquestions', MCQuestions);
 app.use('/contacts', contacts);
 
+app.all('*', function (req, res) {
+  res.sendFile('/public/index.html', {root: __dirname});
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
