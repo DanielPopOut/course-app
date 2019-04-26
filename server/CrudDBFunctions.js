@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
-const DB_URL = 'mongodb://localhost:27017/';
+const DB_URL = 'mongodb+srv://cyrille:Cyrille@cluster0-lejku.gcp.mongodb.net/';
 const dbName = 'alpham';//'courseAppDB';
 const client = new MongoClient(DB_URL);
 
